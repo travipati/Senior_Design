@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{820B2F07-6D05-4CD7-8F2F-A4B01EF36BF9}</ProjectGuid>
+    <ProjectGuid>{8F7844FE-013C-421B-AD00-8C3E2D33B740}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MazeGame</RootNamespace>
