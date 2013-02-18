@@ -115,6 +115,10 @@ namespace MazeGame
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
+//            if (Canvas.GetTop(p1ball) - e.GetPosition(panel).Y > 20 || Canvas.GetLeft(p1ball) - e.GetPosition(panel).X > 20 ||
+//                e.GetPosition(panel).Y - Canvas.GetTop(p1ball) > p1ball.Height + 20 || e.GetPosition(panel).X - Canvas.GetLeft(p1ball) > p1ball.Width + 20)
+//                isSelected = false;
+
             if (isSelected)
             {
                 nextPosition.Y = e.GetPosition(panel).Y - p1ball.Height / 2;
@@ -135,14 +139,14 @@ namespace MazeGame
 
         private void detectWall(Rectangle wall)
         {
-            if (nextPosition.Y + p1ball.Height > Canvas.GetTop(wall) && nextPosition.Y < Canvas.GetTop(wall) + wall.Height)
+            if (Canvas.GetTop(p1ball) + p1ball.Height > Canvas.GetTop(wall) && Canvas.GetTop(p1ball) < Canvas.GetTop(wall) + wall.Height)
             {
                 if (Canvas.GetLeft(p1ball) + p1ball.Width <= Canvas.GetLeft(wall) && nextPosition.X + p1ball.Width > Canvas.GetLeft(wall))
                     nextPosition.X = Canvas.GetLeft(wall) - p1ball.Width;
                 if (Canvas.GetLeft(p1ball) >= Canvas.GetLeft(wall) + wall.Width && nextPosition.X < Canvas.GetLeft(wall) + wall.Width)
                     nextPosition.X = Canvas.GetLeft(wall) + wall.Width;
             }
-            if (nextPosition.X + p1ball.Width > Canvas.GetLeft(wall) && nextPosition.X < Canvas.GetLeft(wall) + wall.Width)
+            if (Canvas.GetLeft(p1ball) + p1ball.Width > Canvas.GetLeft(wall) && Canvas.GetLeft(p1ball) < Canvas.GetLeft(wall) + wall.Width)
             {
                 if (Canvas.GetTop(p1ball) + p1ball.Height <= Canvas.GetTop(wall) && nextPosition.Y + p1ball.Height > Canvas.GetTop(wall))
                     nextPosition.Y = Canvas.GetTop(wall) - p1ball.Height;

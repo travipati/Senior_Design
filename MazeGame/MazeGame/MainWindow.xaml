@@ -6,16 +6,16 @@
         <Canvas x:Name="panel" HorizontalAlignment="Left" Height="738" VerticalAlignment="Top" Width="1358">
             <Rectangle x:Name="goal" Fill="Red" Height="100" Canvas.Left="1062" Stroke="Black" Canvas.Top="138" Width="138"/>
             <Ellipse x:Name="p1ball" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="60" Stroke="Black" VerticalAlignment="Top" Width="60" Canvas.Left="200" Canvas.Top="157"/>
-            <Rectangle x:Name="wall0" Fill="Black" Height="339" Canvas.Left="299" Stroke="Black" Canvas.Top="138" Width="21"/>
+            <Rectangle x:Name="wall0" Fill="Black" Height="359" Canvas.Left="299" Stroke="Black" Canvas.Top="118" Width="21"/>
             <Rectangle x:Name="wall1" Fill="Black" Height="20" Canvas.Left="143" Stroke="Black" Canvas.Top="118" Width="1077"/>
-            <Rectangle x:Name="wall2" Fill="Black" Height="479" Canvas.Left="143" Stroke="Black" Canvas.Top="138" Width="20"/>
-            <Rectangle x:Name="wall3" Fill="Black" Height="20" Canvas.Left="163" Stroke="Black" Canvas.Top="597" Width="1037"/>
-            <Rectangle x:Name="wall4" Fill="Black" Height="339" Canvas.Left="473" Stroke="Black" Canvas.Top="258" Width="20"/>
-            <Rectangle x:Name="wall5" Fill="Black" Height="479" Canvas.Left="1200" Stroke="Black" Canvas.Top="138" Width="20"/>
+            <Rectangle x:Name="wall2" Fill="Black" Height="499" Canvas.Left="143" Stroke="Black" Canvas.Top="118" Width="20"/>
+            <Rectangle x:Name="wall3" Fill="Black" Height="20" Canvas.Left="143" Stroke="Black" Canvas.Top="597" Width="1077"/>
+            <Rectangle x:Name="wall4" Fill="Black" Height="359" Canvas.Left="473" Stroke="Black" Canvas.Top="258" Width="20"/>
+            <Rectangle x:Name="wall5" Fill="Black" Height="499" Canvas.Left="1200" Stroke="Black" Canvas.Top="118" Width="20"/>
             <Rectangle x:Name="wall6" Fill="Black" Height="219" Canvas.Left="637" Stroke="Black" Canvas.Top="258" Width="20"/>
-            <Rectangle x:Name="wall7" Fill="Black" Height="339" Canvas.Left="1042" Stroke="Black" Canvas.Top="138" Width="20"/>
-            <Rectangle x:Name="wall8" Fill="Black" Height="20" Canvas.Left="657" Stroke="Black" Canvas.Top="258" Width="385"/>
-            <Rectangle x:Name="wall9" Fill="Black" Height="219" Canvas.Left="840" Stroke="Black" Canvas.Top="378" Width="20"/>
+            <Rectangle x:Name="wall7" Fill="Black" Height="359" Canvas.Left="1042" Stroke="Black" Canvas.Top="118" Width="20"/>
+            <Rectangle x:Name="wall8" Fill="Black" Height="20" Canvas.Left="637" Stroke="Black" Canvas.Top="258" Width="425"/>
+            <Rectangle x:Name="wall9" Fill="Black" Height="239" Canvas.Left="840" Stroke="Black" Canvas.Top="378" Width="20"/>
         </Canvas>
 
     </Grid>
