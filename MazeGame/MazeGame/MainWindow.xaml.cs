@@ -24,13 +24,14 @@ namespace MazeGame
     {
         KinectSensor sensor;
         Skeleton[] skeletonArray;
-        Skeleton playerSkeleton;
-        SkeletonPoint handPosition;
+        Skeleton[] playerSkeleton;
+        SkeletonPoint[] handPosition;
         Rectangle[] walls;
+        bool[] isSelected;
+        bool[] isMouseSelected;
         Point nextPosition;
         double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
         double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
-        bool[] isMouseSelected;
 
         public MainWindow()
         {
@@ -40,6 +41,9 @@ namespace MazeGame
 
             KinectSensor.KinectSensors.StatusChanged += new EventHandler<StatusChangedEventArgs>(KinectSensors_StatusChanged);
             sensor = (from s in KinectSensor.KinectSensors.ToArray() where s.Status == KinectStatus.Connected select s).FirstOrDefault();
+
+            playerSkeleton = new Skeleton[2];
+            handPosition = new SkeletonPoint[2];
 
             walls = new Rectangle[10];
             walls[0] = wall0;
@@ -52,6 +56,10 @@ namespace MazeGame
             walls[7] = wall7;
             walls[8] = wall8;
             walls[9] = wall9;
+
+            isSelected = new bool[2];
+            isSelected[0] = false;
+            isSelected[1] = false;
 
             isMouseSelected = new bool[2];
             isMouseSelected[0] = false;
@@ -104,9 +112,23 @@ namespace MazeGame
                 skeletonArray = new Skeleton[frame.SkeletonArrayLength];
                 frame.CopySkeletonDataTo(skeletonArray);
 
-                playerSkeleton = (from s in skeletonArray where s.TrackingState == SkeletonTrackingState.Tracked select s).FirstOrDefault();
-                if (playerSkeleton != null)
-                    handPosition = playerSkeleton.Joints[JointType.HandRight].ScaleTo((int)screenWidth, (int)screenHeight).Position;
+                int i = 0;
+                foreach (Skeleton s in skeletonArray)
+                {
+                    if (s.TrackingState == SkeletonTrackingState.Tracked && i < 2)
+                        playerSkeleton[i] = s;
+                }
+                //playerSkeleton = (from s in skeletonArray where s.TrackingState == SkeletonTrackingState.Tracked select s).FirstOrDefault();
+
+                if (playerSkeleton[0] != null)
+                    handPosition[0] = playerSkeleton[0].Joints[JointType.HandRight].ScaleTo((int)screenWidth, (int)screenHeight).Position;
+                if (playerSkeleton[1] != null)
+                    handPosition[1] = playerSkeleton[0].Joints[JointType.HandRight].ScaleTo((int)screenWidth, (int)screenHeight).Position;
+
+                if (isSelected[0])
+                    moveBall(p1ball, handPosition[0].X, handPosition[0].Y);
+                else if (isSelected[1])
+                    moveBall(p2ball, handPosition[1].X, handPosition[1].Y);
             }
         }
 
@@ -122,33 +144,33 @@ namespace MazeGame
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
-//            if (Canvas.GetTop(p1ball) - e.GetPosition(panel).Y > 20 || Canvas.GetLeft(p1ball) - e.GetPosition(panel).X > 20 ||
-//                e.GetPosition(panel).Y - Canvas.GetTop(p1ball) > p1ball.Height + 20 || e.GetPosition(panel).X - Canvas.GetLeft(p1ball) > p1ball.Width + 20)
-//                isSelected = false;
+//            if (Canvas.GetTop(ball) - e.GetPosition(panel).Y > 20 || Canvas.GetLeft(ball) - e.GetPosition(panel).X > 20 ||
+//                e.GetPosition(panel).Y - Canvas.GetTop(ball) > p1ball.Height + 20 || e.GetPosition(panel).X - Canvas.GetLeft(ball) > p1ball.Width + 20)
+//                isMouseSelected = false;
 
-            Ellipse ball = p1ball;
-
-            if (isMouseSelected[0] || isMouseSelected[1])
-            {
-                if (isMouseSelected[0])
-                    ball = p1ball;
-                else if (isMouseSelected[1])
-                    ball = p2ball;
-
-                nextPosition.Y = e.GetPosition(panel).Y - ball.Height / 2;
-                nextPosition.X = e.GetPosition(panel).X - ball.Width / 2;
-
-                foreach (Rectangle wall in walls)
-                    detectWall(ball, wall);
-
-                Canvas.SetTop(ball, nextPosition.Y);
-                Canvas.SetLeft(ball, nextPosition.X);
-
-                if (isGoalReached(p1ball) && isGoalReached(p2ball))
-                    goal.Fill = new SolidColorBrush(Colors.Green);
-            }
+            if (isMouseSelected[0])
+                moveBall(p1ball, e.GetPosition(panel).X, e.GetPosition(panel).Y);
+            else if (isMouseSelected[1])
+                moveBall(p2ball, e.GetPosition(panel).X, e.GetPosition(panel).Y);
 
             base.OnMouseMove(e);
+        }
+
+        private void moveBall(Ellipse ball, double x, double y)
+        {
+            nextPosition.Y = y - ball.Height / 2;
+            nextPosition.X = x - ball.Width / 2;
+
+            foreach (Rectangle wall in walls)
+                detectWall(ball, wall);
+
+            Canvas.SetTop(ball, nextPosition.Y);
+            Canvas.SetLeft(ball, nextPosition.X);
+
+            if (isGoalReached(p1ball) && isGoalReached(p2ball))
+                goal.Fill = new SolidColorBrush(Colors.Green);
+            else
+                goal.Fill = new SolidColorBrush(Colors.Red);
         }
 
         private void detectWall(Ellipse ball, Rectangle wall)
