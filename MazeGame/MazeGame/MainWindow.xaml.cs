@@ -116,8 +116,10 @@ namespace MazeGame
                 foreach (Skeleton s in skeletonArray)
                 {
                     if (s.TrackingState == SkeletonTrackingState.Tracked && i < 2)
+                    {
                         playerSkeleton[i] = s;
-                    i++;
+                        i++;
+                    }
                 }
                 //playerSkeleton = (from s in skeletonArray where s.TrackingState == SkeletonTrackingState.Tracked select s).FirstOrDefault();
 
