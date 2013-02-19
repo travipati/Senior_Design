@@ -30,7 +30,7 @@ namespace MazeGame
         Point nextPosition;
         double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
         double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
-        bool isSelected = false;
+        bool[] isMouseSelected;
 
         public MainWindow()
         {
@@ -40,6 +40,7 @@ namespace MazeGame
 
             KinectSensor.KinectSensors.StatusChanged += new EventHandler<StatusChangedEventArgs>(KinectSensors_StatusChanged);
             sensor = (from s in KinectSensor.KinectSensors.ToArray() where s.Status == KinectStatus.Connected select s).FirstOrDefault();
+
             walls = new Rectangle[10];
             walls[0] = wall0;
             walls[1] = wall1;
@@ -51,6 +52,10 @@ namespace MazeGame
             walls[7] = wall7;
             walls[8] = wall8;
             walls[9] = wall9;
+
+            isMouseSelected = new bool[2];
+            isMouseSelected[0] = false;
+            isMouseSelected[1] = false;
         }
 
         private void KinectSensors_StatusChanged(object sender, StatusChangedEventArgs e)
@@ -108,7 +113,9 @@ namespace MazeGame
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
             if (p1ball.IsMouseOver)
-                isSelected = true;
+                isMouseSelected[0] = !isMouseSelected[0];
+            if (p2ball.IsMouseOver)
+                isMouseSelected[1] = !isMouseSelected[1];
 
  	        base.OnMouseUp(e);
         }
@@ -119,46 +126,53 @@ namespace MazeGame
 //                e.GetPosition(panel).Y - Canvas.GetTop(p1ball) > p1ball.Height + 20 || e.GetPosition(panel).X - Canvas.GetLeft(p1ball) > p1ball.Width + 20)
 //                isSelected = false;
 
-            if (isSelected)
+            Ellipse ball = p1ball;
+
+            if (isMouseSelected[0] || isMouseSelected[1])
             {
-                nextPosition.Y = e.GetPosition(panel).Y - p1ball.Height / 2;
-                nextPosition.X = e.GetPosition(panel).X - p1ball.Width / 2;
+                if (isMouseSelected[0])
+                    ball = p1ball;
+                else if (isMouseSelected[1])
+                    ball = p2ball;
+
+                nextPosition.Y = e.GetPosition(panel).Y - ball.Height / 2;
+                nextPosition.X = e.GetPosition(panel).X - ball.Width / 2;
 
                 foreach (Rectangle wall in walls)
-                    detectWall(wall);
+                    detectWall(ball, wall);
 
-                Canvas.SetTop(p1ball, nextPosition.Y);
-                Canvas.SetLeft(p1ball, nextPosition.X);
+                Canvas.SetTop(ball, nextPosition.Y);
+                Canvas.SetLeft(ball, nextPosition.X);
 
-                if (isGoalReached())
+                if (isGoalReached(p1ball) && isGoalReached(p2ball))
                     goal.Fill = new SolidColorBrush(Colors.Green);
             }
 
             base.OnMouseMove(e);
         }
 
-        private void detectWall(Rectangle wall)
+        private void detectWall(Ellipse ball, Rectangle wall)
         {
-            if (Canvas.GetTop(p1ball) + p1ball.Height > Canvas.GetTop(wall) && Canvas.GetTop(p1ball) < Canvas.GetTop(wall) + wall.Height)
+            if (Canvas.GetTop(ball) + ball.Height > Canvas.GetTop(wall) && Canvas.GetTop(ball) < Canvas.GetTop(wall) + wall.Height)
             {
-                if (Canvas.GetLeft(p1ball) + p1ball.Width <= Canvas.GetLeft(wall) && nextPosition.X + p1ball.Width > Canvas.GetLeft(wall))
-                    nextPosition.X = Canvas.GetLeft(wall) - p1ball.Width;
-                if (Canvas.GetLeft(p1ball) >= Canvas.GetLeft(wall) + wall.Width && nextPosition.X < Canvas.GetLeft(wall) + wall.Width)
+                if (Canvas.GetLeft(ball) + ball.Width <= Canvas.GetLeft(wall) && nextPosition.X + ball.Width > Canvas.GetLeft(wall))
+                    nextPosition.X = Canvas.GetLeft(wall) - ball.Width;
+                if (Canvas.GetLeft(ball) >= Canvas.GetLeft(wall) + wall.Width && nextPosition.X < Canvas.GetLeft(wall) + wall.Width)
                     nextPosition.X = Canvas.GetLeft(wall) + wall.Width;
             }
-            if (Canvas.GetLeft(p1ball) + p1ball.Width > Canvas.GetLeft(wall) && Canvas.GetLeft(p1ball) < Canvas.GetLeft(wall) + wall.Width)
+            if (Canvas.GetLeft(ball) + ball.Width > Canvas.GetLeft(wall) && Canvas.GetLeft(ball) < Canvas.GetLeft(wall) + wall.Width)
             {
-                if (Canvas.GetTop(p1ball) + p1ball.Height <= Canvas.GetTop(wall) && nextPosition.Y + p1ball.Height > Canvas.GetTop(wall))
-                    nextPosition.Y = Canvas.GetTop(wall) - p1ball.Height;
-                if (Canvas.GetTop(p1ball) >= Canvas.GetTop(wall) + wall.Height && nextPosition.Y < Canvas.GetTop(wall) + wall.Height)
+                if (Canvas.GetTop(ball) + ball.Height <= Canvas.GetTop(wall) && nextPosition.Y + ball.Height > Canvas.GetTop(wall))
+                    nextPosition.Y = Canvas.GetTop(wall) - ball.Height;
+                if (Canvas.GetTop(ball) >= Canvas.GetTop(wall) + wall.Height && nextPosition.Y < Canvas.GetTop(wall) + wall.Height)
                     nextPosition.Y = Canvas.GetTop(wall) + wall.Height;
             }
         }
 
-        private bool isGoalReached()
+        private bool isGoalReached(Ellipse ball)
         {
-            return Canvas.GetTop(p1ball) + p1ball.Height > Canvas.GetTop(goal) && Canvas.GetTop(p1ball) < Canvas.GetTop(goal) + goal.Height
-                && Canvas.GetLeft(p1ball) + p1ball.Width > Canvas.GetLeft(goal) && Canvas.GetLeft(p1ball) < Canvas.GetLeft(goal) + goal.Width;
+            return Canvas.GetTop(ball) + ball.Height > Canvas.GetTop(goal) && Canvas.GetTop(ball) < Canvas.GetTop(goal) + goal.Height
+                && Canvas.GetLeft(ball) + ball.Width > Canvas.GetLeft(goal) && Canvas.GetLeft(ball) < Canvas.GetLeft(goal) + goal.Width;
         }
     }
 }
