@@ -133,8 +133,8 @@ namespace MazeGame
                 else if (isSelected[1])
                     moveBall(p2ball, handPosition[1].X, handPosition[1].Y);
 
-                moveHand(p1hand, handPosition[0].X, handPosition[0].Y);
-                moveHand(p2hand, handPosition[1].X, handPosition[1].Y);
+               // moveHand(p1hand, handPosition[0].X, handPosition[0].Y);
+               // moveHand(p2hand, handPosition[1].X, handPosition[1].Y);
             }
         }
 
