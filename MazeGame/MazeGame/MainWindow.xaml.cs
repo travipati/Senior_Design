@@ -58,8 +58,8 @@ namespace MazeGame
             walls[9] = wall9;
 
             isSelected = new bool[2];
-            isSelected[0] = false;
-            isSelected[1] = false;
+            isSelected[0] = true;
+            isSelected[1] = true;
 
             isMouseSelected = new bool[2];
             isMouseSelected[0] = false;
@@ -121,7 +121,6 @@ namespace MazeGame
                         i++;
                     }
                 }
-                //playerSkeleton = (from s in skeletonArray where s.TrackingState == SkeletonTrackingState.Tracked select s).FirstOrDefault();
 
                 if (playerSkeleton[0] != null)
                     handPosition[0] = playerSkeleton[0].Joints[JointType.HandRight].ScaleTo((int)screenWidth, (int)screenHeight).Position;
