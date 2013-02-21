@@ -126,12 +126,15 @@ namespace MazeGame
                 if (playerSkeleton[0] != null)
                     handPosition[0] = playerSkeleton[0].Joints[JointType.HandRight].ScaleTo((int)screenWidth, (int)screenHeight).Position;
                 if (playerSkeleton[1] != null)
-                    handPosition[1] = playerSkeleton[0].Joints[JointType.HandRight].ScaleTo((int)screenWidth, (int)screenHeight).Position;
+                    handPosition[1] = playerSkeleton[1].Joints[JointType.HandRight].ScaleTo((int)screenWidth, (int)screenHeight).Position;
 
                 if (isSelected[0])
                     moveBall(p1ball, handPosition[0].X, handPosition[0].Y);
                 else if (isSelected[1])
                     moveBall(p2ball, handPosition[1].X, handPosition[1].Y);
+
+                moveHand(p1hand, handPosition[0].X, handPosition[0].Y);
+                moveHand(p2hand, handPosition[1].X, handPosition[1].Y);
             }
         }
 
@@ -150,13 +153,21 @@ namespace MazeGame
 //            if (Canvas.GetTop(ball) - e.GetPosition(panel).Y > 20 || Canvas.GetLeft(ball) - e.GetPosition(panel).X > 20 ||
 //                e.GetPosition(panel).Y - Canvas.GetTop(ball) > p1ball.Height + 20 || e.GetPosition(panel).X - Canvas.GetLeft(ball) > p1ball.Width + 20)
 //                isMouseSelected = false;
-
+            
             if (isMouseSelected[0])
                 moveBall(p1ball, e.GetPosition(panel).X, e.GetPosition(panel).Y);
             else if (isMouseSelected[1])
                 moveBall(p2ball, e.GetPosition(panel).X, e.GetPosition(panel).Y);
 
             base.OnMouseMove(e);
+        }
+        private void moveHand(Ellipse hand, double x, double y)
+        {
+            nextPosition.Y = y - hand.Height / 2;
+            nextPosition.X = x - hand.Width / 2;
+
+            Canvas.SetTop(hand, nextPosition.Y);
+            Canvas.SetLeft(hand, nextPosition.X);
         }
 
         private void moveBall(Ellipse ball, double x, double y)
