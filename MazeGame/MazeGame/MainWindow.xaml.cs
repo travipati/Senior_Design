@@ -28,6 +28,8 @@ namespace MazeGame
         Rectangle[] walls;
         bool[] isSelected;
         bool[] isMouseSelected;
+        int tempTimer;
+        bool overlappedPrevCheck;
         Point nextPosition;
         double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
         double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
@@ -57,8 +59,11 @@ namespace MazeGame
             walls[9] = wall9;
 
             isSelected = new bool[2];
-            isSelected[0] = true;
-            isSelected[1] = true;
+            isSelected[0] = false;
+            isSelected[1] = false;
+
+            tempTimer = 0;
+            overlappedPrevCheck = false;
 
             isMouseSelected = new bool[2];
             isMouseSelected[0] = false;
@@ -179,22 +184,50 @@ namespace MazeGame
 
                 }
 
-                // moveHand(p1hand, handPosition[0].X, handPosition[0].Y);
-                // moveHand(p2hand, handPosition[1].X, handPosition[1].Y);
+                moveHand(p1hand, handPosition[0].X, handPosition[0].Y);
+                moveHand(p2hand, handPosition[1].X, handPosition[1].Y);
+
+                diagnostics.FontSize = 24;
+                diagnostics.Text = ("isSelected[0] is: " + isSelected[0] + " tempTimer is: " + tempTimer);
+
+                //check if hands are overlapped, if overlapped for 50 consecutive iterations then flip select mode
+                if (handSelect(handPosition[0], handPosition[1], 35))
+                {
+                    if (overlappedPrevCheck)
+                    {
+                        tempTimer++;
+                    }
+                    if (tempTimer % 50 == 0)
+                    {
+                        isSelected[0] = !isSelected[0];
+                        isSelected[1] = !isSelected[1];
+                    }
+                    overlappedPrevCheck = true;
+                }
+                else
+                {
+                    overlappedPrevCheck = false;
+                    tempTimer = 0;
+                }
+
+                //if (handSelect(leftHandPosition[0], leftHandPosition[1], 10))
+                //{
+                //    isSelected[1] = !isSelected[1];
+                //}
 
                 if (isSelected[0])
                     moveBall(p1ball, handPosition[0].X, handPosition[0].Y);
-                if (isSelected[1])
-                    moveBall(p2ball, handPosition[1].X, handPosition[1].Y);
+                //if (isSelected[1])
+                //    moveBall(p2ball, handPosition[1].X, handPosition[1].Y);
             }
         }
 
-        private bool handSelect(SkeletonPoint left, SkeletonPoint right)
+        private bool handSelect(SkeletonPoint left, SkeletonPoint right, int threshold)
         {
             //Requires pre-scaled hand locations
-            //Output: if left hand is in a 20x20 box around right hand, return true for select
-            if ((left.X <= (right.X + 20) && left.X >= (right.X - 20)) &&
-                (left.Y <= (right.Y + 20) && left.Y >= (right.Y - 20 )))
+            //Output: if left hand is in a threshold*threshold box around right hand, return true for select
+            if ((left.X <= (right.X + threshold) && left.X >= (right.X - threshold)) &&
+                (left.Y <= (right.Y + threshold) && left.Y >= (right.Y - threshold)))
             {
                 return true;
             }
