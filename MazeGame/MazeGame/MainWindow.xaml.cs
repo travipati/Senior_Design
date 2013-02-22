@@ -121,39 +121,40 @@ namespace MazeGame
                     }
                 }
 
-                /*if (playerSkeleton[0] != null)
-                     {
-                         float yRange = 0.5f;
-                         float xRangeMin = -0.5f;
-                         float xRangeMax = 0f;
-                         //float xPercent = (playerSkeleton[0].Joints[JointType.HandRight].Position.X / range) + 0.5f;
-                         float xPercent = (playerSkeleton[0].Joints[JointType.HandRight].Position.X - xRangeMin) / (xRangeMax - xRangeMin);
-                         if (xPercent < 0) xPercent = 0;
-                         if (xPercent > 1) xPercent = 1;
-                         float yPercent = (playerSkeleton[0].Joints[JointType.HandRight].Position.Y / yRange) + 0.5f;
-                         if (yPercent < 0) yPercent = 0;
-                         if (yPercent > 1) yPercent = 1;
-                         handPosition[0].X = (float)screenWidth * xPercent;
-                         handPosition[0].Y = (float)screenHeight * (1 - yPercent);
-                     }
-                     if (playerSkeleton[1] != null)
-                     {
-                         float yRange = 0.5f;
-                         float xRangeMin = 0f;
-                         float xRangeMax = 0.5f;
-                         //float xPercent = (playerSkeleton[1].Joints[JointType.HandRight].Position.X / range) + 0.5f;
-                         float xPercent = (playerSkeleton[1].Joints[JointType.HandRight].Position.X - xRangeMin) / (xRangeMax - xRangeMin);
-                         if (xPercent < 0) xPercent = 0;
-                         if (xPercent > 1) xPercent = 1;
-                         float yPercent = (playerSkeleton[1].Joints[JointType.HandRight].Position.Y / yRange) + 0.5f;
-                         if (yPercent < 0) yPercent = 0;
-                         if (yPercent > 1) yPercent = 1;
-                         handPosition[1].X = (float)screenWidth * xPercent;
-                         handPosition[1].Y = (float)screenHeight * (1 - yPercent);
-                     }*/
+                if (playerSkeleton[0] != null)
+                {
+                    float yRange = 0.5f;
+                    float xRangeMin = -0.5f;
+                    float xRangeMax = 0f;
+                    //float xPercent = (playerSkeleton[0].Joints[JointType.HandRight].Position.X / range) + 0.5f;
+                    float xPercent = (playerSkeleton[0].Joints[JointType.HandRight].Position.X - xRangeMin) / (xRangeMax - xRangeMin);
+                    if (xPercent < 0) xPercent = 0;
+                    if (xPercent > 1) xPercent = 1;
+                    float yPercent = (playerSkeleton[0].Joints[JointType.HandRight].Position.Y / yRange) + 0.5f;
+                    if (yPercent < 0) yPercent = 0;
+                    if (yPercent > 1) yPercent = 1;
+                    handPosition[0].X = (float)screenWidth * xPercent;
+                    handPosition[0].Y = (float)screenHeight * (1 - yPercent);
+                }
+
+                if (playerSkeleton[1] != null)
+                {
+                    float yRange = 0.5f;
+                    float xRangeMin = 0f;
+                    float xRangeMax = 0.5f;
+                    //float xPercent = (playerSkeleton[1].Joints[JointType.HandRight].Position.X / range) + 0.5f;
+                    float xPercent = (playerSkeleton[1].Joints[JointType.HandRight].Position.X - xRangeMin) / (xRangeMax - xRangeMin);
+                    if (xPercent < 0) xPercent = 0;
+                    if (xPercent > 1) xPercent = 1;
+                    float yPercent = (playerSkeleton[1].Joints[JointType.HandRight].Position.Y / yRange) + 0.5f;
+                    if (yPercent < 0) yPercent = 0;
+                    if (yPercent > 1) yPercent = 1;
+                    handPosition[1].X = (float)screenWidth * xPercent;
+                    handPosition[1].Y = (float)screenHeight * (1 - yPercent);
+                }
 
                 // One player using each hand to control one ball
-                if (playerSkeleton[0] != null)
+                /*if (playerSkeleton[0] != null)
                 {
                     float yRange = 0.5f;
                     float xRangeMinLeft = -0.5f;
@@ -176,11 +177,10 @@ namespace MazeGame
                     handPosition[0].Y = (float)screenHeight * (1 - yPercentLeft);
                     handPosition[1].X = (float)screenWidth * xPercentRight;
                     handPosition[1].Y = (float)screenHeight * (1 - yPercentRight);
+                }*/
 
-                }
-
-                // moveHand(p1hand, handPosition[0].X, handPosition[0].Y);
-                // moveHand(p2hand, handPosition[1].X, handPosition[1].Y);
+                moveHand(p1hand, handPosition[0].X, handPosition[0].Y);
+                moveHand(p2hand, handPosition[1].X, handPosition[1].Y);
 
                 if (isSelected[0])
                     moveBall(p1ball, handPosition[0].X, handPosition[0].Y);
