@@ -127,14 +127,23 @@ namespace MazeGame
                 if (playerSkeleton[1] != null)
                     handPosition[1] = playerSkeleton[1].Joints[JointType.HandRight].ScaleTo((int)screenWidth, (int)screenHeight).Position;
 
+                // moveHand(p1hand, handPosition[0].X, handPosition[0].Y);
+                // moveHand(p2hand, handPosition[1].X, handPosition[1].Y);
+
                 if (isSelected[0])
                     moveBall(p1ball, handPosition[0].X, handPosition[0].Y);
                 else if (isSelected[1])
                     moveBall(p2ball, handPosition[1].X, handPosition[1].Y);
-
-               // moveHand(p1hand, handPosition[0].X, handPosition[0].Y);
-               // moveHand(p2hand, handPosition[1].X, handPosition[1].Y);
             }
+        }
+
+        private void moveHand(Image hand, double x, double y)
+        {
+            nextPosition.Y = y - hand.Height / 2;
+            nextPosition.X = x - hand.Width / 2;
+
+            Canvas.SetTop(hand, nextPosition.Y);
+            Canvas.SetLeft(hand, nextPosition.X);
         }
 
         protected override void OnMouseUp(MouseButtonEventArgs e)
@@ -159,14 +168,6 @@ namespace MazeGame
                 moveBall(p2ball, e.GetPosition(panel).X, e.GetPosition(panel).Y);
 
             base.OnMouseMove(e);
-        }
-        private void moveHand(Ellipse hand, double x, double y)
-        {
-            nextPosition.Y = y - hand.Height / 2;
-            nextPosition.X = x - hand.Width / 2;
-
-            Canvas.SetTop(hand, nextPosition.Y);
-            Canvas.SetLeft(hand, nextPosition.X);
         }
 
         private void moveBall(Ellipse ball, double x, double y)
