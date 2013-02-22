@@ -189,6 +189,18 @@ namespace MazeGame
             }
         }
 
+        private bool handSelect(SkeletonPoint left, SkeletonPoint right)
+        {
+            //Requires pre-scaled hand locations
+            //Output: if left hand is in a 20x20 box around right hand, return true for select
+            if ((left.X <= (right.X + 20) && left.X >= (right.X - 20)) &&
+                (left.Y <= (right.Y + 20) && left.Y >= (right.Y - 20 )))
+            {
+                return true;
+            }
+            return false;
+        }
+
         private void moveHand(Image hand, double x, double y)
         {
             nextPosition.Y = y - hand.Height / 2;
