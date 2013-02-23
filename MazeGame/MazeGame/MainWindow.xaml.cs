@@ -28,6 +28,8 @@ namespace MazeGame
         Rectangle[] walls;
         bool[] isSelected;
         bool[] isMouseSelected;
+        bool isOverLappedPrevCheck;
+        bool[] isRightPrim;
         Point nextPosition;
         double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
         double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
@@ -56,13 +58,19 @@ namespace MazeGame
             walls[8] = wall8;
             walls[9] = wall9;
 
+            isOverLappedPrevCheck = false;
+
             isSelected = new bool[2];
-            isSelected[0] = true;
-            isSelected[1] = true;
+            isSelected[0] = false;
+            isSelected[1] = false;
 
             isMouseSelected = new bool[2];
             isMouseSelected[0] = false;
             isMouseSelected[1] = false;
+
+            isRightPrim = new bool[2];
+            isRightPrim[0] = true;
+            isRightPrim[1] = true;
         }
 
         private void KinectSensors_StatusChanged(object sender, StatusChangedEventArgs e)
@@ -121,72 +129,148 @@ namespace MazeGame
                     }
                 }
 
-                if (playerSkeleton[0] != null)
-                {
-                    float yRange = 0.5f;
-                    float xRangeMin = -0.5f;
-                    float xRangeMax = 0f;
-                    //float xPercent = (playerSkeleton[0].Joints[JointType.HandRight].Position.X / range) + 0.5f;
-                    float xPercent = (playerSkeleton[0].Joints[JointType.HandRight].Position.X - xRangeMin) / (xRangeMax - xRangeMin);
-                    if (xPercent < 0) xPercent = 0;
-                    if (xPercent > 1) xPercent = 1;
-                    float yPercent = (playerSkeleton[0].Joints[JointType.HandRight].Position.Y / yRange) + 0.5f;
-                    if (yPercent < 0) yPercent = 0;
-                    if (yPercent > 1) yPercent = 1;
-                    handPosition[0].X = (float)screenWidth * xPercent;
-                    handPosition[0].Y = (float)screenHeight * (1 - yPercent);
-                }
-
-                if (playerSkeleton[1] != null)
-                {
-                    float yRange = 0.5f;
-                    float xRangeMin = 0f;
-                    float xRangeMax = 0.5f;
-                    //float xPercent = (playerSkeleton[1].Joints[JointType.HandRight].Position.X / range) + 0.5f;
-                    float xPercent = (playerSkeleton[1].Joints[JointType.HandRight].Position.X - xRangeMin) / (xRangeMax - xRangeMin);
-                    if (xPercent < 0) xPercent = 0;
-                    if (xPercent > 1) xPercent = 1;
-                    float yPercent = (playerSkeleton[1].Joints[JointType.HandRight].Position.Y / yRange) + 0.5f;
-                    if (yPercent < 0) yPercent = 0;
-                    if (yPercent > 1) yPercent = 1;
-                    handPosition[1].X = (float)screenWidth * xPercent;
-                    handPosition[1].Y = (float)screenHeight * (1 - yPercent);
-                }
-
-                // One player using each hand to control one ball
-                /*if (playerSkeleton[0] != null)
-                {
-                    float yRange = 0.5f;
-                    float xRangeMinLeft = -0.5f;
-                    float xRangeMaxLeft = 0f;
-                    float xRangeMinRight = 0f;
-                    float xRangeMaxRight = 0.5f;
-                    float xPercentLeft = (playerSkeleton[0].Joints[JointType.HandLeft].Position.X - xRangeMinLeft) / (xRangeMaxLeft - xRangeMinLeft);
-                    if (xPercentLeft < 0) xPercentLeft = 0;
-                    if (xPercentLeft > 1) xPercentLeft = 1;
-                    float yPercentLeft = (playerSkeleton[0].Joints[JointType.HandLeft].Position.Y / yRange) + 0.5f;
-                    if (yPercentLeft < 0) yPercentLeft = 0;
-                    if (yPercentLeft > 1) yPercentLeft = 1;
-                    float xPercentRight = (playerSkeleton[0].Joints[JointType.HandRight].Position.X - xRangeMinRight) / (xRangeMaxRight - xRangeMinRight);
-                    if (xPercentRight < 0) xPercentRight = 0;
-                    if (xPercentRight > 1) xPercentRight = 1;
-                    float yPercentRight = (playerSkeleton[0].Joints[JointType.HandRight].Position.Y / yRange) + 0.5f;
-                    if (yPercentRight < 0) yPercentRight = 0;
-                    if (yPercentRight > 1) yPercentRight = 1;
-                    handPosition[0].X = (float)screenWidth * xPercentLeft;
-                    handPosition[0].Y = (float)screenHeight * (1 - yPercentLeft);
-                    handPosition[1].X = (float)screenWidth * xPercentRight;
-                    handPosition[1].Y = (float)screenHeight * (1 - yPercentRight);
-                }*/
+                handPosition[0] = getHandPosition(0, true);
+                handPosition[1] = getHandPosition(1, true);
 
                 moveHand(p1hand, handPosition[0].X, handPosition[0].Y);
                 moveHand(p2hand, handPosition[1].X, handPosition[1].Y);
+
+//                diagnostics.FontSize = 24;
+//                diagnostics.Text = ("isSelected[0] is: " + isSelected[0] + " tempTimer is: " + tempTimer);
+
+//                if (isHandSelect(0) && isObjOver(p1hand, p1ball))
+                if (isObjOver(p1hand, p1ball))
+                {
+//                    isSelected[0] = !isSelected[0];
+                    isSelected[0] = true;
+                    if (isSelected[0])
+                        p1hand.Visibility = Visibility.Collapsed;
+                    else
+                        p1hand.Visibility = Visibility.Visible;
+                }
+//                if (isHandSelect(1) && isObjOver(p2hand, p2ball))
+                if (isObjOver(p2hand, p2ball))
+                {
+//                    isSelected[1] = !isSelected[1];
+                    isSelected[1] = true;
+                    if (isSelected[1])
+                        p2hand.Visibility = Visibility.Collapsed;
+                    else
+                        p2hand.Visibility = Visibility.Visible;
+                }
 
                 if (isSelected[0])
                     moveBall(p1ball, handPosition[0].X, handPosition[0].Y);
                 if (isSelected[1])
                     moveBall(p2ball, handPosition[1].X, handPosition[1].Y);
             }
+        }
+
+        private SkeletonPoint getHandPosition(int playerId, bool isPrimHand)
+        {
+            /*
+    One player using each hand to control one ball
+    if (playerSkeleton[0] != null)
+    {
+        float yRange = 0.5f;
+        float xRangeMinLeft = -0.5f;
+        float xRangeMaxLeft = 0f;
+        float xRangeMinRight = 0f;
+        float xRangeMaxRight = 0.5f;
+        float xPercentLeft = (playerSkeleton[0].Joints[JointType.HandLeft].Position.X - xRangeMinLeft) / (xRangeMaxLeft - xRangeMinLeft);
+        if (xPercentLeft < 0) xPercentLeft = 0;
+        if (xPercentLeft > 1) xPercentLeft = 1;
+        float yPercentLeft = (playerSkeleton[0].Joints[JointType.HandLeft].Position.Y / yRange) + 0.5f;
+        if (yPercentLeft < 0) yPercentLeft = 0;
+        if (yPercentLeft > 1) yPercentLeft = 1;
+        float xPercentRight = (playerSkeleton[0].Joints[JointType.HandRight].Position.X - xRangeMinRight) / (xRangeMaxRight - xRangeMinRight);
+        if (xPercentRight < 0) xPercentRight = 0;
+        if (xPercentRight > 1) xPercentRight = 1;
+        float yPercentRight = (playerSkeleton[0].Joints[JointType.HandRight].Position.Y / yRange) + 0.5f;
+        if (yPercentRight < 0) yPercentRight = 0;
+        if (yPercentRight > 1) yPercentRight = 1;
+        handPosition[0].X = (float)screenWidth * xPercentLeft;
+        handPosition[0].Y = (float)screenHeight * (1 - yPercentLeft);
+        handPosition[1].X = (float)screenWidth * xPercentRight;
+        handPosition[1].Y = (float)screenHeight * (1 - yPercentRight);
+
+    }
+*/
+            SkeletonPoint position = new SkeletonPoint();
+
+            if (playerSkeleton[playerId] != null)
+            {
+                float yRange = 0.5f;
+                float xRangeMin;
+                float xRangeMax;
+                if (playerId == 0)
+                {
+                    xRangeMin = -0.5f;
+                    xRangeMax = 0f;
+                }
+                else
+                {
+                    xRangeMin = 0f;
+                    xRangeMax = 0.5f;
+                }
+
+                float xPercent;
+                if ((isPrimHand && isRightPrim[playerId]) || (!isPrimHand && !isRightPrim[playerId]))
+                    xPercent = (playerSkeleton[playerId].Joints[JointType.HandRight].Position.X - xRangeMin) / (xRangeMax - xRangeMin);
+                else
+                    xPercent = (playerSkeleton[playerId].Joints[JointType.HandLeft].Position.X - xRangeMin) / (xRangeMax - xRangeMin);
+
+                if (xPercent < 0)
+                    xPercent = 0;
+                if (xPercent > 1)
+                    xPercent = 1;
+
+                float yPercent;
+                if ((isPrimHand && isRightPrim[playerId]) || (!isPrimHand && !isRightPrim[playerId]))
+                    yPercent = (playerSkeleton[playerId].Joints[JointType.HandRight].Position.Y / yRange) + 0.5f;
+                else
+                    yPercent = (playerSkeleton[playerId].Joints[JointType.HandLeft].Position.Y / yRange) + 0.5f;
+
+                if (yPercent < 0)
+                    yPercent = 0;
+                if (yPercent > 1)
+                    yPercent = 1;
+
+                position.X = (float)screenWidth * xPercent;
+                position.Y = (float)screenHeight * (1 - yPercent);
+            }
+
+            return position;
+        }
+
+        private bool isObjOver(FrameworkElement obj1, FrameworkElement obj2)
+        {
+            return Canvas.GetTop(obj1) + obj1.Height > Canvas.GetTop(obj2) && Canvas.GetTop(obj1) < Canvas.GetTop(obj2) + obj2.Height
+                && Canvas.GetLeft(obj1) + obj1.Width > Canvas.GetLeft(obj2) && Canvas.GetLeft(obj1) < Canvas.GetLeft(obj2) + obj2.Width;
+        }
+
+        private bool isHandSelect(int playerId)
+        {
+            //Requires pre-scaled hand locations
+            //Output: if left hand is in a threshold*threshold box around right hand, return true for select
+
+            int threshold = 20;
+            SkeletonPoint npHandPosition = new SkeletonPoint();
+            npHandPosition = getHandPosition(playerId, false);
+
+            bool returnVal = false;
+
+            if ((npHandPosition.X <= (handPosition[playerId].X + threshold) && npHandPosition.X >= (handPosition[playerId].X - threshold)) &&
+                (npHandPosition.Y <= (handPosition[playerId].Y + threshold) && npHandPosition.Y >= (handPosition[playerId].Y - threshold)))
+            {
+                if (!isOverLappedPrevCheck)
+                    returnVal = true;
+
+                isOverLappedPrevCheck = true;
+            }
+
+            isOverLappedPrevCheck = false;
+            return returnVal;
         }
 
         private void moveHand(Image hand, double x, double y)
@@ -259,8 +343,7 @@ namespace MazeGame
 
         private bool isGoalReached(Ellipse ball)
         {
-            return Canvas.GetTop(ball) + ball.Height > Canvas.GetTop(goal) && Canvas.GetTop(ball) < Canvas.GetTop(goal) + goal.Height
-                && Canvas.GetLeft(ball) + ball.Width > Canvas.GetLeft(goal) && Canvas.GetLeft(ball) < Canvas.GetLeft(goal) + goal.Width;
+            return isObjOver(ball, goal);
         }
     }
 }
