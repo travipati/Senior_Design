@@ -98,6 +98,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Images\hand_p1.png" />
     <Resource Include="Images\hand_p2.png" />

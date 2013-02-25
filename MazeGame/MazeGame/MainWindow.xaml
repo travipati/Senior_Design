@@ -19,7 +19,8 @@
             <Ellipse x:Name="p1ball" Fill="Blue" HorizontalAlignment="Left" Height="60" Stroke="Black" VerticalAlignment="Top" Width="60" Canvas.Left="200" Canvas.Top="157"/>
             <Image x:Name="p2hand" Source="Images/hand_p2.png" Height="100" Width="100"/>
             <Image x:Name="p1hand" Source="Images/hand_p1.png" Height="100" Width="100"/>
-            <TextBlock x:Name="diagnostics" TextWrapping="Wrap" Canvas.Left="299" Canvas.Top="47" Height="38" Width="763"/>
+            <TextBlock x:Name="diagnostics" TextWrapping="Wrap" Canvas.Left="299" Canvas.Top="47" Height="38" Width="763" FontSize="24"/>
+            <TextBlock x:Name="time" TextWrapping="Wrap" Canvas.Left="43" Canvas.Top="666" Height="38" Width="143" FontSize="24"/>
         </Canvas>
     </Grid>
 </Window>

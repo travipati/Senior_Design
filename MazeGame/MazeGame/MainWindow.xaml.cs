@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using Microsoft.Kinect;
 
 namespace MazeGame
@@ -21,6 +22,7 @@ namespace MazeGame
     /// </summary>
     public partial class MainWindow : Window
     {
+        DispatcherTimer timer;
         KinectSensor sensor;
         Skeleton[] skeletonArray;
         Skeleton[] playerSkeleton;
@@ -30,6 +32,7 @@ namespace MazeGame
         bool[] isMouseSelected;
         bool isOverLappedPrevCheck;
         bool[] isRightPrim;
+        int gameTime;
         Point nextPosition;
         double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
         double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
@@ -71,6 +74,12 @@ namespace MazeGame
             isRightPrim = new bool[2];
             isRightPrim[0] = true;
             isRightPrim[1] = true;
+
+            timer = new DispatcherTimer();
+            timer.Tick += new EventHandler(timerTick);
+            timer.Interval = new TimeSpan(0,0,1);
+
+            time.Text = "Time: " + gameTime + " sec";
         }
 
         private void KinectSensors_StatusChanged(object sender, StatusChangedEventArgs e)
@@ -135,23 +144,20 @@ namespace MazeGame
                 moveHand(p1hand, handPosition[0].X, handPosition[0].Y);
                 moveHand(p2hand, handPosition[1].X, handPosition[1].Y);
 
-//                diagnostics.FontSize = 24;
-//                diagnostics.Text = ("isSelected[0] is: " + isSelected[0] + " tempTimer is: " + tempTimer);
-
-//                if (isHandSelect(0) && isObjOver(p1hand, p1ball))
+                //                if (isHandSelect(0) && isObjOver(p1hand, p1ball))
                 if (isObjOver(p1hand, p1ball))
                 {
-//                    isSelected[0] = !isSelected[0];
+                    //                    isSelected[0] = !isSelected[0];
                     isSelected[0] = true;
                     if (isSelected[0])
                         p1hand.Visibility = Visibility.Collapsed;
                     else
                         p1hand.Visibility = Visibility.Visible;
                 }
-//                if (isHandSelect(1) && isObjOver(p2hand, p2ball))
+                //                if (isHandSelect(1) && isObjOver(p2hand, p2ball))
                 if (isObjOver(p2hand, p2ball))
                 {
-//                    isSelected[1] = !isSelected[1];
+                    //                    isSelected[1] = !isSelected[1];
                     isSelected[1] = true;
                     if (isSelected[1])
                         p2hand.Visibility = Visibility.Collapsed;
@@ -159,11 +165,20 @@ namespace MazeGame
                         p2hand.Visibility = Visibility.Visible;
                 }
 
+                if (isSelected[0] || (isSelected[1]))
+                    timer.Start();
+
                 if (isSelected[0])
                     moveBall(p1ball, handPosition[0].X, handPosition[0].Y);
                 if (isSelected[1])
                     moveBall(p2ball, handPosition[1].X, handPosition[1].Y);
             }
+        }
+
+        private void timerTick(object sender, EventArgs e)
+        {
+            gameTime++;
+            time.Text = "Time: " + gameTime + " sec";
         }
 
         private SkeletonPoint getHandPosition(int playerId, bool isPrimHand)
@@ -289,15 +304,18 @@ namespace MazeGame
             if (p2ball.IsMouseOver)
                 isMouseSelected[1] = !isMouseSelected[1];
 
- 	        base.OnMouseUp(e);
+            if (isMouseSelected[0] || (isMouseSelected[1]))
+                timer.Start();
+
+            base.OnMouseUp(e);
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
-//            if (Canvas.GetTop(ball) - e.GetPosition(panel).Y > 20 || Canvas.GetLeft(ball) - e.GetPosition(panel).X > 20 ||
-//                e.GetPosition(panel).Y - Canvas.GetTop(ball) > p1ball.Height + 20 || e.GetPosition(panel).X - Canvas.GetLeft(ball) > p1ball.Width + 20)
-//                isMouseSelected = false;
-            
+            //            if (Canvas.GetTop(ball) - e.GetPosition(panel).Y > 20 || Canvas.GetLeft(ball) - e.GetPosition(panel).X > 20 ||
+            //                e.GetPosition(panel).Y - Canvas.GetTop(ball) > p1ball.Height + 20 || e.GetPosition(panel).X - Canvas.GetLeft(ball) > p1ball.Width + 20)
+            //                isMouseSelected = false;
+
             if (isMouseSelected[0])
                 moveBall(p1ball, e.GetPosition(panel).X, e.GetPosition(panel).Y);
             else if (isMouseSelected[1])
@@ -318,7 +336,10 @@ namespace MazeGame
             Canvas.SetLeft(ball, nextPosition.X);
 
             if (isGoalReached(p1ball) && isGoalReached(p2ball))
+            {
                 goal.Fill = new SolidColorBrush(Colors.Green);
+                timer.Stop();
+            }
             else
                 goal.Fill = new SolidColorBrush(Colors.Red);
         }
