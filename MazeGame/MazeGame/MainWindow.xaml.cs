@@ -339,7 +339,7 @@ namespace MazeGame
             {
                 goal.Fill = new SolidColorBrush(Colors.Green);
                 timer.Stop();
-                ScoreWindow scoreWindow = new ScoreWindow();
+                ScoreWindow scoreWindow = new ScoreWindow(screenHeight,screenWidth,gameTime);
                 this.Visibility = Visibility.Collapsed;
                 scoreWindow.Show();
             }
