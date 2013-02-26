@@ -41,7 +41,7 @@ namespace MazeGame
         {
             numScores.Inlines.Clear();
             numScores.Inlines.Add(new Bold(new Run("updated")));
-            MessageBox.Show("Button Clicked");
+            //MessageBox.Show("Button Clicked");
             //ScoreWindow window = new ScoreWindow();
             //this.Visibility = Visibility.Collapsed;
             //window.Show();
