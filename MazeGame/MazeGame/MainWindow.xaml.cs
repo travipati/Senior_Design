@@ -130,6 +130,11 @@ namespace MazeGame
         {
             using (SkeletonFrame frame = e.OpenSkeletonFrame())
             {
+                if (frame == null)
+                {
+                    return;
+                }
+
                 skeletonArray = new Skeleton[frame.SkeletonArrayLength];
                 frame.CopySkeletonDataTo(skeletonArray);
 
