@@ -274,6 +274,7 @@ namespace MazeGame
             npHandPosition = getHandPosition(playerId, false);
 
             bool returnVal = false;
+            isOverLappedPrevCheck = false;
 
             if ((npHandPosition.X <= (handPosition[playerId].X + threshold) && npHandPosition.X >= (handPosition[playerId].X - threshold)) &&
                 (npHandPosition.Y <= (handPosition[playerId].Y + threshold) && npHandPosition.Y >= (handPosition[playerId].Y - threshold)))
@@ -284,7 +285,6 @@ namespace MazeGame
                 isOverLappedPrevCheck = true;
             }
 
-            isOverLappedPrevCheck = false;
             return returnVal;
         }
 
