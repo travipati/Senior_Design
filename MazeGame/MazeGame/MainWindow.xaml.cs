@@ -45,6 +45,11 @@ namespace MazeGame
 
             KinectSensor.KinectSensors.StatusChanged += new EventHandler<StatusChangedEventArgs>(KinectSensors_StatusChanged);
             sensor = (from s in KinectSensor.KinectSensors.ToArray() where s.Status == KinectStatus.Connected select s).FirstOrDefault();
+            if (sensor != null)
+            {
+                initializeKinect(sensor);
+            }
+
 
             playerSkeleton = new Skeleton[2];
             handPosition = new SkeletonPoint[2];
@@ -125,6 +130,11 @@ namespace MazeGame
         {
             using (SkeletonFrame frame = e.OpenSkeletonFrame())
             {
+                if (frame == null)
+                {
+                    return;
+                }
+
                 skeletonArray = new Skeleton[frame.SkeletonArrayLength];
                 frame.CopySkeletonDataTo(skeletonArray);
 
@@ -274,6 +284,7 @@ namespace MazeGame
             npHandPosition = getHandPosition(playerId, false);
 
             bool returnVal = false;
+            isOverLappedPrevCheck = false;
 
             if ((npHandPosition.X <= (handPosition[playerId].X + threshold) && npHandPosition.X >= (handPosition[playerId].X - threshold)) &&
                 (npHandPosition.Y <= (handPosition[playerId].Y + threshold) && npHandPosition.Y >= (handPosition[playerId].Y - threshold)))
@@ -284,7 +295,6 @@ namespace MazeGame
                 isOverLappedPrevCheck = true;
             }
 
-            isOverLappedPrevCheck = false;
             return returnVal;
         }
 
