@@ -23,6 +23,7 @@ namespace MazeGame
         double winHeight;
         double winWidth;
         int time;
+        int score;
 
         public ScoreWindow(double screenHeight, double screenWidth, int gameTime)
         {
@@ -30,17 +31,19 @@ namespace MazeGame
             winWidth = screenWidth;
             time = gameTime;
             InitializeComponent();
-
+            score = 100 * 10 / time;
             this.numTime.Inlines.Clear();
             this.numTime.Inlines.Add(new Bold(new Run(time.ToString())));
+            this.numScores.Inlines.Clear();
+            this.numScores.Inlines.Add(new Bold(new Run(score.ToString())));
             this.Height = winHeight;
             this.Width = winWidth;
         }
 
         private void menuClicked(object sender, EventArgs e)
         {
-            numScores.Inlines.Clear();
-            numScores.Inlines.Add(new Bold(new Run("updated")));
+            //numScores.Inlines.Clear();
+            numScores.Inlines.Add(new Bold(new Run(" m_clicked")));
             //MessageBox.Show("Button Clicked");
             //ScoreWindow window = new ScoreWindow();
             //this.Visibility = Visibility.Collapsed;
