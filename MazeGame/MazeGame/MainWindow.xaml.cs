@@ -45,6 +45,11 @@ namespace MazeGame
 
             KinectSensor.KinectSensors.StatusChanged += new EventHandler<StatusChangedEventArgs>(KinectSensors_StatusChanged);
             sensor = (from s in KinectSensor.KinectSensors.ToArray() where s.Status == KinectStatus.Connected select s).FirstOrDefault();
+            if (sensor != null)
+            {
+                initializeKinect(sensor);
+            }
+
 
             playerSkeleton = new Skeleton[2];
             handPosition = new SkeletonPoint[2];
