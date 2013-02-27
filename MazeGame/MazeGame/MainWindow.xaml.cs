@@ -14,6 +14,11 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using Microsoft.Kinect;
+using Microsoft.Speech.AudioFormat;
+using Microsoft.Speech.Internal;
+using Microsoft.Speech.Recognition;
+using Microsoft.Speech.Synthesis;
+using Microsoft.Speech.Text;
 
 namespace MazeGame
 {
@@ -36,6 +41,8 @@ namespace MazeGame
         Point nextPosition;
         double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
         double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
+        SpeechRecognitionEngine speechRec;
+        
 
         public MainWindow()
         {
@@ -124,6 +131,8 @@ namespace MazeGame
 
             inSensor.SkeletonFrameReady += new EventHandler<SkeletonFrameReadyEventArgs>(sensor_SkeletonFrameReady);
             inSensor.Start();
+
+            recognizeSpeech();
         }
 
         void sensor_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
@@ -378,6 +387,82 @@ namespace MazeGame
         private bool isGoalReached(Ellipse ball)
         {
             return isObjOver(ball, goal);
+        }
+
+        private static RecognizerInfo GetKinectRecognizer()
+        {
+            Func<RecognizerInfo, bool> matchingFunc = r =>
+            {
+                string value;
+                r.AdditionalInfo.TryGetValue("Kinect", out value);
+                return "True".Equals(value, StringComparison.InvariantCultureIgnoreCase) && "en-US".Equals(r.Culture.Name, StringComparison.InvariantCultureIgnoreCase);
+            };
+            return SpeechRecognitionEngine.InstalledRecognizers().Where(matchingFunc).FirstOrDefault();
+        }
+
+        private void recognizeSpeech()
+        {
+            speechRec = CreateSpeechRecognizer();
+            speechRec.SetInputToAudioStream(sensor.AudioSource.Start(), new SpeechAudioFormatInfo(EncodingFormat.Pcm, 16000, 16, 1, 32000, 2, null));
+            speechRec.RecognizeAsync(RecognizeMode.Multiple);
+        }
+
+        private SpeechRecognitionEngine CreateSpeechRecognizer()
+        {
+            RecognizerInfo ri = GetKinectRecognizer();
+
+            SpeechRecognitionEngine speechRec;
+
+            speechRec = new SpeechRecognitionEngine(ri.Id);
+           
+            var grammar = new Choices();
+            grammar.Add("player one select");
+            grammar.Add("player two select");
+            grammar.Add("pause");
+
+            var gb = new GrammarBuilder { Culture = ri.Culture };
+            gb.Append(grammar);
+
+            // Create the actual Grammar instance, and then load it into the speech recognizer.
+            var g = new Grammar(gb);
+
+            speechRec.LoadGrammar(g);
+            speechRec.SpeechRecognized += phraseRecognized;
+
+            return speechRec;
+        }
+
+        private void phraseRecognized (object sender, SpeechRecognizedEventArgs e)
+        {
+            //required confidence is relatively high, may want to reduce to the .30 range in quiet rooms
+            if (e.Result.Confidence < 0.5)
+            {
+                updateSpeechInfo("Unsure what was said, please repeat");
+                return;
+            }
+
+            switch (e.Result.Text.ToLower())
+            {
+                case "player one select":
+                    isSelected[0] = !isSelected[0];
+                    break;
+                case "player two select":
+                    isSelected[1] = !isSelected[1];
+                    break;
+                case "pause":
+                    //pause the game
+                    break;
+                default:
+                    //do we need to handle unrecognized words?
+                    break;
+            }
+
+            updateSpeechInfo("Recognized: " + e.Result.Text + " " + e.Result.Confidence);
+        }
+
+        private void updateSpeechInfo (string instructions)
+        {
+            Dispatcher.BeginInvoke(new Action(() => { speechInfo.Text = instructions; }), DispatcherPriority.Normal);
         }
     }
 }
