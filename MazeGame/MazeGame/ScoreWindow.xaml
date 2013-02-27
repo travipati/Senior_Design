@@ -14,7 +14,7 @@
         <TextBlock x:Name="Scores" Canvas.Left="48" Canvas.Top="77" RenderTransformOrigin="0.253,0.577" Height="28" Width="152">Hello World!</TextBlock>
         <TextBlock x:Name="numScores" Canvas.Left="315" Canvas.Top="77" RenderTransformOrigin="0.253,0.577" Height="28" Width="152">12</TextBlock>
         <TextBlock x:Name="Time" Canvas.Left="48" Canvas.Top="129" RenderTransformOrigin="0.253,0.577" Height="28" Width="152">Time Taken:</TextBlock>
-        <TextBlock x:Name="numTime" Canvas.Left="315" Canvas.Top="129" RenderTransformOrigin="0.253,0.577" Height="28" Width="152">23</TextBlock>
+        <TextBlock x:Name="numTime" Canvas.Left="315" Canvas.Top="129" RenderTransformOrigin="0.253,0.577" Height="28" Width="152"></TextBlock>
     </Canvas>
 </Window>
 

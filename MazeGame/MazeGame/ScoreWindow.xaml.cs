@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace MazeGame
 {
@@ -19,20 +20,34 @@ namespace MazeGame
     /// </summary>
     public partial class ScoreWindow : Window
     {
+        double winHeight;
+        double winWidth;
+        int time;
+        int score;
 
-        public ScoreWindow()
+        public ScoreWindow(double screenHeight, double screenWidth, int gameTime)
         {
+            winHeight = screenHeight;
+            winWidth = screenWidth;
+            time = gameTime;
             InitializeComponent();
+            score = 100 * 10 / time;
+            this.numTime.Inlines.Clear();
+            this.numTime.Inlines.Add(new Bold(new Run(time.ToString())));
+            this.numScores.Inlines.Clear();
+            this.numScores.Inlines.Add(new Bold(new Run(score.ToString())));
+            this.Height = winHeight;
+            this.Width = winWidth;
         }
 
         private void menuClicked(object sender, EventArgs e)
         {
-            numScores.Inlines.Clear();
-            numScores.Inlines.Add(new Bold(new Run("updated")));
-            MessageBox.Show("Button Clicked");
-            ScoreWindow window = new ScoreWindow();
-            this.Visibility = Visibility.Collapsed;
-            window.Show();
+            //numScores.Inlines.Clear();
+            numScores.Inlines.Add(new Bold(new Run(" m_clicked")));
+            //MessageBox.Show("Button Clicked");
+            //ScoreWindow window = new ScoreWindow();
+            //this.Visibility = Visibility.Collapsed;
+            //window.Show();
         }
 
         private void nextLevelClicked(object sender, EventArgs e)
