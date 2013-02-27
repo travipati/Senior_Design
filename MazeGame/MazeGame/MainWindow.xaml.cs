@@ -15,10 +15,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using Microsoft.Kinect;
 using Microsoft.Speech.AudioFormat;
-using Microsoft.Speech.Internal;
 using Microsoft.Speech.Recognition;
-using Microsoft.Speech.Synthesis;
-using Microsoft.Speech.Text;
 
 namespace MazeGame
 {
@@ -132,7 +129,7 @@ namespace MazeGame
             inSensor.SkeletonFrameReady += new EventHandler<SkeletonFrameReadyEventArgs>(sensor_SkeletonFrameReady);
             inSensor.Start();
 
-            recognizeSpeech();
+            speechRec = CreateSpeechRecognizer();
         }
 
         void sensor_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
@@ -389,21 +386,10 @@ namespace MazeGame
             return isObjOver(ball, goal);
         }
 
-        private static RecognizerInfo GetKinectRecognizer()
-        {
-            Func<RecognizerInfo, bool> matchingFunc = r =>
-            {
-                string value;
-                r.AdditionalInfo.TryGetValue("Kinect", out value);
-                return "True".Equals(value, StringComparison.InvariantCultureIgnoreCase) && "en-US".Equals(r.Culture.Name, StringComparison.InvariantCultureIgnoreCase);
-            };
-            return SpeechRecognitionEngine.InstalledRecognizers().Where(matchingFunc).FirstOrDefault();
-        }
-
         private void recognizeSpeech()
         {
-            speechRec = CreateSpeechRecognizer();
-            speechRec.SetInputToAudioStream(sensor.AudioSource.Start(), new SpeechAudioFormatInfo(EncodingFormat.Pcm, 16000, 16, 1, 32000, 2, null));
+            speechRec.SetInputToAudioStream(
+                sensor.AudioSource.Start(), new SpeechAudioFormatInfo(EncodingFormat.Pcm, 16000, 16, 1, 32000, 2, null));
             speechRec.RecognizeAsync(RecognizeMode.Multiple);
         }
 
@@ -430,6 +416,17 @@ namespace MazeGame
             speechRec.SpeechRecognized += phraseRecognized;
 
             return speechRec;
+        }
+
+        private static RecognizerInfo GetKinectRecognizer()
+        {
+            Func<RecognizerInfo, bool> matchingFunc = r =>
+            {
+                string value;
+                r.AdditionalInfo.TryGetValue("Kinect", out value);
+                return "True".Equals(value, StringComparison.InvariantCultureIgnoreCase) && "en-US".Equals(r.Culture.Name, StringComparison.InvariantCultureIgnoreCase);
+            };
+            return SpeechRecognitionEngine.InstalledRecognizers().Where(matchingFunc).FirstOrDefault();
         }
 
         private void phraseRecognized (object sender, SpeechRecognizedEventArgs e)
