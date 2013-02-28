@@ -123,6 +123,8 @@ namespace MazeGame
 
         private void initializeKinect(KinectSensor inSensor)
         {
+            this.WindowState = System.Windows.WindowState.Maximized;
+
             inSensor.SkeletonStream.Enable(new TransformSmoothParameters()
             {
                 Smoothing = 0.5f,
