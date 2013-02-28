@@ -30,6 +30,7 @@ namespace MazeGame
         Skeleton[] playerSkeleton;
         SkeletonPoint[] handPosition;
         Rectangle[] walls;
+        bool[] selectStated;
         bool[] isSelected;
         bool[] isMouseSelected;
         bool isOverLappedPrevCheck;
@@ -71,6 +72,10 @@ namespace MazeGame
             walls[9] = wall9;
 
             isOverLappedPrevCheck = false;
+
+            selectStated = new bool[2];
+            selectStated[0] = false;
+            selectStated[1] = false;
 
             isSelected = new bool[2];
             isSelected[0] = false;
@@ -129,7 +134,9 @@ namespace MazeGame
             inSensor.SkeletonFrameReady += new EventHandler<SkeletonFrameReadyEventArgs>(sensor_SkeletonFrameReady);
             inSensor.Start();
 
+
             speechRec = CreateSpeechRecognizer();
+            recognizeSpeech();
         }
 
         void sensor_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
@@ -164,22 +171,38 @@ namespace MazeGame
                 if (isObjOver(p1hand, p1ball))
                 {
                     //                    isSelected[0] = !isSelected[0];
-                    isSelected[0] = true;
+                    if (selectStated[0])
+                    {
+                        isSelected[0] = true;
+                    }
                     if (isSelected[0])
+                    {
                         p1hand.Visibility = Visibility.Collapsed;
+                    }
                     else
+                    {
                         p1hand.Visibility = Visibility.Visible;
+                    }
                 }
                 //                if (isHandSelect(1) && isObjOver(p2hand, p2ball))
                 if (isObjOver(p2hand, p2ball))
                 {
                     //                    isSelected[1] = !isSelected[1];
-                    isSelected[1] = true;
+                    if (selectStated[1])
+                    {
+                        isSelected[1] = true;
+                    }
                     if (isSelected[1])
+                    {
                         p2hand.Visibility = Visibility.Collapsed;
+                    }
                     else
+                    {
                         p2hand.Visibility = Visibility.Visible;
+                    }
                 }
+                selectStated[0] = false;
+                selectStated[1] = false;
 
                 if (isSelected[0] || (isSelected[1]))
                     timer.Start();
@@ -323,7 +346,7 @@ namespace MazeGame
             if (isMouseSelected[0] || (isMouseSelected[1]))
                 timer.Start();
 
-            base.OnMouseUp(e);
+		    base.OnMouseUp(e);
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
@@ -388,6 +411,7 @@ namespace MazeGame
 
         private void recognizeSpeech()
         {
+            updateSpeechInfo("Say an instruction");
             speechRec.SetInputToAudioStream(
                 sensor.AudioSource.Start(), new SpeechAudioFormatInfo(EncodingFormat.Pcm, 16000, 16, 1, 32000, 2, null));
             speechRec.RecognizeAsync(RecognizeMode.Multiple);
@@ -397,9 +421,9 @@ namespace MazeGame
         {
             RecognizerInfo ri = GetKinectRecognizer();
 
-            SpeechRecognitionEngine speechRec;
+            SpeechRecognitionEngine tempSpeechRec;
 
-            speechRec = new SpeechRecognitionEngine(ri.Id);
+            tempSpeechRec = new SpeechRecognitionEngine(ri.Id);
            
             var grammar = new Choices();
             grammar.Add("player one select");
@@ -412,10 +436,10 @@ namespace MazeGame
             // Create the actual Grammar instance, and then load it into the speech recognizer.
             var g = new Grammar(gb);
 
-            speechRec.LoadGrammar(g);
-            speechRec.SpeechRecognized += phraseRecognized;
+            tempSpeechRec.LoadGrammar(g);
+            tempSpeechRec.SpeechRecognized += phraseRecognized;
 
-            return speechRec;
+            return tempSpeechRec;
         }
 
         private static RecognizerInfo GetKinectRecognizer()
@@ -441,10 +465,24 @@ namespace MazeGame
             switch (e.Result.Text.ToLower())
             {
                 case "player one select":
-                    isSelected[0] = !isSelected[0];
+                    if (isSelected[0])
+                    {
+                        isSelected[0] = false;
+                    }
+                    else
+                    {
+                        selectStated[0] = true;
+                    }
                     break;
                 case "player two select":
-                    isSelected[1] = !isSelected[1];
+                    if (isSelected[1])
+                    {
+                        isSelected[1] = false;
+                    }
+                    else
+                    {
+                        selectStated[1] = true;
+                    }
                     break;
                 case "pause":
                     //pause the game
