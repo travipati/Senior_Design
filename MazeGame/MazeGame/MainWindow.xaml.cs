@@ -507,7 +507,7 @@ namespace MazeGame
                     break;
             }
 
-            updateSpeechInfo("Recognized: " + e.Result.Text + " " + e.Result.Confidence);
+            updateSpeechInfo("Recognized: \"" + e.Result.Text + "\" " + e.Result.Confidence);
         }
 
         private void updateSpeechInfo (string instructions)
