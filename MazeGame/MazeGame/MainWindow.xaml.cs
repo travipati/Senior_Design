@@ -442,6 +442,7 @@ namespace MazeGame
             grammar.Add("player one select");
             grammar.Add("player two select");
             grammar.Add("pause");
+            grammar.Add("restart");
 
             var gb = new GrammarBuilder { Culture = ri.Culture };
             gb.Append(grammar);
@@ -501,6 +502,11 @@ namespace MazeGame
                     break;
                 case "pause":
                     //pause the game
+                    break;
+                case "restart":
+                    //this.Visibility = Visibility.Collapsed;
+                    //MainWindow window = new MainWindow();
+                    //window.Show();
                     break;
                 default:
                     //do we need to handle unrecognized words?
