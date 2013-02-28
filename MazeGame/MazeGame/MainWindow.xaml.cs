@@ -32,6 +32,7 @@ namespace MazeGame
         bool[] isMouseSelected;
         bool isOverLappedPrevCheck;
         bool[] isRightPrim;
+        bool scoreMenuOpened;
         int gameTime;
         Point nextPosition;
         double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
@@ -42,7 +43,7 @@ namespace MazeGame
             InitializeComponent();
             this.Height = screenHeight;
             this.Width = screenWidth;
-
+            scoreMenuOpened = false;
             KinectSensor.KinectSensors.StatusChanged += new EventHandler<StatusChangedEventArgs>(KinectSensors_StatusChanged);
             sensor = (from s in KinectSensor.KinectSensors.ToArray() where s.Status == KinectStatus.Connected select s).FirstOrDefault();
             if (sensor != null)
@@ -349,9 +350,14 @@ namespace MazeGame
             {
                 goal.Fill = new SolidColorBrush(Colors.Green);
                 timer.Stop();
-                ScoreWindow scoreWindow = new ScoreWindow(screenHeight,screenWidth,gameTime);
-                this.Visibility = Visibility.Collapsed;
-                scoreWindow.Show();
+                ScoreWindow scoreWindow;
+                if(!scoreMenuOpened)
+                {
+                    scoreMenuOpened = true;
+                    scoreWindow = new ScoreWindow(screenHeight,screenWidth,gameTime);
+                    this.Visibility = Visibility.Collapsed;
+                    scoreWindow.Show();
+                }
             }
             else
                 goal.Fill = new SolidColorBrush(Colors.Red);
