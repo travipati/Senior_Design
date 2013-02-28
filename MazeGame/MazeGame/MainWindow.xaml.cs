@@ -37,6 +37,7 @@ namespace MazeGame
         bool[] isRightPrim;
         bool scoreMenuOpened;
         int gameTime;
+        int speechTime;
         Point nextPosition;
         double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
         double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
@@ -137,7 +138,6 @@ namespace MazeGame
             inSensor.SkeletonFrameReady += new EventHandler<SkeletonFrameReadyEventArgs>(sensor_SkeletonFrameReady);
             inSensor.Start();
 
-
             speechRec = CreateSpeechRecognizer();
             recognizeSpeech();
         }
@@ -214,6 +214,11 @@ namespace MazeGame
                     moveBall(p1ball, handPosition[0].X, handPosition[0].Y);
                 if (isSelected[1])
                     moveBall(p2ball, handPosition[1].X, handPosition[1].Y);
+
+                if (gameTime >= speechTime + 2)
+                {
+                    updateSpeechInfo("Say and instruction");
+                }
             }
         }
 
@@ -469,6 +474,8 @@ namespace MazeGame
                 updateSpeechInfo("Unsure what was said, please repeat");
                 return;
             }
+
+            speechTime = gameTime;
 
             switch (e.Result.Text.ToLower())
             {
