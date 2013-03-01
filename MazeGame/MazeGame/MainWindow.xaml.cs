@@ -217,7 +217,7 @@ namespace MazeGame
 
                 if (gameTime >= speechTime + 2)
                 {
-                    updateSpeechInfo("Say and instruction");
+                    updateSpeechInfo("Say an instruction");
                 }
             }
         }
@@ -504,9 +504,9 @@ namespace MazeGame
                     //pause the game
                     break;
                 case "restart":
-                    //this.Visibility = Visibility.Collapsed;
-                    //MainWindow window = new MainWindow();
-                    //window.Show();
+                    /*this.Visibility = Visibility.Collapsed;
+                    MainWindow window = new MainWindow();
+                    window.Show();*/
                     break;
                 default:
                     //do we need to handle unrecognized words?
