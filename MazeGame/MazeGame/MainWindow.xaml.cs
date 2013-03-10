@@ -17,6 +17,7 @@ using Microsoft.Kinect;
 using Microsoft.Speech.AudioFormat;
 using Microsoft.Speech.Recognition;
 
+
 namespace MazeGame
 {
     /// <summary>
@@ -42,6 +43,9 @@ namespace MazeGame
         double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
         double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
         SpeechRecognitionEngine speechRec;
+
+
+
         
 
         public MainWindow()
@@ -49,6 +53,9 @@ namespace MazeGame
             InitializeComponent();
             this.Height = screenHeight;
             this.Width = screenWidth;
+            WindowState = System.Windows.WindowState.Maximized;
+
+
             scoreMenuOpened = false;
             KinectSensor.KinectSensors.StatusChanged += new EventHandler<StatusChangedEventArgs>(KinectSensors_StatusChanged);
             sensor = (from s in KinectSensor.KinectSensors.ToArray() where s.Status == KinectStatus.Connected select s).FirstOrDefault();
@@ -97,6 +104,8 @@ namespace MazeGame
 
             time.Text = "Time: " + gameTime + " sec";
         }
+
+
 
         private void KinectSensors_StatusChanged(object sender, StatusChangedEventArgs e)
         {

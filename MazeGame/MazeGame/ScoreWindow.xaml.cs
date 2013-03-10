@@ -31,6 +31,7 @@ namespace MazeGame
             winWidth = screenWidth;
             time = gameTime;
             InitializeComponent();
+            WindowState = System.Windows.WindowState.Maximized;
             score = 100 * 10 / time;
             this.numTime.Inlines.Clear();
             this.numTime.Inlines.Add(new Bold(new Run(time.ToString())));
@@ -43,11 +44,11 @@ namespace MazeGame
         private void menuClicked(object sender, EventArgs e)
         {
             //numScores.Inlines.Clear();
-            numScores.Inlines.Add(new Bold(new Run(" m_clicked")));
+            //numScores.Inlines.Add(new Bold(new Run(" m_clicked")));
             //MessageBox.Show("Button Clicked");
-            //ScoreWindow window = new ScoreWindow();
-            //this.Visibility = Visibility.Collapsed;
-            //window.Show();
+            MenuWindow window = new MenuWindow();
+            this.Visibility = Visibility.Collapsed;
+            window.Show();
         }
 
         private void nextLevelClicked(object sender, EventArgs e)
