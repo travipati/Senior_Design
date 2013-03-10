@@ -23,7 +23,7 @@ namespace MazeGame
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Level_0 : Window
     {
         DispatcherTimer timer;
         KinectSensor sensor;
@@ -46,9 +46,9 @@ namespace MazeGame
 
 
 
-        
 
-        public MainWindow()
+
+        public Level_0()
         {
             InitializeComponent();
             this.Height = screenHeight;

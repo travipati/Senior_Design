@@ -46,7 +46,7 @@ namespace MazeGame
             //numScores.Inlines.Clear();
             //numScores.Inlines.Add(new Bold(new Run(" m_clicked")));
             //MessageBox.Show("Button Clicked");
-            MenuWindow window = new MenuWindow();
+            MainWindow window = new MainWindow();
             this.Visibility = Visibility.Collapsed;
             window.Show();
         }
@@ -54,7 +54,7 @@ namespace MazeGame
         private void nextLevelClicked(object sender, EventArgs e)
         {
 
-            MainWindow window = new MainWindow();
+            Level_0 window = new Level_0();
             this.Visibility = Visibility.Collapsed;
             window.Show();
         }

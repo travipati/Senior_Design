@@ -17,7 +17,7 @@ using System.Data;
 using System.Drawing;
 using System.Net;
 using System.IO;
-using System.Windows.Forms;
+//using System.Windows.Forms;
 
 
 
@@ -26,11 +26,11 @@ namespace MazeGame
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MenuWindow : Window
+    public partial class MainWindow : Window
     {
-       
 
-        public MenuWindow()
+
+        public MainWindow()
         {
             //Download Image
 
@@ -43,38 +43,35 @@ namespace MazeGame
             //mainMenu.Source = newImage;
         }
 
-        private void myButtonClicked(object sender, EventArgs e)
+        private void Solo_Click(object sender, RoutedEventArgs e)
         {
-            //numScores.Inlines.Clear();
-            //numScores.Inlines.Add(new Bold(new Run("updated")));
-            System.Windows.MessageBox.Show("Button Clicked");
-            MenuWindow window = new MenuWindow();
+            Level_0 window = new Level_0();
+            this.Visibility = Visibility.Collapsed;
+            window.Show();
+        }
+
+        private void COOP_Click(object sender, RoutedEventArgs e)
+        {
+            Level_0 window = new Level_0();
             this.Visibility = Visibility.Collapsed;
             window.Show();
         }
 
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
-
+            //numScores.Inlines.Clear();
+            //numScores.Inlines.Add(new Bold(new Run("updated")));
+            System.Windows.MessageBox.Show("Settings Button Clicked");
+            MainWindow window = new MainWindow();
+            this.Visibility = Visibility.Collapsed;
+            window.Show();
         }
 
-        private void COOP_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Solo_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
-
+            Environment.Exit(0);
         }
-
-
-
 
 
     }
