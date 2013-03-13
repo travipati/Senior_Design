@@ -1,0 +1,20 @@
+﻿<Window x:Class="MazeGame.ScoreWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ScoreWindow" Height="350" Width="525">
+    <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+        <Button x:Name="mainMenu" Width="152" Height="35" Canvas.Left="48" Canvas.Top="212" FontWeight="bold" 
+                Background="LightBlue" BorderBrush="DarkBlue" Foreground="DarkBlue" Click="menuClicked" >
+            <!--we can use image as content as well--> MainMenu
+        </Button>
+        <Button x:Name="nextLevel" Width="152" Height="35" Canvas.Left="315" Canvas.Top="212" FontWeight="bold" 
+                Background="LightBlue" BorderBrush="DarkBlue" Foreground="DarkBlue" Click="nextLevelClicked" >
+            Next Level
+        </Button>
+        <TextBlock x:Name="Scores" Canvas.Left="48" Canvas.Top="77" RenderTransformOrigin="0.253,0.577" Height="28" Width="152">Hello World!</TextBlock>
+        <TextBlock x:Name="numScores" Canvas.Left="315" Canvas.Top="77" RenderTransformOrigin="0.253,0.577" Height="28" Width="152">12</TextBlock>
+        <TextBlock x:Name="Time" Canvas.Left="48" Canvas.Top="129" RenderTransformOrigin="0.253,0.577" Height="28" Width="152">Time Taken:</TextBlock>
+        <TextBlock x:Name="numTime" Canvas.Left="315" Canvas.Top="129" RenderTransformOrigin="0.253,0.577" Height="28" Width="152">23</TextBlock>
+    </Canvas>
+</Window>
+

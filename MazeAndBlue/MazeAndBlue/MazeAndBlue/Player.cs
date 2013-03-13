@@ -110,6 +110,11 @@ namespace MazeAndBlue
             ball.position = pos;
         }
 
+        public bool overlaps(Rectangle rect)
+        {
+            return ball.overlaps(rect);
+        }
+
         public bool reachedGoal(Rectangle goal)
         {
             return ball.overlaps(goal);
