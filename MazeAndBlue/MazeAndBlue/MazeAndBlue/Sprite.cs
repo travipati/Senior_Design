@@ -12,7 +12,7 @@ namespace MazeAndBlue
 
         public Sprite() : this(new Vector2(0, 0)) { }
 
-        public Sprite(Vector2 pos) : this(pos, 40, 40) { }
+        public Sprite(Vector2 pos) : this(pos, Program.game.sx(40), Program.game.sy(40)) { }
 
         public Sprite(Vector2 pos, int w, int h)
         {

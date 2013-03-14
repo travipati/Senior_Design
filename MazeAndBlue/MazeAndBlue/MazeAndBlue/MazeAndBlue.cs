@@ -42,14 +42,17 @@ namespace MazeAndBlue
 
         public MazeAndBlue()
         {
+            // Whenever hard-coding screen coordinates or widths/height, the sx/sy functions must be used
+            // Optimal screen resolution: 1366 x 768 (no scaling will occur at this resolution)
+
             var form = (System.Windows.Forms.Form)System.Windows.Forms.Form.FromHandle(Window.Handle);
             form.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            graphics.PreferredBackBufferWidth = 1024;
-            graphics.PreferredBackBufferHeight = 576;
+            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width - 8;
+            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - 30;
             level = 0;
             prevMouseState = Mouse.GetState();
         }
@@ -126,9 +129,9 @@ namespace MazeAndBlue
             state = GameState.GAME;
             maze = new Maze(level);
             maze.loadContent(GraphicsDevice);
-            player1 = new Player(maze.p1StartPosition, new Vector2(108, 0), -0.5f, 0f, Color.Blue, 0);
+            player1 = new Player(maze.p1StartPosition, new Vector2(0, 0), -0.5f, 0f, Color.Blue, 0);
             player1.loadContent(Content);
-            player2 = new Player(maze.p2StartPosition, new Vector2(750, 0), 0f, 0.5f, Color.Yellow, 1);
+            player2 = new Player(maze.p2StartPosition, new Vector2(0, 0), 0f, 0.5f, Color.Yellow, 1);
             player2.loadContent(Content);
         }
 
@@ -157,5 +160,14 @@ namespace MazeAndBlue
             }
         }
 
+        public int sx(int x)
+        {
+            return x * screenWidth / 1358;
+        }
+
+        public int sy(int y)
+        {
+            return y * screenHeight / 738;
+        }
     }
 }

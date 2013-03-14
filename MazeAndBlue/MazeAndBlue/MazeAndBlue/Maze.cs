@@ -185,7 +185,7 @@ namespace MazeAndBlue
             {
                 if (words.Length != 3)
                     return false;
-                vec = new Vector2(Convert.ToSingle(words[1]), Convert.ToSingle(words[2]));
+                vec = new Vector2(Program.game.sx((int)Convert.ToSingle(words[1])), Program.game.sy((int)(Convert.ToSingle(words[2]))));
 
                 if (words[0] == "1")
                     p1StartPos = vec;
@@ -196,8 +196,8 @@ namespace MazeAndBlue
             {
                 if (words.Length != 5)
                     return false;
-                rect = new Rectangle(Convert.ToInt32(words[1]), Convert.ToInt32(words[2]),
-                                        Convert.ToInt32(words[3]), Convert.ToInt32(words[4]));
+                rect = new Rectangle(Program.game.sx(Convert.ToInt32(words[1])), Program.game.sy(Convert.ToInt32(words[2])),
+                                        Program.game.sx(Convert.ToInt32(words[3])), Program.game.sy(Convert.ToInt32(words[4])));
 
                 if (words[0] == "goal")
                     goal = rect;
