@@ -82,6 +82,7 @@
     <Compile Include="Button.cs" />
     <Compile Include="keyboardSelect.cs" />
     <Compile Include="KinectVoice.cs" />
+    <Compile Include="DoorSwitch.cs" />
     <Compile Include="Kinect.cs" />
     <Compile Include="Maze.cs" />
     <Compile Include="Player.cs" />

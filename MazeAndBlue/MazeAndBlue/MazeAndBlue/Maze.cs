@@ -9,6 +9,7 @@ namespace MazeAndBlue
         Color goalColor;
         Rectangle goal;
         List<Rectangle> walls;
+        List<DoorSwitch> switchs;
         Texture2D wallTexture, goalTexture;
         Timer timer;
    
@@ -28,10 +29,19 @@ namespace MazeAndBlue
             walls.Add(new Rectangle(500, 170, 310, 15));
             walls.Add(new Rectangle(500, 170, 15, 205));
             walls.Add(new Rectangle(650, 320, 15, 205));
+            switchs = new List<DoorSwitch>();
+            List<Rectangle> doors = new List<Rectangle>();
+            doors.Add(new Rectangle(215, 200, 135, 15));
+            switchs.Add(new DoorSwitch(new Rectangle(242, 92, 50, 50), doors, Color.Orange, ref walls));
+            doors = new List<Rectangle>();
+            doors.Add(new Rectangle(500, 65, 15, 105));
+            switchs.Add(new DoorSwitch(new Rectangle(92, 448, 50, 50), doors, Color.Purple, ref walls));
         }
 
         public void loadContent(GraphicsDevice graphicsDevice)
         {
+            foreach (DoorSwitch dswitch in switchs)
+                dswitch.loadContent(graphicsDevice);
             wallTexture = new Texture2D(graphicsDevice, 1, 1);
             wallTexture.SetData<Color>(new Color[] { Color.White });
             goalTexture = new Texture2D(graphicsDevice, 1, 1);
@@ -48,7 +58,9 @@ namespace MazeAndBlue
 
         public void draw(SpriteBatch spriteBatch)
         {
-            draw(spriteBatch, Color.Black);
+            draw(spriteBatch, Color.Black); 
+            foreach (DoorSwitch dswitch in switchs)
+                dswitch.draw(spriteBatch);
         }
 
         private void detectWall(Sprite sprite, Rectangle wall, ref Vector2 nextPosition)
@@ -107,6 +119,9 @@ namespace MazeAndBlue
 
         public void update(Player player1, Player player2)
         {
+            foreach (DoorSwitch dswitch in switchs)
+                dswitch.update(player1, player2, ref walls);
+
             if (player1.selected || player2.selected || player1.mouseSelected || player2.mouseSelected)
                 timer.start();
 
