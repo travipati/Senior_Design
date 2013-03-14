@@ -71,7 +71,7 @@ namespace MazeAndBlue
         public void draw(SpriteBatch spriteBatch, Color color)
         {
             foreach(Rectangle rect in walls)
-            spriteBatch.Draw(wallTexture, rect, color);
+                spriteBatch.Draw(wallTexture, rect, color);
             foreach (DoorSwitch dswitch in switchs)
                 dswitch.draw(spriteBatch);
             spriteBatch.Draw(goalTexture, goal, goalColor);
@@ -204,7 +204,7 @@ namespace MazeAndBlue
                 else if (words[0] == "wall")
                     walls.Add(rect);
                 else if (words[0] == "switch")
-                    switchs.Add(new DoorSwitch(rect, Color.Orange)); // TODO make color random
+                    switchs.Add(new DoorSwitch(rect));
                 else if (words[0] == "door")
                 {
                     if (switchs.Count == 0)
