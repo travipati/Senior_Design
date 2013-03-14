@@ -59,12 +59,12 @@ namespace MazeAndBlue
 
             base.Initialize();
 
+            VC = new voiceControl();
             if (kinect.getSensorReference() != null)
             {
-                VC = new voiceControl();
                 VC.recognizeSpeech(kinect.getSensorReference());
-                keyboard = new keyboardSelect(ref(VC.states));
             }
+            keyboard = new keyboardSelect(ref(VC.states));
         }
 
         protected override void LoadContent()
