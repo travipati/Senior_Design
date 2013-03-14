@@ -16,7 +16,7 @@ namespace MazeAndBlue
         Texture2D switchTexture;
         Texture2D doorTexture;
 
-        public DoorSwitch(Rectangle rec, List<Rectangle> dwalls, Color col, ref List<Rectangle> walls)
+        /*public DoorSwitch(Rectangle rec, List<Rectangle> dwalls, Color col, ref List<Rectangle> walls)
         {
             dswitch = rec;
             doors = dwalls;
@@ -24,6 +24,19 @@ namespace MazeAndBlue
             doorColor = col;
             foreach (Rectangle door in dwalls)
                 walls.Add(door);
+        }*/
+
+        public DoorSwitch(Rectangle rec, Color col)
+        {
+            dswitch = rec;
+            color = col;
+            doorColor = col;
+            doors = new List<Rectangle>();
+        }
+
+        public void addDoor(Rectangle door)
+        {
+            doors.Add(door);
         }
 
         public void loadContent(GraphicsDevice graphicsDevice)

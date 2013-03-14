@@ -125,11 +125,6 @@ namespace MazeAndBlue
             return ball.overlaps(rect);
         }
 
-        public bool reachedGoal(Rectangle goal)
-        {
-            return ball.overlaps(goal);
-        }
-
         public void onLeftClick(Point point)
         {
             if (ball.contains(point))

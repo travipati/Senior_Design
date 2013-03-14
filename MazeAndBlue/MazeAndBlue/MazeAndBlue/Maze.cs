@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -12,30 +14,48 @@ namespace MazeAndBlue
         List<DoorSwitch> switchs;
         Texture2D wallTexture, goalTexture;
         Timer timer;
-   
-        public Maze()
+        Vector2 p1StartPos, p2StartPos;
+        public Vector2 p1StartPosition { get { return p1StartPos; } }
+        public Vector2 p2StartPosition { get { return p2StartPos; } }
+
+        public Maze(int mazeNum)
         {
-            timer = new Timer();
             goalColor = Color.Red;
-            goal = new Rectangle(825, 65, 135, 105);
+            timer = new Timer();
+
             walls = new List<Rectangle>();
-            walls.Add(new Rectangle(50, 50, 925, 15));
-            walls.Add(new Rectangle(50, 525, 925, 15));
-            walls.Add(new Rectangle(50, 50, 15, 475));
-            walls.Add(new Rectangle(960, 50, 15, 475));
-            walls.Add(new Rectangle(200, 50, 15, 325));
-            walls.Add(new Rectangle(350, 200, 15, 325));
-            walls.Add(new Rectangle(810, 50, 15, 325));
-            walls.Add(new Rectangle(500, 170, 310, 15));
-            walls.Add(new Rectangle(500, 170, 15, 205));
-            walls.Add(new Rectangle(650, 320, 15, 205));
+            goal = new Rectangle();
+            p1StartPos = new Vector2();
+            p2StartPos = new Vector2();
             switchs = new List<DoorSwitch>();
-            List<Rectangle> doors = new List<Rectangle>();
-            doors.Add(new Rectangle(215, 200, 135, 15));
-            switchs.Add(new DoorSwitch(new Rectangle(242, 92, 50, 50), doors, Color.Orange, ref walls));
-            doors = new List<Rectangle>();
-            doors.Add(new Rectangle(500, 65, 15, 105));
-            switchs.Add(new DoorSwitch(new Rectangle(92, 448, 50, 50), doors, Color.Purple, ref walls));
+
+            readFile("Mazes\\" + mazeNum + ".maze");
+
+/*          // 12 x 6 grid
+            p1StartPos = new Vector2(52, 68);
+            p2StartPos = new Vector2(52, 468);
+            goal = new Rectangle(917, 53, 70, 70);
+            walls.Add(new Rectangle(27, 43, 10, 490));  // left
+            walls.Add(new Rectangle(107, 43, 10, 490));
+            walls.Add(new Rectangle(187, 43, 10, 490));
+            walls.Add(new Rectangle(267, 43, 10, 490));
+            walls.Add(new Rectangle(347, 43, 10, 490));
+            walls.Add(new Rectangle(427, 43, 10, 490));
+            walls.Add(new Rectangle(507, 43, 10, 490));
+            walls.Add(new Rectangle(587, 43, 10, 490));
+            walls.Add(new Rectangle(667, 43, 10, 490));
+            walls.Add(new Rectangle(747, 43, 10, 490));
+            walls.Add(new Rectangle(827, 43, 10, 490));
+            walls.Add(new Rectangle(907, 43, 10, 490));
+            walls.Add(new Rectangle(987, 43, 10, 490)); // right
+            walls.Add(new Rectangle(27, 43, 970, 10));  // top
+            walls.Add(new Rectangle(27, 123, 970, 10));
+            walls.Add(new Rectangle(27, 203, 970, 10));
+            walls.Add(new Rectangle(27, 283, 970, 10));
+            walls.Add(new Rectangle(27, 363, 970, 10));
+            walls.Add(new Rectangle(27, 443, 970, 10));
+            walls.Add(new Rectangle(27, 523, 970, 10)); // bottom
+*/
         }
 
         public void loadContent(GraphicsDevice graphicsDevice)
@@ -52,6 +72,8 @@ namespace MazeAndBlue
         {
             foreach(Rectangle rect in walls)
             spriteBatch.Draw(wallTexture, rect, color);
+            foreach (DoorSwitch dswitch in switchs)
+                dswitch.draw(spriteBatch);
             spriteBatch.Draw(goalTexture, goal, goalColor);
             timer.draw(spriteBatch);
         }
@@ -59,8 +81,6 @@ namespace MazeAndBlue
         public void draw(SpriteBatch spriteBatch)
         {
             draw(spriteBatch, Color.Black); 
-            foreach (DoorSwitch dswitch in switchs)
-                dswitch.draw(spriteBatch);
         }
 
         private void detectWall(Sprite sprite, Rectangle wall, ref Vector2 nextPosition)
@@ -125,12 +145,78 @@ namespace MazeAndBlue
             if (player1.selected || player2.selected || player1.mouseSelected || player2.mouseSelected)
                 timer.start();
 
-            if (player1.reachedGoal(goal) && player2.reachedGoal(goal))
+            if (player1.overlaps(goal) && player2.overlaps(goal))
             {
                 goalColor = Color.Green;
                 timer.stop();
                 Program.game.startScoreScreen(timer.time);
             }
         }
+
+        private bool readFile(string filename)
+        {
+            if (!File.Exists(filename))
+                return false;
+
+            string[] lines = File.ReadAllLines(filename);
+            foreach (string line in lines)
+            {
+                if (!parseLine(line))
+                    return false;
+            }
+
+            return true;
+        }
+
+        private bool parseLine(string line)
+        {
+            if (line == null)
+                return false;
+
+            string[] words = line.Split(new char[] { ' ' });
+
+            if (words.Length == 0)
+                return false;
+
+            Vector2 vec;
+            Rectangle rect;
+
+            if (words[0] == "1" || words[0] == "2")
+            {
+                if (words.Length != 3)
+                    return false;
+                vec = new Vector2(Convert.ToSingle(words[1]), Convert.ToSingle(words[2]));
+
+                if (words[0] == "1")
+                    p1StartPos = vec;
+                else if (words[0] == "2")
+                    p2StartPos = vec;
+            }
+            else if (words[0] == "goal" || words[0] == "wall" || words[0] == "switch" || words[0] == "door")
+            {
+                if (words.Length != 5)
+                    return false;
+                rect = new Rectangle(Convert.ToInt32(words[1]), Convert.ToInt32(words[2]),
+                                        Convert.ToInt32(words[3]), Convert.ToInt32(words[4]));
+
+                if (words[0] == "goal")
+                    goal = rect;
+                else if (words[0] == "wall")
+                    walls.Add(rect);
+                else if (words[0] == "switch")
+                    switchs.Add(new DoorSwitch(rect, Color.Orange)); // TODO make color random
+                else if (words[0] == "door")
+                {
+                    if (switchs.Count == 0)
+                        return false;
+                    switchs[switchs.Count - 1].addDoor(rect);
+                }
+            }
+            else
+                return false;
+            
+            return true;
+        }
+
     }
 }

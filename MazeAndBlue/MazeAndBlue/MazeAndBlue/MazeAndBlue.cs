@@ -24,6 +24,7 @@ namespace MazeAndBlue
         Maze maze;
         Player player1, player2;
         ScoreScreen scoreScreen;
+        int level;
 
         MouseState prevMouseState;
 
@@ -49,6 +50,7 @@ namespace MazeAndBlue
             IsMouseVisible = true;
             graphics.PreferredBackBufferWidth = 1024;
             graphics.PreferredBackBufferHeight = 576;
+            level = 0;
             prevMouseState = Mouse.GetState();
         }
 
@@ -122,11 +124,11 @@ namespace MazeAndBlue
         public void startLevel()
         {
             state = GameState.GAME;
-            maze = new Maze();
+            maze = new Maze(level);
             maze.loadContent(GraphicsDevice);
-            player1 = new Player(new Vector2(108, 75), new Vector2(108, 0), -0.5f, 0f, Color.Blue, 0);
+            player1 = new Player(maze.p1StartPosition, new Vector2(108, 0), -0.5f, 0f, Color.Blue, 0);
             player1.loadContent(Content);
-            player2 = new Player(new Vector2(750, 92), new Vector2(750, 0), 0f, 0.5f, Color.Yellow, 1);
+            player2 = new Player(maze.p2StartPosition, new Vector2(750, 0), 0f, 0.5f, Color.Yellow, 1);
             player2.loadContent(Content);
         }
 
