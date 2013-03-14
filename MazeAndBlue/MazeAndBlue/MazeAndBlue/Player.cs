@@ -15,8 +15,9 @@ namespace MazeAndBlue
         public bool mouseSelected { get; set; }
         public bool righthanded { get; set; }
         public Color color { get; set; }
+        int ID;
 
-        public Player(Vector2 ballPos, Vector2 handPos, float xmin, float xmax, Color c)
+        public Player(Vector2 ballPos, Vector2 handPos, float xmin, float xmax, Color c, int playerNum)
         {
             ball = new Sprite(ballPos);
             hand = new Sprite(handPos);
@@ -27,6 +28,7 @@ namespace MazeAndBlue
             xRangeMin = xmin;
             xRangeMax = xmax;
             color = c;
+            ID = playerNum;
         }
 
         public void loadContent(ContentManager content)
@@ -46,7 +48,7 @@ namespace MazeAndBlue
                 hand.draw(spriteBatch, color);
         }
 
-        public void update(Skeleton skeleton, Maze maze)
+        public void update(Skeleton skeleton, Maze maze, voiceControl VC)
         {
             Vector2 position;
             if (mouseSelected)
@@ -66,8 +68,16 @@ namespace MazeAndBlue
             else
                 moveHand(position);
 
-            if (MazeAndBlue.state == MazeAndBlue.GameState.GAME && hand.overlaps(new Rectangle((int)ball.position.X, (int)ball.position.Y, ball.width, ball.height)))
-                selected = true;
+            if (VC != null)
+            {
+                if (hand.overlaps(new Rectangle((int)ball.position.X, (int)ball.position.Y, ball.width, ball.height)) &&
+                    VC.states.selectStated[ID])
+                {
+                    VC.states.select[ID] = true;
+                }
+                selected = VC.states.select[ID];
+                VC.states.selectStated[ID] = false;
+            }
         }
 
         private Vector2 getPosition(Skeleton skeleton)

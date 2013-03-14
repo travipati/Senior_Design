@@ -1,6 +1,17 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Windows.Threading;
+using Microsoft.Kinect;
+using Microsoft.Speech;
+using Microsoft.Speech.AudioFormat;
+using Microsoft.Speech.Recognition;
+
+struct selectStates
+{
+    public bool [] select;
+    public bool [] selectStated;
+}
 
 namespace MazeAndBlue
 {
@@ -16,6 +27,9 @@ namespace MazeAndBlue
 
         MouseState prevMouseState;
 
+        voiceControl VC;
+        keyboardSelect keyboard;
+
         public enum GameState { GAME, SCORE };
         public static GameState state { get; set; }
         
@@ -27,6 +41,9 @@ namespace MazeAndBlue
 
         public MazeAndBlue()
         {
+            var form = (System.Windows.Forms.Form)System.Windows.Forms.Form.FromHandle(Window.Handle);
+            form.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -41,6 +58,13 @@ namespace MazeAndBlue
             startLevel();
 
             base.Initialize();
+
+            if (kinect.getSensorReference() != null)
+            {
+                VC = new voiceControl();
+                VC.recognizeSpeech(kinect.getSensorReference());
+                keyboard = new keyboardSelect(ref(VC.states));
+            }
         }
 
         protected override void LoadContent()
@@ -56,8 +80,10 @@ namespace MazeAndBlue
 
         protected override void Update(GameTime gameTime)
         {
-            player1.update(kinect.playerSkeleton[0], maze);
-            player2.update(kinect.playerSkeleton[1], maze);
+            keyboard.grabInput(Keyboard.GetState());
+
+            player1.update(kinect.playerSkeleton[0], maze, VC);
+            player2.update(kinect.playerSkeleton[1], maze, VC);
 
             if (state == GameState.GAME)
                 maze.update(player1, player2);
@@ -98,9 +124,9 @@ namespace MazeAndBlue
             state = GameState.GAME;
             maze = new Maze();
             maze.loadContent(GraphicsDevice);
-            player1 = new Player(new Vector2(108, 75), new Vector2(108, 0), -0.5f, 0f, Color.Blue);
+            player1 = new Player(new Vector2(108, 75), new Vector2(108, 0), -0.5f, 0f, Color.Blue, 0);
             player1.loadContent(Content);
-            player2 = new Player(new Vector2(750, 92), new Vector2(750, 0), 0f, 0.5f, Color.Yellow);
+            player2 = new Player(new Vector2(750, 92), new Vector2(750, 0), 0f, 0.5f, Color.Yellow, 1);
             player2.loadContent(Content);
         }
 

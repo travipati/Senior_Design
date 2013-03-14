@@ -41,7 +41,7 @@ namespace MazeAndBlue
         public void draw(SpriteBatch spriteBatch, Color color)
         {
             foreach(Rectangle rect in walls)
-                spriteBatch.Draw(wallTexture, rect, color);
+            spriteBatch.Draw(wallTexture, rect, color);
             spriteBatch.Draw(goalTexture, goal, goalColor);
             timer.draw(spriteBatch);
         }

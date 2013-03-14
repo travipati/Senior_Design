@@ -18,6 +18,11 @@ namespace MazeAndBlue
                 initializeKinect();
         }
 
+        public KinectSensor getSensorReference()
+        {
+            return sensor;
+        }
+
         private void KinectSensors_StatusChanged(object sender, StatusChangedEventArgs e)
         {
             if (e.Status == KinectStatus.Connected)
