@@ -134,6 +134,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Mazes\0.maze" />
+    <None Include="Mazes\1.maze" />
+    <None Include="Mazes\2.maze" />
+    <None Include="Mazes\3.maze" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

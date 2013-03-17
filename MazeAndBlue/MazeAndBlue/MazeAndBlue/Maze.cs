@@ -17,8 +17,11 @@ namespace MazeAndBlue
         Vector2 p1StartPos, p2StartPos;
         public Vector2 p1StartPosition { get { return p1StartPos; } }
         public Vector2 p2StartPosition { get { return p2StartPos; } }
+        const int mazeWidth = 970, mazeHeight = 490;
+        public static int width { get { return mazeWidth; } }
+        public static int height { get { return mazeHeight; } }
 
-        public Maze(int mazeNum)
+        public Maze(string mazeFile)
         {
             goalColor = Color.Red;
             timer = new Timer();
@@ -29,7 +32,7 @@ namespace MazeAndBlue
             p2StartPos = new Vector2();
             switchs = new List<DoorSwitch>();
 
-            readFile("Mazes\\" + mazeNum + ".maze");
+            readFile(mazeFile);
 
 /*          // 12 x 6 grid
             p1StartPos = new Vector2(52, 68);
@@ -95,14 +98,14 @@ namespace MazeAndBlue
             int nextLeft = (int)nextPosition.X;
             int nextRight = (int)nextPosition.X + sprite.width;
 
-            if (spriteBottom >= wall.Top && spriteTop <= wall.Bottom)
+            if (spriteBottom > wall.Top && spriteTop < wall.Bottom)
             {
                 if (spriteRight <= wall.Left && nextRight > wall.Left)
                     nextPosition.X = wall.Left - sprite.width;
                 else if (spriteLeft >= wall.Right && nextLeft < wall.Right)
                     nextPosition.X = wall.Right;
             }
-            if (spriteRight >= wall.Left && spriteLeft <= wall.Right)
+            if (spriteRight > wall.Left && spriteLeft < wall.Right)
             {
                 if (spriteBottom <= wall.Top && nextBottom > wall.Top)
                     nextPosition.Y = wall.Top - sprite.height;
@@ -197,7 +200,7 @@ namespace MazeAndBlue
                 if (words.Length != 5)
                     return false;
                 rect = new Rectangle(Program.game.sx(Convert.ToInt32(words[1])), Program.game.sy(Convert.ToInt32(words[2])),
-                                        Program.game.sx(Convert.ToInt32(words[3])), Program.game.sy(Convert.ToInt32(words[4])));
+                                        Convert.ToInt32(words[3]), Convert.ToInt32(words[4]));
 
                 if (words[0] == "goal")
                     goal = rect;

@@ -17,10 +17,10 @@ namespace MazeAndBlue
         public Color color { get; set; }
         int ID;
 
-        public Player(Vector2 ballPos, Vector2 handPos, float xmin, float xmax, Color c, int playerNum)
+        public Player(Vector2 ballPos, float xmin, float xmax, Color c, int playerNum)
         {
             ball = new Sprite(ballPos);
-            hand = new Sprite(handPos);
+            hand = new Sprite(new Vector2(0, 0));
             selected = false;
             mouseSelected = false;
             righthanded = true;

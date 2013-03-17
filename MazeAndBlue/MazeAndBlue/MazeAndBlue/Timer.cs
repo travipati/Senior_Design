@@ -18,7 +18,7 @@ namespace MazeAndBlue
             timer.Tick += new EventHandler(timerTick);
             timer.Interval = new TimeSpan(0, 0, 1);
             _time = 0;
-            timePos = new Vector2(Program.game.sx(210), Program.game.sy(620));
+            timePos = new Vector2(Program.game.sx(0), Program.game.sy(485));
         }
 
         private void timerTick(object sender, EventArgs e)

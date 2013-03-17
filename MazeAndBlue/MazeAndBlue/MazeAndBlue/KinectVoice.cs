@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Windows;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Windows.Threading;
 using Microsoft.Kinect;
-using Microsoft.Speech;
 using Microsoft.Speech.AudioFormat;
 using Microsoft.Speech.Recognition;
 
@@ -48,6 +43,8 @@ namespace MazeAndBlue
 
         public void recognizeSpeech(KinectSensor inputSensor)
         {
+            if (inputSensor == null)
+                return;
             sensor = inputSensor;
             try
             {

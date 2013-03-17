@@ -1,11 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.Windows.Threading;
-using Microsoft.Kinect;
-using Microsoft.Speech;
-using Microsoft.Speech.AudioFormat;
-using Microsoft.Speech.Recognition;
 
 struct selectStates
 {
@@ -24,7 +19,7 @@ namespace MazeAndBlue
         Maze maze;
         Player player1, player2;
         ScoreScreen scoreScreen;
-        int level;
+        int level, numLevels = 4;
 
         MouseState prevMouseState;
 
@@ -45,16 +40,19 @@ namespace MazeAndBlue
             // Whenever hard-coding screen coordinates or widths/height, the sx/sy functions must be used
             // Optimal screen resolution: 1366 x 768 (no scaling will occur at this resolution)
 
-            var form = (System.Windows.Forms.Form)System.Windows.Forms.Form.FromHandle(Window.Handle);
-            form.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width - 8;
-            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - 30;
-            level = 0;
+
+            var form = (System.Windows.Forms.Form)System.Windows.Forms.Form.FromHandle(Window.Handle);
+            form.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+
+            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;// -8;
+            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;// -30;
+            //graphics.IsFullScreen = true;
+
             prevMouseState = Mouse.GetState();
+            level = 0;
         }
 
         protected override void Initialize()
@@ -62,14 +60,11 @@ namespace MazeAndBlue
             kinect = new Kinect();
             startLevel();
 
-            base.Initialize();
-
             VC = new voiceControl();
-            if (kinect.getSensorReference() != null)
-            {
-                VC.recognizeSpeech(kinect.getSensorReference());
-            }
+            VC.recognizeSpeech(kinect.getSensorReference());
             keyboard = new keyboardSelect(ref(VC.states));
+
+            base.Initialize();
         }
 
         protected override void LoadContent()
@@ -85,7 +80,11 @@ namespace MazeAndBlue
 
         protected override void Update(GameTime gameTime)
         {
-            keyboard.grabInput(Keyboard.GetState());
+            KeyboardState keyboardState = Keyboard.GetState();
+            if (keyboardState.IsKeyDown(Keys.Escape))
+                Exit();
+
+            keyboard.grabInput(keyboardState);
 
             player1.update(kinect.playerSkeleton[0], maze, VC);
             player2.update(kinect.playerSkeleton[1], maze, VC);
@@ -127,11 +126,12 @@ namespace MazeAndBlue
         public void startLevel()
         {
             state = GameState.GAME;
-            maze = new Maze(level);
+            level %= numLevels;
+            maze = new Maze("Mazes\\" + level++ + ".maze");
             maze.loadContent(GraphicsDevice);
-            player1 = new Player(maze.p1StartPosition, new Vector2(0, 0), -0.5f, 0f, Color.Blue, 0);
+            player1 = new Player(maze.p1StartPosition, -0.5f, 0f, Color.Blue, 0);
             player1.loadContent(Content);
-            player2 = new Player(maze.p2StartPosition, new Vector2(0, 0), 0f, 0.5f, Color.Yellow, 1);
+            player2 = new Player(maze.p2StartPosition, 0f, 0.5f, Color.Yellow, 1);
             player2.loadContent(Content);
         }
 
@@ -162,12 +162,14 @@ namespace MazeAndBlue
 
         public int sx(int x)
         {
-            return x * screenWidth / 1358;
+            //return x * screenWidth / 1358;
+            return x + (screenWidth-Maze.width) / 2;
         }
 
         public int sy(int y)
         {
-            return y * screenHeight / 738;
+            //return y * screenHeight / 738;
+            return y + (screenHeight-Maze.height) / 2;
         }
     }
 }
