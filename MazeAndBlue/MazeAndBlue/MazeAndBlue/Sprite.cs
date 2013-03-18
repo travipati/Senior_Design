@@ -10,9 +10,10 @@ namespace MazeAndBlue
         public int width, height;
         protected Texture2D texture;
 
-        public Sprite() : this(new Vector2(0, 0), 50, 50) { }
+        public Sprite() : this(new Vector2(0, 0)) { }
 
-        public Sprite(Vector2 pos) : this(pos, 50, 50) { }
+        //public Sprite(Vector2 pos) : this(pos, Program.game.sx(40), Program.game.sy(40)) { }
+        public Sprite(Vector2 pos) : this(pos, 40, 40) { }
 
         public Sprite(Vector2 pos, int w, int h)
         {
