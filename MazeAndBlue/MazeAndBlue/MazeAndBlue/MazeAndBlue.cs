@@ -28,6 +28,7 @@ namespace MazeAndBlue
         public MazeAndBlue()
         {
             graphics = new GraphicsDeviceManager(this);
+            //this.graphics.IsFullScreen = true;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             graphics.PreferredBackBufferWidth = 1024;

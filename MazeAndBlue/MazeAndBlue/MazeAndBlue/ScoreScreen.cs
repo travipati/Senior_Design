@@ -1,15 +1,25 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.GamerServices;
+using System.Runtime.InteropServices;
+using System;
+
+
+
 
 namespace MazeAndBlue
 {
     class ScoreScreen
     {
-        Texture2D texture;
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern uint MessageBox(IntPtr hWnd, String text, String caption, uint type);
+
+        //Texture2D texture;
         Rectangle window;
         Button menuButton, levelButton;
         int time;
+        Texture2D background;
 
         public ScoreScreen(int _time)
         {
@@ -28,15 +38,16 @@ namespace MazeAndBlue
 
         public void loadContent(GraphicsDevice graphicsDevice, ContentManager content)
         {
-            texture = new Texture2D(graphicsDevice, 1, 1);
-            texture.SetData<Color>(new Color[] { Color.White });
+            background = content.Load<Texture2D>("simple0");
+            //texture = new Texture2D(graphicsDevice, 1, 1);
+            //texture.SetData<Color>(new Color[] { Color.White });
             menuButton.loadContent(content);
             levelButton.loadContent(content);
         }
 
         public void draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, window, new Color(128, 128, 128, 232));
+            spriteBatch.Draw(background, Vector2.Zero, Color.White);
             menuButton.draw(spriteBatch);
             levelButton.draw(spriteBatch);
             string text = "Time taken: " + time + " seconds.";
@@ -62,6 +73,8 @@ namespace MazeAndBlue
 
         private void onMenuButtonPress()
         {
+            MessageBox(new IntPtr(0), "No main menu yet", "Error", 0);
+
         }
 
     }
