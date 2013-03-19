@@ -2,12 +2,12 @@
 
 namespace MazeAndBlue
 {
-    class keyboardSelect
+    class KeyboardSelect
     {
         public selectStates states;
         KeyboardState prev;
 
-        public keyboardSelect (ref selectStates sharedState)
+        public KeyboardSelect (ref selectStates sharedState)
         {
             states = sharedState;
         }

@@ -6,9 +6,6 @@ using Microsoft.Xna.Framework.GamerServices;
 using System.Runtime.InteropServices;
 using System;
 
-
-
-
 namespace MazeAndBlue
 {
     class ScoreScreen

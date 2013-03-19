@@ -6,8 +6,6 @@ using Microsoft.Xna.Framework.GamerServices;
 using System.Runtime.InteropServices;
 using System;
 
-
-
 namespace MazeAndBlue
 {
     /// <summary>
@@ -50,8 +48,7 @@ namespace MazeAndBlue
             L2Button = new Button(new Vector2(level2x, levelButtony), levelButtonWidth, levelButtonHeight, "2");
             L3Button = new Button(new Vector2(level3x, levelButtony), levelButtonWidth, levelButtonHeight, "3");
         }
-
-
+        
         public void loadContent(GraphicsDevice graphicsDevice, ContentManager content)
         {
             background = content.Load<Texture2D>("simple1");
@@ -62,9 +59,7 @@ namespace MazeAndBlue
             L2Button.loadContent(content);
             L3Button.loadContent(content);
         }
-
-
-
+        
         public void draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(background, Vector2.Zero, Color.White);
@@ -102,12 +97,11 @@ namespace MazeAndBlue
         {
             Program.game.startLevel(levelButton);
         }
-
-
+        
         private void undefinedButtonPress()
         {
             MessageBox(new IntPtr(0), "button undefined", "Error", 0);
-
         }
+
     }
 }

@@ -25,7 +25,7 @@ namespace MazeAndBlue
         MouseState prevMouseState;
 
         voiceControl VC;
-        keyboardSelect keyboard;
+        KeyboardSelect keyboard;
 
         public enum GameState { GAME, SCORE, LEVEL };
         public static GameState state { get; set; }
@@ -42,7 +42,6 @@ namespace MazeAndBlue
             // Optimal screen resolution: 1366 x 768 (no scaling will occur at this resolution)
 
             graphics = new GraphicsDeviceManager(this);
-            //this.graphics.IsFullScreen = true;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
@@ -65,15 +64,14 @@ namespace MazeAndBlue
 
             VC = new voiceControl();
             VC.recognizeSpeech(kinect.getSensorReference());
-            keyboard = new keyboardSelect(ref(VC.states));
+            keyboard = new KeyboardSelect(ref(VC.states));
 
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            
+            spriteBatch = new SpriteBatch(GraphicsDevice);            
             font = Content.Load<SpriteFont>("font");
         }
 
@@ -134,7 +132,7 @@ namespace MazeAndBlue
         public void nextLevel()
         {
             state = GameState.GAME;
-            level = (level+1)%numLevels ;
+            level %= numLevels;
             maze = new Maze("Mazes\\" + level++ + ".maze");
             maze.loadContent(GraphicsDevice);
             player1 = new Player(maze.p1StartPosition, -0.5f, 0f, Color.Blue, 0);
@@ -145,14 +143,8 @@ namespace MazeAndBlue
 
         public void startLevel(int selectedLevel)
         {
-            state = GameState.GAME;
             level = selectedLevel;
-            maze = new Maze("Mazes\\" + level++ + ".maze");
-            maze.loadContent(GraphicsDevice);
-            player1 = new Player(maze.p1StartPosition, -0.5f, 0f, Color.Blue, 0);
-            player1.loadContent(Content);
-            player2 = new Player(maze.p2StartPosition, 0f, 0.5f, Color.Yellow, 1);
-            player2.loadContent(Content);
+            nextLevel();
         }
 
         public void startScoreScreen(int time)
@@ -189,7 +181,7 @@ namespace MazeAndBlue
                     scoreScreen.onLeftClick(point);
                     break;
                 case GameState.LEVEL:
-                    this.levelSelectionScreen.onLeftClick(point);
+                    levelSelectionScreen.onLeftClick(point);
                     break;
             }
         }
