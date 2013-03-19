@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.GamerServices;
+//for message box, debugging only
 using System.Runtime.InteropServices;
 using System;
 
@@ -12,6 +13,7 @@ namespace MazeAndBlue
 {
     class ScoreScreen
     {
+        //for message box, debugging only
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern uint MessageBox(IntPtr hWnd, String text, String caption, uint type);
 
@@ -68,13 +70,13 @@ namespace MazeAndBlue
 
         private void onLevelButtonPress()
         {
-            Program.game.startLevel();
+            Program.game.nextLevel();
         }
 
         private void onMenuButtonPress()
         {
-            MessageBox(new IntPtr(0), "No main menu yet", "Error", 0);
-
+            MessageBox(new IntPtr(0), "No main menu yet, we go to level selection instead", "Error", 0);
+            Program.game.startLevelSelectionScreen();
         }
 
     }

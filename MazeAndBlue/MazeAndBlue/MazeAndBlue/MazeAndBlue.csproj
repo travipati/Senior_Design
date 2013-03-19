@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Button.cs" />
+    <Compile Include="LevelSelectionScreen.cs" />
     <Compile Include="keyboardSelect.cs" />
     <Compile Include="KinectVoice.cs" />
     <Compile Include="DoorSwitch.cs" />
