@@ -64,6 +64,8 @@ namespace MazeAndBlue
                 onSinglePlayerButtonPress();
             else if (coopModeButton.contains(point))
                 onCoopModeButtonPress();
+            else if (exitButton.contains(point))
+                Program.game.Exit();
         }
 
         private void onCoopModeButtonPress()

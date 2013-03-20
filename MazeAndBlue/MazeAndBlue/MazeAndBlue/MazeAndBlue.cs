@@ -137,6 +137,7 @@ namespace MazeAndBlue
                     scoreScreen.draw(spriteBatch);
                     break;
                 case GameState.PAUSE:
+                    maze.draw(spriteBatch);
                     pauseScreen.draw(spriteBatch);
                     break;
             }
@@ -159,6 +160,17 @@ namespace MazeAndBlue
              * */
         }
 
+        public void startLevel(int selectedLevel)
+        {
+            level = selectedLevel;
+            nextLevel();
+        }
+
+        public void resumeLevel()
+        {
+            state = GameState.GAME;
+        }
+
         public void nextLevel()
         {
             state = GameState.GAME;
@@ -169,12 +181,6 @@ namespace MazeAndBlue
             player1.loadContent(Content);
             player2 = new Player(maze.p2StartPosition, 0f, 0.5f, Color.Yellow, 1);
             player2.loadContent(Content);
-        }
-
-        public void startLevel(int selectedLevel)
-        {
-            level = selectedLevel;
-            nextLevel();
         }
 
         public void startScoreScreen(int time)

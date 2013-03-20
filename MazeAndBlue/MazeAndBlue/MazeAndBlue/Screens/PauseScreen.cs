@@ -12,7 +12,7 @@ namespace MazeAndBlue
     {
         Texture2D texture;
         Rectangle window;
-        Button menuButton;
+        Button resumeButton, menuButton;
 
         public PauseScreen()
         {
@@ -21,8 +21,9 @@ namespace MazeAndBlue
             window = new Rectangle(screenWidth / 8, screenHeight / 8, 3 * screenWidth / 4, 3 * screenHeight / 4);
             int buttonWidth = screenWidth / 8;
             int buttonHeight = screenHeight / 8;
-            int y = window.Bottom - window.Height / 3 - buttonHeight / 2;
+            int y = window.Bottom - window.Height / 3;
             int menuX = window.Left + window.Width / 2 - buttonWidth / 2;
+            resumeButton = new Button(new Vector2(menuX, window.Bottom - window.Height / 2 - buttonHeight / 2), buttonWidth, buttonHeight, "Resume");
             menuButton = new Button(new Vector2(menuX, y), buttonWidth, buttonHeight, "Main Menu");
         }
 
@@ -30,12 +31,14 @@ namespace MazeAndBlue
         {
             texture = new Texture2D(graphicsDevice, 1, 1);
             texture.SetData<Color>(new Color[] { Color.White });
+            resumeButton.loadContent(content);
             menuButton.loadContent(content);
         }
 
         public void draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, window, new Color(128, 128, 128, 232));
+            resumeButton.draw(spriteBatch);
             menuButton.draw(spriteBatch);
             string text = "Paused";
             Vector2 textSize = MazeAndBlue.font.MeasureString(text);
@@ -47,8 +50,15 @@ namespace MazeAndBlue
 
         public void onLeftClick(Point point)
         {
+            if (resumeButton.contains(point))
+                onResumeButtonPress();
             if (menuButton.contains(point))
                 onMenuButtonPress();
+        }
+
+        private void onResumeButtonPress()
+        {
+            Program.game.resumeLevel();
         }
 
         private void onMenuButtonPress()

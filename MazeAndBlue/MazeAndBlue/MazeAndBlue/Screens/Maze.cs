@@ -235,6 +235,7 @@ namespace MazeAndBlue
 
         private void onPauseButtonPress()
         {
+            timer.stop();
             Program.game.startPauseSelectionScreen();
         }
     }
