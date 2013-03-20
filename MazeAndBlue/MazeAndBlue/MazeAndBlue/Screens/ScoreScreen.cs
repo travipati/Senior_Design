@@ -37,7 +37,7 @@ namespace MazeAndBlue
 
         public void loadContent(GraphicsDevice graphicsDevice, ContentManager content)
         {
-            background = content.Load<Texture2D>("simple0");
+            background = content.Load<Texture2D>("Backgrounds/simple0");
             //texture = new Texture2D(graphicsDevice, 1, 1);
             //texture.SetData<Color>(new Color[] { Color.White });
             menuButton.loadContent(content);
@@ -72,8 +72,7 @@ namespace MazeAndBlue
 
         private void onMenuButtonPress()
         {
-            MessageBox(new IntPtr(0), "No main menu yet, we go to level selection instead", "Error", 0);
-            Program.game.startLevelSelectionScreen();
+            Program.game.startMainMenu();
         }
 
     }

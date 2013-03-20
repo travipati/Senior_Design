@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MazeAndBlue
 {
     class Maze
     {
+        Button pauseButton;
         Color goalColor;
         Rectangle goal;
         List<Rectangle> walls;
@@ -33,6 +35,8 @@ namespace MazeAndBlue
             switchs = new List<DoorSwitch>();
 
             readFile(mazeFile);
+
+            pauseButton = new Button(new Vector2(Program.game.screenWidth - 130, 30), 100, 40, "Pause");
 
 /*          // 12 x 6 grid
             p1StartPos = new Vector2(52, 68);
@@ -61,7 +65,7 @@ namespace MazeAndBlue
 */
         }
 
-        public void loadContent(GraphicsDevice graphicsDevice)
+        public void loadContent(GraphicsDevice graphicsDevice, ContentManager content)
         {
             foreach (DoorSwitch dswitch in switchs)
                 dswitch.loadContent(graphicsDevice);
@@ -69,10 +73,12 @@ namespace MazeAndBlue
             wallTexture.SetData<Color>(new Color[] { Color.White });
             goalTexture = new Texture2D(graphicsDevice, 1, 1);
             goalTexture.SetData<Color>(new Color[] { Color.White });
+            pauseButton.loadContent(content);
         }
 
         public void draw(SpriteBatch spriteBatch, Color color)
         {
+            pauseButton.draw(spriteBatch);
             foreach(Rectangle rect in walls)
                 spriteBatch.Draw(wallTexture, rect, color);
             foreach (DoorSwitch dswitch in switchs)
@@ -221,5 +227,15 @@ namespace MazeAndBlue
             return true;
         }
 
+        public void onLeftClick(Point point)
+        {
+            if (pauseButton.contains(point))
+                onPauseButtonPress();
+        }
+
+        private void onPauseButtonPress()
+        {
+            Program.game.startPauseSelectionScreen();
+        }
     }
 }

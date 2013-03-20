@@ -48,7 +48,7 @@ namespace MazeAndBlue
                 hand.draw(spriteBatch, color);
         }
 
-        public void update(Skeleton skeleton, Maze maze, voiceControl VC)
+        public void update(Skeleton skeleton, Maze maze, voiceControl vc)
         {
             Vector2 position;
             if (mouseSelected)
@@ -68,15 +68,12 @@ namespace MazeAndBlue
             else
                 moveHand(position);
 
-            if (VC != null)
+            if (vc != null)
             {
-                if (hand.overlaps(new Rectangle((int)ball.position.X, (int)ball.position.Y, ball.width, ball.height)) &&
-                    VC.states.selectStated[ID])
-                {
-                    VC.states.select[ID] = true;
-                }
-                selected = VC.states.select[ID];
-                VC.states.selectStated[ID] = false;
+                if (hand.overlaps(ball) && vc.states.selectStated[ID])
+                    vc.states.select[ID] = true;
+                selected = vc.states.select[ID];
+                vc.states.selectStated[ID] = false;
             }
         }
 
@@ -118,6 +115,11 @@ namespace MazeAndBlue
             pos.Y -= ball.height / 2;
             maze.detectWalls(ball, ref pos);
             ball.position = pos;
+        }
+
+        public bool overlaps(Sprite sprite)
+        {
+            return ball.overlaps(sprite);
         }
 
         public bool overlaps(Rectangle rect)

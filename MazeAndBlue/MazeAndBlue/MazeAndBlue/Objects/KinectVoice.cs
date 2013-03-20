@@ -72,31 +72,21 @@ namespace MazeAndBlue
         private void phraseRecognized (object sender, SpeechRecognizedEventArgs e)
         {
             if (e.Result.Confidence < 0.5)
-            {
                 return;
-            }
 
             switch (e.Result.Text.ToLower())
             {
                 case "select one":
                     if (states.select[0])
-                    {
                         states.select[0] = false;
-                    }
                     else
-                    {
                         states.selectStated[0] = true;
-                    }
                     break;
                 case "select two":
                     if (states.select[1])
-                    {
                         states.select[1] = false;
-                    }
                     else
-                    {
                         states.selectStated[1] = true;
-                    }
                     break;
                 case "pause":
                     //pause the game

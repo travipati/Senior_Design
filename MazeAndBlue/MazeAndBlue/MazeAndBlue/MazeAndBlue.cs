@@ -14,20 +14,23 @@ namespace MazeAndBlue
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Texture2D background;
         
         Kinect kinect;
         Maze maze;
         Player player1, player2;
+        MainMenu mainMenu;
         ScoreScreen scoreScreen;
         LevelSelectionScreen levelSelectionScreen;
-        int level, numLevels = 4;
+        PauseScreen pauseScreen;
+        int level, numLevels = 6;
 
         MouseState prevMouseState;
 
-        voiceControl VC;
+        voiceControl vc;
         KeyboardSelect keyboard;
 
-        public enum GameState { GAME, SCORE, LEVEL };
+        public enum GameState { MAIN, LEVEL, GAME, SCORE, PAUSE };
         public static GameState state { get; set; }
         
         public static SpriteFont font { get; set; }
@@ -59,19 +62,21 @@ namespace MazeAndBlue
         protected override void Initialize()
         {
             kinect = new Kinect();
-            startLevel(0);
-            //startLevelSelectionScreen();
+            //startLevel(level);
+            startMainMenu();
 
-            VC = new voiceControl();
-            VC.recognizeSpeech(kinect.getSensorReference());
-            keyboard = new KeyboardSelect(ref(VC.states));
+            vc = new voiceControl();
+            vc.recognizeSpeech(kinect.getSensorReference());
+            keyboard = new KeyboardSelect(ref(vc.states));
 
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);            
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            background = Content.Load<Texture2D>("Backgrounds/blue");        
+
             font = Content.Load<SpriteFont>("font");
         }
 
@@ -87,11 +92,14 @@ namespace MazeAndBlue
 
             keyboard.grabInput(keyboardState);
 
-            player1.update(kinect.playerSkeleton[0], maze, VC);
-            player2.update(kinect.playerSkeleton[1], maze, VC);
-
-            if (state == GameState.GAME)
-                maze.update(player1, player2);
+            switch (state)
+            {
+                case GameState.GAME:
+                    player1.update(kinect.playerSkeleton[0], maze, vc);
+                    player2.update(kinect.playerSkeleton[1], maze, vc);
+                    maze.update(player1, player2);
+                    break;
+            }              
 
             MouseState mouseState = Mouse.GetState();
             if (prevMouseState.LeftButton == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released)
@@ -107,26 +115,48 @@ namespace MazeAndBlue
 
             spriteBatch.Begin();
 
-            maze.draw(spriteBatch);
-            player2.drawBall(spriteBatch);
-            player1.drawBall(spriteBatch);
+            Rectangle screenRectangle = new Rectangle(0, 0, screenWidth, screenHeight);
+            spriteBatch.Draw(background, screenRectangle, Color.White);
 
-            if (state == GameState.SCORE)
+            switch (state)
             {
-                scoreScreen.draw(spriteBatch);
+                case GameState.MAIN:
+                    mainMenu.draw(spriteBatch);
+                    break;
+                case GameState.LEVEL:
+                    levelSelectionScreen.draw(spriteBatch);
+                    break;
+                case GameState.GAME:
+                    maze.draw(spriteBatch);
+                    player2.drawBall(spriteBatch);
+                    player1.drawBall(spriteBatch);
+                    player2.drawHand(spriteBatch);
+                    player1.drawHand(spriteBatch);
+                    break;
+                case GameState.SCORE:
+                    scoreScreen.draw(spriteBatch);
+                    break;
+                case GameState.PAUSE:
+                    pauseScreen.draw(spriteBatch);
+                    break;
             }
-
-            if (state == GameState.LEVEL)
-            {
-                levelSelectionScreen.draw(spriteBatch);
-            }
-
-            player2.drawHand(spriteBatch);
-            player1.drawHand(spriteBatch);
 
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        public void startMainMenu()
+        {
+            mainMenu = new MainMenu();
+            mainMenu.loadContent(GraphicsDevice, Content);
+            state = GameState.MAIN;
+            /*
+            player1.selected = false;
+            player1.mouseSelected = false;
+            player2.selected = false;
+            player2.mouseSelected = false;
+             * */
         }
 
         public void nextLevel()
@@ -134,7 +164,7 @@ namespace MazeAndBlue
             state = GameState.GAME;
             level %= numLevels;
             maze = new Maze("Mazes\\" + level++ + ".maze");
-            maze.loadContent(GraphicsDevice);
+            maze.loadContent(GraphicsDevice, Content);
             player1 = new Player(maze.p1StartPosition, -0.5f, 0f, Color.Blue, 0);
             player1.loadContent(Content);
             player2 = new Player(maze.p2StartPosition, 0f, 0.5f, Color.Yellow, 1);
@@ -163,6 +193,18 @@ namespace MazeAndBlue
             levelSelectionScreen = new LevelSelectionScreen();
             levelSelectionScreen.loadContent(GraphicsDevice, Content);
             state = GameState.LEVEL;
+/*            player1.selected = false;
+            player1.mouseSelected = false;
+            player2.selected = false;
+            player2.mouseSelected = false;
+ */
+        }
+
+        public void startPauseSelectionScreen()
+        {
+            pauseScreen = new PauseScreen();
+            pauseScreen.loadContent(GraphicsDevice, Content);
+            state = GameState.PAUSE;
             player1.selected = false;
             player1.mouseSelected = false;
             player2.selected = false;
@@ -173,15 +215,22 @@ namespace MazeAndBlue
         {
             switch (state)
             {
+                case GameState.MAIN:
+                    mainMenu.onLeftClick(point);
+                    break;
+                case GameState.LEVEL:
+                    levelSelectionScreen.onLeftClick(point);
+                    break;
                 case GameState.GAME:
+                    maze.onLeftClick(point);
                     player1.onLeftClick(point);
                     player2.onLeftClick(point);
                     break;
                 case GameState.SCORE:
                     scoreScreen.onLeftClick(point);
                     break;
-                case GameState.LEVEL:
-                    levelSelectionScreen.onLeftClick(point);
+                case GameState.PAUSE:
+                    pauseScreen.onLeftClick(point);
                     break;
             }
         }

@@ -15,7 +15,7 @@ namespace MazeAndBlue
 
         public void loadContent(ContentManager content)
         {
-            loadContent(content, "button");
+            loadContent(content, "Buttons/button");
         }
 
         public override void draw(SpriteBatch spriteBatch, Color textureColor)

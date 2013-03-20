@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,7 +17,8 @@ namespace MazeAndBlue
         //for message box, debugging only
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern uint MessageBox(IntPtr hWnd, String text, String caption, uint type);
-        Button L1Button, L2Button, L3Button, menuButton, left, right;
+        List<Button> levelButtons;
+        Button menuButton, left, right;
         Texture2D background;
 
         public LevelSelectionScreen()
@@ -44,20 +46,20 @@ namespace MazeAndBlue
             left = new Button(new Vector2(leftx, menuButtony), menuButtonWidth, menuButtonHeight, "prev");
             right = new Button(new Vector2(rightx, menuButtony), menuButtonWidth, menuButtonHeight, "next");
 
-            L1Button = new Button(new Vector2(level1x, levelButtony), levelButtonWidth, levelButtonHeight, "1");
-            L2Button = new Button(new Vector2(level2x, levelButtony), levelButtonWidth, levelButtonHeight, "2");
-            L3Button = new Button(new Vector2(level3x, levelButtony), levelButtonWidth, levelButtonHeight, "3");
+            levelButtons = new List<Button>();
+            levelButtons.Add(new Button(new Vector2(level1x, levelButtony), levelButtonWidth, levelButtonHeight, "1"));
+            levelButtons.Add(new Button(new Vector2(level2x, levelButtony), levelButtonWidth, levelButtonHeight, "2"));
+            levelButtons.Add(new Button(new Vector2(level3x, levelButtony), levelButtonWidth, levelButtonHeight, "3"));
         }
         
         public void loadContent(GraphicsDevice graphicsDevice, ContentManager content)
         {
-            background = content.Load<Texture2D>("simple1");
+            background = content.Load<Texture2D>("Backgrounds/simple1");
             menuButton.loadContent(content);
             left.loadContent(content);
             right.loadContent(content);
-            L1Button.loadContent(content);
-            L2Button.loadContent(content);
-            L3Button.loadContent(content);
+            foreach (Button button in levelButtons)
+                button.loadContent(content);
         }
         
         public void draw(SpriteBatch spriteBatch)
@@ -66,9 +68,8 @@ namespace MazeAndBlue
             menuButton.draw(spriteBatch);
             left.draw(spriteBatch);
             right.draw(spriteBatch);
-            L1Button.draw(spriteBatch);
-            L2Button.draw(spriteBatch);
-            L3Button.draw(spriteBatch);
+            foreach (Button button in levelButtons)
+                button.draw(spriteBatch);
             string text = "Title";
             Vector2 textSize = MazeAndBlue.font.MeasureString(text);
             int x = (int)((Program.game.screenWidth - textSize.X) / 2);
@@ -80,17 +81,16 @@ namespace MazeAndBlue
         public void onLeftClick(Point point)
         {
             if (menuButton.contains(point))
-                undefinedButtonPress();
+                onMenuButtonPress();
             else if (left.contains(point))
                 undefinedButtonPress();
             else if (right.contains(point))
                 undefinedButtonPress();
-            else if (L1Button.contains(point))
-                onLevelButtonPress(1);
-            else if (L2Button.contains(point))
-                onLevelButtonPress(2);
-            else if (L3Button.contains(point))
-                onLevelButtonPress(3);
+            for (int i = 0; i < levelButtons.Count; i++)
+            {
+                if (levelButtons[i].contains(point))
+                    onLevelButtonPress(i);
+            }
         }
 
         private void onLevelButtonPress(int levelButton)
@@ -103,5 +103,9 @@ namespace MazeAndBlue
             MessageBox(new IntPtr(0), "button undefined", "Error", 0);
         }
 
+        private void onMenuButtonPress()
+        {
+            Program.game.startMainMenu();
+        }
     }
 }

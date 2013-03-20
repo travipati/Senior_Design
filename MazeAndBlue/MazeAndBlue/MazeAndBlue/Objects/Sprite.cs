@@ -39,9 +39,14 @@ namespace MazeAndBlue
 
         public bool overlaps(Rectangle rect)
         {
-            int x = (int)position.X + width / 2;
-            int y = (int)position.Y + height / 2;
-            return rect.Contains(x, y);
+            Rectangle nrect = new Rectangle((int)position.X, (int)position.Y, width, height);
+            return nrect.Intersects(rect);
+        }
+
+        public bool overlaps(Sprite sprite)
+        {
+            Rectangle rect = new Rectangle((int)position.X, (int)position.Y, width, height);
+            return sprite.overlaps(rect);
         }
 
         public bool contains(Point point)
@@ -49,6 +54,5 @@ namespace MazeAndBlue
             Rectangle rect = new Rectangle((int)position.X, (int)position.Y, width, height);
             return rect.Contains(point);
         }
-
     }
 }
