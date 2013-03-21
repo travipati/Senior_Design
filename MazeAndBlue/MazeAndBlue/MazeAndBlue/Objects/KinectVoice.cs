@@ -11,9 +11,11 @@ namespace MazeAndBlue
         public selectStates states;
         KinectSensor sensor;
         SpeechRecognitionEngine speechRec;
+        public double precision;
 
         public voiceControl()
         {
+            precision = .5;
             states.select = new bool[] { false, false };
             states.selectStated = new bool[] { false, false };
 
@@ -71,7 +73,7 @@ namespace MazeAndBlue
 
         private void phraseRecognized (object sender, SpeechRecognizedEventArgs e)
         {
-            if (e.Result.Confidence < 0.5)
+            if (e.Result.Confidence < precision)
                 return;
 
             switch (e.Result.Text.ToLower())

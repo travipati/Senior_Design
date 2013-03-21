@@ -1,10 +1,9 @@
 Content\ball.xnb
 Content\hand.xnb
-Content\font.xnb
+Content\Buttons\button.xnb
 Content\Backgrounds\simple0.xnb
 Content\Backgrounds\simple1.xnb
 Content\Backgrounds\blue.xnb
-Content\Buttons\button.xnb
 Content\Backgrounds\mainMenu.xnb
 Content\Buttons\coopMode.xnb
 Content\Buttons\exit.xnb
@@ -14,3 +13,4 @@ Content\Buttons\singlePlayer.xnb
 Content\Buttons\statistics.xnb
 Content\Backgrounds\instrs.xnb
 Content\Buttons\back.xnb
+Content\font.xnb
