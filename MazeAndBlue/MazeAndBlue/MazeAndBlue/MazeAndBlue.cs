@@ -23,6 +23,7 @@ namespace MazeAndBlue
         ScoreScreen scoreScreen;
         LevelSelectionScreen levelSelectionScreen;
         PauseScreen pauseScreen;
+        InstructionScreen instructionScreen;
         int level, numLevels = 6;
 
         MouseState prevMouseState;
@@ -30,7 +31,7 @@ namespace MazeAndBlue
         voiceControl vc;
         KeyboardSelect keyboard;
 
-        public enum GameState { MAIN, LEVEL, GAME, SCORE, PAUSE };
+        public enum GameState { MAIN, LEVEL, GAME, SCORE, PAUSE, INSTR };
         public static GameState state { get; set; }
         
         public static SpriteFont font { get; set; }
@@ -140,6 +141,9 @@ namespace MazeAndBlue
                     maze.draw(spriteBatch);
                     pauseScreen.draw(spriteBatch);
                     break;
+                case GameState.INSTR:
+                    instructionScreen.draw(spriteBatch);
+                    break;
             }
 
             spriteBatch.End();
@@ -217,6 +221,13 @@ namespace MazeAndBlue
             player2.mouseSelected = false;
         }
 
+        public void startInstructionScreen()
+        {
+            instructionScreen = new InstructionScreen();
+            instructionScreen.loadContent(GraphicsDevice, Content);
+            state = GameState.INSTR;
+        }
+
         private void OnLeftClick(Point point)
         {
             switch (state)
@@ -237,6 +248,9 @@ namespace MazeAndBlue
                     break;
                 case GameState.PAUSE:
                     pauseScreen.onLeftClick(point);
+                    break;
+                case GameState.INSTR:
+                    instructionScreen.onLeftClick(point);
                     break;
             }
         }
