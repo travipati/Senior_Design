@@ -80,12 +80,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Objects\Button.cs" />
+    <Compile Include="Objects\MouseSelect.cs" />
     <Compile Include="Screens\Class1.cs" />
     <Compile Include="Screens\InstructionScreen.cs" />
     <Compile Include="Screens\PauseScreen.cs" />
     <Compile Include="Screens\LevelSelectionScreen.cs" />
     <Compile Include="Objects\KeyboardSelect.cs" />
-    <Compile Include="Objects\KinectVoice.cs" />
+    <Compile Include="Objects\VoiceSelect.cs" />
     <Compile Include="Objects\DoorSwitch.cs" />
     <Compile Include="Objects\Kinect.cs" />
     <Compile Include="Screens\MainMenu.cs" />

@@ -6,15 +6,15 @@ using Microsoft.Speech.Recognition;
 
 namespace MazeAndBlue
 {
-    public class VoiceControl
+    public class VoiceSelect
     {
         KinectSensor sensor;
         SpeechRecognitionEngine speechRec;
-        double precision;
+        public double precision;
         public bool newWordReady;
         public string word;
 
-        public VoiceControl()
+        public VoiceSelect()
         {
             precision = .5;
             newWordReady = false;

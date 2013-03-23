@@ -61,9 +61,9 @@ namespace MazeAndBlue
             exitButton.draw(spriteBatch);
         }
 
-        public void update(Point point)
+        public void update()
         {
-            if (coopModeButton.isSelected(point))
+            if (coopModeButton.isSelected())
                 Program.game.startLevelSelectionScreen();
         }
 
@@ -88,10 +88,10 @@ namespace MazeAndBlue
             //Program.game.startLevelSelectionScreen();
         }
         
-        private void onCoopModeButtonPress()
+/*        private void onCoopModeButtonPress()
         {
-            //Program.game.startLevelSelectionScreen();
-        }
+            Program.game.startLevelSelectionScreen();
+        }*/
 
         private void onSettingsButtonPress()
         {

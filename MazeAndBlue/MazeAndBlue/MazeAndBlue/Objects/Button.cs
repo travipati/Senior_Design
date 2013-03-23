@@ -33,13 +33,16 @@ namespace MazeAndBlue
             spriteBatch.DrawString(MazeAndBlue.font, text, textPos, fontColor);
         }
 
-        public bool isSelected(Point point)
+        public bool isSelected()
         {
-            if (point != new Point(-1,-1) && contains(point))
-                return true;
-            else if (Program.game.vc.newWordReady && Program.game.vc.word == text)
+            if (Program.game.ms.newPointReady && contains(Program.game.ms.point))
             {
-                Program.game.vc.newWordReady = false;
+                Program.game.ms.newPointReady = false;
+                return true;
+            }
+            else if (Program.game.vs.newWordReady && Program.game.vs.word == text)
+            {
+                Program.game.vs.newWordReady = false;
                 return true;
             }
             foreach (Player player in Program.game.players)

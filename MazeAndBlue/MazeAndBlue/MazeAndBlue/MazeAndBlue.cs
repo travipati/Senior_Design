@@ -23,8 +23,9 @@ namespace MazeAndBlue
         MouseState prevMouseState;
 
         public List<Player> players { get; set; }
-        public VoiceControl vc { get; set; }
-        public KeyboardSelect kb { get; set; }
+        public MouseSelect ms { get; set; }
+        public VoiceSelect vs { get; set; }
+        public KeyboardSelect ks { get; set; }
 
         public enum GameState { MAIN, LEVEL, GAME, SCORE, PAUSE, INSTR };
         public static GameState state { get; set; }
@@ -65,9 +66,10 @@ namespace MazeAndBlue
             //startLevel(level);
             startMainMenu();
 
-            vc = new VoiceControl();
-            vc.recognizeSpeech(kinect.getSensorReference());
-            kb = new KeyboardSelect();
+            ms = new MouseSelect();
+            vs = new VoiceSelect();
+            vs.recognizeSpeech(kinect.getSensorReference());
+            ks = new KeyboardSelect();
 
             base.Initialize();
         }
@@ -88,20 +90,16 @@ namespace MazeAndBlue
 
         protected override void Update(GameTime gameTime)
         {
-            kb.grabInput();
+            ms.grabInput();
+            ks.grabInput();
 
-            if (vc.word == "exit" || kb.key == "Esc")
+            if (vs.word == "exit" || ks.key == "Esc")
                 Exit();
-
-            Point point = new Point(-1,-1);
-            MouseState mouseState = Mouse.GetState();
-            if (prevMouseState.LeftButton == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released)
-                point = new Point(mouseState.X, mouseState.Y);
 
             switch (state)
             {
                 case GameState.MAIN:
-                    mainMenu.update(point);
+                    mainMenu.update();
                     break;
                 case GameState.GAME:
                     maze.update();
@@ -111,6 +109,7 @@ namespace MazeAndBlue
             players[0].update(kinect.playerSkeleton[0], maze);
             players[1].update(kinect.playerSkeleton[1], maze);
 
+            MouseState mouseState = Mouse.GetState();
             if (prevMouseState.LeftButton == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released)
                 OnLeftClick(new Point(mouseState.X, mouseState.Y));
             prevMouseState = mouseState;

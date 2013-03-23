@@ -87,14 +87,14 @@ namespace MazeAndBlue
                     break;
             }
 
-            if (Program.game.vc.newWordReady && Program.game.vc.word == "select " + sid)
+            if (Program.game.vs.newWordReady && Program.game.vs.word == "select " + sid)
             {
-                Program.game.vc.newWordReady = false;
+                Program.game.vs.newWordReady = false;
                 return true;
             }
-            else if (Program.game.kb.newKeyReady && Program.game.kb.key == (id + 1).ToString())
+            else if (Program.game.ks.newKeyReady && Program.game.ks.key == (id + 1).ToString())
             {
-                Program.game.kb.newKeyReady = false;
+                Program.game.ks.newKeyReady = false;
                 return true;
             }
             return false;
