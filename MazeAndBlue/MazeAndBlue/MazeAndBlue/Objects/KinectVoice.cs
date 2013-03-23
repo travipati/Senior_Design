@@ -6,18 +6,18 @@ using Microsoft.Speech.Recognition;
 
 namespace MazeAndBlue
 {
-    class voiceControl
+    public class VoiceControl
     {
-        public selectStates states;
         KinectSensor sensor;
         SpeechRecognitionEngine speechRec;
-        public double precision;
+        double precision;
+        public bool newWordReady;
+        public string word;
 
-        public voiceControl()
+        public VoiceControl()
         {
             precision = .5;
-            states.select = new bool[] { false, false };
-            states.selectStated = new bool[] { false, false };
+            newWordReady = false;
 
             RecognizerInfo ri = GetKinectRecognizer();
 
@@ -28,8 +28,10 @@ namespace MazeAndBlue
             var grammar = new Choices();
             grammar.Add("select one", "SELECT ONE");
             grammar.Add("select two", "SELECT TWO");
+            grammar.Add("exit", "EXIT");
             grammar.Add("pause", "PAUSE");
-            grammar.Add("restart", "PAUSE");
+            grammar.Add("restart", "RESTART");
+            grammar.Add("co op mode", "CO-OP MODE");
 
             var gb = new GrammarBuilder { Culture = ri.Culture };
             gb.Append(grammar);
@@ -71,36 +73,13 @@ namespace MazeAndBlue
             return SpeechRecognitionEngine.InstalledRecognizers().Where(matchingFunc).FirstOrDefault();
         }
 
-        private void phraseRecognized (object sender, SpeechRecognizedEventArgs e)
+        private void phraseRecognized(object sender, SpeechRecognizedEventArgs e)
         {
             if (e.Result.Confidence < precision)
                 return;
 
-            switch (e.Result.Text.ToLower())
-            {
-                case "select one":
-                    if (states.select[0])
-                        states.select[0] = false;
-                    else
-                        states.selectStated[0] = true;
-                    break;
-                case "select two":
-                    if (states.select[1])
-                        states.select[1] = false;
-                    else
-                        states.selectStated[1] = true;
-                    break;
-                case "pause":
-                    //pause the game
-                    break;
-                case "restart":
-                    /*this.Visibility = Visibility.Collapsed;
-                    MainWindow window = new MainWindow();
-                    window.Show();*/
-                    break;
-                default:
-                    break;
-            }
+            word = e.Result.Text.ToLower();
+            newWordReady = true;
         }
     }
 }

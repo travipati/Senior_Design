@@ -6,7 +6,7 @@ using Microsoft.Kinect;
 
 namespace MazeAndBlue
 {
-    class Player
+    public class Player
     {
         Sprite ball, hand;
         float yRange, xRangeMin, xRangeMax;
@@ -15,11 +15,11 @@ namespace MazeAndBlue
         public bool mouseSelected { get; set; }
         public bool righthanded { get; set; }
         public Color color { get; set; }
-        int ID;
+        int id;
 
-        public Player(Vector2 ballPos, float xmin, float xmax, Color c, int playerNum)
+        public Player(float xmin, float xmax, Color c, int playerNum)
         {
-            ball = new Sprite(ballPos);
+            ball = new Sprite();
             hand = new Sprite(new Vector2(0, 0));
             selected = false;
             mouseSelected = false;
@@ -28,7 +28,7 @@ namespace MazeAndBlue
             xRangeMin = xmin;
             xRangeMax = xmax;
             color = c;
-            ID = playerNum;
+            id = playerNum;
         }
 
         public void loadContent(ContentManager content)
@@ -48,7 +48,7 @@ namespace MazeAndBlue
                 hand.draw(spriteBatch, color);
         }
 
-        public void update(Skeleton skeleton, Maze maze, voiceControl vc)
+        public void update(Skeleton skeleton, Maze maze)
         {
             Vector2 position;
             if (mouseSelected)
@@ -68,13 +68,36 @@ namespace MazeAndBlue
             else
                 moveHand(position);
 
-            if (vc != null)
+            if (hand.overlaps(ball) && selecting() && !selected)
+                selected = true;
+            else if (selecting() && selected)
+                selected = false;
+        }
+
+        public bool selecting()
+        {
+            string sid = string.Empty;
+            switch (id)
             {
-                if (hand.overlaps(ball) && vc.states.selectStated[ID])
-                    vc.states.select[ID] = true;
-                selected = vc.states.select[ID];
-                vc.states.selectStated[ID] = false;
+                case 0:
+                    sid = "one";
+                    break;
+                case 1:
+                    sid = "two";
+                    break;
             }
+
+            if (Program.game.vc.newWordReady && Program.game.vc.word == "select " + sid)
+            {
+                Program.game.vc.newWordReady = false;
+                return true;
+            }
+            else if (Program.game.kb.newKeyReady && Program.game.kb.key == (id + 1).ToString())
+            {
+                Program.game.kb.newKeyReady = false;
+                return true;
+            }
+            return false;
         }
 
         private Vector2 getPosition(Skeleton skeleton)
@@ -117,14 +140,25 @@ namespace MazeAndBlue
             ball.position = pos;
         }
 
+        public void setBallPos(Vector2 pos)
+        {
+            ball.position = pos;
+        }
+
         public bool overlaps(Sprite sprite)
         {
-            return ball.overlaps(sprite);
+            if (!selected)
+                return hand.overlaps(sprite);
+            else
+                return ball.overlaps(sprite);
         }
 
         public bool overlaps(Rectangle rect)
         {
-            return ball.overlaps(rect);
+            if (!selected)
+                return hand.overlaps(rect);
+            else
+                return ball.overlaps(rect);
         }
 
         public void onLeftClick(Point point)

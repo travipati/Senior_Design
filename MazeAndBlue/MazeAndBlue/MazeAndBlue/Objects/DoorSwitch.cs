@@ -47,9 +47,9 @@ namespace MazeAndBlue
             spriteBatch.Draw(switchTexture, dswitch, color);
         }
 
-        public void update(Player player1, Player player2, ref List<Rectangle> walls)
+        public void update(ref List<Rectangle> walls)
         {
-            if (player1.overlaps(dswitch) || player2.overlaps(dswitch))
+            if (Program.game.players[0].overlaps(dswitch) || Program.game.players[1].overlaps(dswitch))
             {
                 doorColor = Color.Transparent;
                 foreach (Rectangle rect in doors)

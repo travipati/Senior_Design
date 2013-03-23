@@ -2,34 +2,23 @@
 
 namespace MazeAndBlue
 {
-    class KeyboardSelect
+    public class KeyboardSelect
     {
-        public selectStates states;
         KeyboardState prev;
+        public bool newKeyReady = false;
+        public string key;
 
-        public KeyboardSelect (ref selectStates sharedState)
+        public void grabInput()
         {
-            states = sharedState;
-        }
-
-        public void grabInput (KeyboardState k)
-        {
-            if (k.IsKeyDown(Keys.D1) && prev.IsKeyUp(Keys.D1))
-            {
-                if (states.select[0])  
-                    states.select[0] = false;
-                else
-                    states.selectStated[0] = true;
-                
-                System.Diagnostics.Debug.WriteLine("write!");
-            }
-            if (k.IsKeyDown(Keys.D2) && prev.IsKeyUp(Keys.D2))
-            {
-                if (states.select[1])
-                    states.select[1] = false;
-                else
-                    states.selectStated[1] = true;
-            }
+            KeyboardState cur = Keyboard.GetState();
+            if (cur.IsKeyDown(Keys.D1) && prev.IsKeyUp(Keys.D1))
+                key = "1";
+            else if (cur.IsKeyDown(Keys.D2) && prev.IsKeyUp(Keys.D2))
+                key = "2";
+            else if (cur.IsKeyDown(Keys.Escape) && prev.IsKeyUp(Keys.Escape))
+                key = "Esc";
+            prev = cur;
+            newKeyReady = true;
         }
     }
 }

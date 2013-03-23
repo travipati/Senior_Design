@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Objects\Button.cs" />
+    <Compile Include="Screens\Class1.cs" />
     <Compile Include="Screens\InstructionScreen.cs" />
     <Compile Include="Screens\PauseScreen.cs" />
     <Compile Include="Screens\LevelSelectionScreen.cs" />

@@ -1,13 +1,16 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace MazeAndBlue
 {
     public class MainMenu
     {
         Texture2D texture;
-        Sprite singlePlayerButton, coopModeButton, settingsButton, instructionsButton,
+        Button coopModeButton;
+        Sprite singlePlayerButton, settingsButton, instructionsButton,
              statisticsButton, exitButton;
         Rectangle screenRectangle;
 
@@ -27,7 +30,7 @@ namespace MazeAndBlue
             int X3 = screenRectangle.Left + 5 * screenRectangle.Width / 7;
             
             singlePlayerButton = new Sprite(new Vector2(X1, Y1), buttonWidth, buttonHeight);
-            coopModeButton = new Sprite(new Vector2(X2, Y1), buttonWidth, buttonHeight);
+            coopModeButton = new Button(new Vector2(X2, Y1), buttonWidth, buttonHeight, "co op mode");
             settingsButton = new Sprite(new Vector2(X3, Y1), buttonWidth, buttonHeight);
             instructionsButton = new Sprite(new Vector2(X1, Y2), buttonWidth, buttonHeight);
             statisticsButton = new Sprite(new Vector2(X2, Y2), buttonWidth, buttonHeight);
@@ -58,12 +61,18 @@ namespace MazeAndBlue
             exitButton.draw(spriteBatch);
         }
 
+        public void update(Point point)
+        {
+            if (coopModeButton.isSelected(point))
+                Program.game.startLevelSelectionScreen();
+        }
+
         public void onLeftClick(Point point)
         {
             if (singlePlayerButton.contains(point))
                 onSinglePlayerButtonPress();
-            else if (coopModeButton.contains(point))
-                onCoopModeButtonPress();
+//            else if (coopModeButton.contains(point))
+//                onCoopModeButtonPress();
             else if (settingsButton.contains(point))
                 onSettingsButtonPress();
             else if (statisticsButton.contains(point))
@@ -81,7 +90,7 @@ namespace MazeAndBlue
         
         private void onCoopModeButtonPress()
         {
-            Program.game.startLevelSelectionScreen();
+            //Program.game.startLevelSelectionScreen();
         }
 
         private void onSettingsButtonPress()

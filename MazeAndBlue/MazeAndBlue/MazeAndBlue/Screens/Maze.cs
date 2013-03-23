@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MazeAndBlue
 {
-    class Maze
+    public class Maze
     {
         Button pauseButton;
         Color goalColor;
@@ -146,15 +146,16 @@ namespace MazeAndBlue
                 detectWall(sprite, wall, ref nextPosition);
         }
 
-        public void update(Player player1, Player player2)
+        public void update()
         {
             foreach (DoorSwitch dswitch in switchs)
-                dswitch.update(player1, player2, ref walls);
+                dswitch.update(ref walls);
 
-            if (player1.selected || player2.selected || player1.mouseSelected || player2.mouseSelected)
+            if (Program.game.players[0].selected || Program.game.players[1].selected || 
+                Program.game.players[0].mouseSelected || Program.game.players[1].mouseSelected)
                 timer.start();
 
-            if (player1.overlaps(goal) && player2.overlaps(goal))
+            if (Program.game.players[0].overlaps(goal) && Program.game.players[1].overlaps(goal))
             {
                 goalColor = Color.Green;
                 timer.stop();

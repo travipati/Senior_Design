@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MazeAndBlue
 {
-    class Sprite
+    public class Sprite
     {
         public Vector2 position;
         public int width, height;

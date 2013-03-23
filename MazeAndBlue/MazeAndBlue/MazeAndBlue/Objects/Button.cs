@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MazeAndBlue
 {
-    class Button : Sprite
+    public class Button : Sprite
     {
-        string text;
+        public string text;
 
         public Button(Vector2 pos, int w, int h, string s) : base(pos, w, h)
         {
@@ -33,5 +33,22 @@ namespace MazeAndBlue
             spriteBatch.DrawString(MazeAndBlue.font, text, textPos, fontColor);
         }
 
+        public bool isSelected(Point point)
+        {
+            if (point != new Point(-1,-1) && contains(point))
+                return true;
+            else if (Program.game.vc.newWordReady && Program.game.vc.word == text)
+            {
+                Program.game.vc.newWordReady = false;
+                return true;
+            }
+            foreach (Player player in Program.game.players)
+            {
+                if (player.overlaps(this) && player.selecting())
+                    return true;
+            }
+
+            return false;
+        }
     }
 }
