@@ -83,17 +83,8 @@ namespace MazeAndBlue
         public void update()
         {
             foreach (Button button in buttons)
-            {
-                if (button.isOver())
-                {
-                    button.enlarge(0.1);
-                    button.loadContent(Program.game.Content, "Buttons/Hover");
-                }
-                else
-                {
-                    button.reload();
-                }
-            }
+                button.update();
+            
             if (coopModeButton.isSelected())
                 Program.game.startLevelSelectionScreen();
             else if (instructionsButton.isSelected())

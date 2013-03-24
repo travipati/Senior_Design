@@ -74,6 +74,17 @@ namespace MazeAndBlue
             spriteBatch.DrawString(MazeAndBlue.font, text, textPos, fontColor);
         }
 
+        public void update()
+        {
+            if (isOver())
+            {
+                enlarge(0.1);
+                loadContent(Program.game.Content, "Buttons/Hover");
+            }
+            else
+                reload();
+        }
+
         public bool isSelected()
         {
             if (Program.game.ms.newPointReady && contains(Program.game.ms.point))
@@ -89,9 +100,7 @@ namespace MazeAndBlue
             foreach (Player player in Program.game.players)
             {
                 if (player.overlaps(this) && player.selecting())
-                {
                     return true;
-                }
             }
 
             return false;
@@ -100,9 +109,13 @@ namespace MazeAndBlue
         public bool isOver()
         {
             if (contains(Program.game.ms.point))
-            {
                 return true;
+            foreach (Player player in Program.game.players)
+            {
+                if (player.overlaps(this))
+                    return true;
             }
+
             return false;
         }
     }
