@@ -78,34 +78,24 @@ namespace MazeAndBlue
             spriteBatch.DrawString(MazeAndBlue.font, text, textPos, Color.Black);
         }
 
-        public void onLeftClick(Point point)
+        public void update()
         {
-            if (menuButton.contains(point))
-                onMenuButtonPress();
-            else if (left.contains(point))
+            if (menuButton.isSelected())
+                Program.game.startMainMenu();
+            else if (left.isSelected())
                 undefinedButtonPress();
-            else if (right.contains(point))
+            else if (right.isSelected())
                 undefinedButtonPress();
             for (int i = 0; i < levelButtons.Count; i++)
             {
-                if (levelButtons[i].contains(point))
-                    onLevelButtonPress(i);
+                if (levelButtons[i].isSelected())
+                    Program.game.startLevel(i);
             }
         }
 
-        private void onLevelButtonPress(int levelButton)
-        {
-            Program.game.startLevel(levelButton);
-        }
-        
         private void undefinedButtonPress()
         {
             MessageBox(new IntPtr(0), "button undefined", "Error", 0);
-        }
-
-        private void onMenuButtonPress()
-        {
-            Program.game.startMainMenu();
         }
     }
 }

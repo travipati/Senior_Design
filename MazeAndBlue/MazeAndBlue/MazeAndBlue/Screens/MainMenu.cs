@@ -9,7 +9,11 @@ namespace MazeAndBlue
     public class MainMenu
     {
         Texture2D texture;
+<<<<<<< HEAD
+        Button singlePlayerButton, coopModeButton, settingsButton, instructionsButton,
+=======
         Button coopModeButton, singlePlayerButton, settingsButton, instructionsButton,
+>>>>>>> 46dc79e1d959d084732376010018739e00afb343
              statisticsButton, exitButton;
         List<Button> buttons;
         Rectangle screenRectangle;
@@ -28,6 +32,15 @@ namespace MazeAndBlue
             int X1 = screenRectangle.Left + screenRectangle.Width / 7;
             int X2 = screenRectangle.Left + 3 * screenRectangle.Width / 7;
             int X3 = screenRectangle.Left + 5 * screenRectangle.Width / 7;
+<<<<<<< HEAD
+            
+            singlePlayerButton = new Button(new Point(X1, Y1), buttonWidth, buttonHeight, "");
+            coopModeButton = new Button(new Point(X2, Y1), buttonWidth, buttonHeight, "co op mode");
+            settingsButton = new Button(new Point(X3, Y1), buttonWidth, buttonHeight, "");
+            instructionsButton = new Button(new Point(X1, Y2), buttonWidth, buttonHeight, "");
+            statisticsButton = new Button(new Point(X2, Y2), buttonWidth, buttonHeight, "");
+            exitButton = new Button(new Point(X3, Y2), buttonWidth, buttonHeight, "");
+=======
 
             singlePlayerButton = new Button
                 (new Point(X1, Y1), buttonWidth, buttonHeight, "single mode", "Buttons/singlePlayer");
@@ -49,6 +62,7 @@ namespace MazeAndBlue
             buttons.Add(instructionsButton);
             buttons.Add(statisticsButton);
             buttons.Add(exitButton);
+>>>>>>> 46dc79e1d959d084732376010018739e00afb343
         }
 
         public void loadContent(GraphicsDevice graphicsDevice, ContentManager content)
@@ -91,9 +105,13 @@ namespace MazeAndBlue
             }
             if (coopModeButton.isSelected())
                 Program.game.startLevelSelectionScreen();
+            else if (instructionsButton.isSelected())
+                Program.game.startInstructionScreen();
+            else if (exitButton.isSelected())
+                Program.game.Exit();
         }
 
-        public void onLeftClick(Point point)
+/*        public void onLeftClick(Point point)
         {
             if (singlePlayerButton.contains(point))
                 onSinglePlayerButtonPress();
@@ -114,10 +132,10 @@ namespace MazeAndBlue
             //Program.game.startLevelSelectionScreen();
         }
         
-/*        private void onCoopModeButtonPress()
+        private void onCoopModeButtonPress()
         {
             Program.game.startLevelSelectionScreen();
-        }*/
+        }
 
         private void onSettingsButtonPress()
         {
@@ -132,6 +150,6 @@ namespace MazeAndBlue
         private void onInstructionButtonPress()
         {
             Program.game.startInstructionScreen();
-        }
+        }*/
     }
 }

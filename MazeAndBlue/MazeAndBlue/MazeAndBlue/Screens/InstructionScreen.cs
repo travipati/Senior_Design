@@ -8,7 +8,7 @@ namespace MazeAndBlue
     {
         Texture2D texture;
         Rectangle screenRectangle;
-        Sprite backButton;
+        Button backButton;
 
         public InstructionScreen()
         {
@@ -20,7 +20,7 @@ namespace MazeAndBlue
             int buttonHeight = screenHeight / 8;
             int X = 40;
             int Y = 40;
-            backButton = new Sprite(new Point(X, Y), buttonWidth, buttonHeight);
+            backButton = new Button(new Point(X, Y), buttonWidth, buttonHeight, "");
         }
 
         public void loadContent(GraphicsDevice graphicsDevice, ContentManager content)
@@ -36,15 +36,10 @@ namespace MazeAndBlue
             backButton.draw(spriteBatch);
         }
 
-        public void onLeftClick(Point point)
+        public void update()
         {
-            if (backButton.contains(point))
-                onBackButtonPress();
-        }
-
-        public void onBackButtonPress()
-        {
-            Program.game.startMainMenu();
+            if (backButton.isSelected())
+                Program.game.startMainMenu();
         }
     }
 }

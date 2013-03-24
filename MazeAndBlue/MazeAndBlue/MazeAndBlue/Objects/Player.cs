@@ -6,9 +6,8 @@ using Microsoft.Kinect;
 
 namespace MazeAndBlue
 {
-    public class Player
+    public class Player : Sprite
     {
-        Sprite hand;
         float yRange, xRangeMin, xRangeMax;
         
         public bool righthanded { get; set; }
@@ -17,7 +16,6 @@ namespace MazeAndBlue
 
         public Player(float xmin, float xmax, Color c, int playerNum)
         {
-            hand = new Sprite();
             righthanded = true;
             yRange = 0.5f;
             xRangeMin = xmin;
@@ -28,12 +26,12 @@ namespace MazeAndBlue
 
         public void loadContent(ContentManager content)
         {
-            hand.loadContent(content, "hand");
+            loadContent(content, "hand");
         }
 
         public void draw(SpriteBatch spriteBatch)
         {
-            hand.draw(spriteBatch, color);
+            draw(spriteBatch, color);
         }
 
         public void update(Skeleton skeleton)
@@ -68,11 +66,6 @@ namespace MazeAndBlue
             return false;
         }
 
-        public Point getPosition()
-        {
-            return hand.position;
-        }
-
         private Point getPosition(Skeleton skeleton)
         {
             SkeletonPoint point;
@@ -100,19 +93,9 @@ namespace MazeAndBlue
 
         private void moveHand(Point pos)
         {
-            pos.X -= hand.width / 2;
-            pos.Y -= hand.height / 2;
-            hand.position = pos;
-        }
-
-        public bool overlaps(Sprite sprite)
-        {
-            return hand.overlaps(sprite);
-        }
-
-        public bool overlaps(Rectangle rect)
-        {
-            return hand.overlaps(rect);
+            pos.X -= width / 2;
+            pos.Y -= height / 2;
+            position = pos;
         }
     }
 }

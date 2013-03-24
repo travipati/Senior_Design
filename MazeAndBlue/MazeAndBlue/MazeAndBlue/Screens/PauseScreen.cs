@@ -69,22 +69,12 @@ namespace MazeAndBlue
             spriteBatch.DrawString(MazeAndBlue.font, text, textPos, Color.Black);
         }
 
-        public void onLeftClick(Point point)
+        public void update()
         {
-            if (resumeButton.contains(point))
-                onResumeButtonPress();
-            if (menuButton.contains(point))
-                onMenuButtonPress();
-        }
-
-        private void onResumeButtonPress()
-        {
-            Program.game.resumeLevel();
-        }
-
-        private void onMenuButtonPress()
-        {
-            Program.game.startMainMenu();
+            if (resumeButton.isSelected())
+                Program.game.resumeLevel();
+            if (menuButton.isSelected())
+                Program.game.startMainMenu();
         }
     }
 }

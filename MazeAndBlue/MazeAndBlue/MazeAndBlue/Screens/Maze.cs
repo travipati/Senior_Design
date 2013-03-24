@@ -84,8 +84,8 @@ namespace MazeAndBlue
                 dswitch.draw(spriteBatch);
             spriteBatch.Draw(goalTexture, goal, goalColor);
             timer.draw(spriteBatch);
-            foreach (Ball ball in balls)
-                ball.draw(spriteBatch);
+            balls[1].draw(spriteBatch);
+            balls[0].draw(spriteBatch);
             for (int i = Program.game.players.Count - 1; i >= 0; i--)
             {
                 if (balls[0].playerId != i && balls[1].playerId != i)
@@ -98,67 +98,25 @@ namespace MazeAndBlue
             draw(spriteBatch, Color.Black);
         }
 
-        private void detectWall(Sprite sprite, Rectangle wall, ref Point nextPosition)
-        {
-            int spriteTop = (int)sprite.position.Y;
-            int spriteBottom = (int)sprite.position.Y + sprite.height;
-            int spriteLeft = (int)sprite.position.X;
-            int spriteRight = (int)sprite.position.X + sprite.width;
-
-            int nextTop = (int)nextPosition.Y;
-            int nextBottom = (int)nextPosition.Y + sprite.height;
-            int nextLeft = (int)nextPosition.X;
-            int nextRight = (int)nextPosition.X + sprite.width;
-
-            if (spriteBottom > wall.Top && spriteTop < wall.Bottom)
-            {
-                if (spriteRight <= wall.Left && nextRight > wall.Left)
-                    nextPosition.X = wall.Left - sprite.width;
-                else if (spriteLeft >= wall.Right && nextLeft < wall.Right)
-                    nextPosition.X = wall.Right;
-            }
-            if (spriteRight > wall.Left && spriteLeft < wall.Right)
-            {
-                if (spriteBottom <= wall.Top && nextBottom > wall.Top)
-                    nextPosition.Y = wall.Top - sprite.height;
-                else if (spriteTop >= wall.Bottom && nextTop < wall.Bottom)
-                    nextPosition.Y = wall.Bottom;
-            }
-            if (spriteRight < wall.Left && spriteBottom < wall.Top && nextRight > wall.Left && nextBottom > wall.Top)
-            {
-                nextPosition.X = wall.Left - sprite.width;
-                nextPosition.Y = wall.Top - sprite.height;
-            }
-            else if (spriteRight < wall.Left && spriteTop > wall.Bottom && nextRight > wall.Left && nextTop < wall.Bottom)
-            {
-                nextPosition.X = wall.Left - sprite.width;
-                nextPosition.Y = wall.Bottom;
-            }
-            else if (spriteLeft > wall.Right && spriteBottom < wall.Top && nextLeft < wall.Right && nextBottom > wall.Top)
-            {
-                nextPosition.X = wall.Right;
-                nextPosition.Y = wall.Top - sprite.height;
-            }
-            else if (spriteLeft > wall.Right && spriteTop > wall.Bottom && nextLeft < wall.Right && nextTop < wall.Bottom)
-            {
-                nextPosition.X = wall.Right;
-                nextPosition.Y = wall.Bottom;
-            }
-        }
-
-        public void detectWalls(Sprite sprite, ref Point nextPosition)
-        {
-            foreach (Rectangle wall in walls)
-                detectWall(sprite, wall, ref nextPosition);
-        }
-
         public void update()
         {
             foreach (DoorSwitch dswitch in switchs)
                 dswitch.update(balls, ref walls);
 
             foreach (Ball ball in balls)
-                ball.update(this);
+            {
+                ball.select();
+
+                if (ball.playerId >= 0 || ball.mouseSelected)
+                {
+                    Point position;
+                    position = Program.game.ms.point;
+                    if (ball.playerId >= 0)
+                        position = Program.game.players[ball.playerId].position;
+                    detectWalls(ball, ref position);
+                    ball.moveBall(position);
+                }
+            }
 
             if (balls[0].playerId > 0 || balls[1].playerId > 0 || balls[0].mouseSelected || balls[1].mouseSelected)
                 timer.start();
@@ -173,6 +131,71 @@ namespace MazeAndBlue
                     ball.mouseSelected = false;
                 }
                 Program.game.startScoreScreen(timer.time);
+            }
+
+            if (pauseButton.isSelected())
+            {
+                timer.stop();
+                foreach (Ball ball in balls)
+                {
+                    ball.playerId = -1;
+                    ball.mouseSelected = false;
+                }
+                Program.game.startPauseSelectionScreen();
+            }
+        }
+
+        public void detectWalls(Ball ball, ref Point nextPosition)
+        {
+            foreach (Rectangle wall in walls)
+                detectWall(ball, wall, ref nextPosition);
+        }
+
+        private void detectWall(Ball ball, Rectangle wall, ref Point nextPosition)
+        {
+            int spriteTop = (int)ball.position.Y;
+            int spriteBottom = (int)ball.position.Y + ball.height;
+            int spriteLeft = (int)ball.position.X;
+            int spriteRight = (int)ball.position.X + ball.width;
+
+            int nextTop = (int)nextPosition.Y;
+            int nextBottom = (int)nextPosition.Y + ball.height;
+            int nextLeft = (int)nextPosition.X;
+            int nextRight = (int)nextPosition.X + ball.width;
+
+            if (spriteBottom > wall.Top && spriteTop < wall.Bottom)
+            {
+                if (spriteRight <= wall.Left && nextRight > wall.Left)
+                    nextPosition.X = wall.Left - ball.width;
+                else if (spriteLeft >= wall.Right && nextLeft < wall.Right)
+                    nextPosition.X = wall.Right;
+            }
+            if (spriteRight > wall.Left && spriteLeft < wall.Right)
+            {
+                if (spriteBottom <= wall.Top && nextBottom > wall.Top)
+                    nextPosition.Y = wall.Top - ball.height;
+                else if (spriteTop >= wall.Bottom && nextTop < wall.Bottom)
+                    nextPosition.Y = wall.Bottom;
+            }
+            if (spriteRight < wall.Left && spriteBottom < wall.Top && nextRight > wall.Left && nextBottom > wall.Top)
+            {
+                nextPosition.X = wall.Left - ball.width;
+                nextPosition.Y = wall.Top - ball.height;
+            }
+            if (spriteRight < wall.Left && spriteTop > wall.Bottom && nextRight > wall.Left && nextTop < wall.Bottom)
+            {
+                nextPosition.X = wall.Left - ball.width;
+                nextPosition.Y = wall.Bottom;
+            }
+            if (spriteLeft > wall.Right && spriteBottom < wall.Top && nextLeft < wall.Right && nextBottom > wall.Top)
+            {
+                nextPosition.X = wall.Right;
+                nextPosition.Y = wall.Top - ball.height;
+            }
+            if (spriteLeft > wall.Right && spriteTop > wall.Bottom && nextLeft < wall.Right && nextTop < wall.Bottom)
+            {
+                nextPosition.X = wall.Right;
+                nextPosition.Y = wall.Bottom;
             }
         }
 
@@ -239,23 +262,6 @@ namespace MazeAndBlue
                 return false;
             
             return true;
-        }
-
-        public void onLeftClick(Point point)
-        {
-            if (pauseButton.contains(point))
-                onPauseButtonPress();
-        }
-
-        private void onPauseButtonPress()
-        {
-            timer.stop();
-            foreach (Ball ball in balls)
-            {
-                ball.playerId = -1;
-                ball.mouseSelected = false;
-            }
-            Program.game.startPauseSelectionScreen();
         }
     }
 }

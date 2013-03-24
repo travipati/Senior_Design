@@ -87,33 +87,69 @@ namespace MazeAndBlue
         {
         }
 
-        protected override void Update(GameTime gameTime)
+        public void startMainMenu()
         {
-            ms.grabInput();
-            ks.grabInput();
+            mainMenu = new MainMenu();
+            mainMenu.loadContent(GraphicsDevice, Content);
+            state = GameState.MAIN;
+            /*
+            player1.selected = false;
+            player1.mouseSelected = false;
+            player2.selected = false;
+            player2.mouseSelected = false;
+             * */
+        }
 
-            if (vs.word == "exit" || ks.key == "Esc")
-                Exit();
+        public void startLevelSelectionScreen()
+        {
+            levelSelectionScreen = new LevelSelectionScreen();
+            levelSelectionScreen.loadContent(GraphicsDevice, Content);
+            state = GameState.LEVEL;
+            /*            player1.selected = false;
+                        player1.mouseSelected = false;
+                        player2.selected = false;
+                        player2.mouseSelected = false;
+             */
+        }
 
-            switch (state)
-            {
-                case GameState.MAIN:
-                    mainMenu.update();
-                    break;
-                case GameState.GAME:
-                    maze.update();
-                    break;
-            }
+        public void startLevel(int selectedLevel)
+        {
+            level = selectedLevel;
+            nextLevel();
+        }
 
-            players[0].update(kinect.playerSkeleton[0]);
-            players[1].update(kinect.playerSkeleton[1]);
+        public void nextLevel()
+        {
+            state = GameState.GAME;
+            level %= numLevels;
+            maze = new Maze("Mazes\\" + level++ + ".maze");
+            maze.loadContent(GraphicsDevice, Content);
+        }
 
-            MouseState mouseState = Mouse.GetState();
-            if (prevMouseState.LeftButton == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released)
-                OnLeftClick(new Point(mouseState.X, mouseState.Y));
-            prevMouseState = mouseState;
+        public void resumeLevel()
+        {
+            state = GameState.GAME;
+        }
 
-            base.Update(gameTime);
+        public void startScoreScreen(int time)
+        {
+            scoreScreen = new ScoreScreen(time);
+            scoreScreen.loadContent(GraphicsDevice, Content);
+            state = GameState.SCORE;
+        }
+
+        public void startPauseSelectionScreen()
+        {
+            pauseScreen = new PauseScreen();
+            pauseScreen.loadContent(GraphicsDevice, Content);
+            state = GameState.PAUSE;
+        }
+
+        public void startInstructionScreen()
+        {
+            instructionScreen = new InstructionScreen();
+            instructionScreen.loadContent(GraphicsDevice, Content);
+            state = GameState.INSTR;
         }
 
         protected override void Draw(GameTime gameTime)
@@ -159,72 +195,48 @@ namespace MazeAndBlue
             base.Draw(gameTime);
         }
 
-        public void startMainMenu()
+        protected override void Update(GameTime gameTime)
         {
-            mainMenu = new MainMenu();
-            mainMenu.loadContent(GraphicsDevice, Content);
-            state = GameState.MAIN;
-            /*
-            player1.selected = false;
-            player1.mouseSelected = false;
-            player2.selected = false;
-            player2.mouseSelected = false;
-             * */
+            ms.grabInput();
+            ks.grabInput();
+
+            if (vs.word == "exit" || ks.key == "Esc")
+                Exit();
+
+            switch (state)
+            {
+                case GameState.MAIN:
+                    mainMenu.update();
+                    break;
+                case GameState.LEVEL:
+                    levelSelectionScreen.update();
+                    break;
+                case GameState.GAME:
+                    maze.update();
+                    break;
+                case GameState.SCORE:
+                    scoreScreen.update();
+                    break;
+                case GameState.PAUSE:
+                    pauseScreen.update();
+                    break;
+                case GameState.INSTR:
+                    instructionScreen.update();
+                    break;
+            }
+
+            players[0].update(kinect.playerSkeleton[0]);
+            players[1].update(kinect.playerSkeleton[1]);
+
+            /*MouseState mouseState = Mouse.GetState();
+            if (prevMouseState.LeftButton == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released)
+                OnLeftClick(new Point(mouseState.X, mouseState.Y));
+            prevMouseState = mouseState;*/
+
+            base.Update(gameTime);
         }
 
-        public void startLevel(int selectedLevel)
-        {
-            level = selectedLevel;
-            nextLevel();
-        }
-
-        public void resumeLevel()
-        {
-            state = GameState.GAME;
-        }
-
-        public void nextLevel()
-        {
-            state = GameState.GAME;
-            level %= numLevels;
-            maze = new Maze("Mazes\\" + level++ + ".maze");
-            maze.loadContent(GraphicsDevice, Content);
-        }
-
-        public void startScoreScreen(int time)
-        {
-            scoreScreen = new ScoreScreen(time);
-            scoreScreen.loadContent(GraphicsDevice, Content);
-            state = GameState.SCORE;
-        }
-
-        public void startLevelSelectionScreen()
-        {
-            levelSelectionScreen = new LevelSelectionScreen();
-            levelSelectionScreen.loadContent(GraphicsDevice, Content);
-            state = GameState.LEVEL;
-/*            player1.selected = false;
-            player1.mouseSelected = false;
-            player2.selected = false;
-            player2.mouseSelected = false;
- */
-        }
-
-        public void startPauseSelectionScreen()
-        {
-            pauseScreen = new PauseScreen();
-            pauseScreen.loadContent(GraphicsDevice, Content);
-            state = GameState.PAUSE;
-        }
-
-        public void startInstructionScreen()
-        {
-            instructionScreen = new InstructionScreen();
-            instructionScreen.loadContent(GraphicsDevice, Content);
-            state = GameState.INSTR;
-        }
-
-        private void OnLeftClick(Point point)
+        /*private void OnLeftClick(Point point)
         {
             switch (state)
             {
@@ -247,7 +259,7 @@ namespace MazeAndBlue
                     instructionScreen.onLeftClick(point);
                     break;
             }
-        }
+        }*/
 
         public int sx(int x)
         {
