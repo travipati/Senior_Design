@@ -63,13 +63,12 @@ namespace MazeAndBlue
         protected override void Initialize()
         {
             kinect = new Kinect();
-            //startLevel(level);
-            startMainMenu();
-
             ms = new MouseSelect();
             vs = new VoiceSelect();
             vs.recognizeSpeech(kinect.getSensorReference());
             ks = new KeyboardSelect();
+
+            startMainMenu();
 
             base.Initialize();
         }

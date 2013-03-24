@@ -7,16 +7,57 @@ namespace MazeAndBlue
     public class Button : Sprite
     {
         public string text;
+        int originalW;
+        int originalH;
+        Point originalPos;
+        public string path;
 
-        public Button(Point pos, int w, int h, string s) : base(pos, w, h)
+        public Button(Point pos, int w, int h, string s)
+            : base(pos, w, h)
         {
+            originalH = h;
+            originalW = w;
+            originalPos = pos;
             text = s;
+        }
+
+        public Button(Point pos, int w, int h, string s, string p) : base(pos, w, h)
+        {
+            originalH = h;
+            originalW = w;
+            originalPos = pos;
+            text = s;
+            path = p;
+        }
+
+        public void enlarge(double p)
+        {
+            int w = (int)(originalW * (1 + p));
+            int h = (int)(originalH * (1 + p));
+            this.position.X = originalPos.X - (int)(originalW * 0.5 * p);  
+            this.position.Y = originalPos.Y - (int)(originalH * 0.5 * p);
+            this.width = w;
+            this.height = h;
+        }
+
+        public void resetSize()
+        {
+            this.position = originalPos;
+            this.height = originalH;
+            this.width = originalW;
+        }
+
+        public void reload()
+        {
+            resetSize();
+            loadContent(Program.game.Content, path);
         }
 
         public void loadContent(ContentManager content)
         {
             loadContent(content, "Buttons/button");
         }
+
 
         public override void draw(SpriteBatch spriteBatch, Color textureColor)
         {
@@ -48,10 +89,21 @@ namespace MazeAndBlue
             foreach (Player player in Program.game.players)
             {
                 if (player.overlaps(this) && player.selecting())
+                {
                     return true;
+                }
             }
             Program.game.ms.newPointReady = false;
             Program.game.vs.newWordReady = false;
+            return false;
+        }
+
+        public bool isOver()
+        {
+            if (contains(Program.game.ms.point))
+            {
+                return true;
+            }
             return false;
         }
     }

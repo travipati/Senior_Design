@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace MazeAndBlue
 {
@@ -13,6 +14,7 @@ namespace MazeAndBlue
         Texture2D texture;
         Rectangle window;
         Button resumeButton, menuButton;
+        List<Button> buttons;
 
         public PauseScreen()
         {
@@ -25,6 +27,9 @@ namespace MazeAndBlue
             int menuX = window.Left + window.Width / 2 - buttonWidth / 2;
             resumeButton = new Button(new Point(menuX, window.Bottom - window.Height / 2 - buttonHeight / 2), buttonWidth, buttonHeight, "Resume");
             menuButton = new Button(new Point(menuX, y), buttonWidth, buttonHeight, "Main Menu");
+            buttons = new List<Button>();
+            buttons.Add(resumeButton);
+            buttons.Add(menuButton);
         }
 
         public void loadContent(GraphicsDevice graphicsDevice, ContentManager content)
@@ -33,6 +38,22 @@ namespace MazeAndBlue
             texture.SetData<Color>(new Color[] { Color.White });
             resumeButton.loadContent(content);
             menuButton.loadContent(content);
+        }
+
+        public void update()
+        {
+            foreach (Button button in buttons)
+            {
+                if (button.isOver())
+                {
+                    button.enlarge(0.1);
+                    button.loadContent(Program.game.Content, "Buttons/Hover");
+                }
+                else
+                {
+                    button.reload();
+                }
+            }
         }
 
         public void draw(SpriteBatch spriteBatch)
