@@ -50,7 +50,8 @@ namespace MazeAndBlue
                 if (player.overlaps(this) && player.selecting())
                     return true;
             }
-
+            Program.game.ms.newPointReady = false;
+            Program.game.vs.newWordReady = false;
             return false;
         }
     }
