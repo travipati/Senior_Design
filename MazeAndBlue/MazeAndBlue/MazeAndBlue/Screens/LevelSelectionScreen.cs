@@ -42,14 +42,14 @@ namespace MazeAndBlue
             int menuButtonx = screenWidth / 12 * 5;
             int rightx = screenWidth / 12 * 9;
 
-            menuButton = new Button(new Vector2(menuButtonx, menuButtony), menuButtonWidth, menuButtonHeight, "Main Menu");
-            left = new Button(new Vector2(leftx, menuButtony), menuButtonWidth, menuButtonHeight, "prev");
-            right = new Button(new Vector2(rightx, menuButtony), menuButtonWidth, menuButtonHeight, "next");
+            menuButton = new Button(new Point(menuButtonx, menuButtony), menuButtonWidth, menuButtonHeight, "Main Menu");
+            left = new Button(new Point(leftx, menuButtony), menuButtonWidth, menuButtonHeight, "prev");
+            right = new Button(new Point(rightx, menuButtony), menuButtonWidth, menuButtonHeight, "next");
 
             levelButtons = new List<Button>();
-            levelButtons.Add(new Button(new Vector2(level1x, levelButtony), levelButtonWidth, levelButtonHeight, "1"));
-            levelButtons.Add(new Button(new Vector2(level2x, levelButtony), levelButtonWidth, levelButtonHeight, "2"));
-            levelButtons.Add(new Button(new Vector2(level3x, levelButtony), levelButtonWidth, levelButtonHeight, "3"));
+            levelButtons.Add(new Button(new Point(level1x, levelButtony), levelButtonWidth, levelButtonHeight, "1"));
+            levelButtons.Add(new Button(new Point(level2x, levelButtony), levelButtonWidth, levelButtonHeight, "2"));
+            levelButtons.Add(new Button(new Point(level3x, levelButtony), levelButtonWidth, levelButtonHeight, "3"));
         }
         
         public void loadContent(GraphicsDevice graphicsDevice, ContentManager content)

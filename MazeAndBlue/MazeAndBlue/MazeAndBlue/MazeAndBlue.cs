@@ -106,8 +106,8 @@ namespace MazeAndBlue
                     break;
             }
 
-            players[0].update(kinect.playerSkeleton[0], maze);
-            players[1].update(kinect.playerSkeleton[1], maze);
+            players[0].update(kinect.playerSkeleton[0]);
+            players[1].update(kinect.playerSkeleton[1]);
 
             MouseState mouseState = Mouse.GetState();
             if (prevMouseState.LeftButton == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released)
@@ -136,8 +136,6 @@ namespace MazeAndBlue
                     break;
                 case GameState.GAME:
                     maze.draw(spriteBatch);
-                    players[1].drawBall(spriteBatch);
-                    players[0].drawBall(spriteBatch);
                     break;
                 case GameState.SCORE:
                     scoreScreen.draw(spriteBatch);
@@ -151,8 +149,11 @@ namespace MazeAndBlue
                     break;
             }
 
-            players[1].drawHand(spriteBatch);
-            players[0].drawHand(spriteBatch);
+            if (state != GameState.GAME)
+            {
+                players[1].draw(spriteBatch);
+                players[0].draw(spriteBatch);
+            }
 
             spriteBatch.End();
 
@@ -189,8 +190,6 @@ namespace MazeAndBlue
             level %= numLevels;
             maze = new Maze("Mazes\\" + level++ + ".maze");
             maze.loadContent(GraphicsDevice, Content);
-            players[0].setBallPos(maze.p1StartPosition);
-            players[1].setBallPos(maze.p2StartPosition);
         }
 
         public void startScoreScreen(int time)
@@ -198,11 +197,6 @@ namespace MazeAndBlue
             scoreScreen = new ScoreScreen(time);
             scoreScreen.loadContent(GraphicsDevice, Content);
             state = GameState.SCORE;
-            foreach (Player player in players)
-            {
-                player.selected = false;
-                player.mouseSelected = false;
-            }
         }
 
         public void startLevelSelectionScreen()
@@ -222,11 +216,6 @@ namespace MazeAndBlue
             pauseScreen = new PauseScreen();
             pauseScreen.loadContent(GraphicsDevice, Content);
             state = GameState.PAUSE;
-            foreach (Player player in players)
-            {
-                player.selected = false;
-                player.mouseSelected = false;
-            }
         }
 
         public void startInstructionScreen()
@@ -248,8 +237,6 @@ namespace MazeAndBlue
                     break;
                 case GameState.GAME:
                     maze.onLeftClick(point);
-                    foreach (Player player in players)
-                        player.onLeftClick(point);
                     break;
                 case GameState.SCORE:
                     scoreScreen.onLeftClick(point);

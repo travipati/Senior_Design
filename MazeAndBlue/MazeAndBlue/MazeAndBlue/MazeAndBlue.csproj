@@ -79,6 +79,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Objects\Ball.cs" />
     <Compile Include="Objects\Button.cs" />
     <Compile Include="Objects\MouseSelect.cs" />
     <Compile Include="Screens\Class1.cs" />

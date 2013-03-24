@@ -12,13 +12,11 @@ namespace MazeAndBlue
         Button pauseButton;
         Color goalColor;
         Rectangle goal;
+        List<Ball> balls;
         List<Rectangle> walls;
         List<DoorSwitch> switchs;
         Texture2D wallTexture, goalTexture;
         Timer timer;
-        Vector2 p1StartPos, p2StartPos;
-        public Vector2 p1StartPosition { get { return p1StartPos; } }
-        public Vector2 p2StartPosition { get { return p2StartPos; } }
         const int mazeWidth = 970, mazeHeight = 490;
         public static int width { get { return mazeWidth; } }
         public static int height { get { return mazeHeight; } }
@@ -28,19 +26,18 @@ namespace MazeAndBlue
             goalColor = Color.Red;
             timer = new Timer();
 
+            balls = new List<Ball>();
             walls = new List<Rectangle>();
             goal = new Rectangle();
-            p1StartPos = new Vector2();
-            p2StartPos = new Vector2();
             switchs = new List<DoorSwitch>();
 
             readFile(mazeFile);
 
-            pauseButton = new Button(new Vector2(Program.game.screenWidth - 130, 30), 100, 40, "Pause");
+            pauseButton = new Button(new Point(Program.game.screenWidth - 130, 30), 100, 40, "Pause");
 
 /*          // 12 x 6 grid
-            p1StartPos = new Vector2(52, 68);
-            p2StartPos = new Vector2(52, 468);
+            p1StartPos = new Point(52, 68);
+            p2StartPos = new Point(52, 468);
             goal = new Rectangle(917, 53, 70, 70);
             walls.Add(new Rectangle(27, 43, 10, 490));  // left
             walls.Add(new Rectangle(107, 43, 10, 490));
@@ -67,6 +64,8 @@ namespace MazeAndBlue
 
         public void loadContent(GraphicsDevice graphicsDevice, ContentManager content)
         {
+            foreach (Ball ball in balls)
+                ball.loadContent(content);
             foreach (DoorSwitch dswitch in switchs)
                 dswitch.loadContent(graphicsDevice);
             wallTexture = new Texture2D(graphicsDevice, 1, 1);
@@ -85,14 +84,21 @@ namespace MazeAndBlue
                 dswitch.draw(spriteBatch);
             spriteBatch.Draw(goalTexture, goal, goalColor);
             timer.draw(spriteBatch);
+            foreach (Ball ball in balls)
+                ball.draw(spriteBatch);
+            for (int i = Program.game.players.Count - 1; i >= 0; i--)
+            {
+                if (balls[0].playerId != i && balls[1].playerId != i)
+                    Program.game.players[i].draw(spriteBatch);
+            }
         }
 
         public void draw(SpriteBatch spriteBatch)
         {
-            draw(spriteBatch, Color.Black); 
+            draw(spriteBatch, Color.Black);
         }
 
-        private void detectWall(Sprite sprite, Rectangle wall, ref Vector2 nextPosition)
+        private void detectWall(Sprite sprite, Rectangle wall, ref Point nextPosition)
         {
             int spriteTop = (int)sprite.position.Y;
             int spriteBottom = (int)sprite.position.Y + sprite.height;
@@ -140,7 +146,7 @@ namespace MazeAndBlue
             }
         }
 
-        public void detectWalls(Sprite sprite, ref Vector2 nextPosition)
+        public void detectWalls(Sprite sprite, ref Point nextPosition)
         {
             foreach (Rectangle wall in walls)
                 detectWall(sprite, wall, ref nextPosition);
@@ -149,16 +155,23 @@ namespace MazeAndBlue
         public void update()
         {
             foreach (DoorSwitch dswitch in switchs)
-                dswitch.update(ref walls);
+                dswitch.update(balls, ref walls);
 
-            if (Program.game.players[0].selected || Program.game.players[1].selected || 
-                Program.game.players[0].mouseSelected || Program.game.players[1].mouseSelected)
+            foreach (Ball ball in balls)
+                ball.update(this);
+
+            if (balls[0].playerId > 0 || balls[1].playerId > 0 || balls[0].mouseSelected || balls[1].mouseSelected)
                 timer.start();
 
-            if (Program.game.players[0].overlaps(goal) && Program.game.players[1].overlaps(goal))
+            if (balls[0].overlaps(goal) && balls[1].overlaps(goal))
             {
                 goalColor = Color.Green;
                 timer.stop();
+                foreach (Ball ball in balls)
+                {
+                    ball.playerId = -1;
+                    ball.mouseSelected = false;
+                }
                 Program.game.startScoreScreen(timer.time);
             }
         }
@@ -188,19 +201,19 @@ namespace MazeAndBlue
             if (words.Length == 0)
                 return false;
 
-            Vector2 vec;
+            Point vec;
             Rectangle rect;
 
             if (words[0] == "1" || words[0] == "2")
             {
                 if (words.Length != 3)
                     return false;
-                vec = new Vector2(Program.game.sx((int)Convert.ToSingle(words[1])), Program.game.sy((int)(Convert.ToSingle(words[2]))));
+                vec = new Point(Program.game.sx((int)Convert.ToSingle(words[1])), Program.game.sy((int)(Convert.ToSingle(words[2]))));
 
                 if (words[0] == "1")
-                    p1StartPos = vec;
+                    balls.Add(new Ball(vec, Color.Blue));
                 else if (words[0] == "2")
-                    p2StartPos = vec;
+                    balls.Add(new Ball(vec, Color.Yellow));
             }
             else if (words[0] == "goal" || words[0] == "wall" || words[0] == "switch" || words[0] == "door")
             {
@@ -237,6 +250,11 @@ namespace MazeAndBlue
         private void onPauseButtonPress()
         {
             timer.stop();
+            foreach (Ball ball in balls)
+            {
+                ball.playerId = -1;
+                ball.mouseSelected = false;
+            }
             Program.game.startPauseSelectionScreen();
         }
     }

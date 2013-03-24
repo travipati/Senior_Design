@@ -29,12 +29,12 @@ namespace MazeAndBlue
             int X2 = screenRectangle.Left + 3 * screenRectangle.Width / 7;
             int X3 = screenRectangle.Left + 5 * screenRectangle.Width / 7;
             
-            singlePlayerButton = new Sprite(new Vector2(X1, Y1), buttonWidth, buttonHeight);
-            coopModeButton = new Button(new Vector2(X2, Y1), buttonWidth, buttonHeight, "co op mode");
-            settingsButton = new Sprite(new Vector2(X3, Y1), buttonWidth, buttonHeight);
-            instructionsButton = new Sprite(new Vector2(X1, Y2), buttonWidth, buttonHeight);
-            statisticsButton = new Sprite(new Vector2(X2, Y2), buttonWidth, buttonHeight);
-            exitButton = new Sprite(new Vector2(X3, Y2), buttonWidth, buttonHeight);
+            singlePlayerButton = new Sprite(new Point(X1, Y1), buttonWidth, buttonHeight);
+            coopModeButton = new Button(new Point(X2, Y1), buttonWidth, buttonHeight, "co op mode");
+            settingsButton = new Sprite(new Point(X3, Y1), buttonWidth, buttonHeight);
+            instructionsButton = new Sprite(new Point(X1, Y2), buttonWidth, buttonHeight);
+            statisticsButton = new Sprite(new Point(X2, Y2), buttonWidth, buttonHeight);
+            exitButton = new Sprite(new Point(X3, Y2), buttonWidth, buttonHeight);
         }
 
         public void loadContent(GraphicsDevice graphicsDevice, ContentManager content)

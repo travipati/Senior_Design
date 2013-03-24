@@ -13,9 +13,9 @@ namespace MazeAndBlue
         {
             MouseState cur = Mouse.GetState();
             if (cur.LeftButton == ButtonState.Released && prev.LeftButton == ButtonState.Pressed)
-                point = new Point(cur.X, cur.Y);
+                newPointReady = true;
+            point = new Point(cur.X, cur.Y);
             prev = cur;
-            newPointReady = true;
         }
     }
 }

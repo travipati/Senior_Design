@@ -8,21 +8,16 @@ namespace MazeAndBlue
 {
     public class Player
     {
-        Sprite ball, hand;
+        Sprite hand;
         float yRange, xRangeMin, xRangeMax;
         
-        public bool selected { get; set; }
-        public bool mouseSelected { get; set; }
         public bool righthanded { get; set; }
-        public Color color { get; set; }
+        Color color;
         int id;
 
         public Player(float xmin, float xmax, Color c, int playerNum)
         {
-            ball = new Sprite();
-            hand = new Sprite(new Vector2(0, 0));
-            selected = false;
-            mouseSelected = false;
+            hand = new Sprite();
             righthanded = true;
             yRange = 0.5f;
             xRangeMin = xmin;
@@ -33,45 +28,18 @@ namespace MazeAndBlue
 
         public void loadContent(ContentManager content)
         {
-            ball.loadContent(content, "ball");
             hand.loadContent(content, "hand");
         }
 
-        public void drawBall(SpriteBatch spriteBatch)
+        public void draw(SpriteBatch spriteBatch)
         {
-            ball.draw(spriteBatch, color);
+            hand.draw(spriteBatch, color);
         }
 
-        public void drawHand(SpriteBatch spriteBatch)
-        {
-            if (!selected)
-                hand.draw(spriteBatch, color);
-        }
-
-        public void update(Skeleton skeleton, Maze maze)
-        {
-            Vector2 position;
-            if (mouseSelected)
-            {
-                MouseState ms = Mouse.GetState();
-                position = new Vector2(ms.X, ms.Y);
-            }
-            else
-            {
-                if (skeleton == null)
-                    return;
-                position = getPosition(skeleton);
-            }
-
-            if (selected || mouseSelected)
-                moveBall(position, maze);
-            else
-                moveHand(position);
-
-            if (hand.overlaps(ball) && selecting() && !selected)
-                selected = true;
-            else if (selecting() && selected)
-                selected = false;
+        public void update(Skeleton skeleton)
+        {          
+            if (skeleton != null)
+                moveHand(getPosition(skeleton));
         }
 
         public bool selecting()
@@ -100,7 +68,12 @@ namespace MazeAndBlue
             return false;
         }
 
-        private Vector2 getPosition(Skeleton skeleton)
+        public Point getPosition()
+        {
+            return hand.position;
+        }
+
+        private Point getPosition(Skeleton skeleton)
         {
             SkeletonPoint point;
             if (righthanded)
@@ -120,52 +93,26 @@ namespace MazeAndBlue
             if (yPercent > 1)
                 yPercent = 1;
 
-            float x = (float)Program.game.screenWidth * xPercent;
-            float y = (float)Program.game.screenHeight * (1 - yPercent);
-            return new Vector2(x, y);
+            int x = Program.game.screenWidth * (int)xPercent;
+            int y = Program.game.screenHeight * (int)(1 - yPercent);
+            return new Point(x, y);
         }
 
-        private void moveHand(Vector2 pos)
+        private void moveHand(Point pos)
         {
             pos.X -= hand.width / 2;
             pos.Y -= hand.height / 2;
             hand.position = pos;
         }
 
-        private void moveBall(Vector2 pos, Maze maze)
-        {
-            pos.X -= ball.width / 2;
-            pos.Y -= ball.height / 2;
-            maze.detectWalls(ball, ref pos);
-            ball.position = pos;
-        }
-
-        public void setBallPos(Vector2 pos)
-        {
-            ball.position = pos;
-        }
-
         public bool overlaps(Sprite sprite)
         {
-            if (!selected)
-                return hand.overlaps(sprite);
-            else
-                return ball.overlaps(sprite);
+            return hand.overlaps(sprite);
         }
 
         public bool overlaps(Rectangle rect)
         {
-            if (!selected)
-                return hand.overlaps(rect);
-            else
-                return ball.overlaps(rect);
+            return hand.overlaps(rect);
         }
-
-        public void onLeftClick(Point point)
-        {
-            if (ball.contains(point))
-                mouseSelected = !mouseSelected;
-        }
-
     }
 }

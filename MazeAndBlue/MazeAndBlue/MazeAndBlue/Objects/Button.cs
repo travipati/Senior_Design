@@ -8,7 +8,7 @@ namespace MazeAndBlue
     {
         public string text;
 
-        public Button(Vector2 pos, int w, int h, string s) : base(pos, w, h)
+        public Button(Point pos, int w, int h, string s) : base(pos, w, h)
         {
             text = s;
         }
