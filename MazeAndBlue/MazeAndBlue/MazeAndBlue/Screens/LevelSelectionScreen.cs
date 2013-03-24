@@ -88,6 +88,7 @@ namespace MazeAndBlue
                 undefinedButtonPress();
             for (int i = 0; i < levelButtons.Count; i++)
             {
+                System.Console.WriteLine("hit");
                 if (levelButtons[i].isSelected())
                     Program.game.startLevel(i);
             }

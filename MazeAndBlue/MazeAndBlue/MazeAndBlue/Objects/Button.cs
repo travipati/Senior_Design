@@ -93,8 +93,7 @@ namespace MazeAndBlue
                     return true;
                 }
             }
-            Program.game.ms.newPointReady = false;
-            Program.game.vs.newWordReady = false;
+
             return false;
         }
 

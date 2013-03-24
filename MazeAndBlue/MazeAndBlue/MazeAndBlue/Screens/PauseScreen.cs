@@ -40,22 +40,6 @@ namespace MazeAndBlue
             menuButton.loadContent(content);
         }
 
-        public void update()
-        {
-            foreach (Button button in buttons)
-            {
-                if (button.isOver())
-                {
-                    button.enlarge(0.1);
-                    button.loadContent(Program.game.Content, "Buttons/Hover");
-                }
-                else
-                {
-                    button.reload();
-                }
-            }
-        }
-
         public void draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, window, new Color(128, 128, 128, 232));
@@ -71,6 +55,19 @@ namespace MazeAndBlue
 
         public void update()
         {
+            foreach (Button button in buttons)
+            {
+                if (button.isOver())
+                {
+                    button.enlarge(0.1);
+                    button.loadContent(Program.game.Content, "Buttons/Hover");
+                }
+                else
+                {
+                    button.reload();
+                }
+            }
+
             if (resumeButton.isSelected())
                 Program.game.resumeLevel();
             if (menuButton.isSelected())
