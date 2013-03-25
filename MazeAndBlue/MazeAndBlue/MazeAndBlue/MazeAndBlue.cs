@@ -236,6 +236,10 @@ namespace MazeAndBlue
                 OnLeftClick(new Point(mouseState.X, mouseState.Y));
             prevMouseState = mouseState;*/
 
+            ms.newPointReady = false;
+            vs.newWordReady = false;
+            ks.newKeyReady = false;
+
             base.Update(gameTime);
         }
 
