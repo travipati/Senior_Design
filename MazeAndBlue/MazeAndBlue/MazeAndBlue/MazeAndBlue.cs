@@ -19,13 +19,14 @@ namespace MazeAndBlue
         PauseScreen pauseScreen;
         InstructionScreen instructionScreen;
         int level, numLevels = 6;
-
+        
         MouseState prevMouseState;
 
         public List<Player> players { get; set; }
         public MouseSelect ms { get; set; }
         public VoiceSelect vs { get; set; }
         public KeyboardSelect ks { get; set; }
+        public SoundEffectPlayer soundEffectPlayer { get; set; }
 
         public enum GameState { MAIN, LEVEL, GAME, SCORE, PAUSE, INSTR };
         public static GameState state { get; set; }
@@ -67,6 +68,8 @@ namespace MazeAndBlue
             vs = new VoiceSelect();
             vs.recognizeSpeech(kinect.getSensorReference());
             ks = new KeyboardSelect();
+
+            soundEffectPlayer = new SoundEffectPlayer();
 
             startMainMenu();
 

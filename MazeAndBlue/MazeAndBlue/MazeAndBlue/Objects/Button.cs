@@ -90,17 +90,22 @@ namespace MazeAndBlue
             if (Program.game.ms.newPointReady && contains(Program.game.ms.point))
             {
                 Program.game.ms.newPointReady = false;
+                Program.game.soundEffectPlayer.playButton();
                 return true;
             }
             else if (Program.game.vs.newWordReady && Program.game.vs.word == text)
             {
                 Program.game.vs.newWordReady = false;
+                Program.game.soundEffectPlayer.playButton();
                 return true;
             }
             foreach (Player player in Program.game.players)
             {
                 if (player.overlaps(this) && player.selecting())
+                {
+                    Program.game.soundEffectPlayer.playButton();
                     return true;
+                }
             }
 
             return false;

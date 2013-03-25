@@ -17,6 +17,7 @@ namespace MazeAndBlue
         List<DoorSwitch> switchs;
         Texture2D wallTexture, goalTexture;
         Timer timer;
+        int prevTickCount, wallHits;
         const int mazeWidth = 970, mazeHeight = 490;
         public static int width { get { return mazeWidth; } }
         public static int height { get { return mazeHeight; } }
@@ -25,6 +26,8 @@ namespace MazeAndBlue
         {
             goalColor = Color.Red;
             timer = new Timer();
+            prevTickCount = -1;
+            wallHits = 0;
 
             balls = new List<Ball>();
             walls = new List<Rectangle>();
@@ -34,32 +37,6 @@ namespace MazeAndBlue
             readFile(mazeFile);
 
             pauseButton = new Button(new Point(Program.game.screenWidth - 130, 30), 100, 40, "Pause");
-
-/*          // 12 x 6 grid
-            p1StartPos = new Point(52, 68);
-            p2StartPos = new Point(52, 468);
-            goal = new Rectangle(917, 53, 70, 70);
-            walls.Add(new Rectangle(27, 43, 10, 490));  // left
-            walls.Add(new Rectangle(107, 43, 10, 490));
-            walls.Add(new Rectangle(187, 43, 10, 490));
-            walls.Add(new Rectangle(267, 43, 10, 490));
-            walls.Add(new Rectangle(347, 43, 10, 490));
-            walls.Add(new Rectangle(427, 43, 10, 490));
-            walls.Add(new Rectangle(507, 43, 10, 490));
-            walls.Add(new Rectangle(587, 43, 10, 490));
-            walls.Add(new Rectangle(667, 43, 10, 490));
-            walls.Add(new Rectangle(747, 43, 10, 490));
-            walls.Add(new Rectangle(827, 43, 10, 490));
-            walls.Add(new Rectangle(907, 43, 10, 490));
-            walls.Add(new Rectangle(987, 43, 10, 490)); // right
-            walls.Add(new Rectangle(27, 43, 970, 10));  // top
-            walls.Add(new Rectangle(27, 123, 970, 10));
-            walls.Add(new Rectangle(27, 203, 970, 10));
-            walls.Add(new Rectangle(27, 283, 970, 10));
-            walls.Add(new Rectangle(27, 363, 970, 10));
-            walls.Add(new Rectangle(27, 443, 970, 10));
-            walls.Add(new Rectangle(27, 523, 970, 10)); // bottom
-*/
         }
 
         public void loadContent(GraphicsDevice graphicsDevice, ContentManager content)
@@ -130,6 +107,7 @@ namespace MazeAndBlue
                     ball.playerId = -1;
                     ball.mouseSelected = false;
                 }
+                Program.game.soundEffectPlayer.playGoal();
                 Program.game.startScoreScreen(timer.time);
             }
 
@@ -163,39 +141,67 @@ namespace MazeAndBlue
             int nextLeft = (int)nextPosition.X;
             int nextRight = (int)nextPosition.X + ball.width;
 
+            bool hit = false;
+
             if (spriteBottom > wall.Top && spriteTop < wall.Bottom)
             {
                 if (spriteRight <= wall.Left && nextRight > wall.Left)
+                {
                     nextPosition.X = wall.Left - ball.width;
+                    hit = true;
+                }
                 else if (spriteLeft >= wall.Right && nextLeft < wall.Right)
+                {
                     nextPosition.X = wall.Right;
+                    hit = true;
+                }
             }
             if (spriteRight > wall.Left && spriteLeft < wall.Right)
             {
                 if (spriteBottom <= wall.Top && nextBottom > wall.Top)
+                {
                     nextPosition.Y = wall.Top - ball.height;
+                    hit = true;
+                }
                 else if (spriteTop >= wall.Bottom && nextTop < wall.Bottom)
+                {
                     nextPosition.Y = wall.Bottom;
+                    hit = true;
+                }
             }
             if (spriteRight < wall.Left && spriteBottom < wall.Top && nextRight > wall.Left && nextBottom > wall.Top)
             {
                 nextPosition.X = wall.Left - ball.width;
                 nextPosition.Y = wall.Top - ball.height;
+                hit = true;
             }
             if (spriteRight < wall.Left && spriteTop > wall.Bottom && nextRight > wall.Left && nextTop < wall.Bottom)
             {
                 nextPosition.X = wall.Left - ball.width;
                 nextPosition.Y = wall.Bottom;
+                hit = true;
             }
             if (spriteLeft > wall.Right && spriteBottom < wall.Top && nextLeft < wall.Right && nextBottom > wall.Top)
             {
                 nextPosition.X = wall.Right;
                 nextPosition.Y = wall.Top - ball.height;
+                hit = true;
             }
             if (spriteLeft > wall.Right && spriteTop > wall.Bottom && nextLeft < wall.Right && nextTop < wall.Bottom)
             {
                 nextPosition.X = wall.Right;
                 nextPosition.Y = wall.Bottom;
+                hit = true;
+            }
+
+            if (hit)
+            {
+                wallHits++;
+                if (System.Environment.TickCount-500 > prevTickCount)
+                {
+                    prevTickCount = System.Environment.TickCount;
+                    Program.game.soundEffectPlayer.playWall();
+                }
             }
         }
 
@@ -256,6 +262,7 @@ namespace MazeAndBlue
                     if (switchs.Count == 0)
                         return false;
                     switchs[switchs.Count - 1].addDoor(rect);
+                    walls.Add(rect);
                 }
             }
             else

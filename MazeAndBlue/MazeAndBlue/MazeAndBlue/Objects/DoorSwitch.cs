@@ -49,11 +49,18 @@ namespace MazeAndBlue
 
         public void update(List<Ball> balls, ref List<Rectangle> walls)
         {
+            bool playsound = false;
             if (balls[0].overlaps(dswitch) || balls[1].overlaps(dswitch))
             {
                 doorColor = Color.Transparent;
                 foreach (Rectangle rect in doors)
-                    walls.Remove(rect);
+                {
+                    if (walls.Contains(rect))
+                    {
+                        walls.Remove(rect);
+                        playsound = true;
+                    }
+                }
             }
             else
             {
@@ -61,9 +68,16 @@ namespace MazeAndBlue
                 foreach (Rectangle rect in doors)
                 {
                     if (!walls.Contains(rect))
+                    {
                         walls.Add(rect);
+                        playsound = true;
+                    }
                 }
             }
+
+            if (playsound)
+                Program.game.soundEffectPlayer.playDoor();
         }
+
     }
 }
