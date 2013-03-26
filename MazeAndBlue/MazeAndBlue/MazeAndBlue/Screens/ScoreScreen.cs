@@ -30,8 +30,8 @@ namespace MazeAndBlue
             int y = window.Bottom - window.Height / 3 - buttonHeight / 2;
             int menuX = window.Left + window.Width / 3 - buttonWidth / 2;
             int levelX = window.Right - window.Width / 3 - buttonWidth / 2;
-            menuButton = new Button(new Point(menuX, y), buttonWidth, buttonHeight, "Main Menu");
-            levelButton = new Button(new Point(levelX, y), buttonWidth, buttonHeight, "Next Level");
+            menuButton = new Button(new Point(menuX, y), buttonWidth, buttonHeight, "Main Menu", "Buttons/Button");
+            levelButton = new Button(new Point(levelX, y), buttonWidth, buttonHeight, "Next Level", "Buttons/Button");
             time = _time;
         }
 

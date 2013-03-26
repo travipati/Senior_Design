@@ -29,13 +29,6 @@ namespace MazeAndBlue
             int X2 = screenRectangle.Left + 3 * screenRectangle.Width / 7;
             int X3 = screenRectangle.Left + 5 * screenRectangle.Width / 7;
             
-            singlePlayerButton = new Button(new Point(X1, Y1), buttonWidth, buttonHeight, "");
-            coopModeButton = new Button(new Point(X2, Y1), buttonWidth, buttonHeight, "co op mode");
-            settingsButton = new Button(new Point(X3, Y1), buttonWidth, buttonHeight, "");
-            instructionsButton = new Button(new Point(X1, Y2), buttonWidth, buttonHeight, "");
-            statisticsButton = new Button(new Point(X2, Y2), buttonWidth, buttonHeight, "");
-            exitButton = new Button(new Point(X3, Y2), buttonWidth, buttonHeight, "");
-
             singlePlayerButton = new Button
                 (new Point(X1, Y1), buttonWidth, buttonHeight, "single mode", "Buttons/singlePlayer");
             coopModeButton = new Button

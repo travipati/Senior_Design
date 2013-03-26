@@ -12,7 +12,7 @@ namespace MazeAndBlue
         Point originalPos;
         public string path;
 
-        public Button(Point pos, int w, int h, string s)
+        private Button(Point pos, int w, int h, string s)
             : base(pos, w, h)
         {
             originalH = h;

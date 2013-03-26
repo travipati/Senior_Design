@@ -42,14 +42,14 @@ namespace MazeAndBlue
             int menuButtonx = screenWidth / 12 * 5;
             int rightx = screenWidth / 12 * 9;
 
-            menuButton = new Button(new Point(menuButtonx, menuButtony), menuButtonWidth, menuButtonHeight, "Main Menu");
-            left = new Button(new Point(leftx, menuButtony), menuButtonWidth, menuButtonHeight, "prev");
-            right = new Button(new Point(rightx, menuButtony), menuButtonWidth, menuButtonHeight, "next");
+            menuButton = new Button(new Point(menuButtonx, menuButtony), menuButtonWidth, menuButtonHeight, "Main Menu", "Buttons/Button");
+            left = new Button(new Point(leftx, menuButtony), menuButtonWidth, menuButtonHeight, "prev", "Buttons/Button");
+            right = new Button(new Point(rightx, menuButtony), menuButtonWidth, menuButtonHeight, "next", "Buttons/Button");
 
             levelButtons = new List<Button>();
-            levelButtons.Add(new Button(new Point(level1x, levelButtony), levelButtonWidth, levelButtonHeight, "1"));
-            levelButtons.Add(new Button(new Point(level2x, levelButtony), levelButtonWidth, levelButtonHeight, "2"));
-            levelButtons.Add(new Button(new Point(level3x, levelButtony), levelButtonWidth, levelButtonHeight, "3"));
+            levelButtons.Add(new Button(new Point(level1x, levelButtony), levelButtonWidth, levelButtonHeight, "1", "Buttons/Button"));
+            levelButtons.Add(new Button(new Point(level2x, levelButtony), levelButtonWidth, levelButtonHeight, "2", "Buttons/Button"));
+            levelButtons.Add(new Button(new Point(level3x, levelButtony), levelButtonWidth, levelButtonHeight, "3", "Buttons/Button"));
         }
         
         public void loadContent(GraphicsDevice graphicsDevice, ContentManager content)
@@ -91,6 +91,11 @@ namespace MazeAndBlue
                 System.Console.WriteLine("hit");
                 if (levelButtons[i].isSelected())
                     Program.game.startLevel(i);
+            }
+
+            foreach (Button button in levelButtons)
+            {
+                button.update();
             }
         }
 

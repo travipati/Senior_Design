@@ -36,7 +36,7 @@ namespace MazeAndBlue
 
             readFile(mazeFile);
 
-            pauseButton = new Button(new Point(Program.game.screenWidth - 130, 30), 100, 40, "Pause");
+            pauseButton = new Button(new Point(Program.game.screenWidth - 130, 30), 100, 40, "Pause", "Buttons/Button");
         }
 
         public void loadContent(GraphicsDevice graphicsDevice, ContentManager content)

@@ -20,7 +20,7 @@ namespace MazeAndBlue
             int buttonHeight = screenHeight / 8;
             int X = 40;
             int Y = 40;
-            backButton = new Button(new Point(X, Y), buttonWidth, buttonHeight, "");
+            backButton = new Button(new Point(X, Y), buttonWidth, buttonHeight, "", "Buttons/back");
         }
 
         public void loadContent(GraphicsDevice graphicsDevice, ContentManager content)
