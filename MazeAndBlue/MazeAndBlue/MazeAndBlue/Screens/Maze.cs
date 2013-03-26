@@ -135,10 +135,10 @@ namespace MazeAndBlue
             int spriteLeft = (int)ball.position.X;
             int spriteRight = (int)ball.position.X + ball.width;
 
-            int nextTop = (int)nextPosition.Y;
-            int nextBottom = (int)nextPosition.Y + ball.height;
-            int nextLeft = (int)nextPosition.X;
-            int nextRight = (int)nextPosition.X + ball.width;
+            int nextTop = (int)nextPosition.Y - ball.height / 2;
+            int nextBottom = (int)nextPosition.Y + ball.height / 2;
+            int nextLeft = (int)nextPosition.X - ball.width / 2;
+            int nextRight = (int)nextPosition.X + ball.width / 2;
 
             bool hit = false;
 
@@ -146,12 +146,12 @@ namespace MazeAndBlue
             {
                 if (spriteRight <= wall.Left && nextRight > wall.Left)
                 {
-                    nextPosition.X = wall.Left - ball.width;
+                    nextPosition.X = wall.Left - ball.width / 2;
                     hit = true;
                 }
-                else if (spriteLeft >= wall.Right && nextLeft < wall.Right)
+                if (spriteLeft >= wall.Right && nextLeft < wall.Right)
                 {
-                    nextPosition.X = wall.Right;
+                    nextPosition.X = wall.Right + ball.width / 2;
                     hit = true;
                 }
             }
@@ -159,16 +159,16 @@ namespace MazeAndBlue
             {
                 if (spriteBottom <= wall.Top && nextBottom > wall.Top)
                 {
-                    nextPosition.Y = wall.Top - ball.height;
+                    nextPosition.Y = wall.Top - ball.height / 2;
                     hit = true;
                 }
-                else if (spriteTop >= wall.Bottom && nextTop < wall.Bottom)
+                if (spriteTop >= wall.Bottom && nextTop < wall.Bottom)
                 {
-                    nextPosition.Y = wall.Bottom;
+                    nextPosition.Y = wall.Bottom + ball.width / 2;
                     hit = true;
                 }
             }
-            if (spriteRight < wall.Left && spriteBottom < wall.Top && nextRight > wall.Left && nextBottom > wall.Top)
+            /*if (spriteRight < wall.Left && spriteBottom < wall.Top && nextRight > wall.Left && nextBottom > wall.Top)
             {
                 nextPosition.X = wall.Left - ball.width;
                 nextPosition.Y = wall.Top - ball.height;
@@ -191,7 +191,7 @@ namespace MazeAndBlue
                 nextPosition.X = wall.Right;
                 nextPosition.Y = wall.Bottom;
                 hit = true;
-            }
+            }*/
 
             if (hit)
             {
