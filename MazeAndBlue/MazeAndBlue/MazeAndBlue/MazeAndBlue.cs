@@ -125,7 +125,8 @@ namespace MazeAndBlue
         {
             state = GameState.GAME;
             level %= numLevels;
-            maze = new Maze("Mazes/" + level++ + ".maze");
+            maze = new Maze(level);
+            level++;
             maze.loadContent();
         }
 
@@ -141,9 +142,9 @@ namespace MazeAndBlue
             state = GameState.SCORE;
         }
 
-        public void startPauseSelectionScreen()
+        public void startPauseSelectionScreen(int level)
         {
-            pauseScreen = new PauseScreen();
+            pauseScreen = new PauseScreen(level);
             pauseScreen.loadContent();
             state = GameState.PAUSE;
         }

@@ -16,23 +16,25 @@ namespace MazeAndBlue
         List<DoorSwitch> switchs;
         Texture2D wallTexture, goalTexture;
         Timer timer;
-        int prevTickCount, wallHits;
+        int level, prevTickCount, wallHits;
         const int mazeWidth = 970, mazeHeight = 490;
         public static int width { get { return mazeWidth; } }
         public static int height { get { return mazeHeight; } }
 
-        public Maze(string mazeFile)
+        public Maze(int _level)
         {
             goalColor = Color.Red;
             timer = new Timer();
             prevTickCount = -1;
             wallHits = 0;
+            level = _level;
 
             balls = new List<Ball>();
             walls = new List<Rectangle>();
             goal = new Rectangle();
             switchs = new List<DoorSwitch>();
 
+            string mazeFile = "Mazes/" + _level + ".maze";
             readFile(mazeFile);
 
             pauseButton = new Button(new Point(Program.game.screenWidth - 130, 30), 100, 40, "Pause", "Buttons/button");
@@ -118,7 +120,7 @@ namespace MazeAndBlue
                     ball.playerId = -1;
                     ball.mouseSelected = false;
                 }
-                Program.game.startPauseSelectionScreen();
+                Program.game.startPauseSelectionScreen(level);
             }
         }
 
