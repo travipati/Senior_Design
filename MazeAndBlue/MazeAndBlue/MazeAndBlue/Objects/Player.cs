@@ -8,13 +8,13 @@ namespace MazeAndBlue
     {
         float yRange, xRangeMin, xRangeMax;
         
-        public bool righthanded { get; set; }
+        public bool rightHanded { get; set; }
         Color color;
         int id;
 
         public Player(float xmin, float xmax, Color c, int playerNum)
         {
-            righthanded = true;
+            rightHanded = true;
             yRange = 0.5f;
             xRangeMin = xmin;
             xRangeMax = xmax;
@@ -67,7 +67,7 @@ namespace MazeAndBlue
         private Point getPosition(Skeleton skeleton)
         {
             SkeletonPoint point;
-            if (righthanded)
+            if (rightHanded)
                 point = skeleton.Joints[JointType.HandRight].Position;
             else
                 point = skeleton.Joints[JointType.HandLeft].Position;

@@ -17,6 +17,7 @@ namespace MazeAndBlue
         ScoreScreen scoreScreen;
         LevelSelectionScreen levelSelectionScreen;
         PauseScreen pauseScreen;
+        SettingsScreen settingsScreen;
         InstructionScreen instructionScreen;
         int level, numLevels = 6;
         
@@ -28,7 +29,7 @@ namespace MazeAndBlue
         public KeyboardSelect ks { get; set; }
         public SoundEffectPlayer soundEffectPlayer { get; set; }
 
-        public enum GameState { MAIN, LEVEL, GAME, SCORE, PAUSE, INSTR };
+        public enum GameState { MAIN, LEVEL, GAME, SCORE, PAUSE, SETTING, INSTR };
         public static GameState state { get; set; }
         
         public static SpriteFont font { get; set; }
@@ -149,6 +150,13 @@ namespace MazeAndBlue
             state = GameState.PAUSE;
         }
 
+        public void startSettingsScreen()
+        {
+            settingsScreen = new SettingsScreen();
+            settingsScreen.loadContent();
+            state = GameState.SETTING;
+        }
+
         public void startInstructionScreen()
         {
             instructionScreen = new InstructionScreen();
@@ -182,6 +190,9 @@ namespace MazeAndBlue
                 case GameState.PAUSE:
                     maze.draw(spriteBatch);
                     pauseScreen.draw(spriteBatch);
+                    break;
+                case GameState.SETTING:
+                    settingsScreen.draw(spriteBatch);
                     break;
                 case GameState.INSTR:
                     instructionScreen.draw(spriteBatch);
@@ -223,6 +234,9 @@ namespace MazeAndBlue
                     break;
                 case GameState.PAUSE:
                     pauseScreen.update();
+                    break;
+                case GameState.SETTING:
+                    settingsScreen.update();
                     break;
                 case GameState.INSTR:
                     instructionScreen.update();

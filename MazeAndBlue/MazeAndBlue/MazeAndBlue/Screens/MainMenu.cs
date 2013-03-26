@@ -73,9 +73,11 @@ namespace MazeAndBlue
         {
             foreach (Button button in buttons)
                 button.update();
-            
+
             if (coopModeButton.isSelected())
                 Program.game.startLevelSelectionScreen();
+            else if (settingsButton.isSelected())
+                Program.game.startSettingsScreen();
             else if (instructionsButton.isSelected())
                 Program.game.startInstructionScreen();
             else if (exitButton.isSelected())
