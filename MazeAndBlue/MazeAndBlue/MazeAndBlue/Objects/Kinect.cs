@@ -76,6 +76,14 @@ namespace MazeAndBlue
                         i++;
                     }
                 }
+
+                if (i == 2 && playerSkeleton[0].Joints[JointType.Head].Position.X > playerSkeleton[1].Joints[JointType.Head].Position.X)
+                {
+                    Skeleton temp = playerSkeleton[0];
+                    playerSkeleton[0] = playerSkeleton[1];
+                    playerSkeleton[1] = temp;
+                }
+
             }
         }
 
