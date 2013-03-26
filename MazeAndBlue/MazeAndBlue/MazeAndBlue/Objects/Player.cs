@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using Microsoft.Kinect;
 
 namespace MazeAndBlue
@@ -24,9 +22,9 @@ namespace MazeAndBlue
             id = playerNum;
         }
 
-        public void loadContent(ContentManager content)
+        public void loadContent()
         {
-            loadContent(content, "hand");
+            loadContent("hand");
         }
 
         public void draw(SpriteBatch spriteBatch)

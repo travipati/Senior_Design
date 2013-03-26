@@ -83,7 +83,7 @@ namespace MazeAndBlue
             font = Content.Load<SpriteFont>("font");
 
             foreach (Player player in players)
-                player.loadContent(Content);
+                player.loadContent();
         }
 
         protected override void UnloadContent()
@@ -93,7 +93,7 @@ namespace MazeAndBlue
         public void startMainMenu()
         {
             mainMenu = new MainMenu();
-            mainMenu.loadContent(GraphicsDevice, Content);
+            mainMenu.loadContent();
             state = GameState.MAIN;
             /*
             player1.selected = false;
@@ -106,7 +106,7 @@ namespace MazeAndBlue
         public void startLevelSelectionScreen()
         {
             levelSelectionScreen = new LevelSelectionScreen();
-            levelSelectionScreen.loadContent(GraphicsDevice, Content);
+            levelSelectionScreen.loadContent();
             state = GameState.LEVEL;
             /*            player1.selected = false;
                         player1.mouseSelected = false;
@@ -125,8 +125,8 @@ namespace MazeAndBlue
         {
             state = GameState.GAME;
             level %= numLevels;
-            maze = new Maze("Mazes\\" + level++ + ".maze");
-            maze.loadContent(GraphicsDevice, Content);
+            maze = new Maze("Mazes/" + level++ + ".maze");
+            maze.loadContent();
         }
 
         public void resumeLevel()
@@ -137,28 +137,28 @@ namespace MazeAndBlue
         public void startScoreScreen(int time)
         {
             scoreScreen = new ScoreScreen(time);
-            scoreScreen.loadContent(GraphicsDevice, Content);
+            scoreScreen.loadContent();
             state = GameState.SCORE;
         }
 
         public void startPauseSelectionScreen()
         {
             pauseScreen = new PauseScreen();
-            pauseScreen.loadContent(GraphicsDevice, Content);
+            pauseScreen.loadContent();
             state = GameState.PAUSE;
         }
 
         public void startInstructionScreen()
         {
             instructionScreen = new InstructionScreen();
-            instructionScreen.loadContent(GraphicsDevice, Content);
+            instructionScreen.loadContent();
             state = GameState.INSTR;
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.WhiteSmoke);
-
+            
             spriteBatch.Begin();
 
             Rectangle screenRectangle = new Rectangle(0, 0, screenWidth, screenHeight);

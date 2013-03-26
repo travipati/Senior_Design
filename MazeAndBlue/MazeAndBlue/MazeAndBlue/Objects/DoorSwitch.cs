@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -32,11 +29,11 @@ namespace MazeAndBlue
             doors.Add(door);
         }
 
-        public void loadContent(GraphicsDevice graphicsDevice)
+        public void loadContent()
         {
-            doorTexture = new Texture2D(graphicsDevice, 1, 1);
+            doorTexture = new Texture2D(Program.game.GraphicsDevice, 1, 1);
             doorTexture.SetData<Color>(new Color[] { Color.White });
-            switchTexture = new Texture2D(graphicsDevice, 1, 1);
+            switchTexture = new Texture2D(Program.game.GraphicsDevice, 1, 1);
             switchTexture.SetData<Color>(new Color[] { Color.White });
         }
 

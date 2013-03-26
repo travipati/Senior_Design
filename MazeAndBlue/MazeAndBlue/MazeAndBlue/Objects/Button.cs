@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MazeAndBlue
@@ -10,16 +9,16 @@ namespace MazeAndBlue
         int originalW;
         int originalH;
         Point originalPos;
-        public string path;
+        string path;
 
-        private Button(Point pos, int w, int h, string s)
+        /*public Button(Point pos, int w, int h, string s)
             : base(pos, w, h)
         {
             originalH = h;
             originalW = w;
             originalPos = pos;
             text = s;
-        }
+        }*/
 
         public Button(Point pos, int w, int h, string s, string p) : base(pos, w, h)
         {
@@ -50,14 +49,13 @@ namespace MazeAndBlue
         public void reload()
         {
             resetSize();
-            loadContent(Program.game.Content, path);
+            loadContent(path);
         }
 
-        public void loadContent(ContentManager content)
+        public void loadContent()
         {
-            loadContent(content, "Buttons/button");
+            loadContent(path);
         }
-
 
         public override void draw(SpriteBatch spriteBatch, Color textureColor)
         {
@@ -67,11 +65,14 @@ namespace MazeAndBlue
         public void draw(SpriteBatch spriteBatch, Color textureColor, Color fontColor)
         {
             spriteBatch.Draw(texture, new Rectangle((int)position.X, (int)position.Y, width, height), textureColor);
-            Vector2 textSize = MazeAndBlue.font.MeasureString(text);
-            int x = (int)(position.X + (width - textSize.X) / 2);
-            int y = (int)(position.Y + (height - textSize.Y) / 2);
-            Vector2 textPos = new Vector2(x, y);
-            spriteBatch.DrawString(MazeAndBlue.font, text, textPos, fontColor);
+            if (path == "Buttons/button")
+            {
+                Vector2 textSize = MazeAndBlue.font.MeasureString(text);
+                int x = (int)(position.X + (width - textSize.X) / 2);
+                int y = (int)(position.Y + (height - textSize.Y) / 2);
+                Vector2 textPos = new Vector2(x, y);
+                spriteBatch.DrawString(MazeAndBlue.font, text, textPos, fontColor);
+            }
         }
 
         public void update()
@@ -79,7 +80,7 @@ namespace MazeAndBlue
             if (isOver())
             {
                 enlarge(0.1);
-                loadContent(Program.game.Content, "Buttons/Hover");
+                loadContent("Buttons/Hover");
             }
             else
                 reload();

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MazeAndBlue
@@ -36,20 +35,20 @@ namespace MazeAndBlue
 
             readFile(mazeFile);
 
-            pauseButton = new Button(new Point(Program.game.screenWidth - 130, 30), 100, 40, "Pause", "Buttons/Button");
+            pauseButton = new Button(new Point(Program.game.screenWidth - 130, 30), 100, 40, "Pause", "Buttons/button");
         }
 
-        public void loadContent(GraphicsDevice graphicsDevice, ContentManager content)
+        public void loadContent()
         {
             foreach (Ball ball in balls)
-                ball.loadContent(content);
+                ball.loadContent();
             foreach (DoorSwitch dswitch in switchs)
-                dswitch.loadContent(graphicsDevice);
-            wallTexture = new Texture2D(graphicsDevice, 1, 1);
+                dswitch.loadContent();
+            wallTexture = new Texture2D(Program.game.GraphicsDevice, 1, 1);
             wallTexture.SetData<Color>(new Color[] { Color.White });
-            goalTexture = new Texture2D(graphicsDevice, 1, 1);
+            goalTexture = new Texture2D(Program.game.GraphicsDevice, 1, 1);
             goalTexture.SetData<Color>(new Color[] { Color.White });
-            pauseButton.loadContent(content);
+            pauseButton.loadContent();
         }
 
         public void draw(SpriteBatch spriteBatch, Color color)

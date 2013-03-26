@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace MazeAndBlue
 {
@@ -32,12 +27,12 @@ namespace MazeAndBlue
             buttons.Add(menuButton);
         }
 
-        public void loadContent(GraphicsDevice graphicsDevice, ContentManager content)
+        public void loadContent()
         {
-            texture = new Texture2D(graphicsDevice, 1, 1);
+            texture = new Texture2D(Program.game.GraphicsDevice, 1, 1);
             texture.SetData<Color>(new Color[] { Color.White });
-            resumeButton.loadContent(content);
-            menuButton.loadContent(content);
+            resumeButton.loadContent();
+            menuButton.loadContent();
         }
 
         public void draw(SpriteBatch spriteBatch)
@@ -60,7 +55,7 @@ namespace MazeAndBlue
                 if (button.isOver())
                 {
                     button.enlarge(0.1);
-                    button.loadContent(Program.game.Content, "Buttons/Hover");
+                    button.loadContent("Buttons/Hover");
                 }
                 else
                 {

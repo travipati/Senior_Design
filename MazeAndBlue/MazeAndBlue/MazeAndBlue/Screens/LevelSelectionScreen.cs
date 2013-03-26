@@ -1,22 +1,12 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.GamerServices;
-//for message box, debugging only
-using System.Runtime.InteropServices;
-using System;
 
 namespace MazeAndBlue
 {
-    /// <summary>
-    /// This is a game component that implements IUpdateable.
-    /// </summary>
+
     public class LevelSelectionScreen 
     {        
-        //for message box, debugging only
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern uint MessageBox(IntPtr hWnd, String text, String caption, uint type);
         List<Button> levelButtons;
         Button menuButton, left, right;
         Texture2D background;
@@ -42,24 +32,24 @@ namespace MazeAndBlue
             int menuButtonx = screenWidth / 12 * 5;
             int rightx = screenWidth / 12 * 9;
 
-            menuButton = new Button(new Point(menuButtonx, menuButtony), menuButtonWidth, menuButtonHeight, "Main Menu", "Buttons/Button");
-            left = new Button(new Point(leftx, menuButtony), menuButtonWidth, menuButtonHeight, "prev", "Buttons/Button");
-            right = new Button(new Point(rightx, menuButtony), menuButtonWidth, menuButtonHeight, "next", "Buttons/Button");
+            menuButton = new Button(new Point(menuButtonx, menuButtony), menuButtonWidth, menuButtonHeight, "Main Menu", "Buttons/button");
+            left = new Button(new Point(leftx, menuButtony), menuButtonWidth, menuButtonHeight, "prev", "Buttons/button");
+            right = new Button(new Point(rightx, menuButtony), menuButtonWidth, menuButtonHeight, "next", "Buttons/button");
 
             levelButtons = new List<Button>();
-            levelButtons.Add(new Button(new Point(level1x, levelButtony), levelButtonWidth, levelButtonHeight, "1", "Buttons/Button"));
-            levelButtons.Add(new Button(new Point(level2x, levelButtony), levelButtonWidth, levelButtonHeight, "2", "Buttons/Button"));
-            levelButtons.Add(new Button(new Point(level3x, levelButtony), levelButtonWidth, levelButtonHeight, "3", "Buttons/Button"));
+            levelButtons.Add(new Button(new Point(level1x, levelButtony), levelButtonWidth, levelButtonHeight, "1", "Buttons/button"));
+            levelButtons.Add(new Button(new Point(level2x, levelButtony), levelButtonWidth, levelButtonHeight, "2", "Buttons/button"));
+            levelButtons.Add(new Button(new Point(level3x, levelButtony), levelButtonWidth, levelButtonHeight, "3", "Buttons/button"));
         }
         
-        public void loadContent(GraphicsDevice graphicsDevice, ContentManager content)
+        public void loadContent()
         {
-            background = content.Load<Texture2D>("Backgrounds/simple1");
-            menuButton.loadContent(content);
-            left.loadContent(content);
-            right.loadContent(content);
+            background = Program.game.Content.Load<Texture2D>("Backgrounds/simple1");
+            menuButton.loadContent();
+            left.loadContent();
+            right.loadContent();
             foreach (Button button in levelButtons)
-                button.loadContent(content);
+                button.loadContent();
         }
         
         public void draw(SpriteBatch spriteBatch)
@@ -88,20 +78,19 @@ namespace MazeAndBlue
                 undefinedButtonPress();
             for (int i = 0; i < levelButtons.Count; i++)
             {
-                System.Console.WriteLine("hit");
                 if (levelButtons[i].isSelected())
                     Program.game.startLevel(i);
             }
 
             foreach (Button button in levelButtons)
-            {
                 button.update();
-            }
+
         }
 
         private void undefinedButtonPress()
         {
-            MessageBox(new IntPtr(0), "button undefined", "Error", 0);
+            System.Windows.Forms.MessageBox.Show("Button Undefined","Error");
         }
+
     }
 }

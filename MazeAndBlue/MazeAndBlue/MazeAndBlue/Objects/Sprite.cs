@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MazeAndBlue
@@ -22,9 +21,9 @@ namespace MazeAndBlue
             height = h;
         }
 
-        public void loadContent(ContentManager content, string name)
+        public void loadContent(string name)
         {
-            texture = content.Load<Texture2D>(name);
+            texture = Program.game.Content.Load<Texture2D>(name);
         }
 
         public void draw(SpriteBatch spriteBatch)

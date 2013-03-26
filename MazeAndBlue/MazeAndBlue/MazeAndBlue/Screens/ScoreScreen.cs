@@ -1,19 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.GamerServices;
-//for message box, debugging only
-using System.Runtime.InteropServices;
-using System;
 
 namespace MazeAndBlue
 {
     class ScoreScreen
     {
-        //for message box, debugging only
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern uint MessageBox(IntPtr hWnd, String text, String caption, uint type);
-
         //Texture2D texture;
         Rectangle window;
         Button menuButton, levelButton;
@@ -30,18 +21,18 @@ namespace MazeAndBlue
             int y = window.Bottom - window.Height / 3 - buttonHeight / 2;
             int menuX = window.Left + window.Width / 3 - buttonWidth / 2;
             int levelX = window.Right - window.Width / 3 - buttonWidth / 2;
-            menuButton = new Button(new Point(menuX, y), buttonWidth, buttonHeight, "Main Menu", "Buttons/Button");
-            levelButton = new Button(new Point(levelX, y), buttonWidth, buttonHeight, "Next Level", "Buttons/Button");
+            menuButton = new Button(new Point(menuX, y), buttonWidth, buttonHeight, "Main Menu", "Buttons/button");
+            levelButton = new Button(new Point(levelX, y), buttonWidth, buttonHeight, "Next Level", "Buttons/button");
             time = _time;
         }
 
-        public void loadContent(GraphicsDevice graphicsDevice, ContentManager content)
+        public void loadContent()
         {
-            background = content.Load<Texture2D>("Backgrounds/simple0");
-            //texture = new Texture2D(graphicsDevice, 1, 1);
+            background = Program.game.Content.Load<Texture2D>("Backgrounds/simple0");
+            //texture = new Texture2D(Program.game.GraphicsDevice, 1, 1);
             //texture.SetData<Color>(new Color[] { Color.White });
-            menuButton.loadContent(content);
-            levelButton.loadContent(content);
+            menuButton.loadContent();
+            levelButton.loadContent();
         }
 
         public void draw(SpriteBatch spriteBatch)

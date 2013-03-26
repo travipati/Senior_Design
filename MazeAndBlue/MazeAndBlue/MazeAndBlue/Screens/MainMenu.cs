@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace MazeAndBlue
 {
@@ -51,15 +49,13 @@ namespace MazeAndBlue
             buttons.Add(exitButton);
         }
 
-        public void loadContent(GraphicsDevice graphicsDevice, ContentManager content)
+        public void loadContent()
         {
-            texture = new Texture2D(graphicsDevice, 1, 1);
-            texture = content.Load<Texture2D>("Backgrounds/mainMenu");
+            texture = new Texture2D(Program.game.GraphicsDevice, 1, 1);
+            texture = Program.game.Content.Load<Texture2D>("Backgrounds/mainMenu");
             
             foreach (Button button in buttons)
-            {
-                button.loadContent(content, button.path);
-            }
+                button.loadContent();
         }
 
         public void draw(SpriteBatch spriteBatch)

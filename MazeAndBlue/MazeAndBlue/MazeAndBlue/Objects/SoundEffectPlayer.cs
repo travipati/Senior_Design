@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework.Audio;
+﻿using Microsoft.Xna.Framework.Audio;
 
 namespace MazeAndBlue
 {
@@ -16,10 +12,10 @@ namespace MazeAndBlue
         public SoundEffectPlayer()
         {
             sounds = new SoundEffect[numSoundTypes];
-            sounds[(int)SoundType.BUTTON] = Program.game.Content.Load<SoundEffect>("Sounds\\button");
-            sounds[(int)SoundType.WALL] = Program.game.Content.Load<SoundEffect>("Sounds\\wall");
-            sounds[(int)SoundType.DOOR] = Program.game.Content.Load<SoundEffect>("Sounds\\door");
-            sounds[(int)SoundType.GOAL] = Program.game.Content.Load<SoundEffect>("Sounds\\goal");
+            sounds[(int)SoundType.BUTTON] = Program.game.Content.Load<SoundEffect>("Sounds/button");
+            sounds[(int)SoundType.WALL] = Program.game.Content.Load<SoundEffect>("Sounds/wall");
+            sounds[(int)SoundType.DOOR] = Program.game.Content.Load<SoundEffect>("Sounds/door");
+            sounds[(int)SoundType.GOAL] = Program.game.Content.Load<SoundEffect>("Sounds/goal");
         }
 
         public void playButton()

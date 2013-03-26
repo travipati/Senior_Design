@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MazeAndBlue
@@ -23,11 +22,11 @@ namespace MazeAndBlue
             backButton = new Button(new Point(X, Y), buttonWidth, buttonHeight, "", "Buttons/back");
         }
 
-        public void loadContent(GraphicsDevice graphicsDevice, ContentManager content)
+        public void loadContent()
         {
-            texture = new Texture2D(graphicsDevice, 1, 1);
-            texture = content.Load<Texture2D>("Backgrounds/instrs");
-            backButton.loadContent(content, "Buttons/back");
+            texture = new Texture2D(Program.game.GraphicsDevice, 1, 1);
+            texture = Program.game.Content.Load<Texture2D>("Backgrounds/instrs");
+            backButton.loadContent("Buttons/back");
         }
 
         public void draw(SpriteBatch spriteBatch)
