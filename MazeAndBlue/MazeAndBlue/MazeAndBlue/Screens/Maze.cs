@@ -13,7 +13,7 @@ namespace MazeAndBlue
         Rectangle goal;
         List<Ball> balls;
         List<Rectangle> walls;
-        List<DoorSwitch> switchs;
+        List<DoorSwitch> switches;
         Texture2D wallTexture, goalTexture;
         Timer timer;
         int level, prevTickCount, wallHits;
@@ -32,9 +32,9 @@ namespace MazeAndBlue
             balls = new List<Ball>();
             walls = new List<Rectangle>();
             goal = new Rectangle();
-            switchs = new List<DoorSwitch>();
+            switches = new List<DoorSwitch>();
 
-            string mazeFile = "Mazes/" + _level + ".maze";
+            string mazeFile = "Mazes/" + level + ".maze";
             readFile(mazeFile);
 
             pauseButton = new Button(new Point(Program.game.screenWidth - 130, 30), 100, 40, "Pause", "Buttons/button");
@@ -44,7 +44,7 @@ namespace MazeAndBlue
         {
             foreach (Ball ball in balls)
                 ball.loadContent();
-            foreach (DoorSwitch dswitch in switchs)
+            foreach (DoorSwitch dswitch in switches)
                 dswitch.loadContent();
             wallTexture = new Texture2D(Program.game.GraphicsDevice, 1, 1);
             wallTexture.SetData<Color>(new Color[] { Color.White });
@@ -58,7 +58,7 @@ namespace MazeAndBlue
             pauseButton.draw(spriteBatch);
             foreach(Rectangle rect in walls)
                 spriteBatch.Draw(wallTexture, rect, color);
-            foreach (DoorSwitch dswitch in switchs)
+            foreach (DoorSwitch dswitch in switches)
                 dswitch.draw(spriteBatch);
             spriteBatch.Draw(goalTexture, goal, goalColor);
             timer.draw(spriteBatch);
@@ -78,7 +78,7 @@ namespace MazeAndBlue
 
         public void update()
         {
-            foreach (DoorSwitch dswitch in switchs)
+            foreach (DoorSwitch dswitch in switches)
                 dswitch.update(balls, ref walls);
 
             foreach (Ball ball in balls)
@@ -257,12 +257,15 @@ namespace MazeAndBlue
                 else if (words[0] == "wall")
                     walls.Add(rect);
                 else if (words[0] == "switch")
-                    switchs.Add(new DoorSwitch(rect));
+                {
+                    switches.Add(new DoorSwitch());
+                    switches[switches.Count - 1].addSwitch(rect);
+                }
                 else if (words[0] == "door")
                 {
-                    if (switchs.Count == 0)
+                    if (switches.Count == 0)
                         return false;
-                    switchs[switchs.Count - 1].addDoor(rect);
+                    switches[switches.Count - 1].addDoor(rect);
                     walls.Add(rect);
                 }
             }

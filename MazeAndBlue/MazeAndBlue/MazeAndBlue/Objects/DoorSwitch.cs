@@ -8,20 +8,31 @@ namespace MazeAndBlue
     {
         Color color;
         Color doorColor;
-        Rectangle dswitch;
+        List<Rectangle> switches;
         List<Rectangle> doors;
+        bool permanent;
+        int numRequired;
         Texture2D switchTexture;
         Texture2D doorTexture;
 
         static Color[] colorArray = new Color[] { Color.Orange, Color.Purple, Color.Cyan, Color.Silver, Color.Crimson, Color.Pink, Color.Maroon, Color.Lime };
         static int curColorIndex = 0;
 
-        public DoorSwitch(Rectangle rec)
+        public DoorSwitch() : this(false, 1) { }
+
+        public DoorSwitch(bool _permanent, int _numRequired)
         {
-            dswitch = rec;
+            permanent = _permanent;
+            numRequired = _numRequired;
+            switches = new List<Rectangle>();
             doors = new List<Rectangle>();
             color = doorColor = colorArray[curColorIndex++];
             curColorIndex %= colorArray.Length;
+        }
+
+        public void addSwitch(Rectangle door)
+        {
+            switches.Add(door);
         }
 
         public void addDoor(Rectangle door)
@@ -41,13 +52,25 @@ namespace MazeAndBlue
         {
             foreach (Rectangle rect in doors)
                 spriteBatch.Draw(doorTexture, rect, doorColor);
-            spriteBatch.Draw(switchTexture, dswitch, color);
+            foreach (Rectangle rect in switches)
+                spriteBatch.Draw(switchTexture, rect, color);
         }
 
         public void update(List<Ball> balls, ref List<Rectangle> walls)
         {
             bool playsound = false;
-            if (balls[0].overlaps(dswitch) || balls[1].overlaps(dswitch))
+
+            int count = 0;
+            foreach (Rectangle dswitch in switches)
+            {
+                foreach (Ball ball in balls)
+                {
+                    if (ball.overlaps(dswitch))
+                        count++;
+                }
+            }
+
+            if (count >= numRequired)
             {
                 doorColor = Color.Transparent;
                 foreach (Rectangle rect in doors)
@@ -59,7 +82,7 @@ namespace MazeAndBlue
                     }
                 }
             }
-            else
+            else if (!permanent)
             {
                 doorColor = color;
                 foreach (Rectangle rect in doors)
