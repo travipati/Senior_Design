@@ -19,3 +19,13 @@ Content\Sounds\button.xnb
 Content\Sounds\door.xnb
 Content\Sounds\wall.xnb
 Content\Sounds\goal.xnb
+Content\Buttons\left.xnb
+Content\Buttons\low.xnb
+Content\Buttons\medium.xnb
+Content\Buttons\off.xnb
+Content\Buttons\on.xnb
+Content\Buttons\right.xnb
+Content\Backgrounds\settingsScreen.xnb
+Content\Buttons\high.xnb
+Content\Buttons\setBackground.xnb
+Content\Buttons\setGoalImage.xnb
