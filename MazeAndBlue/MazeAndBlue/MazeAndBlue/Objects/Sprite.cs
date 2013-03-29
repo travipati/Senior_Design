@@ -9,7 +9,7 @@ namespace MazeAndBlue
         public int width, height;
         protected Texture2D texture;
 
-        public Sprite() : this(new Point()) { }
+        public Sprite() : this(new Point(-40, -40)) { }
 
         //public Sprite(Point pos) : this(pos, Program.game.sx(40), Program.game.sy(40)) { }
         public Sprite(Point pos) : this(pos, 40, 40) { }
