@@ -26,11 +26,16 @@ wall 640 240 10 170
 wall 800 320 170 10
 wall 800 320 10 90
 wall 880 400 10 90
+door_switch false 1
+switch 105 105 40 40
 switch 345 25 40 40
 door 480 410 10 70
+door_switch false 1
 switch 25 425 40 40
 door 640 410 10 70
+door_switch false 1
 switch 745 185 40 40
 door 10 240 70 10
+door_switch false 1
 switch 665 185 40 40
 door 320 410 10 70

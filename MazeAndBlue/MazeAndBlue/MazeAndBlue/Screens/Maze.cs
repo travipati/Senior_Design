@@ -37,7 +37,7 @@ namespace MazeAndBlue
             string mazeFile = "Mazes/" + level + ".maze";
             readFile(mazeFile);
 
-            pauseButton = new Button(new Point(Program.game.screenWidth - 130, 30), 100, 40, "Pause", "Buttons/button");
+            pauseButton = new Button(new Point(Program.game.screenWidth - 170, 30), 136, 72, "Pause", "Buttons/pause");
         }
 
         public void loadContent()
@@ -258,7 +258,8 @@ namespace MazeAndBlue
                     walls.Add(rect);
                 else if (words[0] == "switch")
                 {
-                    switches.Add(new DoorSwitch());
+                    if (switches.Count == 0)
+                        return false;
                     switches[switches.Count - 1].addSwitch(rect);
                 }
                 else if (words[0] == "door")
@@ -268,6 +269,13 @@ namespace MazeAndBlue
                     switches[switches.Count - 1].addDoor(rect);
                     walls.Add(rect);
                 }
+            }
+            else if (words[0] == "door_switch")
+            {
+                if (words.Length != 3)
+                    return false;
+
+                switches.Add(new DoorSwitch(Convert.ToBoolean(words[1]), Convert.ToInt32(words[2])));
             }
             else
                 return false;
