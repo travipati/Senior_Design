@@ -26,7 +26,7 @@ namespace MazeAndBlue
         {
             texture = new Texture2D(Program.game.GraphicsDevice, 1, 1);
             texture = Program.game.Content.Load<Texture2D>("Backgrounds/instrs");
-            backButton.loadContent("Buttons/back");
+            backButton.loadContent();
         }
 
         public void draw(SpriteBatch spriteBatch)
