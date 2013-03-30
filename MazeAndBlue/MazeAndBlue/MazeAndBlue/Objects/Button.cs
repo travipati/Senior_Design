@@ -10,6 +10,7 @@ namespace MazeAndBlue
         int originalH;
         Point originalPos;
         string path;
+        Sprite hover;
 
         /*public Button(Point pos, int w, int h, string s)
             : base(pos, w, h)
@@ -27,6 +28,7 @@ namespace MazeAndBlue
             originalPos = pos;
             text = s;
             path = p;
+            hover = new Sprite(new Point(pos.X - 10, pos.Y - 10), w + 20, h + 20); 
         }
 
         public void enlarge(double p)
@@ -55,6 +57,7 @@ namespace MazeAndBlue
         public void loadContent()
         {
             loadContent(path);
+            hover.loadContent("Buttons/black");
         }
 
         public override void draw(SpriteBatch spriteBatch, Color textureColor)
@@ -64,6 +67,9 @@ namespace MazeAndBlue
 
         public void draw(SpriteBatch spriteBatch, Color textureColor, Color fontColor)
         {
+            if (isOver())
+                hover.draw(spriteBatch);   
+
             spriteBatch.Draw(texture, new Rectangle((int)position.X, (int)position.Y, width, height), textureColor);
             if (path == "Buttons/button")
             {
@@ -77,13 +83,13 @@ namespace MazeAndBlue
 
         public void update()
         {
-            if (isOver())
+           /* if (isOver())
             {
                 enlarge(0.1);
                 loadContent("Buttons/Hover");
             }
             else
-                reload();
+                reload();*/
         }
 
         public bool isSelected()

@@ -8,7 +8,7 @@ namespace MazeAndBlue
     public class LevelSelectionScreen 
     {        
         List<Button> levelButtons;
-        Button menuButton, left, right;
+        Button menuButton, previous, next;
         Texture2D background;
 
         public LevelSelectionScreen()
@@ -19,35 +19,39 @@ namespace MazeAndBlue
             //int labelHeight = screenHeight / 5;
             int levelButtonWidth = screenWidth / 8;
             int levelButtonHeight = screenHeight / 8;
-            int menuButtonWidth = screenWidth / 8;
-            int menuButtonHeight = screenHeight / 8;
+            int menuButtonWidth = 170;
+            int menuButtonHeight = 92;
 
-            int levelButtony = screenHeight / 2;
-            int level1x = screenWidth / 12 * 2;
-            int level2x = screenWidth / 12 * 5;
-            int level3x = screenWidth / 12 * 8;
+            int levelButton1y = screenHeight / 2 - 10;
+            int levelButton2y = 2 * screenHeight / 3 + 40;
+            int level1x = screenWidth / 2 - 5 * levelButtonWidth / 2;
+            int level2x = screenWidth / 2 - levelButtonWidth / 2;
+            int level3x = screenWidth / 2 + 3 * levelButtonWidth / 2;
 
-            int menuButtony = screenHeight /6;
-            int leftx = screenWidth / 12;
-            int menuButtonx = screenWidth / 12 * 5;
-            int rightx = screenWidth / 12 * 9;
+            int menuButtony = screenHeight / 5;
+            int previousx = screenWidth / 8;
+            int menuButtonx = screenWidth / 2 - menuButtonWidth / 2;
+            int nextx = 3 * screenWidth / 4;
 
-            menuButton = new Button(new Point(menuButtonx, menuButtony), menuButtonWidth, menuButtonHeight, "Main Menu", "Buttons/button");
-            left = new Button(new Point(leftx, menuButtony), menuButtonWidth, menuButtonHeight, "prev", "Buttons/button");
-            right = new Button(new Point(rightx, menuButtony), menuButtonWidth, menuButtonHeight, "next", "Buttons/button");
+            menuButton = new Button(new Point(menuButtonx, menuButtony), menuButtonWidth, menuButtonHeight, "Main Menu", "Buttons/mainMenuButton");
+            previous = new Button(new Point(previousx, menuButtony), menuButtonWidth, menuButtonHeight, "prev", "Buttons/previous");
+            next = new Button(new Point(nextx, menuButtony), menuButtonWidth, menuButtonHeight, "next", "Buttons/next");
 
             levelButtons = new List<Button>();
-            levelButtons.Add(new Button(new Point(level1x, levelButtony), levelButtonWidth, levelButtonHeight, "1", "Buttons/button"));
-            levelButtons.Add(new Button(new Point(level2x, levelButtony), levelButtonWidth, levelButtonHeight, "2", "Buttons/button"));
-            levelButtons.Add(new Button(new Point(level3x, levelButtony), levelButtonWidth, levelButtonHeight, "3", "Buttons/button"));
+            levelButtons.Add(new Button(new Point(level1x, levelButton1y), levelButtonWidth, levelButtonHeight, "1", "Buttons/level1"));
+            levelButtons.Add(new Button(new Point(level2x, levelButton1y), levelButtonWidth, levelButtonHeight, "2", "Buttons/level2"));
+            levelButtons.Add(new Button(new Point(level3x, levelButton1y), levelButtonWidth, levelButtonHeight, "3", "Buttons/level3"));
+            levelButtons.Add(new Button(new Point(level1x, levelButton2y), levelButtonWidth, levelButtonHeight, "4", "Buttons/level4"));
+            levelButtons.Add(new Button(new Point(level2x, levelButton2y), levelButtonWidth, levelButtonHeight, "5", "Buttons/level5"));
+            levelButtons.Add(new Button(new Point(level3x, levelButton2y), levelButtonWidth, levelButtonHeight, "6", "Buttons/level6"));
         }
         
         public void loadContent()
         {
-            background = Program.game.Content.Load<Texture2D>("Backgrounds/simple1");
+            background = Program.game.Content.Load<Texture2D>("Backgrounds/chooseLevel");
             menuButton.loadContent();
-            left.loadContent();
-            right.loadContent();
+            previous.loadContent();
+            next.loadContent();
             foreach (Button button in levelButtons)
                 button.loadContent();
         }
@@ -56,11 +60,11 @@ namespace MazeAndBlue
         {
             spriteBatch.Draw(background, Vector2.Zero, Color.White);
             menuButton.draw(spriteBatch);
-            left.draw(spriteBatch);
-            right.draw(spriteBatch);
+            previous.draw(spriteBatch);
+            next.draw(spriteBatch);
             foreach (Button button in levelButtons)
                 button.draw(spriteBatch);
-            string text = "Title";
+            string text = "";
             Vector2 textSize = MazeAndBlue.font.MeasureString(text);
             int x = (int)((Program.game.screenWidth - textSize.X) / 2);
             int y = (int)(Program.game.screenHeight / 3 - textSize.Y / 2);
@@ -72,9 +76,9 @@ namespace MazeAndBlue
         {
             if (menuButton.isSelected())
                 Program.game.startMainMenu();
-            else if (left.isSelected())
+            else if (previous.isSelected())
                 undefinedButtonPress();
-            else if (right.isSelected())
+            else if (next.isSelected())
                 undefinedButtonPress();
             for (int i = 0; i < levelButtons.Count; i++)
             {
