@@ -71,7 +71,7 @@ namespace MazeAndBlue
                 point = skeleton.Joints[JointType.HandRight].Position;
             else
                 point = skeleton.Joints[JointType.HandLeft].Position;
-            
+
             float xPercent = (point.X - xRangeMin) / (xRangeMax - xRangeMin);
             if (xPercent < 0)
                 xPercent = 0;
@@ -84,8 +84,8 @@ namespace MazeAndBlue
             if (yPercent > 1)
                 yPercent = 1;
 
-            int x = Program.game.screenWidth * (int)xPercent;
-            int y = Program.game.screenHeight * (int)(1 - yPercent);
+            int x = (int)(Program.game.screenWidth * xPercent);
+            int y = (int)(Program.game.screenHeight * (1 - yPercent));
             return new Point(x, y);
         }
 

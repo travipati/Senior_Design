@@ -1,6 +1,5 @@
 Content\ball.xnb
 Content\hand.xnb
-Content\font.xnb
 Content\Buttons\button.xnb
 Content\Backgrounds\simple0.xnb
 Content\Backgrounds\simple1.xnb
@@ -15,6 +14,7 @@ Content\Buttons\statistics.xnb
 Content\Backgrounds\instrs.xnb
 Content\Buttons\back.xnb
 Content\Buttons\Hover.xnb
+Content\font.xnb
 Content\Sounds\button.xnb
 Content\Sounds\door.xnb
 Content\Sounds\wall.xnb
