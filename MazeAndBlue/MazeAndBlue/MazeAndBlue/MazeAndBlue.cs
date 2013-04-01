@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Storage;
 
 namespace MazeAndBlue
 {
@@ -13,6 +14,7 @@ namespace MazeAndBlue
 
         Kinect kinect;
         Maze maze;
+        public GameStats gameStats;
         MainMenu mainMenu;
         ScoreScreen scoreScreen;
         LevelSelectionScreen levelSelectionScreen;
@@ -46,6 +48,7 @@ namespace MazeAndBlue
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            gameStats = new GameStats();
 
             var form = (System.Windows.Forms.Form)System.Windows.Forms.Form.FromHandle(Window.Handle);
             form.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -138,6 +141,7 @@ namespace MazeAndBlue
 
         public void startScoreScreen(int time)
         {
+            gameStats.updateLevelStats(level, time, 0);
             scoreScreen = new ScoreScreen(time);
             scoreScreen.loadContent();
             state = GameState.SCORE;

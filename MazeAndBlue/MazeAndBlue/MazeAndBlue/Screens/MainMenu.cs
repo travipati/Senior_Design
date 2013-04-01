@@ -81,7 +81,10 @@ namespace MazeAndBlue
             else if (instructionsButton.isSelected())
                 Program.game.startInstructionScreen();
             else if (exitButton.isSelected())
+            {
+                Program.game.gameStats.saveStats();
                 Program.game.Exit();
+            }
         }
 
 /*        public void onLeftClick(Point point)

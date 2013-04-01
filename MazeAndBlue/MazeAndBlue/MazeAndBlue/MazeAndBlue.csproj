@@ -69,6 +69,7 @@
     <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.GamerServices, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
+    <Reference Include="Microsoft.Xna.Framework.Storage, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Windows.Forms" />
@@ -81,6 +82,7 @@
   <ItemGroup>
     <Compile Include="Objects\Ball.cs" />
     <Compile Include="Objects\Button.cs" />
+    <Compile Include="Objects\GameStats.cs" />
     <Compile Include="Objects\MouseSelect.cs" />
     <Compile Include="Objects\SoundEffectPlayer.cs" />
     <Compile Include="Screens\SettingsScreen.cs" />
