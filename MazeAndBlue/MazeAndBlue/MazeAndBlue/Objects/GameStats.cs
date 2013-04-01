@@ -55,8 +55,8 @@ namespace MazeAndBlue
             newLevel.numStars = calcNumStars(newLevel.score);
 
             data.totalGameTime+= numSeconds;
-            if (data.nextLevelToUnlock <= 5)
-                data.nextLevelToUnlock++;
+            if (data.nextLevelToUnlock == level)
+                data.nextLevelToUnlock=level+1;
 
             if (level == 0)
                 data.levelData0 = newLevel;
@@ -154,7 +154,7 @@ namespace MazeAndBlue
             // Close the wait handle.
             result.AsyncWaitHandle.Close();
 
-            string filename = "savegame.sav";
+            string filename = "gameStats.sav";
 
             // Check to see whether the save exists.
             if (!container.FileExists(filename))
@@ -178,7 +178,5 @@ namespace MazeAndBlue
             // Dispose the container.
             container.Dispose();
         }
-
-
     }
 }
