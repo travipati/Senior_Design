@@ -91,7 +91,7 @@ namespace MazeAndBlue
                 Program.game.soundEffectPlayer.playButton();
                 return true;
             }
-            else if (Program.game.vs.newWordReady && Program.game.vs.word == text)
+            else if (Program.game.vs.newWordReady && Program.game.vs.word == text.ToLower())
             {
                 Program.game.vs.newWordReady = false;
                 Program.game.soundEffectPlayer.playButton();

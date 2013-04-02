@@ -22,7 +22,8 @@ namespace MazeAndBlue
         SettingsScreen settingsScreen;
         StatsScreen statsScreen;
         InstructionScreen instructionScreen;
-        int level, numLevels = 8;
+        public int level { get; set; }
+        int numLevels = 8;
         bool vsSecondCycle = false;
 
         public List<Player> players { get; set; }

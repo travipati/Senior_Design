@@ -7,7 +7,7 @@ namespace MazeAndBlue
     {
         //Texture2D texture;
         Rectangle window;
-        Button menuButton, levelButton;
+        Button menuButton, levelButton, restartButton;
         int time;
         Texture2D background;
 
@@ -23,6 +23,7 @@ namespace MazeAndBlue
             int levelX = window.Right - window.Width / 3 - buttonWidth / 2;
             menuButton = new Button(new Point(menuX, y), buttonWidth, buttonHeight, "Main Menu", "Buttons/button");
             levelButton = new Button(new Point(levelX, y), buttonWidth, buttonHeight, "Next Level", "Buttons/button");
+            restartButton = new Button(new Point(screenWidth / 2 - buttonWidth / 2, window.Bottom - window.Height / 4 + buttonHeight / 2), buttonWidth, buttonHeight, "Restart", "Buttons/restartLevel");
             time = _time;
         }
 
@@ -33,6 +34,8 @@ namespace MazeAndBlue
             //texture.SetData<Color>(new Color[] { Color.White });
             menuButton.loadContent();
             levelButton.loadContent();
+            restartButton.loadContent();
+
         }
 
         public void draw(SpriteBatch spriteBatch)
@@ -40,6 +43,7 @@ namespace MazeAndBlue
             spriteBatch.Draw(background, Vector2.Zero, Color.White);
             menuButton.draw(spriteBatch);
             levelButton.draw(spriteBatch);
+            restartButton.draw(spriteBatch);
             string text = "Time taken: " + time + " seconds.";
             Vector2 textSize = MazeAndBlue.font.MeasureString(text);
             int x = (int)(window.X + (window.Width - textSize.X) / 2);
@@ -54,6 +58,11 @@ namespace MazeAndBlue
                 Program.game.startMainMenu();
             else if (levelButton.isSelected())
                 Program.game.nextLevel();
+            else if (restartButton.isSelected())
+            {
+                Program.game.level--;
+                Program.game.nextLevel();
+            }
         }
     }
 }

@@ -23,7 +23,7 @@ namespace MazeAndBlue
             int y = window.Bottom - window.Height / 5 - buttonHeight / 2;
             int menuX = window.Left + window.Width / 2 - buttonWidth / 2;
             resumeButton = new Button(new Point(menuX, window.Top + 2 * window.Height / 5 - buttonHeight / 2), buttonWidth, buttonHeight, "Resume", "Buttons/resume");
-            restartButton = new Button(new Point(menuX, window.Top + 3 * window.Height / 5 - buttonHeight / 2), buttonWidth, buttonHeight, "Restart Level", "Buttons/restartLevel");
+            restartButton = new Button(new Point(menuX, window.Top + 3 * window.Height / 5 - buttonHeight / 2), buttonWidth, buttonHeight, "Restart", "Buttons/restartLevel");
             menuButton = new Button(new Point(menuX, y), buttonWidth, buttonHeight, "Main Menu", "Buttons/mainMenuButton");
             buttons = new List<Button>();
             buttons.Add(resumeButton);
