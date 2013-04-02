@@ -82,9 +82,12 @@
   <ItemGroup>
     <Compile Include="Objects\Ball.cs" />
     <Compile Include="Objects\Button.cs" />
+    <Compile Include="Objects\FireworkGenerator.cs" />
     <Compile Include="Objects\GameStats.cs" />
     <Compile Include="Objects\MouseSelect.cs" />
+    <Compile Include="Objects\Particle.cs" />
     <Compile Include="Objects\SoundEffectPlayer.cs" />
+    <Compile Include="Screens\Fireworks.cs" />
     <Compile Include="Screens\StatsScreen.cs" />
     <Compile Include="Screens\SettingsScreen.cs" />
     <Compile Include="Screens\InstructionScreen.cs" />
