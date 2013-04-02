@@ -80,9 +80,10 @@ namespace MazeAndBlue
                 Program.game.startSettingsScreen();
             else if (instructionsButton.isSelected())
                 Program.game.startInstructionScreen();
+            else if (statisticsButton.isSelected())
+                Program.game.startStatsScreen();
             else if (exitButton.isSelected())
             {
-                Program.game.gameStats.saveStats();
                 Program.game.Exit();
             }
         }

@@ -85,6 +85,7 @@
     <Compile Include="Objects\GameStats.cs" />
     <Compile Include="Objects\MouseSelect.cs" />
     <Compile Include="Objects\SoundEffectPlayer.cs" />
+    <Compile Include="Screens\StatsScreen.cs" />
     <Compile Include="Screens\SettingsScreen.cs" />
     <Compile Include="Screens\InstructionScreen.cs" />
     <Compile Include="Screens\PauseScreen.cs" />

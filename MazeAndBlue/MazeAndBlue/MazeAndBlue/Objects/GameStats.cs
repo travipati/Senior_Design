@@ -74,6 +74,7 @@ namespace MazeAndBlue
                 System.Windows.Forms.MessageBox.Show("error updating level stats", "Error @ GameStats");
             Console.Out.WriteLine(data.nextLevelToUnlock);
             Console.Out.WriteLine(data.totalGameTime);
+            saveStats();
         }
 
         public int calcNumStars(int score)
@@ -82,7 +83,7 @@ namespace MazeAndBlue
                 return 3;
             else if (score >= 50)
                 return 2;
-            else if (score >= 0)
+            else if (score > 0)
                 return 1;
             else
                 return 0;
@@ -90,7 +91,8 @@ namespace MazeAndBlue
 
         public int calcScore(int numSeconds, int numHitWall)
         {
-            int baseScore = 100 * 10 / numSeconds;
+            int baseScore = 100 * 20 / numSeconds;
+            
             return baseScore;
         }
 
