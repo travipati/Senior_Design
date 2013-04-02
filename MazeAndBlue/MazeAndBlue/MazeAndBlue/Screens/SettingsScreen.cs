@@ -85,11 +85,11 @@ namespace MazeAndBlue
             else if (p2LHand.isSelected())
                 Program.game.players[1].rightHanded = false;
             else if (roomQuiet.isSelected())
-                Program.game.vs.precision = 0.8;
+                Program.game.vs.precision = 0.5;
             else if (roomAver.isSelected())
-                Program.game.vs.precision = 0.6;
-            else if (roomLoud.isSelected())
                 Program.game.vs.precision = 0.4;
+            else if (roomLoud.isSelected())
+                Program.game.vs.precision = 0.3;
             else if (soundsOn.isSelected())
                 Program.game.soundEffectPlayer.soundsOn = true;
             else if (soundsOff.isSelected())

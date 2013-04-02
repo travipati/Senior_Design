@@ -16,7 +16,7 @@ namespace MazeAndBlue
 
         public VoiceSelect()
         {
-            precision = .6;
+            precision = .5;
             newWordReady = false;
 
             RecognizerInfo ri = GetKinectRecognizer();

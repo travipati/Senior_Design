@@ -23,8 +23,7 @@ namespace MazeAndBlue
         StatsScreen statsScreen;
         InstructionScreen instructionScreen;
         int level, numLevels = 8;
-        
-        MouseState prevMouseState;
+        bool vsSecondCycle = false;
 
         public List<Player> players { get; set; }
         public MouseSelect ms { get; set; }
@@ -62,7 +61,6 @@ namespace MazeAndBlue
             players.Add(new Player(-0.5f, 0f, Color.Blue, 0));
             players.Add(new Player(0f, 0.5f, Color.Yellow, 1));
 
-            prevMouseState = Mouse.GetState();
             level = 0;
         }
 
@@ -270,8 +268,14 @@ namespace MazeAndBlue
             prevMouseState = mouseState;*/
 
             ms.newPointReady = false;
-            vs.newWordReady = false;
             ks.newKeyReady = false;
+            if (vsSecondCycle)
+            {
+                vs.newWordReady = false;
+                vsSecondCycle = false;
+            }
+            if (vs.newWordReady)
+                vsSecondCycle = true;
 
             base.Update(gameTime);
         }
