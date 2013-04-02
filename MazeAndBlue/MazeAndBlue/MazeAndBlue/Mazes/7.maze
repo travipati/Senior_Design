@@ -1,23 +1,41 @@
-﻿1 225 65
-2 385 225
-goal 810 330 150 150
+﻿1 25 25
+2 905 425
+goal 410 10 70 70
 wall 0 0 10 490
 wall 960 0 10 490
 wall 0 0 970 10
 wall 0 480 970 10
-wall 160 160 330 10
-wall 320 320 170 10
-wall 160 160 10 170
-wall 320 0 10 170
-wall 480 160 10 170
-wall 640 0 10 330
-wall 800 160 10 330
-door_switch true 1
-switch 65 65 40 40
-door 10 160 150 10
-door_switch true 1
-switch 225 225 40 40
-door 170 320 150 10
-door_switch true 2
-switch 385 65 40 40
-door 810 160 150 10
+wall 80 80 10 90
+wall 80 80 90 10
+wall 240 0 10 170
+wall 80 160 170 10
+wall 320 0 10 410
+wall 80 240 250 10
+wall 80 320 170 10
+wall 240 320 10 170
+wall 0 400 170 10
+wall 400 0 10 410
+wall 400 80 490 10
+wall 480 160 10 250
+wall 480 160 490 10
+wall 720 160 10 90
+wall 640 240 250 10
+wall 560 240 10 250
+wall 720 320 10 170
+wall 640 240 10 170
+wall 800 320 170 10
+wall 800 320 10 90
+wall 880 400 10 90
+door_switch false 1
+switch 105 105 40 40
+switch 345 25 40 40
+door 480 410 10 70
+door_switch false 1
+switch 25 425 40 40
+door 640 410 10 70
+door_switch false 1
+switch 745 185 40 40
+door 10 240 70 10
+door_switch false 1
+switch 665 185 40 40
+door 320 410 10 70

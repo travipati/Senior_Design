@@ -38,12 +38,12 @@ namespace MazeAndBlue
             next = new Button(new Point(nextx, menuButtony), menuButtonWidth, menuButtonHeight, "next", "Buttons/next");
 
             levelButtons = new List<Button>();
-            levelButtons.Add(new Button(new Point(level1x, levelButton1y), levelButtonWidth, levelButtonHeight, "1", "Buttons/level1"));
-            levelButtons.Add(new Button(new Point(level2x, levelButton1y), levelButtonWidth, levelButtonHeight, "2", "Buttons/level2"));
-            levelButtons.Add(new Button(new Point(level3x, levelButton1y), levelButtonWidth, levelButtonHeight, "3", "Buttons/level3"));
-            levelButtons.Add(new Button(new Point(level1x, levelButton2y), levelButtonWidth, levelButtonHeight, "4", "Buttons/level4"));
-            levelButtons.Add(new Button(new Point(level2x, levelButton2y), levelButtonWidth, levelButtonHeight, "5", "Buttons/level5"));
-            levelButtons.Add(new Button(new Point(level3x, levelButton2y), levelButtonWidth, levelButtonHeight, "6", "Buttons/level6"));
+            levelButtons.Add(new Button(new Point(level1x, levelButton1y), levelButtonWidth, levelButtonHeight, "1", "LevelThumbnails/level0"));
+            levelButtons.Add(new Button(new Point(level2x, levelButton1y), levelButtonWidth, levelButtonHeight, "2", "LevelThumbnails/level1"));
+            levelButtons.Add(new Button(new Point(level3x, levelButton1y), levelButtonWidth, levelButtonHeight, "3", "LevelThumbnails/level2"));
+            levelButtons.Add(new Button(new Point(level1x, levelButton2y), levelButtonWidth, levelButtonHeight, "4", "LevelThumbnails/level3"));
+            levelButtons.Add(new Button(new Point(level2x, levelButton2y), levelButtonWidth, levelButtonHeight, "5", "LevelThumbnails/level4"));
+            levelButtons.Add(new Button(new Point(level3x, levelButton2y), levelButtonWidth, levelButtonHeight, "6", "LevelThumbnails/level5"));
         }
         
         public void loadContent()
