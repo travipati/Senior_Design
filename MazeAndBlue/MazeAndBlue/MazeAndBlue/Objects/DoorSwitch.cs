@@ -50,10 +50,25 @@ namespace MazeAndBlue
 
         public void draw(SpriteBatch spriteBatch)
         {
+            string text = string.Empty;
+            if (numRequired > 1)
+                text = "M";
+            else if (permanent)
+                text = "P";
             foreach (Rectangle rect in doors)
                 spriteBatch.Draw(doorTexture, rect, doorColor);
             foreach (Rectangle rect in switches)
+            {
                 spriteBatch.Draw(switchTexture, rect, color);
+                if (numRequired > 1 || permanent)
+                {
+                    Vector2 textSize = MazeAndBlue.font.MeasureString(text);
+                    int x = (int)(rect.X + (rect.Width - textSize.X) / 2);
+                    int y = (int)(rect.Y + (rect.Height - textSize.Y) / 2);
+                    Vector2 textPos = new Vector2(x, y);
+                    spriteBatch.DrawString(MazeAndBlue.font, text, textPos, Color.Black);
+                }
+            }
         }
 
         public void update(List<Ball> balls, ref List<Rectangle> walls)
