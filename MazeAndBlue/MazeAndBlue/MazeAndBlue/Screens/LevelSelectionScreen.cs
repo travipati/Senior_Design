@@ -6,17 +6,16 @@ namespace MazeAndBlue
 {
 
     public class LevelSelectionScreen 
-    {        
-        List<Button> levelButtons;
-        Button menuButton, previous, next;
+    {
         Texture2D background;
+        Button menuButton, easyButton, hardButton;
+        List<Button> easyLevelButtons, hardLevelButtons;
+        bool onEasy;
 
         public LevelSelectionScreen()
         {
             int screenWidth = Program.game.screenWidth;
             int screenHeight = Program.game.screenHeight;
-            //int labelWidth = screenWidth / 2;
-            //int labelHeight = screenHeight / 5;
             int levelButtonWidth = screenWidth / 8;
             int levelButtonHeight = screenHeight / 8;
             int menuButtonWidth = 170;
@@ -29,30 +28,42 @@ namespace MazeAndBlue
             int level3x = screenWidth / 2 + 3 * levelButtonWidth / 2;
 
             int menuButtony = screenHeight / 5;
-            int previousx = screenWidth / 8;
+            int easyx = screenWidth / 8;
             int menuButtonx = screenWidth / 2 - menuButtonWidth / 2;
-            int nextx = 3 * screenWidth / 4;
+            int hardx = 3 * screenWidth / 4;
 
             menuButton = new Button(new Point(menuButtonx, menuButtony), menuButtonWidth, menuButtonHeight, "main menu", "Buttons/mainMenuButton");
-            previous = new Button(new Point(previousx, menuButtony), menuButtonWidth, menuButtonHeight, "prev", "Buttons/previous");
-            next = new Button(new Point(nextx, menuButtony), menuButtonWidth, menuButtonHeight, "next", "Buttons/next");
+            easyButton = new Button(new Point(easyx, menuButtony), menuButtonWidth, menuButtonHeight, "Easy", "Buttons/button");
+            hardButton = new Button(new Point(hardx, menuButtony), menuButtonWidth, menuButtonHeight, "Hard", "Buttons/button");
 
-            levelButtons = new List<Button>();
-            levelButtons.Add(new Button(new Point(level1x, levelButton1y), levelButtonWidth, levelButtonHeight, "1", "LevelThumbnails/level0"));
-            levelButtons.Add(new Button(new Point(level2x, levelButton1y), levelButtonWidth, levelButtonHeight, "2", "LevelThumbnails/level1"));
-            levelButtons.Add(new Button(new Point(level3x, levelButton1y), levelButtonWidth, levelButtonHeight, "3", "LevelThumbnails/level2"));
-            levelButtons.Add(new Button(new Point(level1x, levelButton2y), levelButtonWidth, levelButtonHeight, "4", "LevelThumbnails/level3"));
-            levelButtons.Add(new Button(new Point(level2x, levelButton2y), levelButtonWidth, levelButtonHeight, "5", "LevelThumbnails/level4"));
-            levelButtons.Add(new Button(new Point(level3x, levelButton2y), levelButtonWidth, levelButtonHeight, "6", "LevelThumbnails/level5"));
+            easyLevelButtons = new List<Button>();
+            easyLevelButtons.Add(new Button(new Point(level1x, levelButton1y), levelButtonWidth, levelButtonHeight, "1", "LevelThumbnails/level0"));
+            easyLevelButtons.Add(new Button(new Point(level2x, levelButton1y), levelButtonWidth, levelButtonHeight, "2", "LevelThumbnails/level1"));
+            easyLevelButtons.Add(new Button(new Point(level3x, levelButton1y), levelButtonWidth, levelButtonHeight, "3", "LevelThumbnails/level2"));
+            easyLevelButtons.Add(new Button(new Point(level1x, levelButton2y), levelButtonWidth, levelButtonHeight, "4", "LevelThumbnails/level3"));
+            easyLevelButtons.Add(new Button(new Point(level2x, levelButton2y), levelButtonWidth, levelButtonHeight, "5", "LevelThumbnails/level4"));
+            easyLevelButtons.Add(new Button(new Point(level3x, levelButton2y), levelButtonWidth, levelButtonHeight, "6", "LevelThumbnails/level5"));
+
+            hardLevelButtons = new List<Button>();
+            hardLevelButtons.Add(new Button(new Point(level1x, levelButton1y), levelButtonWidth, levelButtonHeight, "1", "LevelThumbnails/level6"));
+            hardLevelButtons.Add(new Button(new Point(level2x, levelButton1y), levelButtonWidth, levelButtonHeight, "2", "LevelThumbnails/level7"));
+            hardLevelButtons.Add(new Button(new Point(level3x, levelButton1y), levelButtonWidth, levelButtonHeight, "3", "LevelThumbnails/level8"));
+            hardLevelButtons.Add(new Button(new Point(level1x, levelButton2y), levelButtonWidth, levelButtonHeight, "4", "LevelThumbnails/level9"));
+            hardLevelButtons.Add(new Button(new Point(level2x, levelButton2y), levelButtonWidth, levelButtonHeight, "5", "LevelThumbnails/level10"));
+            hardLevelButtons.Add(new Button(new Point(level3x, levelButton2y), levelButtonWidth, levelButtonHeight, "6", "LevelThumbnails/level11"));
+
+            onEasy = true;
         }
         
         public void loadContent()
         {
             background = Program.game.Content.Load<Texture2D>("Backgrounds/chooseLevel");
             menuButton.loadContent();
-            previous.loadContent();
-            next.loadContent();
-            foreach (Button button in levelButtons)
+            easyButton.loadContent();
+            hardButton.loadContent();
+            foreach (Button button in easyLevelButtons)
+                button.loadContent();
+            foreach (Button button in hardLevelButtons)
                 button.loadContent();
         }
         
@@ -60,40 +71,56 @@ namespace MazeAndBlue
         {
             spriteBatch.Draw(background, Vector2.Zero, Color.White);
             menuButton.draw(spriteBatch);
-            previous.draw(spriteBatch);
-            next.draw(spriteBatch);
-            foreach (Button button in levelButtons)
-                button.draw(spriteBatch);
-            string text = "";
-            Vector2 textSize = MazeAndBlue.font.MeasureString(text);
-            int x = (int)((Program.game.screenWidth - textSize.X) / 2);
-            int y = (int)(Program.game.screenHeight / 3 - textSize.Y / 2);
-            Vector2 textPos = new Vector2(x, y);
-            spriteBatch.DrawString(MazeAndBlue.font, text, textPos, Color.Black);
+            easyButton.draw(spriteBatch);
+            hardButton.draw(spriteBatch);
+
+            if (onEasy)
+            {
+                foreach (Button button in easyLevelButtons)
+                    button.draw(spriteBatch);
+            }
+            else
+            {
+                foreach (Button button in hardLevelButtons)
+                    button.draw(spriteBatch);
+            }
         }
 
         public void update()
         {
             if (menuButton.isSelected())
                 Program.game.startMainMenu();
-            else if (previous.isSelected())
-                undefinedButtonPress();
-            else if (next.isSelected())
-                undefinedButtonPress();
-            for (int i = 0; i < levelButtons.Count; i++)
+            else if (easyButton.isSelected())
+                easyButtonPress();
+            else if (hardButton.isSelected())
+                hardButtonPress();
+
+            if (onEasy)
             {
-                if (levelButtons[i].isSelected())
-                    Program.game.startLevel(i);
+                for (int i = 0; i < easyLevelButtons.Count; i++)
+                {
+                    if (easyLevelButtons[i].isSelected())
+                        Program.game.startLevel(i);
+                }
             }
-
-            foreach (Button button in levelButtons)
-                button.update();
-
+            else
+            {
+                for (int i = 0; i < hardLevelButtons.Count; i++)
+                {
+                    if (hardLevelButtons[i].isSelected())
+                        Program.game.startLevel(i+6);
+                }
+            }
         }
 
-        private void undefinedButtonPress()
+        private void easyButtonPress()
         {
-            System.Windows.Forms.MessageBox.Show("Button Undefined","Error");
+            onEasy = true;
+        }
+
+        private void hardButtonPress()
+        {
+            onEasy = false;
         }
 
     }

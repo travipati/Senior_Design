@@ -152,6 +152,10 @@
     <None Include="Mazes\5.maze" />
     <None Include="Mazes\6.maze" />
     <None Include="Mazes\7.maze" />
+    <None Include="Mazes\8.maze" />
+    <None Include="Mazes\9.maze" />
+    <None Include="Mazes\10.maze" />
+    <None Include="Mazes\11.maze" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

@@ -53,5 +53,6 @@ namespace MazeAndBlue
             Rectangle rect = new Rectangle((int)position.X, (int)position.Y, width, height);
             return rect.Contains(point);
         }
+
     }
 }
