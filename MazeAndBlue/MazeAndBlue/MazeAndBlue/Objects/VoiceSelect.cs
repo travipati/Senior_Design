@@ -32,6 +32,7 @@ namespace MazeAndBlue
             grammar.Add("pause", "PAUSE");
             grammar.Add("restart", "RESTART");
             grammar.Add("co op mode", "CO-OP MODE");
+            grammar.Add("main menu", "Main Menu");
 
             var gb = new GrammarBuilder { Culture = ri.Culture };
             gb.Append(grammar);

@@ -33,7 +33,7 @@ namespace MazeAndBlue
             int menuButtonx = screenWidth / 2 - menuButtonWidth / 2;
             int nextx = 3 * screenWidth / 4;
 
-            menuButton = new Button(new Point(menuButtonx, menuButtony), menuButtonWidth, menuButtonHeight, "Main Menu", "Buttons/mainMenuButton");
+            menuButton = new Button(new Point(menuButtonx, menuButtony), menuButtonWidth, menuButtonHeight, "main menu", "Buttons/mainMenuButton");
             previous = new Button(new Point(previousx, menuButtony), menuButtonWidth, menuButtonHeight, "prev", "Buttons/previous");
             next = new Button(new Point(nextx, menuButtony), menuButtonWidth, menuButtonHeight, "next", "Buttons/next");
 
