@@ -9,8 +9,11 @@ namespace MazeAndBlue
 
         SoundEffect[] sounds;
 
+        public bool soundsOn { get; set; }
+
         public SoundEffectPlayer()
         {
+            soundsOn = true;
             sounds = new SoundEffect[numSoundTypes];
             sounds[(int)SoundType.BUTTON] = Program.game.Content.Load<SoundEffect>("Sounds/button");
             sounds[(int)SoundType.WALL] = Program.game.Content.Load<SoundEffect>("Sounds/wall");
@@ -18,24 +21,30 @@ namespace MazeAndBlue
             sounds[(int)SoundType.GOAL] = Program.game.Content.Load<SoundEffect>("Sounds/goal");
         }
 
+        private void playSound(int sound)
+        {
+            if(soundsOn)
+                sounds[sound].Play();
+        }
+
         public void playButton()
         {
-            sounds[(int)SoundType.BUTTON].Play();
+            playSound((int)SoundType.BUTTON);
         }
 
         public void playWall()
         {
-            sounds[(int)SoundType.WALL].Play();
+            playSound((int)SoundType.WALL);
         }
 
         public void playDoor()
         {
-            sounds[(int)SoundType.DOOR].Play();
+            playSound((int)SoundType.DOOR);
         }
 
         public void playGoal()
         {
-            sounds[(int)SoundType.GOAL].Play();
+            playSound((int)SoundType.GOAL);
         }
 
     }

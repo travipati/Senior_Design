@@ -90,6 +90,10 @@ namespace MazeAndBlue
                 Program.game.vs.precision = 0.6;
             else if (roomLoud.isSelected())
                 Program.game.vs.precision = 0.4;
+            else if (soundsOn.isSelected())
+                Program.game.soundEffectPlayer.soundsOn = true;
+            else if (soundsOff.isSelected())
+                Program.game.soundEffectPlayer.soundsOn = false;
         }
     }
 }

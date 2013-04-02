@@ -9,7 +9,7 @@ namespace MazeAndBlue
     public class Maze
     {
         Button pauseButton;
-        Color goalColor;
+        Color goalColor, wallColor;
         Rectangle goal;
         List<Ball> balls;
         List<Rectangle> walls;
@@ -24,6 +24,7 @@ namespace MazeAndBlue
         public Maze(int _level)
         {
             goalColor = Color.Red;
+            wallColor = Color.Black;
             timer = new Timer();
             prevTickCount = -1;
             wallHits = 0;
@@ -53,11 +54,11 @@ namespace MazeAndBlue
             pauseButton.loadContent();
         }
 
-        public void draw(SpriteBatch spriteBatch, Color color)
+        public void draw(SpriteBatch spriteBatch)
         {
             pauseButton.draw(spriteBatch);
             foreach(Rectangle rect in walls)
-                spriteBatch.Draw(wallTexture, rect, color);
+                spriteBatch.Draw(wallTexture, rect, wallColor);
             foreach (DoorSwitch dswitch in switches)
                 dswitch.draw(spriteBatch);
             spriteBatch.Draw(goalTexture, goal, goalColor);
@@ -69,11 +70,6 @@ namespace MazeAndBlue
                 if (balls[0].playerId != i && balls[1].playerId != i)
                     Program.game.players[i].draw(spriteBatch);
             }
-        }
-
-        public void draw(SpriteBatch spriteBatch)
-        {
-            draw(spriteBatch, Color.Black);
         }
 
         public void update()
@@ -198,7 +194,7 @@ namespace MazeAndBlue
             if (hit)
             {
                 wallHits++;
-                if (System.Environment.TickCount-500 > prevTickCount)
+                if (System.Environment.TickCount - 500 > prevTickCount)
                 {
                     prevTickCount = System.Environment.TickCount;
                     Program.game.soundEffectPlayer.playWall();

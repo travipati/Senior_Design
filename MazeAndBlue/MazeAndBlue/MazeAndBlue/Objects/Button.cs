@@ -5,21 +5,12 @@ namespace MazeAndBlue
 {
     public class Button : Sprite
     {
-        public string text;
         int originalW;
         int originalH;
         Point originalPos;
         string path;
         Sprite hover;
-
-        /*public Button(Point pos, int w, int h, string s)
-            : base(pos, w, h)
-        {
-            originalH = h;
-            originalW = w;
-            originalPos = pos;
-            text = s;
-        }*/
+        public string text { get; set; }
 
         public Button(Point pos, int w, int h, string s, string p) : base(pos, w, h)
         {
