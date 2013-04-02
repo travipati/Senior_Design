@@ -21,7 +21,7 @@ namespace MazeAndBlue
         PauseScreen pauseScreen;
         SettingsScreen settingsScreen;
         InstructionScreen instructionScreen;
-        int level, numLevels = 7;
+        int level, numLevels = 8;
         
         MouseState prevMouseState;
 
