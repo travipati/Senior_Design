@@ -82,9 +82,10 @@ namespace MazeAndBlue
                 float x = fireworks[i].EmitterLocation.X;
                 float y = fireworks[i].EmitterLocation.Y;
 
-                if (fireworks[i].EmitterLocation.Y <= (float)(screenHeight * heightMod))
+                if (fireworks[i].EmitterLocation.Y <= (float)(screenHeight * heightMod) && !exploded[i])
                 {
                     exploded[i] = true;
+                    Program.game.soundEffectPlayer.playFirework();
                 }
                 if (!exploded[i])
                 {
