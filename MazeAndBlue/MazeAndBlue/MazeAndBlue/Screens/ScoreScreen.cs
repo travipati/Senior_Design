@@ -21,9 +21,9 @@ namespace MazeAndBlue
             int y = window.Bottom - window.Height / 3 - buttonHeight / 2;
             int menuX = window.Left + window.Width / 3 - buttonWidth / 2;
             int levelX = window.Right - window.Width / 3 - buttonWidth / 2;
-            menuButton = new Button(new Point(menuX, y), buttonWidth, buttonHeight, "Main Menu", "Buttons/button");
-            levelButton = new Button(new Point(levelX, y), buttonWidth, buttonHeight, "Next Level", "Buttons/button");
-            restartButton = new Button(new Point(screenWidth / 2 - buttonWidth / 2, window.Bottom - window.Height / 4 + buttonHeight / 2), buttonWidth, buttonHeight, "Restart", "Buttons/restartLevel");
+            menuButton = new Button(new Point(screenWidth / 2 - buttonWidth / 2, screenHeight/2 - buttonHeight), buttonWidth, buttonHeight, "Main Menu", "Buttons/mainMenuButton");
+            levelButton = new Button(new Point(screenWidth / 2 - buttonWidth / 2, screenHeight / 2 + buttonHeight - screenHeight/16), buttonWidth, buttonHeight, "Next Level", "Buttons/next");
+            restartButton = new Button(new Point(screenWidth / 2 - buttonWidth / 2, screenHeight / 2 + 2 * buttonHeight), buttonWidth, buttonHeight, "Restart", "Buttons/restartLevel");
             time = _time;
         }
 
@@ -47,7 +47,7 @@ namespace MazeAndBlue
             string text = "Time taken: " + time + " seconds.";
             Vector2 textSize = MazeAndBlue.font.MeasureString(text);
             int x = (int)(window.X + (window.Width - textSize.X) / 2);
-            int y = (int)(window.Top + window.Height / 3 - textSize.Y / 2);
+            int y = (int)(window.Top + window.Height / 6 - textSize.Y / 2);
             Vector2 textPos = new Vector2(x, y);
             spriteBatch.DrawString(MazeAndBlue.font, text, textPos, Color.Black);
         }

@@ -84,7 +84,7 @@ namespace MazeAndBlue
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            background = Content.Load<Texture2D>("Backgrounds/blue");        
+            background = Content.Load<Texture2D>("Backgrounds/blue");
             font = Content.Load<SpriteFont>("font");
 
             foreach (Player player in players)
