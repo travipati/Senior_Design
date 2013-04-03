@@ -21,7 +21,8 @@ namespace MazeAndBlue
         PauseScreen pauseScreen;
         SettingsScreen settingsScreen;
         StatsScreen statsScreen;
-        InstructionScreen instructionScreen;
+        InstructionScreen instructionScreen; 
+        Fireworks fireworks;
 
         public int level { get; set; }
         int numLevels = 12;
@@ -100,12 +101,6 @@ namespace MazeAndBlue
             mainMenu = new MainMenu();
             mainMenu.loadContent();
             state = GameState.MAIN;
-            /*
-            player1.selected = false;
-            player1.mouseSelected = false;
-            player2.selected = false;
-            player2.mouseSelected = false;
-             * */
         }
 
         public void startLevelSelectionScreen()
@@ -113,11 +108,6 @@ namespace MazeAndBlue
             levelSelectionScreen = new LevelSelectionScreen();
             levelSelectionScreen.loadContent();
             state = GameState.LEVEL;
-            /*            player1.selected = false;
-                        player1.mouseSelected = false;
-                        player2.selected = false;
-                        player2.mouseSelected = false;
-             */
         }
 
         public void startLevel(int selectedLevel)
@@ -145,6 +135,8 @@ namespace MazeAndBlue
             gameStats.updateLevelStats(level, time, 0);
             scoreScreen = new ScoreScreen(time);
             scoreScreen.loadContent();
+            fireworks = new Fireworks(); 
+            fireworks.LoadContent();
             state = GameState.SCORE;
         }
 
@@ -198,6 +190,7 @@ namespace MazeAndBlue
                     break;
                 case GameState.SCORE:
                     scoreScreen.draw(spriteBatch);
+                    fireworks.Draw(spriteBatch);
                     break;
                 case GameState.PAUSE:
                     maze.draw(spriteBatch);
@@ -246,6 +239,7 @@ namespace MazeAndBlue
                     break;
                 case GameState.SCORE:
                     scoreScreen.update();
+                    fireworks.Update();
                     break;
                 case GameState.PAUSE:
                     pauseScreen.update();
@@ -264,11 +258,6 @@ namespace MazeAndBlue
             players[0].update(kinect.playerSkeleton[0]);
             players[1].update(kinect.playerSkeleton[1]);
 
-            /*MouseState mouseState = Mouse.GetState();
-            if (prevMouseState.LeftButton == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released)
-                OnLeftClick(new Point(mouseState.X, mouseState.Y));
-            prevMouseState = mouseState;*/
-
             ms.newPointReady = false;
             ks.newKeyReady = false;
             if (vsSecondCycle)
@@ -282,41 +271,15 @@ namespace MazeAndBlue
             base.Update(gameTime);
         }
 
-        /*private void OnLeftClick(Point point)
-        {
-            switch (state)
-            {
-                case GameState.MAIN:
-                    mainMenu.onLeftClick(point);
-                    break;
-                case GameState.LEVEL:
-                    levelSelectionScreen.onLeftClick(point);
-                    break;
-                case GameState.GAME:
-                    maze.onLeftClick(point);
-                    break;
-                case GameState.SCORE:
-                    scoreScreen.onLeftClick(point);
-                    break;
-                case GameState.PAUSE:
-                    pauseScreen.onLeftClick(point);
-                    break;
-                case GameState.INSTR:
-                    instructionScreen.onLeftClick(point);
-                    break;
-            }
-        }*/
-
         public int sx(int x)
         {
-            //return x * screenWidth / 1358;
             return x + (screenWidth-Maze.width) / 2;
         }
 
         public int sy(int y)
         {
-            //return y * screenHeight / 738;
             return y + (screenHeight-Maze.height) / 2;
         }
+
     }
 }

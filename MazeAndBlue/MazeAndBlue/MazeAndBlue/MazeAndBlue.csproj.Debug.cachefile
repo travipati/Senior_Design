@@ -20,7 +20,6 @@ Content\Buttons\medium.xnb
 Content\Buttons\off.xnb
 Content\Buttons\on.xnb
 Content\Buttons\right.xnb
-Content\Backgrounds\settingsScreen.xnb
 Content\Buttons\high.xnb
 Content\Buttons\setBackground.xnb
 Content\Buttons\setGoalImage.xnb
@@ -48,7 +47,12 @@ Content\LevelThumbnails\level10.xnb
 Content\LevelThumbnails\level11.xnb
 Content\LevelThumbnails\level8.xnb
 Content\LevelThumbnails\level9.xnb
-Content\Buttons\hard.xnb
-Content\Buttons\easy.xnb
-Content\Backgrounds\scores.xnb
+Content\Backgrounds\settingsScreen.xnb
 Content\Buttons\next.xnb
+Content\Sounds\firework.xnb
+Content\Buttons\easy.xnb
+Content\Buttons\hard.xnb
+Content\circle.xnb
+Content\diamond.xnb
+Content\star.xnb
+Content\Backgrounds\scores.xnb
