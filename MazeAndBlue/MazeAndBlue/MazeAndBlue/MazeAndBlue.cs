@@ -136,7 +136,7 @@ namespace MazeAndBlue
             scoreScreen = new ScoreScreen(time);
             scoreScreen.loadContent();
             fireworks = new Fireworks(); 
-            fireworks.LoadContent();
+            fireworks.loadContent();
             state = GameState.SCORE;
         }
 
@@ -189,8 +189,9 @@ namespace MazeAndBlue
                     maze.draw(spriteBatch);
                     break;
                 case GameState.SCORE:
+                    maze.draw(spriteBatch);
+                    fireworks.draw(spriteBatch);
                     scoreScreen.draw(spriteBatch);
-                    fireworks.Draw(spriteBatch);
                     break;
                 case GameState.PAUSE:
                     maze.draw(spriteBatch);
@@ -239,7 +240,7 @@ namespace MazeAndBlue
                     break;
                 case GameState.SCORE:
                     scoreScreen.update();
-                    fireworks.Update();
+                    fireworks.update();
                     break;
                 case GameState.PAUSE:
                     pauseScreen.update();

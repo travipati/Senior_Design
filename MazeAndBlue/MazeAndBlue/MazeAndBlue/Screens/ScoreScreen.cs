@@ -5,7 +5,7 @@ namespace MazeAndBlue
 {
     class ScoreScreen
     {
-        //Texture2D texture;
+        Texture2D texture;
         Rectangle window;
         Button menuButton, levelButton, restartButton;
         int time;
@@ -29,9 +29,9 @@ namespace MazeAndBlue
 
         public void loadContent()
         {
-            background = Program.game.Content.Load<Texture2D>("Backgrounds/simple0");
-            //texture = new Texture2D(Program.game.GraphicsDevice, 1, 1);
-            //texture.SetData<Color>(new Color[] { Color.White });
+            //background = Program.game.Content.Load<Texture2D>("Backgrounds/simple0");
+            texture = new Texture2D(Program.game.GraphicsDevice, 1, 1);
+            texture.SetData<Color>(new Color[] { Color.White });
             menuButton.loadContent();
             levelButton.loadContent();
             restartButton.loadContent();
@@ -40,7 +40,7 @@ namespace MazeAndBlue
 
         public void draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(background, Vector2.Zero, Color.White);
+            spriteBatch.Draw(texture, window, new Color(128, 128, 128, 232));
             menuButton.draw(spriteBatch);
             levelButton.draw(spriteBatch);
             restartButton.draw(spriteBatch);
