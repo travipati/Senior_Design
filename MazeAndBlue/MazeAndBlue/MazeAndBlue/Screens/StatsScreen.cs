@@ -63,9 +63,10 @@ namespace MazeAndBlue
                 Program.game.startMainMenu();
             else if (resetButton.isSelected())
             {
-                System.Windows.Forms.MessageBox.Show("You are resetting", "Warning");
+                System.Windows.Forms.MessageBox.Show("Resetting your stats", "Warning");
                 Program.game.gameStats.resetData();
                 Program.game.gameStats.saveStats();
+                calcTotalGameTime();
             }
         }
     }
