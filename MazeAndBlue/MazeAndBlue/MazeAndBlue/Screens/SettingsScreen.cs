@@ -155,22 +155,22 @@ namespace MazeAndBlue
             else if (plRHand.isSelected())
             {
                 Program.game.settings.updateP1PrimaryHand(1);
-                Program.game.players[0].rightHanded = true;
+                Program.game.players[0].switchHand(true);
             }
             else if (plLHand.isSelected())
             {
                 Program.game.settings.updateP1PrimaryHand(0);
-                Program.game.players[0].rightHanded = false;
+                Program.game.players[0].switchHand(false);
             }
             else if (p2RHand.isSelected())
             {
                 Program.game.settings.updateP2PrimaryHand(1);
-                Program.game.players[1].rightHanded = true;
+                Program.game.players[1].switchHand(true);
             }
             else if (p2LHand.isSelected())
             {
                 Program.game.settings.updateP2PrimaryHand(0);
-                Program.game.players[1].rightHanded = false;
+                Program.game.players[1].switchHand(false);
             }
             else if (roomQuiet.isSelected())
             {
@@ -203,36 +203,27 @@ namespace MazeAndBlue
         private void applySettings()
         {
             if (Program.game.settings.data.p1PrimaryHand == 1)
-                Program.game.players[0].rightHanded=true;
+                Program.game.players[0].switchHand(true);
             else
-                Program.game.players[0].rightHanded=false;
-
+                Program.game.players[0].switchHand(false);
 
             if (Program.game.settings.data.p2PrimaryHand == 1)
-                Program.game.players[1].rightHanded = true;
+                Program.game.players[1].switchHand(true);
             else
-                Program.game.players[1].rightHanded = false;
+                Program.game.players[1].switchHand(false);
 
             if (Program.game.settings.data.volume == 0)
-            {
                 Program.game.vs.precision = 0.6;
-            }
             else if (Program.game.settings.data.volume == 1)
-            {
                 Program.game.vs.precision = 0.5;
-            }
             else if (Program.game.settings.data.volume == 2)
-            {
                 Program.game.vs.precision = 0.4;
-            }
-            else if (Program.game.settings.data.gameSound == 1)
-            {
+            
+            if (Program.game.settings.data.gameSound == 1)
                 Program.game.soundEffectPlayer.soundsOn = true;
-            }
             else if (Program.game.settings.data.gameSound == 0)
-            {
                 Program.game.soundEffectPlayer.soundsOn = false;
-            }
         }
+
     }
 }

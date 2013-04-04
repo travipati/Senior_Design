@@ -11,6 +11,7 @@ namespace MazeAndBlue
         public bool rightHanded { get; set; }
         Color color;
         int id;
+        Texture2D rh, lh;
 
         public Player(float xmin, float xmax, Color c, int playerNum)
         {
@@ -24,7 +25,13 @@ namespace MazeAndBlue
 
         public void loadContent()
         {
-            loadContent("hand");
+            rh = Program.game.Content.Load<Texture2D>("righthand");
+            lh = Program.game.Content.Load<Texture2D>("lefthand");
+
+            if (rightHanded)
+                texture = rh;
+            else
+                texture = lh;
         }
 
         public override void draw(SpriteBatch spriteBatch)
@@ -36,6 +43,15 @@ namespace MazeAndBlue
         {          
             if (skeleton != null)
                 moveHand(getPosition(skeleton));
+        }
+
+        public void switchHand(bool righthand)
+        {
+            rightHanded = righthand;
+            if (rightHanded)
+                texture = rh;
+            else
+                texture = lh;
         }
 
         public bool selecting()

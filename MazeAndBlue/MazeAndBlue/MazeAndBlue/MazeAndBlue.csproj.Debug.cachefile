@@ -1,5 +1,5 @@
 Content\ball.xnb
-Content\hand.xnb
+Content\font.xnb
 Content\Buttons\button.xnb
 Content\Backgrounds\simple0.xnb
 Content\Backgrounds\simple1.xnb
@@ -13,7 +13,6 @@ Content\Buttons\singlePlayer.xnb
 Content\Buttons\statistics.xnb
 Content\Backgrounds\instrs.xnb
 Content\Buttons\back.xnb
-Content\font.xnb
 Content\Buttons\Hover.xnb
 Content\Sounds\button.xnb
 Content\Sounds\door.xnb
@@ -57,3 +56,5 @@ Content\Buttons\easy.xnb
 Content\Buttons\hard.xnb
 Content\Backgrounds\scores.xnb
 Content\Buttons\reset.xnb
+Content\lefthand.xnb
+Content\righthand.xnb
