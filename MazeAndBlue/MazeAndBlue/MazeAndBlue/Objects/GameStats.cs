@@ -30,6 +30,12 @@ namespace MazeAndBlue
             public LevelData levelData3;
             public LevelData levelData4;
             public LevelData levelData5;
+            public LevelData levelData6;
+            public LevelData levelData7;
+            public LevelData levelData8;
+            public LevelData levelData9;
+            public LevelData levelData10;
+            public LevelData levelData11;
             public int nextLevelToUnlock;
         };
 
@@ -58,20 +64,48 @@ namespace MazeAndBlue
             if (data.nextLevelToUnlock == level)
                 data.nextLevelToUnlock=level+1;
 
-            if (level == 0)
-                data.levelData0 = newLevel;
-            else if (level == 1)
-                data.levelData1 = newLevel;
-            else if (level == 2)
-                data.levelData2 = newLevel;
-            else if (level == 3)
-                data.levelData3 = newLevel;
-            else if (level == 4)
-                data.levelData4 = newLevel;
-            else if (level == 5)
-                data.levelData5 = newLevel;
-            else
-                System.Windows.Forms.MessageBox.Show("error updating level stats", "Error @ GameStats");
+            switch (level)
+            {
+                case 0:
+                    data.levelData0 = newLevel;
+                    break;
+                case 1:
+                    data.levelData1 = newLevel;
+                    break;
+                case 2:
+                    data.levelData2 = newLevel;
+                    break;
+                case 3:
+                    data.levelData3 = newLevel;
+                    break;
+                case 4:
+                    data.levelData4 = newLevel;
+                    break;
+                case 5:
+                    data.levelData5 = newLevel;
+                    break;
+                case 6:
+                    data.levelData6 = newLevel;
+                    break;
+                case 7:
+                    data.levelData7 = newLevel;
+                    break;
+                case 8:
+                    data.levelData8 = newLevel;
+                    break;
+                case 9:
+                    data.levelData9 = newLevel;
+                    break;
+                case 10:
+                    data.levelData10 = newLevel;
+                    break;
+                case 11:
+                    data.levelData11 = newLevel;
+                    break;
+                default:
+                    System.Windows.Forms.MessageBox.Show("error updating level stats", "Error @ GameStats");
+                    break;
+            }
             //Console.Out.WriteLine(data.nextLevelToUnlock);
             Console.Out.WriteLine(numHitWall);
             saveStats();
