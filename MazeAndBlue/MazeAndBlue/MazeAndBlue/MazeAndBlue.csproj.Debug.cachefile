@@ -15,6 +15,10 @@ Content\Backgrounds\instrs.xnb
 Content\Buttons\back.xnb
 Content\font.xnb
 Content\Buttons\Hover.xnb
+Content\Sounds\button.xnb
+Content\Sounds\door.xnb
+Content\Sounds\wall.xnb
+Content\Sounds\goal.xnb
 Content\Buttons\left.xnb
 Content\Buttons\low.xnb
 Content\Buttons\medium.xnb
@@ -33,10 +37,6 @@ Content\Buttons\pause.xnb
 Content\Buttons\resume.xnb
 Content\Buttons\black.xnb
 Content\Buttons\maize.xnb
-Content\Sounds\button.xnb
-Content\Sounds\door.xnb
-Content\Sounds\wall.xnb
-Content\Sounds\goal.xnb
 Content\LevelThumbnails\level0.xnb
 Content\LevelThumbnails\level1.xnb
 Content\LevelThumbnails\level2.xnb
@@ -52,8 +52,8 @@ Content\LevelThumbnails\level9.xnb
 Content\circle.xnb
 Content\diamond.xnb
 Content\star.xnb
+Content\Sounds\firework.xnb
 Content\Buttons\easy.xnb
 Content\Buttons\hard.xnb
 Content\Backgrounds\scores.xnb
 Content\Buttons\reset.xnb
-Content\Sounds\firework.xnb

@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Storage;
 
 namespace MazeAndBlue
 {
@@ -16,7 +13,6 @@ namespace MazeAndBlue
         List<double> xDirections;
         Random random;
 
-        GameTime gameTime;
         Rectangle window;
 
         int screenWidth;

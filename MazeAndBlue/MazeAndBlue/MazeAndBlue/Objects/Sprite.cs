@@ -26,7 +26,7 @@ namespace MazeAndBlue
             texture = Program.game.Content.Load<Texture2D>(name);
         }
 
-        public void draw(SpriteBatch spriteBatch)
+        public virtual void draw(SpriteBatch spriteBatch)
         {
             draw(spriteBatch, Color.White);
         }

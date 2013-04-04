@@ -36,7 +36,7 @@ namespace MazeAndBlue
             instructionsButton = new Button
                 (new Point(X1, Y2), buttonWidth, buttonHeight, "instructions", "Buttons/instructions");
             statisticsButton = new Button
-                (new Point(X2, Y2), buttonWidth, buttonHeight, "statistics","Buttons/statistics");
+                (new Point(X2, Y2), buttonWidth, buttonHeight, "statistics", "Buttons/statistics");
             exitButton = new Button
                 (new Point(X3, Y2), buttonWidth, buttonHeight, "exit","Buttons/exit");
 

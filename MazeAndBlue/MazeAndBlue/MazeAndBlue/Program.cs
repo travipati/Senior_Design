@@ -1,5 +1,3 @@
-using System;
-
 namespace MazeAndBlue
 {
 #if WINDOWS || XBOX

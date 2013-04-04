@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MazeAndBlue
 {
+    
     public class SettingsScreen
     {
         Texture2D texture;
@@ -17,22 +18,23 @@ namespace MazeAndBlue
             int screenWidth = Program.game.screenWidth;
             int screenHeight = Program.game.screenHeight;
             screenRectangle = new Rectangle(0, 0, screenWidth, screenHeight);
+            applySettings();
 
             int smallButtonWidth = 136;
             int smallButtonHeight = 72;
             int largeButtonWidth = 170;
             int largeButtonHeight = 92;
 
-            backButton = new Button(new Point(screenWidth / 8, 50), smallButtonWidth, smallButtonHeight, "", "Buttons/back");
-            plLHand = new Button(new Point(screenWidth / 2 + smallButtonWidth, 170), smallButtonWidth, smallButtonHeight, "plLHand", "Buttons/left");
-            plRHand = new Button(new Point(screenWidth / 2 + 3 * smallButtonWidth, 170), smallButtonWidth, smallButtonHeight, "plRHand", "Buttons/right");
-            p2LHand = new Button(new Point(screenWidth / 2 + smallButtonWidth, 275), smallButtonWidth, smallButtonHeight, "p2LHand", "Buttons/left");
-            p2RHand = new Button(new Point(screenWidth / 2 + 3 * smallButtonWidth, 275), smallButtonWidth, smallButtonHeight, "p2RHand", "Buttons/right");
-            roomQuiet = new Button(new Point(screenWidth / 2 - smallButtonWidth, 380), smallButtonWidth, smallButtonHeight, "roomQuiet", "Buttons/low");
-            roomAver = new Button(new Point(screenWidth / 2 + smallButtonWidth, 380), smallButtonWidth, smallButtonHeight, "roomAver", "Buttons/medium");
-            roomLoud = new Button(new Point(screenWidth / 2 +  3 * smallButtonWidth, 380), smallButtonWidth, smallButtonHeight, "roomLoud", "Buttons/high");
-            soundsOn = new Button(new Point(screenWidth / 2 + smallButtonWidth, 485), smallButtonWidth, smallButtonHeight, "soundsOn", "Buttons/on");
-            soundsOff = new Button(new Point(screenWidth / 2 + 3 * smallButtonWidth, 485), smallButtonWidth, smallButtonHeight, "soundsOff", "Buttons/off");
+            backButton = new Button(new Point(screenWidth / 8, 50), smallButtonWidth, smallButtonHeight, "back", "Buttons/back");
+            plLHand = new Button(new Point(screenWidth / 2 + smallButtonWidth, 170), smallButtonWidth, smallButtonHeight, "player one left", "Buttons/left");
+            plRHand = new Button(new Point(screenWidth / 2 + 3 * smallButtonWidth, 170), smallButtonWidth, smallButtonHeight, "player one right", "Buttons/right");
+            p2LHand = new Button(new Point(screenWidth / 2 + smallButtonWidth, 275), smallButtonWidth, smallButtonHeight, "player two left", "Buttons/left");
+            p2RHand = new Button(new Point(screenWidth / 2 + 3 * smallButtonWidth, 275), smallButtonWidth, smallButtonHeight, "player two right", "Buttons/right");
+            roomQuiet = new Button(new Point(screenWidth / 2 - smallButtonWidth, 380), smallButtonWidth, smallButtonHeight, "room low", "Buttons/low");
+            roomAver = new Button(new Point(screenWidth / 2 + smallButtonWidth, 380), smallButtonWidth, smallButtonHeight, "room medium", "Buttons/medium");
+            roomLoud = new Button(new Point(screenWidth / 2 + 3 * smallButtonWidth, 380), smallButtonWidth, smallButtonHeight, "room high", "Buttons/high");
+            soundsOn = new Button(new Point(screenWidth / 2 + smallButtonWidth, 485), smallButtonWidth, smallButtonHeight, "sounds on", "Buttons/on");
+            soundsOff = new Button(new Point(screenWidth / 2 + 3 * smallButtonWidth, 485), smallButtonWidth, smallButtonHeight, "sounds off", "Buttons/off");
             setBackground = new Button(new Point(screenWidth / 2 + largeButtonWidth, screenHeight - largeButtonHeight - 40), 
                 largeButtonWidth, largeButtonHeight, "setBackground", "Buttons/setBackground");
             setGoalImage = new Button(new Point(screenWidth / 2 - 2 * largeButtonWidth, screenHeight - largeButtonHeight - 40), 
@@ -49,8 +51,8 @@ namespace MazeAndBlue
             buttons.Add(roomLoud);
             buttons.Add(soundsOn);
             buttons.Add(soundsOff);
-            buttons.Add(setBackground);
-            buttons.Add(setGoalImage);
+//            buttons.Add(setBackground);
+//            buttons.Add(setGoalImage);
         }
 
         public void loadContent()
@@ -151,23 +153,86 @@ namespace MazeAndBlue
             if (backButton.isSelected())
                 Program.game.startMainMenu();
             else if (plRHand.isSelected())
+            {
+                Program.game.settings.updateP1PrimaryHand(1);
                 Program.game.players[0].rightHanded = true;
+            }
             else if (plLHand.isSelected())
+            {
+                Program.game.settings.updateP1PrimaryHand(0);
                 Program.game.players[0].rightHanded = false;
+            }
             else if (p2RHand.isSelected())
+            {
+                Program.game.settings.updateP2PrimaryHand(1);
                 Program.game.players[1].rightHanded = true;
+            }
             else if (p2LHand.isSelected())
+            {
+                Program.game.settings.updateP2PrimaryHand(0);
                 Program.game.players[1].rightHanded = false;
+            }
             else if (roomQuiet.isSelected())
+            {
+                Program.game.settings.updateVolume(0);
                 Program.game.vs.precision = 0.6;
+            }
             else if (roomAver.isSelected())
+            {
+                Program.game.settings.updateVolume(1);
                 Program.game.vs.precision = 0.5;
+            }
             else if (roomLoud.isSelected())
+            {
+                Program.game.settings.updateVolume(2);
                 Program.game.vs.precision = 0.4;
+            }
             else if (soundsOn.isSelected())
+            {
+                Program.game.settings.updateSound(1);
                 Program.game.soundEffectPlayer.soundsOn = true;
+            }
             else if (soundsOff.isSelected())
+            {
+                Program.game.settings.updateSound(0);
                 Program.game.soundEffectPlayer.soundsOn = false;
+            }
+            Program.game.settings.saveStats();
+        }
+
+        private void applySettings()
+        {
+            if (Program.game.settings.data.p1PrimaryHand == 1)
+                Program.game.players[0].rightHanded=true;
+            else
+                Program.game.players[0].rightHanded=false;
+
+
+            if (Program.game.settings.data.p2PrimaryHand == 1)
+                Program.game.players[1].rightHanded = true;
+            else
+                Program.game.players[1].rightHanded = false;
+
+            if (Program.game.settings.data.volume == 0)
+            {
+                Program.game.vs.precision = 0.6;
+            }
+            else if (Program.game.settings.data.volume == 1)
+            {
+                Program.game.vs.precision = 0.5;
+            }
+            else if (Program.game.settings.data.volume == 2)
+            {
+                Program.game.vs.precision = 0.4;
+            }
+            else if (Program.game.settings.data.gameSound == 1)
+            {
+                Program.game.soundEffectPlayer.soundsOn = true;
+            }
+            else if (Program.game.settings.data.gameSound == 0)
+            {
+                Program.game.soundEffectPlayer.soundsOn = false;
+            }
         }
     }
 }

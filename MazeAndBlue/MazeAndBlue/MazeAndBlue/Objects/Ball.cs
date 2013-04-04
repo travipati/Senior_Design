@@ -22,7 +22,7 @@ namespace MazeAndBlue
             loadContent("ball");
         }
 
-        public void draw(SpriteBatch spriteBatch)
+        public override void draw(SpriteBatch spriteBatch)
         {
             draw(spriteBatch, color);
         }
