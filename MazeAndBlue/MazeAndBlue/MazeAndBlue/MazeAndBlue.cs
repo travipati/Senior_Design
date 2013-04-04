@@ -15,6 +15,7 @@ namespace MazeAndBlue
         Kinect kinect;
         Maze maze;
         public GameStats gameStats;
+        public GameSettings settings;
         MainMenu mainMenu;
         ScoreScreen scoreScreen;
         LevelSelectionScreen levelSelectionScreen;
@@ -52,6 +53,7 @@ namespace MazeAndBlue
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             gameStats = new GameStats();
+            settings = new GameSettings();
 
             var form = (System.Windows.Forms.Form)System.Windows.Forms.Form.FromHandle(Window.Handle);
             form.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -132,7 +134,7 @@ namespace MazeAndBlue
 
         public void startScoreScreen(int time)
         {
-            gameStats.updateLevelStats(level, time, 0);
+            gameStats.updateLevelStats(level, time, maze.wallHits);
             scoreScreen = new ScoreScreen(time);
             scoreScreen.loadContent();
             fireworks = new Fireworks(); 

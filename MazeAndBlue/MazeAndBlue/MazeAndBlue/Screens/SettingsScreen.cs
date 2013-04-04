@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MazeAndBlue
 {
+    
     public class SettingsScreen
     {
         Texture2D texture;
@@ -17,6 +18,7 @@ namespace MazeAndBlue
             int screenWidth = Program.game.screenWidth;
             int screenHeight = Program.game.screenHeight;
             screenRectangle = new Rectangle(0, 0, screenWidth, screenHeight);
+            applySettings();
 
             int smallButtonWidth = 136;
             int smallButtonHeight = 72;
@@ -151,23 +153,86 @@ namespace MazeAndBlue
             if (backButton.isSelected())
                 Program.game.startMainMenu();
             else if (plRHand.isSelected())
+            {
+                Program.game.settings.updateP1PrimaryHand(1);
                 Program.game.players[0].rightHanded = true;
+            }
             else if (plLHand.isSelected())
+            {
+                Program.game.settings.updateP1PrimaryHand(0);
                 Program.game.players[0].rightHanded = false;
+            }
             else if (p2RHand.isSelected())
+            {
+                Program.game.settings.updateP2PrimaryHand(1);
                 Program.game.players[1].rightHanded = true;
+            }
             else if (p2LHand.isSelected())
+            {
+                Program.game.settings.updateP2PrimaryHand(0);
                 Program.game.players[1].rightHanded = false;
+            }
             else if (roomQuiet.isSelected())
+            {
+                Program.game.settings.updateVolume(0);
                 Program.game.vs.precision = 0.6;
+            }
             else if (roomAver.isSelected())
+            {
+                Program.game.settings.updateVolume(1);
                 Program.game.vs.precision = 0.5;
+            }
             else if (roomLoud.isSelected())
+            {
+                Program.game.settings.updateVolume(2);
                 Program.game.vs.precision = 0.4;
+            }
             else if (soundsOn.isSelected())
+            {
+                Program.game.settings.updateSound(1);
                 Program.game.soundEffectPlayer.soundsOn = true;
+            }
             else if (soundsOff.isSelected())
+            {
+                Program.game.settings.updateSound(0);
                 Program.game.soundEffectPlayer.soundsOn = false;
+            }
+            Program.game.settings.saveStats();
+        }
+
+        private void applySettings()
+        {
+            if (Program.game.settings.data.p1PrimaryHand == 1)
+                Program.game.players[0].rightHanded=true;
+            else
+                Program.game.players[0].rightHanded=false;
+
+
+            if (Program.game.settings.data.p2PrimaryHand == 1)
+                Program.game.players[1].rightHanded = true;
+            else
+                Program.game.players[1].rightHanded = false;
+
+            if (Program.game.settings.data.volume == 0)
+            {
+                Program.game.vs.precision = 0.6;
+            }
+            else if (Program.game.settings.data.volume == 1)
+            {
+                Program.game.vs.precision = 0.5;
+            }
+            else if (Program.game.settings.data.volume == 2)
+            {
+                Program.game.vs.precision = 0.4;
+            }
+            else if (Program.game.settings.data.gameSound == 1)
+            {
+                Program.game.soundEffectPlayer.soundsOn = true;
+            }
+            else if (Program.game.settings.data.gameSound == 0)
+            {
+                Program.game.soundEffectPlayer.soundsOn = false;
+            }
         }
     }
 }

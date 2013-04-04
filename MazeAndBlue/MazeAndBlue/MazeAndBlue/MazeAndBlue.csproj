@@ -83,6 +83,7 @@
     <Compile Include="Objects\Ball.cs" />
     <Compile Include="Objects\Button.cs" />
     <Compile Include="Objects\FireworkGenerator.cs" />
+    <Compile Include="Objects\GameSettings.cs" />
     <Compile Include="Objects\GameStats.cs" />
     <Compile Include="Objects\MouseSelect.cs" />
     <Compile Include="Objects\Particle.cs" />
