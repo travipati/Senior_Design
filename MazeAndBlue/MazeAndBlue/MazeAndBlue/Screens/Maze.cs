@@ -16,7 +16,7 @@ namespace MazeAndBlue
         List<DoorSwitch> switches;
         Texture2D wallTexture, goalTexture;
         Timer timer;
-        int level, prevTickCount;
+        int level;
         bool[] prevHit;
         const int mazeWidth = 970, mazeHeight = 490;
         public static int width { get { return mazeWidth; } }
@@ -28,7 +28,6 @@ namespace MazeAndBlue
             goalColor = Color.Red;
             wallColor = Color.Black;
             timer = new Timer();
-            prevTickCount = -1;
             wallHits = 0;
             prevHit = new bool[2]{false, false};
             level = _level;
@@ -80,19 +79,21 @@ namespace MazeAndBlue
             foreach (DoorSwitch dswitch in switches)
                 dswitch.update(balls, ref walls);
 
-            foreach (Ball ball in balls)
+            for (int i = 0; i < balls.Count; i++)
             {
-                ball.select();
+                balls[i].select();
 
-                if (ball.playerId >= 0 || ball.mouseSelected)
-                {
-                    Point position;
+                Point position = balls[i].position;
+                position.X += balls[i].width / 2;
+                position.Y += balls[i].height / 2;
+
+                if (balls[i].mouseSelected)
                     position = Program.game.ms.point;
-                    if (ball.playerId >= 0)
-                        position = Program.game.players[ball.playerId].position;
-                    detectWalls(ball, ref position);
-                    ball.moveBall(position);
-                }
+                else if (balls[i].playerId >= 0)
+                    position = Program.game.players[balls[i].playerId].position;
+                
+                detectWalls(i, ref position);
+                balls[i].moveBall(position);
             }
 
             if (balls[0].playerId > 0 || balls[1].playerId > 0 || balls[0].mouseSelected || balls[1].mouseSelected)
@@ -123,14 +124,34 @@ namespace MazeAndBlue
             }
         }
 
-        public void detectWalls(Ball ball, ref Point nextPosition)
+        public void detectWalls(int ballNum, ref Point nextPosition)
         {
+            bool hit = false;
+            
             foreach (Rectangle wall in walls)
-                detectWall(ball, wall, ref nextPosition);
+            {
+                if (detectWall(ballNum, wall, ref nextPosition))
+                    hit = true;
+            }
+
+            if (hit && !prevHit[ballNum])
+            {
+                wallHits++;
+                prevHit[ballNum] = true;
+                Program.game.soundEffectPlayer.playWall();
+                wallColor = Color.Red;
+            }
+            else if (!hit && prevHit[ballNum])
+            {
+                wallColor = Color.Black;
+                prevHit[ballNum] = false;
+            }
         }
 
-        private void detectWall(Ball ball, Rectangle wall, ref Point nextPosition)
+        private bool detectWall(int ballNum, Rectangle wall, ref Point nextPosition)
         {
+            Ball ball = balls[ballNum];
+
             int spriteTop = (int)ball.position.Y;
             int spriteBottom = (int)ball.position.Y + ball.height;
             int spriteLeft = (int)ball.position.X;
@@ -143,27 +164,27 @@ namespace MazeAndBlue
 
             bool hit = false;
 
-            if (spriteBottom >= wall.Top && spriteTop <= wall.Bottom)
+            if (spriteBottom > wall.Top && spriteTop < wall.Bottom)
             {
-                if (spriteRight <= wall.Left && nextRight >= wall.Left)
+                if (spriteRight <= wall.Left && nextRight > wall.Left)
                 {
                     nextPosition.X = wall.Left - ball.width / 2;
                     hit = true;
                 }
-                if (spriteLeft >= wall.Right && nextLeft <= wall.Right)
+                if (spriteLeft >= wall.Right && nextLeft < wall.Right)
                 {
                     nextPosition.X = wall.Right + ball.width / 2;
                     hit = true;
                 }
             }
-            if (spriteRight >= wall.Left && spriteLeft <= wall.Right)
+            if (spriteRight > wall.Left && spriteLeft < wall.Right)
             {
-                if (spriteBottom <= wall.Top && nextBottom >= wall.Top)
+                if (spriteBottom <= wall.Top && nextBottom > wall.Top)
                 {
                     nextPosition.Y = wall.Top - ball.height / 2;
                     hit = true;
                 }
-                if (spriteTop >= wall.Bottom && nextTop <= wall.Bottom)
+                if (spriteTop >= wall.Bottom && nextTop < wall.Bottom)
                 {
                     nextPosition.Y = wall.Bottom + ball.width / 2;
                     hit = true;
@@ -193,25 +214,8 @@ namespace MazeAndBlue
                 nextPosition.Y = wall.Bottom;
                 hit = true;
             }*/
-            if (ball.playerId != -1)
-            {
-                if (hit && !prevHit[ball.playerId])
-                {
-                    wallHits++;
-                    prevHit[ball.playerId] = true;
-                    if (System.Environment.TickCount - 500 > prevTickCount)
-                    {
-                        prevTickCount = System.Environment.TickCount;
-                        Program.game.soundEffectPlayer.playWall();
-                    }
-                    wallColor = Color.Red;
-                }
-                else if (!hit && prevHit[ball.playerId])
-                {
-                    wallColor = Color.Black;
-                    prevHit[ball.playerId] = false;
-                }
-            }
+
+            return hit;
         }
 
         private bool readFile(string filename)

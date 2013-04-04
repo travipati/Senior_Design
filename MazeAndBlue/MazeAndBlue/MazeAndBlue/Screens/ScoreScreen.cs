@@ -9,7 +9,6 @@ namespace MazeAndBlue
         Rectangle window;
         Button menuButton, levelButton, restartButton;
         int time;
-        Texture2D background;
 
         public ScoreScreen(int _time)
         {
