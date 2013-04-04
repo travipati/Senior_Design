@@ -23,16 +23,16 @@ namespace MazeAndBlue
             int largeButtonWidth = 170;
             int largeButtonHeight = 92;
 
-            backButton = new Button(new Point(screenWidth / 8, 50), smallButtonWidth, smallButtonHeight, "", "Buttons/back");
-            plLHand = new Button(new Point(screenWidth / 2 + smallButtonWidth, 170), smallButtonWidth, smallButtonHeight, "plLHand", "Buttons/left");
-            plRHand = new Button(new Point(screenWidth / 2 + 3 * smallButtonWidth, 170), smallButtonWidth, smallButtonHeight, "plRHand", "Buttons/right");
-            p2LHand = new Button(new Point(screenWidth / 2 + smallButtonWidth, 275), smallButtonWidth, smallButtonHeight, "p2LHand", "Buttons/left");
-            p2RHand = new Button(new Point(screenWidth / 2 + 3 * smallButtonWidth, 275), smallButtonWidth, smallButtonHeight, "p2RHand", "Buttons/right");
-            roomQuiet = new Button(new Point(screenWidth / 2 - smallButtonWidth, 380), smallButtonWidth, smallButtonHeight, "roomQuiet", "Buttons/low");
-            roomAver = new Button(new Point(screenWidth / 2 + smallButtonWidth, 380), smallButtonWidth, smallButtonHeight, "roomAver", "Buttons/medium");
-            roomLoud = new Button(new Point(screenWidth / 2 +  3 * smallButtonWidth, 380), smallButtonWidth, smallButtonHeight, "roomLoud", "Buttons/high");
-            soundsOn = new Button(new Point(screenWidth / 2 + smallButtonWidth, 485), smallButtonWidth, smallButtonHeight, "soundsOn", "Buttons/on");
-            soundsOff = new Button(new Point(screenWidth / 2 + 3 * smallButtonWidth, 485), smallButtonWidth, smallButtonHeight, "soundsOff", "Buttons/off");
+            backButton = new Button(new Point(screenWidth / 8, 50), smallButtonWidth, smallButtonHeight, "back", "Buttons/back");
+            plLHand = new Button(new Point(screenWidth / 2 + smallButtonWidth, 170), smallButtonWidth, smallButtonHeight, "player one left", "Buttons/left");
+            plRHand = new Button(new Point(screenWidth / 2 + 3 * smallButtonWidth, 170), smallButtonWidth, smallButtonHeight, "player one right", "Buttons/right");
+            p2LHand = new Button(new Point(screenWidth / 2 + smallButtonWidth, 275), smallButtonWidth, smallButtonHeight, "player two left", "Buttons/left");
+            p2RHand = new Button(new Point(screenWidth / 2 + 3 * smallButtonWidth, 275), smallButtonWidth, smallButtonHeight, "player two right", "Buttons/right");
+            roomQuiet = new Button(new Point(screenWidth / 2 - smallButtonWidth, 380), smallButtonWidth, smallButtonHeight, "room low", "Buttons/low");
+            roomAver = new Button(new Point(screenWidth / 2 + smallButtonWidth, 380), smallButtonWidth, smallButtonHeight, "room medium", "Buttons/medium");
+            roomLoud = new Button(new Point(screenWidth / 2 + 3 * smallButtonWidth, 380), smallButtonWidth, smallButtonHeight, "room high", "Buttons/high");
+            soundsOn = new Button(new Point(screenWidth / 2 + smallButtonWidth, 485), smallButtonWidth, smallButtonHeight, "sounds on", "Buttons/on");
+            soundsOff = new Button(new Point(screenWidth / 2 + 3 * smallButtonWidth, 485), smallButtonWidth, smallButtonHeight, "sounds off", "Buttons/off");
             setBackground = new Button(new Point(screenWidth / 2 + largeButtonWidth, screenHeight - largeButtonHeight - 40), 
                 largeButtonWidth, largeButtonHeight, "setBackground", "Buttons/setBackground");
             setGoalImage = new Button(new Point(screenWidth / 2 - 2 * largeButtonWidth, screenHeight - largeButtonHeight - 40), 
@@ -49,8 +49,8 @@ namespace MazeAndBlue
             buttons.Add(roomLoud);
             buttons.Add(soundsOn);
             buttons.Add(soundsOff);
-            buttons.Add(setBackground);
-            buttons.Add(setGoalImage);
+//            buttons.Add(setBackground);
+//            buttons.Add(setGoalImage);
         }
 
         public void loadContent()
