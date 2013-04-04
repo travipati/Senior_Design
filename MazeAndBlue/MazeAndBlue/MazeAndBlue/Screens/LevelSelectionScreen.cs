@@ -37,20 +37,20 @@ namespace MazeAndBlue
             hardButton = new Button(new Point(hardx, menuButtony), menuButtonWidth, menuButtonHeight, "Hard", "Buttons/hard");
 
             easyLevelButtons = new List<Button>();
-            easyLevelButtons.Add(new Button(new Point(level1x, levelButton1y), levelButtonWidth, levelButtonHeight, "one", "LevelThumbnails/level0"));
-            easyLevelButtons.Add(new Button(new Point(level2x, levelButton1y), levelButtonWidth, levelButtonHeight, "two", "LevelThumbnails/level1"));
-            easyLevelButtons.Add(new Button(new Point(level3x, levelButton1y), levelButtonWidth, levelButtonHeight, "three", "LevelThumbnails/level2"));
-            easyLevelButtons.Add(new Button(new Point(level1x, levelButton2y), levelButtonWidth, levelButtonHeight, "four", "LevelThumbnails/level3"));
-            easyLevelButtons.Add(new Button(new Point(level2x, levelButton2y), levelButtonWidth, levelButtonHeight, "five", "LevelThumbnails/level4"));
-            easyLevelButtons.Add(new Button(new Point(level3x, levelButton2y), levelButtonWidth, levelButtonHeight, "six", "LevelThumbnails/level5"));
+            easyLevelButtons.Add(new Button(new Point(level1x, levelButton1y), levelButtonWidth, levelButtonHeight, "level one", "LevelThumbnails/level0"));
+            easyLevelButtons.Add(new Button(new Point(level2x, levelButton1y), levelButtonWidth, levelButtonHeight, "level two", "LevelThumbnails/level1"));
+            easyLevelButtons.Add(new Button(new Point(level3x, levelButton1y), levelButtonWidth, levelButtonHeight, "level three", "LevelThumbnails/level2"));
+            easyLevelButtons.Add(new Button(new Point(level1x, levelButton2y), levelButtonWidth, levelButtonHeight, "level four", "LevelThumbnails/level3"));
+            easyLevelButtons.Add(new Button(new Point(level2x, levelButton2y), levelButtonWidth, levelButtonHeight, "level five", "LevelThumbnails/level4"));
+            easyLevelButtons.Add(new Button(new Point(level3x, levelButton2y), levelButtonWidth, levelButtonHeight, "level six", "LevelThumbnails/level5"));
 
             hardLevelButtons = new List<Button>();
-            hardLevelButtons.Add(new Button(new Point(level1x, levelButton1y), levelButtonWidth, levelButtonHeight, "one", "LevelThumbnails/level6"));
-            hardLevelButtons.Add(new Button(new Point(level2x, levelButton1y), levelButtonWidth, levelButtonHeight, "two", "LevelThumbnails/level7"));
-            hardLevelButtons.Add(new Button(new Point(level3x, levelButton1y), levelButtonWidth, levelButtonHeight, "three", "LevelThumbnails/level8"));
-            hardLevelButtons.Add(new Button(new Point(level1x, levelButton2y), levelButtonWidth, levelButtonHeight, "four", "LevelThumbnails/level9"));
-            hardLevelButtons.Add(new Button(new Point(level2x, levelButton2y), levelButtonWidth, levelButtonHeight, "five", "LevelThumbnails/level10"));
-            hardLevelButtons.Add(new Button(new Point(level3x, levelButton2y), levelButtonWidth, levelButtonHeight, "six", "LevelThumbnails/level11"));
+            hardLevelButtons.Add(new Button(new Point(level1x, levelButton1y), levelButtonWidth, levelButtonHeight, "level one", "LevelThumbnails/level6"));
+            hardLevelButtons.Add(new Button(new Point(level2x, levelButton1y), levelButtonWidth, levelButtonHeight, "level two", "LevelThumbnails/level7"));
+            hardLevelButtons.Add(new Button(new Point(level3x, levelButton1y), levelButtonWidth, levelButtonHeight, "level three", "LevelThumbnails/level8"));
+            hardLevelButtons.Add(new Button(new Point(level1x, levelButton2y), levelButtonWidth, levelButtonHeight, "level four", "LevelThumbnails/level9"));
+            hardLevelButtons.Add(new Button(new Point(level2x, levelButton2y), levelButtonWidth, levelButtonHeight, "level five", "LevelThumbnails/level10"));
+            hardLevelButtons.Add(new Button(new Point(level3x, levelButton2y), levelButtonWidth, levelButtonHeight, "level six", "LevelThumbnails/level11"));
 
             onEasy = true;
         }

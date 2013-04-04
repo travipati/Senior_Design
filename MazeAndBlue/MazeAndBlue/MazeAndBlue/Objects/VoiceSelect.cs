@@ -37,12 +37,12 @@ namespace MazeAndBlue
             grammar.Add("Main Menu");
             grammar.Add("Easy");
             grammar.Add("Hard");
-            grammar.Add("one");
-            grammar.Add("two");
-            grammar.Add("three");
-            grammar.Add("four");
-            grammar.Add("five");
-            grammar.Add("six");
+            grammar.Add("level one");
+            grammar.Add("level two");
+            grammar.Add("level three");
+            grammar.Add("level four");
+            grammar.Add("level five");
+            grammar.Add("level six");
             grammar.Add("back");
             grammar.Add("player one left");
             grammar.Add("player one right");
