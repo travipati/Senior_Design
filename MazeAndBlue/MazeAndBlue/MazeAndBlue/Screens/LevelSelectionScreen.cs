@@ -78,11 +78,15 @@ namespace MazeAndBlue
             {
                 foreach (Button button in easyLevelButtons)
                     button.draw(spriteBatch);
+                easyButton.selected = true;
+                hardButton.selected = false;
             }
             else
             {
                 foreach (Button button in hardLevelButtons)
                     button.draw(spriteBatch);
+                easyButton.selected = false;
+                hardButton.selected = true;
             }
         }
 
