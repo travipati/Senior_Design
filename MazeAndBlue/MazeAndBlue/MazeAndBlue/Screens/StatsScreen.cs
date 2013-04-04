@@ -52,9 +52,16 @@ namespace MazeAndBlue
             string text = "Total Game Time: " + totalGameTime + " seconds.";
             Vector2 textSize = MazeAndBlue.font.MeasureString(text);
             int x = (int)(window.X + (window.Width - textSize.X) / 2);
-            int y = (int)(window.Top + window.Height / 3 - textSize.Y / 2);
+            int y = (int)(window.Top + window.Height / 4 - textSize.Y / 2);
             Vector2 textPos = new Vector2(x, y);
             spriteBatch.DrawString(MazeAndBlue.font, text, textPos, Color.Black);
+
+            string highScore = "High score: " + Program.game.gameStats.data.totalScore + " pts.";
+            Vector2 scoreSize = MazeAndBlue.font.MeasureString(highScore);
+            int xS = (int)(window.X + (window.Width - scoreSize.X) / 2);
+            int yS = (int)(window.Top + window.Height / 2 - scoreSize.Y / 2);
+            Vector2 scorePos = new Vector2(xS, yS);
+            spriteBatch.DrawString(MazeAndBlue.font, highScore, scorePos, Color.Black);
         }
 
         public void update()

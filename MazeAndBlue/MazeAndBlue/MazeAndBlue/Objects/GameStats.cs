@@ -19,6 +19,7 @@ namespace MazeAndBlue
         {
             public string PlayerName;
             public int totalGameTime;
+            public int totalScore;
             public LevelData levelData0;
             public LevelData levelData1;
             public LevelData levelData2;
@@ -52,7 +53,12 @@ namespace MazeAndBlue
             LevelData newLevel= new LevelData();
             newLevel.level = level;
             newLevel.time = numSeconds;
-            newLevel.score = calcScore(numSeconds, numHitWall);
+            int tempScore= calcScore(numSeconds, numHitWall);
+            if (tempScore > newLevel.score)
+            {
+                newLevel.score = tempScore;
+                data.totalScore += tempScore;
+            }
             newLevel.numStars = calcNumStars(newLevel.score);
 
             data.totalGameTime+= numSeconds;

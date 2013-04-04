@@ -43,12 +43,12 @@ namespace MazeAndBlue
             menuButton.draw(spriteBatch);
             levelButton.draw(spriteBatch);
             restartButton.draw(spriteBatch);
-            string text = "Time taken: " + time + " seconds.";
-            Vector2 textSize = MazeAndBlue.font.MeasureString(text);
-            int x = (int)(window.X + (window.Width - textSize.X) / 2);
-            int y = (int)(window.Top + window.Height / 6 - textSize.Y / 2);
-            Vector2 textPos = new Vector2(x, y);
-            spriteBatch.DrawString(MazeAndBlue.font, text, textPos, Color.Black);
+            string timeTakenText = "Time taken: " + time + " seconds.";
+            Vector2 textSize = MazeAndBlue.font.MeasureString(timeTakenText);
+            int xT = (int)(window.X + (window.Width - textSize.X) / 2);
+            int yT = (int)(window.Top + window.Height / 6 - textSize.Y / 2);
+            Vector2 textPos = new Vector2(xT, yT);
+            spriteBatch.DrawString(MazeAndBlue.font, timeTakenText, textPos, Color.Black);
         }
 
         public void update()
