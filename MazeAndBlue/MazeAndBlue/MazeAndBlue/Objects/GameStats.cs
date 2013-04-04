@@ -72,8 +72,8 @@ namespace MazeAndBlue
                 data.levelData5 = newLevel;
             else
                 System.Windows.Forms.MessageBox.Show("error updating level stats", "Error @ GameStats");
-            Console.Out.WriteLine(data.nextLevelToUnlock);
-            Console.Out.WriteLine(data.totalGameTime);
+            //Console.Out.WriteLine(data.nextLevelToUnlock);
+            Console.Out.WriteLine(numHitWall);
             saveStats();
         }
 

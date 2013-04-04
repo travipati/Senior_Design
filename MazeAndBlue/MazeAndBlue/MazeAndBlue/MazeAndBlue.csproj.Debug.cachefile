@@ -37,6 +37,10 @@ Content\Buttons\pause.xnb
 Content\Buttons\resume.xnb
 Content\Buttons\black.xnb
 Content\Buttons\maize.xnb
+Content\Sounds\button.xnb
+Content\Sounds\door.xnb
+Content\Sounds\wall.xnb
+Content\Sounds\goal.xnb
 Content\LevelThumbnails\level0.xnb
 Content\LevelThumbnails\level1.xnb
 Content\LevelThumbnails\level2.xnb
@@ -52,7 +56,12 @@ Content\LevelThumbnails\level9.xnb
 Content\circle.xnb
 Content\diamond.xnb
 Content\star.xnb
+<<<<<<< HEAD
 Content\Sounds\firework.xnb
+=======
+>>>>>>> e5f0928317d3296c4e57fcc3b4e00da990a7eb32
 Content\Buttons\easy.xnb
 Content\Buttons\hard.xnb
 Content\Backgrounds\scores.xnb
+Content\Buttons\reset.xnb
+Content\Sounds\firework.xnb

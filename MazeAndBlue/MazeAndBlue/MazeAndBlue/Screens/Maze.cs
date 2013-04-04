@@ -16,10 +16,11 @@ namespace MazeAndBlue
         List<DoorSwitch> switches;
         Texture2D wallTexture, goalTexture;
         Timer timer;
-        int level, prevTickCount, wallHits;
+        int level, prevTickCount;
         const int mazeWidth = 970, mazeHeight = 490;
         public static int width { get { return mazeWidth; } }
         public static int height { get { return mazeHeight; } }
+        public int wallHits { get; set; }
 
         public Maze(int _level)
         {
