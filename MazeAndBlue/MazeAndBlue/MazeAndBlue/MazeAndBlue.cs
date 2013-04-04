@@ -132,7 +132,7 @@ namespace MazeAndBlue
 
         public void startScoreScreen(int time)
         {
-            gameStats.updateLevelStats(level, time, 0);
+            gameStats.updateLevelStats(level, time, maze.wallHits);
             scoreScreen = new ScoreScreen(time);
             scoreScreen.loadContent();
             fireworks = new Fireworks(); 
