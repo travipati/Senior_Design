@@ -13,7 +13,10 @@ namespace MazeAndBlue
 
         public SoundEffectPlayer()
         {
-            soundsOn = true;
+            if(Program.game.settings.data.gameSound==1)
+                soundsOn = true;
+            if (Program.game.settings.data.gameSound == 0)
+                soundsOn = false;
             sounds = new SoundEffect[numSoundTypes];
             sounds[(int)SoundType.BUTTON] = Program.game.Content.Load<SoundEffect>("Sounds/button");
             sounds[(int)SoundType.WALL] = Program.game.Content.Load<SoundEffect>("Sounds/wall");
