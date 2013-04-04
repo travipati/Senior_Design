@@ -281,6 +281,5 @@ namespace MazeAndBlue
         {
             return y + (screenHeight-Maze.height) / 2;
         }
-
     }
 }

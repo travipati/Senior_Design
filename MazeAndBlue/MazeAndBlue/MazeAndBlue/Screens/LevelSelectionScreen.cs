@@ -126,6 +126,5 @@ namespace MazeAndBlue
         {
             onEasy = false;
         }
-
     }
 }
