@@ -22,7 +22,7 @@ namespace MazeAndBlue
             int menuX = window.Left + window.Width / 3 - buttonWidth / 2;
             int levelX = window.Right - window.Width / 3 - buttonWidth / 2;
             menuButton = new Button(new Point(menuX, y), buttonWidth, buttonHeight, "Main Menu", "Buttons/mainMenuButton");
-            resetButton = new Button(new Point(levelX, y), buttonWidth, buttonHeight, "Reset Stats", "Buttons/button");
+            resetButton = new Button(new Point(levelX, y), buttonWidth, buttonHeight, "Reset Stats", "Buttons/reset");
         }
 
         public void loadContent()
