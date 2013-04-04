@@ -65,6 +65,80 @@ namespace MazeAndBlue
         public void draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, screenRectangle, Color.White);
+            string text1 = "Player One Primary Hand";
+            string text2 = "Player Two Primary Hand";
+            string text3 = "Room Volume";
+            string text4 = "Game Sounds";
+            Vector2 text1Size = MazeAndBlue.font.MeasureString(text1);
+            Vector2 text2Size = MazeAndBlue.font.MeasureString(text2);
+            Vector2 text3Size = MazeAndBlue.font.MeasureString(text3);
+            Vector2 text4Size = MazeAndBlue.font.MeasureString(text4);
+            int x = 150;
+            int y1 = 180;
+            int y2 = 285;
+            int y3 = 390;
+            int y4 = 495;
+            Vector2 text1Pos = new Vector2(x, y1);
+            Vector2 text2Pos = new Vector2(x, y2);
+            Vector2 text3Pos = new Vector2(x, y3);
+            Vector2 text4Pos = new Vector2(x, y4);
+            spriteBatch.DrawString(MazeAndBlue.font, text1, text1Pos, Color.Black);
+            spriteBatch.DrawString(MazeAndBlue.font, text2, text2Pos, Color.Black); 
+            spriteBatch.DrawString(MazeAndBlue.font, text3, text3Pos, Color.Black); 
+            spriteBatch.DrawString(MazeAndBlue.font, text4, text4Pos, Color.Black);
+
+            if (Program.game.players[0].rightHanded == true)
+            {
+                plRHand.selected = true;
+                plLHand.selected = false;
+            }
+            else
+            {
+                plRHand.selected = false;
+                plLHand.selected = true;
+            }
+
+            if (Program.game.players[1].rightHanded == true)
+            {
+                p2RHand.selected = true;
+                p2LHand.selected = false;
+            }
+            else
+            {
+                p2RHand.selected = false;
+                p2LHand.selected = true;
+            }
+
+            if (Program.game.vs.precision == 0.6)
+            {
+                roomQuiet.selected = true;
+                roomAver.selected = false;
+                roomLoud.selected = false;
+            }
+            else if (Program.game.vs.precision == 0.5)
+            {
+                roomQuiet.selected = false;
+                roomAver.selected = true;
+                roomLoud.selected = false;
+            }
+            else
+            {
+                roomQuiet.selected = false;
+                roomAver.selected = false;
+                roomLoud.selected = true;
+            }
+
+            if(Program.game.soundEffectPlayer.soundsOn)
+            {
+                soundsOn.selected = true;
+                soundsOff.selected = false;
+            }
+            else
+            {
+                soundsOn.selected = false;
+                soundsOff.selected = true;
+            }
+
             foreach (Button button in buttons)
                 button.draw(spriteBatch);
         }

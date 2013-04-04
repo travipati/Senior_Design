@@ -9,8 +9,9 @@ namespace MazeAndBlue
         int originalH;
         Point originalPos;
         string path;
-        Sprite hover;
-        public string text { get; set; }
+        public bool selected = false;
+        Sprite hoverBg, selectBg;
+        string text;
 
         public Button(Point pos, int w, int h, string s, string p) : base(pos, w, h)
         {
@@ -19,7 +20,8 @@ namespace MazeAndBlue
             originalPos = pos;
             text = s;
             path = p;
-            hover = new Sprite(new Point(pos.X - 10, pos.Y - 10), w + 20, h + 20); 
+            hoverBg = new Sprite(new Point(pos.X - 10, pos.Y - 10), w + 20, h + 20);
+            selectBg = new Sprite(new Point(pos.X - 5, pos.Y - 5), w + 10, h + 10); 
         }
 
         public void enlarge(double p)
@@ -48,7 +50,8 @@ namespace MazeAndBlue
         public void loadContent()
         {
             loadContent(path);
-            hover.loadContent("Buttons/black");
+            hoverBg.loadContent("Buttons/black");
+            selectBg.loadContent("Buttons/maize");
         }
 
         public override void draw(SpriteBatch spriteBatch, Color textureColor)
@@ -59,8 +62,9 @@ namespace MazeAndBlue
         public void draw(SpriteBatch spriteBatch, Color textureColor, Color fontColor)
         {
             if (isOver())
-                hover.draw(spriteBatch);   
-
+                hoverBg.draw(spriteBatch);
+            if (selected)
+                selectBg.draw(spriteBatch);
             spriteBatch.Draw(texture, new Rectangle((int)position.X, (int)position.Y, width, height), textureColor);
             if (path == "Buttons/button")
             {

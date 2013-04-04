@@ -57,7 +57,7 @@ namespace MazeAndBlue
             exploded.Add(false);
         }
 
-        public void LoadContent()
+        public void loadContent()
         {
             texture = new Texture2D(Program.game.GraphicsDevice, 1, 1);
             texture.SetData<Color>(new Color[] { Color.White });
@@ -73,7 +73,7 @@ namespace MazeAndBlue
             exploded.Add(false);
         }
 
-        public void Update()
+        public void update()
         {
             iter++;
 
@@ -111,7 +111,7 @@ namespace MazeAndBlue
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, window, new Color(0, 0, 0, 0));
 

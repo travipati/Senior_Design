@@ -18,16 +18,16 @@ namespace MazeAndBlue
             window = new Rectangle(screenWidth / 8, screenHeight / 8, 3 * screenWidth / 4, 3 * screenHeight / 4);
             int buttonWidth = screenWidth / 8;
             int buttonHeight = screenHeight / 8;
-            int y = window.Bottom - window.Height / 3 - buttonHeight / 2;
+            int y = screenHeight - 2 * buttonHeight;
             int menuX = window.Left + window.Width / 3 - buttonWidth / 2;
             int levelX = window.Right - window.Width / 3 - buttonWidth / 2;
-            menuButton = new Button(new Point(menuX, y), buttonWidth, buttonHeight, "Main Menu", "Buttons/button");
+            menuButton = new Button(new Point(menuX, y), buttonWidth, buttonHeight, "Main Menu", "Buttons/mainMenuButton");
             resetButton = new Button(new Point(levelX, y), buttonWidth, buttonHeight, "Reset Stats", "Buttons/button");
         }
 
         public void loadContent()
         {
-            background = Program.game.Content.Load<Texture2D>("Backgrounds/simple0");
+            background = Program.game.Content.Load<Texture2D>("Backgrounds/scores");
             //texture = new Texture2D(Program.game.GraphicsDevice, 1, 1);
             //texture.SetData<Color>(new Color[] { Color.White });
             menuButton.loadContent();
@@ -63,9 +63,10 @@ namespace MazeAndBlue
                 Program.game.startMainMenu();
             else if (resetButton.isSelected())
             {
-                System.Windows.Forms.MessageBox.Show("You are resetting", "Warning");
+                System.Windows.Forms.MessageBox.Show("Resetting your stats", "Warning");
                 Program.game.gameStats.resetData();
                 Program.game.gameStats.saveStats();
+                calcTotalGameTime();
             }
         }
     }
