@@ -17,12 +17,13 @@ namespace MazeAndBlue
             window = new Rectangle(screenWidth / 8, screenHeight / 8, 3 * screenWidth / 4, 3 * screenHeight / 4);
             int buttonWidth = screenWidth / 8;
             int buttonHeight = screenHeight / 8;
-            int y = window.Bottom - window.Height / 3 - buttonHeight / 2;
-            int menuX = window.Left + window.Width / 3 - buttonWidth / 2;
-            int levelX = window.Right - window.Width / 3 - buttonWidth / 2;
-            menuButton = new Button(new Point(screenWidth / 2 - buttonWidth / 2, screenHeight/2 - buttonHeight), buttonWidth, buttonHeight, "Main Menu", "Buttons/mainMenuButton");
-            levelButton = new Button(new Point(screenWidth / 2 - buttonWidth / 2, screenHeight / 2 + buttonHeight - screenHeight/16), buttonWidth, buttonHeight, "Next Level", "Buttons/next");
-            restartButton = new Button(new Point(screenWidth / 2 - buttonWidth / 2, screenHeight / 2 + 2 * buttonHeight), buttonWidth, buttonHeight, "Restart Level", "Buttons/restartLevel");
+            int y = window.Bottom - window.Height / 2;
+            int menuX = window.Left + window.Width / 2 - 5 * buttonWidth / 2;
+            int nextX = window.Left + window.Width / 2 - buttonWidth / 2;
+            int resumeX = window.Left + window.Width / 2 + 3 * buttonWidth / 2;
+            menuButton = new Button(new Point(menuX, y), buttonWidth, buttonHeight, "Main Menu", "Buttons/mainMenuButton");
+            levelButton = new Button(new Point(nextX, y), buttonWidth, buttonHeight, "Next Level", "Buttons/next");
+            restartButton = new Button(new Point(resumeX, y), buttonWidth, buttonHeight, "Restart Level", "Buttons/restartLevel");
             time = _time;
         }
 
