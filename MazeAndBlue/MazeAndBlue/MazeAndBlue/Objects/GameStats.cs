@@ -108,6 +108,7 @@ namespace MazeAndBlue
             }
             //Console.Out.WriteLine(data.nextLevelToUnlock);
             Console.Out.WriteLine(numHitWall);
+            System.Windows.Forms.MessageBox.Show(numHitWall.ToString(), "");
             saveStats();
         }
 

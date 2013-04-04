@@ -17,6 +17,7 @@ namespace MazeAndBlue
         Texture2D wallTexture, goalTexture;
         Timer timer;
         int level, prevTickCount;
+        bool[] prevHit;
         const int mazeWidth = 970, mazeHeight = 490;
         public static int width { get { return mazeWidth; } }
         public static int height { get { return mazeHeight; } }
@@ -29,6 +30,7 @@ namespace MazeAndBlue
             timer = new Timer();
             prevTickCount = -1;
             wallHits = 0;
+            prevHit = new bool[2]{false, false};
             level = _level;
 
             balls = new List<Ball>();
@@ -141,27 +143,27 @@ namespace MazeAndBlue
 
             bool hit = false;
 
-            if (spriteBottom > wall.Top && spriteTop < wall.Bottom)
+            if (spriteBottom >= wall.Top && spriteTop <= wall.Bottom)
             {
-                if (spriteRight <= wall.Left && nextRight > wall.Left)
+                if (spriteRight <= wall.Left && nextRight >= wall.Left)
                 {
                     nextPosition.X = wall.Left - ball.width / 2;
                     hit = true;
                 }
-                if (spriteLeft >= wall.Right && nextLeft < wall.Right)
+                if (spriteLeft >= wall.Right && nextLeft <= wall.Right)
                 {
                     nextPosition.X = wall.Right + ball.width / 2;
                     hit = true;
                 }
             }
-            if (spriteRight > wall.Left && spriteLeft < wall.Right)
+            if (spriteRight >= wall.Left && spriteLeft <= wall.Right)
             {
-                if (spriteBottom <= wall.Top && nextBottom > wall.Top)
+                if (spriteBottom <= wall.Top && nextBottom >= wall.Top)
                 {
                     nextPosition.Y = wall.Top - ball.height / 2;
                     hit = true;
                 }
-                if (spriteTop >= wall.Bottom && nextTop < wall.Bottom)
+                if (spriteTop >= wall.Bottom && nextTop <= wall.Bottom)
                 {
                     nextPosition.Y = wall.Bottom + ball.width / 2;
                     hit = true;
@@ -191,14 +193,23 @@ namespace MazeAndBlue
                 nextPosition.Y = wall.Bottom;
                 hit = true;
             }*/
-
-            if (hit)
+            if (ball.playerId != -1)
             {
-                wallHits++;
-                if (System.Environment.TickCount - 500 > prevTickCount)
+                if (hit && !prevHit[ball.playerId])
                 {
-                    prevTickCount = System.Environment.TickCount;
-                    Program.game.soundEffectPlayer.playWall();
+                    wallHits++;
+                    prevHit[ball.playerId] = true;
+                    if (System.Environment.TickCount - 500 > prevTickCount)
+                    {
+                        prevTickCount = System.Environment.TickCount;
+                        Program.game.soundEffectPlayer.playWall();
+                    }
+                    wallColor = Color.Red;
+                }
+                else if (!hit && prevHit[ball.playerId])
+                {
+                    wallColor = Color.Black;
+                    prevHit[ball.playerId] = false;
                 }
             }
         }
