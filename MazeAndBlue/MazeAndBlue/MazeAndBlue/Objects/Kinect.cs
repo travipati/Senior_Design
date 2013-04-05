@@ -20,7 +20,8 @@ namespace MazeAndBlue
 
         ~Kinect()
         {
-            sensor.Stop();
+            if (sensor != null)
+                sensor.Stop();
         }
 
         public KinectSensor getSensorReference()
