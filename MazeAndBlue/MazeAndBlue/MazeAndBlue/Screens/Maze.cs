@@ -109,7 +109,7 @@ namespace MazeAndBlue
                     ball.mouseSelected = false;
                 }
                 Program.game.soundEffectPlayer.playGoal();
-                Program.game.startScoreScreen(timer.time);
+                Program.game.startScoreScreen(timer.time, wallHits);
             }
 
             if (pauseButton.isSelected())

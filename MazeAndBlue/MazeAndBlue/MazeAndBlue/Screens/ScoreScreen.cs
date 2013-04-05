@@ -8,9 +8,9 @@ namespace MazeAndBlue
         Texture2D texture;
         Rectangle window;
         Button menuButton, levelButton, restartButton;
-        int time;
+        int time, hits, score, stars;
 
-        public ScoreScreen(int _time)
+        public ScoreScreen(int _time, int _hits)
         {
             int screenWidth = Program.game.screenWidth;
             int screenHeight = Program.game.screenHeight;
@@ -23,10 +23,17 @@ namespace MazeAndBlue
             int nextX = window.Left + window.Width / 2 - buttonWidth / 2;
             int resumeX = window.Left + window.Width / 2 + 3 * buttonWidth / 2;
             menuButton = new Button(new Point(menuX, y), buttonWidth, buttonHeight, "Main Menu", "Buttons/mainMenuButton");
-            levelButton = new Button(new Point(nextX, y), buttonWidth, buttonHeight, "Next Level", "Buttons/next");
+            if (Program.game.level != 6)
+                levelButton = new Button(new Point(nextX, y), buttonWidth, buttonHeight, "Next Level", "Buttons/next");
+            else
+                levelButton = new Button(new Point(nextX, y), buttonWidth, buttonHeight, "Hard", "Buttons/hard");
             restartButton = new Button(new Point(resumeX, y), buttonWidth, buttonHeight, "Restart Level", "Buttons/restartLevel");
 
             time = _time;
+            hits = _hits;
+            score = calcScore();
+            stars = calcNumStars();
+            Program.game.gameStats.updateLevelStats(Program.game.level, time, hits, score, stars);
         }
 
         public void loadContent()
@@ -43,7 +50,7 @@ namespace MazeAndBlue
         {
             spriteBatch.Draw(texture, window, new Color(128, 128, 128, 232));
             menuButton.draw(spriteBatch);
-            if (Program.game.level % 6 != 0)
+            if (Program.game.level != 12)
                 levelButton.draw(spriteBatch);
             else
             {
@@ -70,13 +77,37 @@ namespace MazeAndBlue
         {
             if (menuButton.isSelected())
                 Program.game.startMainMenu();
-            else if (levelButton.isSelected() && Program.game.level % 6 != 0)
+            else if (levelButton.isSelected() && Program.game.level != 12)
                 Program.game.nextLevel();
             else if (restartButton.isSelected())
             {
                 Program.game.level--;
                 Program.game.nextLevel();
             }
+        }
+
+        public int calcScore()
+        {
+            double multiplier = 1.5 - 0.01 * hits;
+
+            if (multiplier < 0.5)
+                multiplier = 0.5;
+
+            int baseScore = (int)(multiplier * 100.0 * 20.0 / time);
+
+            return baseScore;
+        }
+
+        public int calcNumStars()
+        {
+            if (score >= 100)
+                return 3;
+            else if (score >= 50)
+                return 2;
+            else if (score > 0)
+                return 1;
+            else
+                return 0;
         }
     }
 }

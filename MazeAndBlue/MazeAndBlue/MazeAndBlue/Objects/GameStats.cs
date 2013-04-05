@@ -10,7 +10,8 @@ namespace MazeAndBlue
         public struct LevelData 
         { 
             public int level;  
-            public int time; 
+            public int time;
+            public int hits;
             public int score; 
             public int numStars; 
         };
@@ -20,18 +21,7 @@ namespace MazeAndBlue
             public string PlayerName;
             public int totalGameTime;
             public int totalScore;
-            public LevelData levelData0;
-            public LevelData levelData1;
-            public LevelData levelData2;
-            public LevelData levelData3;
-            public LevelData levelData4;
-            public LevelData levelData5;
-            public LevelData levelData6;
-            public LevelData levelData7;
-            public LevelData levelData8;
-            public LevelData levelData9;
-            public LevelData levelData10;
-            public LevelData levelData11;
+            public LevelData[] levelData;
             public int nextLevelToUnlock;
         };
 
@@ -40,104 +30,43 @@ namespace MazeAndBlue
         public GameStats()
         {
             data = new SaveGameData();
+            data.levelData = new LevelData[12];
             loadStats();
         }
 
         public void resetData()
         {
             data = new SaveGameData();
+            data.levelData = new LevelData[12];
         }
 
-        public void updateLevelStats(int level, int numSeconds, int numHitWall)
+        public void updateLevelStats(int level, int numSeconds, int numHitWall, int score, int stars)
         {
             LevelData newLevel= new LevelData();
             newLevel.level = level;
             newLevel.time = numSeconds;
-            int tempScore= calcScore(numSeconds, numHitWall);
-            if (tempScore > newLevel.score)
+            newLevel.hits = numHitWall;
+            if (score > newLevel.score)
             {
-                newLevel.score = tempScore;
-                data.totalScore += tempScore;
+                newLevel.score = score;
+                data.totalScore += score;
             }
-            newLevel.numStars = calcNumStars(newLevel.score);
+            newLevel.numStars = stars;
 
             data.totalGameTime+= numSeconds;
             if (data.nextLevelToUnlock == level)
-                data.nextLevelToUnlock=level+1;
+                data.nextLevelToUnlock = level + 1;
 
-            switch (level)
-            {
-                case 0:
-                    data.levelData0 = newLevel;
-                    break;
-                case 1:
-                    data.levelData1 = newLevel;
-                    break;
-                case 2:
-                    data.levelData2 = newLevel;
-                    break;
-                case 3:
-                    data.levelData3 = newLevel;
-                    break;
-                case 4:
-                    data.levelData4 = newLevel;
-                    break;
-                case 5:
-                    data.levelData5 = newLevel;
-                    break;
-                case 6:
-                    data.levelData6 = newLevel;
-                    break;
-                case 7:
-                    data.levelData7 = newLevel;
-                    break;
-                case 8:
-                    data.levelData8 = newLevel;
-                    break;
-                case 9:
-                    data.levelData9 = newLevel;
-                    break;
-                case 10:
-                    data.levelData10 = newLevel;
-                    break;
-                case 11:
-                    data.levelData11 = newLevel;
-                    break;
-                default:
-                    System.Windows.Forms.MessageBox.Show("error updating level stats", "Error @ GameStats");
-                    break;
-            }
+            if (level >= 12)
+                System.Windows.Forms.MessageBox.Show("error updating level stats", "Error @ GameStats");
+            else
+                data.levelData[level] = newLevel;
+            
             //Console.Out.WriteLine(data.nextLevelToUnlock);
             Console.Out.WriteLine(numHitWall);
             System.Windows.Forms.MessageBox.Show(numHitWall.ToString(), "");
             saveStats();
         }
-
-        public int calcNumStars(int score)
-        {
-            if (score >= 100)
-                return 3;
-            else if (score >= 50)
-                return 2;
-            else if (score > 0)
-                return 1;
-            else
-                return 0;
-        }
-
-        public int calcScore(int numSeconds, int numHitWall)
-        {
-            double multiplier = 1.5 - 0.01 * numHitWall;
-            
-            if (multiplier < 0.5)
-                multiplier = 0.5;
-
-            int baseScore = (int)(multiplier * 100.0 * 20.0 / numSeconds);
-            
-            return baseScore;
-        }
-
-
 
         public void saveStats()
         {

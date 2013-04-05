@@ -131,10 +131,9 @@ namespace MazeAndBlue
             state = GameState.GAME;
         }
 
-        public void startScoreScreen(int time)
+        public void startScoreScreen(int time, int hits)
         {
-            gameStats.updateLevelStats(level, time, maze.wallHits);
-            scoreScreen = new ScoreScreen(time);
+            scoreScreen = new ScoreScreen(time, hits);
             scoreScreen.loadContent();
             fireworks = new Fireworks(); 
             fireworks.loadContent();
