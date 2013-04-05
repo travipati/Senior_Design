@@ -76,6 +76,8 @@ namespace MazeAndBlue
 
             if (coopModeButton.isSelected())
                 Program.game.startLevelSelectionScreen();
+            else if (singlePlayerButton.isSelected())
+                System.Windows.Forms.MessageBox.Show("Single Player Not Yet Implemented");
             else if (settingsButton.isSelected())
                 Program.game.startSettingsScreen();
             else if (instructionsButton.isSelected())
@@ -83,9 +85,7 @@ namespace MazeAndBlue
             else if (statisticsButton.isSelected())
                 Program.game.startStatsScreen();
             else if (exitButton.isSelected())
-            {
                 Program.game.Exit();
-            }
         }
 
 /*        public void onLeftClick(Point point)

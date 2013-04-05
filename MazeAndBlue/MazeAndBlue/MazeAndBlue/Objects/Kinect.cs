@@ -65,36 +65,30 @@ namespace MazeAndBlue
 
         void sensor_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
         {
-            try
+            using (SkeletonFrame frame = e.OpenSkeletonFrame())
             {
-                using (SkeletonFrame frame = e.OpenSkeletonFrame())
+                if (frame == null)
+                    return;
+
+                Skeleton[] skeletonArray = new Skeleton[frame.SkeletonArrayLength];
+                frame.CopySkeletonDataTo(skeletonArray);
+
+                int i = 0;
+                foreach (Skeleton s in skeletonArray)
                 {
-                    if (frame == null)
-                        return;
-
-                    Skeleton[] skeletonArray = new Skeleton[frame.SkeletonArrayLength];
-                    frame.CopySkeletonDataTo(skeletonArray);
-
-                    int i = 0;
-                    foreach (Skeleton s in skeletonArray)
+                    if (s.TrackingState == SkeletonTrackingState.Tracked && i < 2)
                     {
-                        if (s.TrackingState == SkeletonTrackingState.Tracked && i < 2)
-                        {
-                            playerSkeleton[i] = s;
-                            i++;
-                        }
-                    }
-
-                    if (i == 2 && playerSkeleton[0].Joints[JointType.Head].Position.X > playerSkeleton[1].Joints[JointType.Head].Position.X)
-                    {
-                        Skeleton temp = playerSkeleton[0];
-                        playerSkeleton[0] = playerSkeleton[1];
-                        playerSkeleton[1] = temp;
+                        playerSkeleton[i] = s;
+                        i++;
                     }
                 }
-            }
-            catch
-            {
+
+                if (i == 2 && playerSkeleton[0].Joints[JointType.Head].Position.X > playerSkeleton[1].Joints[JointType.Head].Position.X)
+                {
+                    Skeleton temp = playerSkeleton[0];
+                    playerSkeleton[0] = playerSkeleton[1];
+                    playerSkeleton[1] = temp;
+                }
             }
         }
     }
