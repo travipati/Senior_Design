@@ -39,7 +39,7 @@ namespace MazeAndBlue
             {
                 for (int i = 0; i < Program.game.players.Count; i++)
                 {
-                    if (Program.game.players[i].overlaps(this) && Program.game.players[i].selecting())
+                    if (Program.game.players[i].overlaps(this))
                         playerId = i;
                 }
             }

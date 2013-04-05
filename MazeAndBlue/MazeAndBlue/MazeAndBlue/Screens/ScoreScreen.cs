@@ -37,14 +37,27 @@ namespace MazeAndBlue
             menuButton.loadContent();
             levelButton.loadContent();
             restartButton.loadContent();
-
         }
 
         public void draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, window, new Color(128, 128, 128, 232));
             menuButton.draw(spriteBatch);
-            levelButton.draw(spriteBatch);
+            if (Program.game.level % 6 != 0)
+                levelButton.draw(spriteBatch);
+            else
+            {
+                string compText = string.Empty;
+                if (Program.game.level == 6)
+                    compText = "Congratulations! You have completed all the Easy Levels!";
+                else if (Program.game.level == 12)
+                    compText = "Congratulations! You have completed all the Hard Levels!";
+                Vector2 compSize = MazeAndBlue.font.MeasureString(compText);
+                int compX = (int)(window.X + (window.Width - compSize.X) / 2);
+                int compY = (int)(window.Top + window.Height / 3 - compSize.Y / 2);
+                Vector2 compPos = new Vector2(compX, compY);
+                spriteBatch.DrawString(MazeAndBlue.font, compText, compPos, Color.Black);
+            }
             restartButton.draw(spriteBatch);
             string timeTakenText = "Time taken: " + time + " seconds.";
             Vector2 textSize = MazeAndBlue.font.MeasureString(timeTakenText);
