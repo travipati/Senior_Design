@@ -101,6 +101,7 @@ namespace MazeAndBlue
 
         private void phraseRecognized(object sender, SpeechRecognizedEventArgs e)
         {
+            System.Windows.Forms.MessageBox.Show("Recognized: \"" + e.Result.Text + "\" " + e.Result.Confidence);
             if (e.Result.Confidence < precision)
                 return;
 
