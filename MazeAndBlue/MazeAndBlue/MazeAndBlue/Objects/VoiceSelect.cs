@@ -67,6 +67,8 @@ namespace MazeAndBlue
 
             tempSpeechRec.LoadGrammar(g);
             tempSpeechRec.SpeechRecognized += phraseRecognized;
+            tempSpeechRec.SpeechHypothesized += phraseHyphothesized;
+            tempSpeechRec.SpeechRecognitionRejected += phraseRejected;
 
             speechRec = tempSpeechRec;
         }
@@ -107,6 +109,14 @@ namespace MazeAndBlue
 
             word = e.Result.Text.ToLower();
             newWordReady = true;
+        }
+        private void phraseHyphothesized(object sender, SpeechHypothesizedEventArgs e)
+        {
+            //System.Windows.Forms.MessageBox.Show("Hypothesized: " + e.Result.Text + " " + e.Result.Confidence);
+        }
+        private void phraseRejected(object sender, SpeechRecognitionRejectedEventArgs e)
+        {
+            //System.Windows.Forms.MessageBox.Show("Rejected: " + (e.Result == null ? string.Empty : e.Result.Text + " " + e.Result.Confidence));
         }
     }
 }
