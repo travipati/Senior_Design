@@ -6,12 +6,12 @@ namespace MazeAndBlue
 {
     public class Player : Sprite
     {
-        float yRange, xRangeMin, xRangeMax;
-        
-        public bool rightHanded { get; set; }
-        Color color;
         int id;
+        float yRange, xRangeMin, xRangeMax;
+        Color color;
         Texture2D rh, lh;
+        
+        public bool rightHanded { get; private set; }
 
         public Player(float xmin, float xmax, Color c, int playerNum)
         {
@@ -77,6 +77,7 @@ namespace MazeAndBlue
                 Program.game.ks.newKeyReady = false;
                 return true;
             }
+            
             return false;
         }
 
@@ -102,6 +103,7 @@ namespace MazeAndBlue
 
             int x = (int)(Program.game.screenWidth * xPercent);
             int y = (int)(Program.game.screenHeight * (1 - yPercent));
+            
             return new Point(x, y);
         }
 
@@ -111,5 +113,6 @@ namespace MazeAndBlue
             pos.Y -= height / 2;
             position = pos;
         }
+
     }
 }

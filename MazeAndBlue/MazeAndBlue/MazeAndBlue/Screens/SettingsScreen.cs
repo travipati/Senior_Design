@@ -89,7 +89,7 @@ namespace MazeAndBlue
             spriteBatch.DrawString(MazeAndBlue.font, text3, text3Pos, Color.Black); 
             spriteBatch.DrawString(MazeAndBlue.font, text4, text4Pos, Color.Black);
 
-            if (Program.game.players[0].rightHanded == true)
+            if (Program.game.players[0].rightHanded)
             {
                 plRHand.selected = true;
                 plLHand.selected = false;
@@ -100,7 +100,7 @@ namespace MazeAndBlue
                 plLHand.selected = true;
             }
 
-            if (Program.game.players[1].rightHanded == true)
+            if (Program.game.players[1].rightHanded)
             {
                 p2RHand.selected = true;
                 p2LHand.selected = false;
@@ -213,11 +213,11 @@ namespace MazeAndBlue
                 Program.game.players[1].switchHand(false);
 
             if (Program.game.settings.data.volume == 0)
-                Program.game.vs.precision = 0.6;
+                Program.game.vs.precision = 0.8;
             else if (Program.game.settings.data.volume == 1)
-                Program.game.vs.precision = 0.5;
+                Program.game.vs.precision = 0.7;
             else if (Program.game.settings.data.volume == 2)
-                Program.game.vs.precision = 0.4;
+                Program.game.vs.precision = 0.6;
             
             if (Program.game.settings.data.gameSound == 1)
                 Program.game.soundEffectPlayer.soundsOn = true;

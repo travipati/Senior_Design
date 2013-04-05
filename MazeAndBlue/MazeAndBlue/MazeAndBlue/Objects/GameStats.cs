@@ -127,7 +127,12 @@ namespace MazeAndBlue
 
         public int calcScore(int numSeconds, int numHitWall)
         {
-            int baseScore = 100 * 20 / numSeconds;
+            double multiplier = 1.5 - 0.01 * numHitWall;
+            
+            if (multiplier < 0.5)
+                multiplier = 0.5;
+
+            int baseScore = (int)(multiplier * 100.0 * 20.0 / numSeconds);
             
             return baseScore;
         }
