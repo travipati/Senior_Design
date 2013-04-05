@@ -16,7 +16,7 @@ namespace MazeAndBlue
 
         public VoiceSelect()
         {
-            precision = .5;
+            precision = .7;
             newWordReady = false;
 
             RecognizerInfo ri = GetKinectRecognizer();
@@ -57,7 +57,7 @@ namespace MazeAndBlue
             grammar.Add("Pause");
             grammar.Add("Resume");
             grammar.Add("Restart Level");
-            grammar.Add("Next Level");
+            grammar.Add("Next");
 
             var gb = new GrammarBuilder { Culture = ri.Culture };
             gb.Append(grammar);

@@ -17,6 +17,7 @@ namespace MazeAndBlue
             window = new Rectangle(screenWidth / 8, screenHeight / 8, 3 * screenWidth / 4, 3 * screenHeight / 4);
             int buttonWidth = screenWidth / 8;
             int buttonHeight = screenHeight / 8;
+
             int y = window.Bottom - window.Height / 2;
             int menuX = window.Left + window.Width / 2 - 5 * buttonWidth / 2;
             int nextX = window.Left + window.Width / 2 - buttonWidth / 2;
@@ -24,6 +25,7 @@ namespace MazeAndBlue
             menuButton = new Button(new Point(menuX, y), buttonWidth, buttonHeight, "Main Menu", "Buttons/mainMenuButton");
             levelButton = new Button(new Point(nextX, y), buttonWidth, buttonHeight, "Next Level", "Buttons/next");
             restartButton = new Button(new Point(resumeX, y), buttonWidth, buttonHeight, "Restart Level", "Buttons/restartLevel");
+
             time = _time;
         }
 

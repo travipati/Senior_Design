@@ -18,6 +18,11 @@ namespace MazeAndBlue
                 initializeKinect();
         }
 
+        ~Kinect()
+        {
+            sensor.Stop();
+        }
+
         public KinectSensor getSensorReference()
         {
             return sensor;
