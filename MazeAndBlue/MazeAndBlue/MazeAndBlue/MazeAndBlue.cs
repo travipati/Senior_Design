@@ -94,6 +94,7 @@ namespace MazeAndBlue
 
         protected override void UnloadContent()
         {
+            kinect.stop();
         }
 
         public void startMainMenu()
@@ -225,7 +226,9 @@ namespace MazeAndBlue
             ks.grabInput();
 
             if (vs.word == "exit" || ks.key == "Esc")
+            {
                 Exit();
+            }
 
             switch (state)
             {

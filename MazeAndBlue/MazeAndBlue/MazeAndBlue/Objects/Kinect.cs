@@ -18,7 +18,7 @@ namespace MazeAndBlue
                 initializeKinect();
         }
 
-        ~Kinect()
+        public void stop()
         {
             if (sensor != null)
                 sensor.Stop();
@@ -65,33 +65,37 @@ namespace MazeAndBlue
 
         void sensor_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
         {
-            using (SkeletonFrame frame = e.OpenSkeletonFrame())
+            try
             {
-                if (frame == null)
-                    return;
-
-                Skeleton[] skeletonArray = new Skeleton[frame.SkeletonArrayLength];
-                frame.CopySkeletonDataTo(skeletonArray);
-
-                int i = 0;
-                foreach (Skeleton s in skeletonArray)
+                using (SkeletonFrame frame = e.OpenSkeletonFrame())
                 {
-                    if (s.TrackingState == SkeletonTrackingState.Tracked && i < 2)
+                    if (frame == null)
+                        return;
+
+                    Skeleton[] skeletonArray = new Skeleton[frame.SkeletonArrayLength];
+                    frame.CopySkeletonDataTo(skeletonArray);
+
+                    int i = 0;
+                    foreach (Skeleton s in skeletonArray)
                     {
-                        playerSkeleton[i] = s;
-                        i++;
+                        if (s.TrackingState == SkeletonTrackingState.Tracked && i < 2)
+                        {
+                            playerSkeleton[i] = s;
+                            i++;
+                        }
+                    }
+
+                    if (i == 2 && playerSkeleton[0].Joints[JointType.Head].Position.X > playerSkeleton[1].Joints[JointType.Head].Position.X)
+                    {
+                        Skeleton temp = playerSkeleton[0];
+                        playerSkeleton[0] = playerSkeleton[1];
+                        playerSkeleton[1] = temp;
                     }
                 }
-
-                if (i == 2 && playerSkeleton[0].Joints[JointType.Head].Position.X > playerSkeleton[1].Joints[JointType.Head].Position.X)
-                {
-                    Skeleton temp = playerSkeleton[0];
-                    playerSkeleton[0] = playerSkeleton[1];
-                    playerSkeleton[1] = temp;
-                }
-
+            }
+            catch
+            {
             }
         }
-
     }
 }
