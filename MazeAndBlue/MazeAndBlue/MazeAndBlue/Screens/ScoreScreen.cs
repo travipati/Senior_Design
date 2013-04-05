@@ -47,31 +47,30 @@ namespace MazeAndBlue
                 levelButton.draw(spriteBatch);
             else
             {
-                string compText = string.Empty;
+                string compText1 = "Congratulations!", compText2 = string.Empty;
                 if (Program.game.level == 6)
-                    compText = "Congratulations! You have completed all the Easy Levels!";
+                    compText2 = "You have completed all the Easy Levels!";
                 else if (Program.game.level == 12)
-                    compText = "Congratulations! You have completed all the Hard Levels!";
-                Vector2 compSize = MazeAndBlue.font.MeasureString(compText);
-                int compX = (int)(window.X + (window.Width - compSize.X) / 2);
-                int compY = (int)(window.Top + window.Height / 3 - compSize.Y / 2);
-                Vector2 compPos = new Vector2(compX, compY);
-                spriteBatch.DrawString(MazeAndBlue.font, compText, compPos, Color.Black);
+                    compText2 = "You have completed all the Hard Levels!";
+                Vector2 compSize1 = MazeAndBlue.font.MeasureString(compText1);
+                Program.game.draw(compText1, new Point(window.Left + window.Width / 4, window.Top + window.Height / 2));
+                Vector2 compSize2 = MazeAndBlue.font.MeasureString(compText2);
+                Program.game.draw(compText2, new Point(window.Left + window.Width / 4, window.Top + window.Height / 2));
             }
             restartButton.draw(spriteBatch);
             string timeTakenText = "Time taken: " + time + " seconds.";
-            Vector2 textSize = MazeAndBlue.font.MeasureString(timeTakenText);
-            int xT = (int)(window.X + (window.Width - textSize.X) / 2);
-            int yT = (int)(window.Top + window.Height / 6 - textSize.Y / 2);
-            Vector2 textPos = new Vector2(xT, yT);
-            spriteBatch.DrawString(MazeAndBlue.font, timeTakenText, textPos, Color.Black);
+            string score = "Score: ";
+            Vector2 text1Size = MazeAndBlue.font.MeasureString(timeTakenText);
+            Vector2 text2Size = MazeAndBlue.font.MeasureString(score);
+            Program.game.draw(timeTakenText, new Point(window.Left + window.Width / 4, window.Top + window.Height / 2));
+            Program.game.draw(score, new Point(window.Left + window.Width / 4, window.Top + window.Height / 2));
         }
 
         public void update()
         {
             if (menuButton.isSelected())
                 Program.game.startMainMenu();
-            else if (levelButton.isSelected())
+            else if (levelButton.isSelected() && Program.game.level % 6 != 0)
                 Program.game.nextLevel();
             else if (restartButton.isSelected())
             {

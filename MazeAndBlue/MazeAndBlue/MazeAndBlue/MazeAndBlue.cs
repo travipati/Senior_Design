@@ -275,6 +275,15 @@ namespace MazeAndBlue
             base.Update(gameTime);
         }
 
+        public void draw(string text, Point pos)
+        {
+            Vector2 textSize = MazeAndBlue.font.MeasureString(text);
+            int x = (int)(pos.X - textSize.X / 2);
+            int y = (int)(pos.Y - textSize.Y / 2);
+            Vector2 textPos = new Vector2(x, y);
+            spriteBatch.DrawString(MazeAndBlue.font, text, textPos, Color.Black);
+        }
+
         public int sx(int x)
         {
             return x + (screenWidth-Maze.width) / 2;
