@@ -74,9 +74,9 @@ namespace MazeAndBlue
             vs = new VoiceSelect();
             vs.recognizeSpeech(kinect.getSensorReference());
             ks = new KeyboardSelect();
-
             soundEffectPlayer = new SoundEffectPlayer();
 
+            applySettings();
             startMainMenu();
 
             base.Initialize();
@@ -291,6 +291,31 @@ namespace MazeAndBlue
         public int sy(int y)
         {
             return y + (screenHeight-Maze.height) / 2;
+        }
+
+        private void applySettings()
+        {
+            if (settings.data.p1PrimaryHand == 1)
+                players[0].switchHand(true);
+            else
+                players[0].switchHand(false);
+
+            if (settings.data.p2PrimaryHand == 1)
+                players[1].switchHand(true);
+            else
+                players[1].switchHand(false);
+
+            if (settings.data.volume == 0)
+                vs.precision = 0.8;
+            else if (settings.data.volume == 1)
+                vs.precision = 0.7;
+            else if (settings.data.volume == 2)
+                vs.precision = 0.6;
+
+            if (settings.data.gameSound == 1)
+                soundEffectPlayer.soundsOn = true;
+            else if (settings.data.gameSound == 0)
+                soundEffectPlayer.soundsOn = false;
         }
     }
 }

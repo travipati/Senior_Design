@@ -18,7 +18,6 @@ namespace MazeAndBlue
             int screenWidth = Program.game.screenWidth;
             int screenHeight = Program.game.screenHeight;
             screenRectangle = new Rectangle(0, 0, screenWidth, screenHeight);
-            applySettings();
 
             int smallButtonWidth = 136;
             int smallButtonHeight = 72;
@@ -199,31 +198,5 @@ namespace MazeAndBlue
             }
             Program.game.settings.saveStats();
         }
-
-        private void applySettings()
-        {
-            if (Program.game.settings.data.p1PrimaryHand == 1)
-                Program.game.players[0].switchHand(true);
-            else
-                Program.game.players[0].switchHand(false);
-
-            if (Program.game.settings.data.p2PrimaryHand == 1)
-                Program.game.players[1].switchHand(true);
-            else
-                Program.game.players[1].switchHand(false);
-
-            if (Program.game.settings.data.volume == 0)
-                Program.game.vs.precision = 0.8;
-            else if (Program.game.settings.data.volume == 1)
-                Program.game.vs.precision = 0.7;
-            else if (Program.game.settings.data.volume == 2)
-                Program.game.vs.precision = 0.6;
-            
-            if (Program.game.settings.data.gameSound == 1)
-                Program.game.soundEffectPlayer.soundsOn = true;
-            else if (Program.game.settings.data.gameSound == 0)
-                Program.game.soundEffectPlayer.soundsOn = false;
-        }
-
     }
 }
