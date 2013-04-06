@@ -7,7 +7,7 @@ namespace MazeAndBlue
     {
         Texture2D texture;
         Rectangle screenRectangle;
-        Button backButton;
+        Button menuButton;
 
         public InstructionScreen()
         {
@@ -19,25 +19,25 @@ namespace MazeAndBlue
             int buttonHeight = screenHeight / 8;
             int X = 40;
             int Y = 40;
-            backButton = new Button(new Point(X, Y), buttonWidth, buttonHeight, "back", "Buttons/back");
+            menuButton = new Button(new Point(X, Y), buttonWidth, buttonHeight, "Main Menu", "Buttons/mainMenuButton");
         }
 
         public void loadContent()
         {
             texture = new Texture2D(Program.game.GraphicsDevice, 1, 1);
             texture = Program.game.Content.Load<Texture2D>("Backgrounds/instrs");
-            backButton.loadContent();
+            menuButton.loadContent();
         }
 
         public void draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, screenRectangle, Color.White);
-            backButton.draw(spriteBatch);
+            menuButton.draw(spriteBatch);
         }
 
         public void update()
         {
-            if (backButton.isSelected())
+            if (menuButton.isSelected())
                 Program.game.startMainMenu();
         }
     }

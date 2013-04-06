@@ -8,7 +8,7 @@ namespace MazeAndBlue
     public class SettingsScreen
     {
         Texture2D texture;
-        Button backButton, plRHand, plLHand, p2RHand, p2LHand, roomQuiet, roomAver, roomLoud, 
+        Button menuButton, plRHand, plLHand, p2RHand, p2LHand, roomQuiet, roomAver, roomLoud, 
                 soundsOn, soundsOff, setBackground, setGoalImage;
         List<Button> buttons;
         Rectangle screenRectangle;
@@ -24,7 +24,7 @@ namespace MazeAndBlue
             int largeButtonWidth = 170;
             int largeButtonHeight = 92;
 
-            backButton = new Button(new Point(screenWidth / 8, 50), smallButtonWidth, smallButtonHeight, "back", "Buttons/back");
+            menuButton = new Button(new Point(screenWidth / 8, 50), smallButtonWidth, smallButtonHeight, "Main Menu", "Buttons/mainMenuButton");
             plLHand = new Button(new Point(screenWidth / 2 + smallButtonWidth, 170), smallButtonWidth, smallButtonHeight, "player one left", "Buttons/left");
             plRHand = new Button(new Point(screenWidth / 2 + 3 * smallButtonWidth, 170), smallButtonWidth, smallButtonHeight, "player one right", "Buttons/right");
             p2LHand = new Button(new Point(screenWidth / 2 + smallButtonWidth, 275), smallButtonWidth, smallButtonHeight, "player two left", "Buttons/left");
@@ -40,7 +40,7 @@ namespace MazeAndBlue
                 largeButtonWidth, largeButtonHeight, "setGoalImage", "Buttons/setGoalImage");
 
             buttons = new List<Button>();
-            buttons.Add(backButton);
+            buttons.Add(menuButton);
             buttons.Add(plRHand);
             buttons.Add(plLHand);
             buttons.Add(p2RHand);
@@ -70,10 +70,6 @@ namespace MazeAndBlue
             string text2 = "Player Two Primary Hand";
             string text3 = "Room Volume";
             string text4 = "Game Sounds";
-            Vector2 text1Size = MazeAndBlue.font.MeasureString(text1);
-            Vector2 text2Size = MazeAndBlue.font.MeasureString(text2);
-            Vector2 text3Size = MazeAndBlue.font.MeasureString(text3);
-            Vector2 text4Size = MazeAndBlue.font.MeasureString(text4);
             int x = 150;
             int y1 = 180;
             int y2 = 285;
@@ -149,7 +145,7 @@ namespace MazeAndBlue
             foreach (Button button in buttons)
                 button.update();
 
-            if (backButton.isSelected())
+            if (menuButton.isSelected())
                 Program.game.startMainMenu();
             else if (plRHand.isSelected())
             {

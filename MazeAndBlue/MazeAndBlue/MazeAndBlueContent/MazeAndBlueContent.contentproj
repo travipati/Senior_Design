@@ -128,13 +128,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Buttons\back.png">
-      <Name>back</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Buttons\Hover.png">
       <Name>Hover</Name>
       <Importer>TextureImporter</Importer>

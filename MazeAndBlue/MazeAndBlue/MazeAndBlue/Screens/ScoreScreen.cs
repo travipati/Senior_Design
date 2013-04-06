@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MazeAndBlue
@@ -8,32 +9,40 @@ namespace MazeAndBlue
         Texture2D texture;
         Rectangle window;
         Button menuButton, levelButton, restartButton;
-        int time, hits, score, stars;
+        int time, hits, score, numStars;
+        List<Sprite> stars;
 
         public ScoreScreen(int _time, int _hits)
         {
+            time = _time;
+            hits = _hits;
+            score = calcScore();
+            numStars = calcNumStars();
+
             int screenWidth = Program.game.screenWidth;
             int screenHeight = Program.game.screenHeight;
+
             window = new Rectangle(screenWidth / 8, screenHeight / 8, 3 * screenWidth / 4, 3 * screenHeight / 4);
             int buttonWidth = screenWidth / 8;
             int buttonHeight = screenHeight / 8;
 
-            int y = window.Bottom - window.Height / 2;
-            int menuX = window.Left + window.Width / 2 - 5 * buttonWidth / 2;
-            int nextX = window.Left + window.Width / 2 - buttonWidth / 2;
-            int resumeX = window.Left + window.Width / 2 + 3 * buttonWidth / 2;
-            menuButton = new Button(new Point(menuX, y), buttonWidth, buttonHeight, "Main Menu", "Buttons/mainMenuButton");
-            if (Program.game.level != 6)
-                levelButton = new Button(new Point(nextX, y), buttonWidth, buttonHeight, "Next Level", "Buttons/next");
-            else
-                levelButton = new Button(new Point(nextX, y), buttonWidth, buttonHeight, "Hard", "Buttons/hard");
-            restartButton = new Button(new Point(resumeX, y), buttonWidth, buttonHeight, "Restart Level", "Buttons/restartLevel");
+            int menuY = window.Bottom - 3 * window.Height / 4 - buttonHeight / 2;
+            int resumeY = window.Bottom - 2 * window.Height / 4 - buttonHeight / 2;
+            int nextY = window.Bottom - window.Height / 4 - buttonHeight / 2;
+            int x = window.Right - window.Width / 4 - buttonWidth / 2;
 
-            time = _time;
-            hits = _hits;
-            score = calcScore();
-            stars = calcNumStars();
-            Program.game.gameStats.updateLevelStats(Program.game.level, time, hits, score, stars);
+            menuButton = new Button(new Point(x, menuY), buttonWidth, buttonHeight, "Main Menu", "Buttons/mainMenuButton");
+            restartButton = new Button(new Point(x, resumeY), buttonWidth, buttonHeight, "Restart Level", "Buttons/restartLevel");
+            if (Program.game.level != 6)
+                levelButton = new Button(new Point(x, nextY), buttonWidth, buttonHeight, "Next Level", "Buttons/next");
+            else
+                levelButton = new Button(new Point(x, nextY), buttonWidth, buttonHeight, "Hard", "Buttons/hard");
+
+            stars = new List<Sprite>();
+            for (int i = 0; i < numStars; i++)
+                stars.Add(new Sprite(new Point(i * 80 + window.Left + window.Width / 4 - 100, window.Bottom - window.Height / 5 - 20)));
+
+            Program.game.gameStats.updateLevelStats(Program.game.level, time, hits, score, numStars);
         }
 
         public void loadContent()
@@ -42,48 +51,49 @@ namespace MazeAndBlue
             texture = new Texture2D(Program.game.GraphicsDevice, 1, 1);
             texture.SetData<Color>(new Color[] { Color.White });
             menuButton.loadContent();
-            levelButton.loadContent();
             restartButton.loadContent();
+            levelButton.loadContent();
+            foreach (Sprite star in stars)
+                star.loadContent("star");
         }
 
         public void draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, window, new Color(128, 128, 128, 232));
             menuButton.draw(spriteBatch);
+            restartButton.draw(spriteBatch);
             if (Program.game.level != 12)
                 levelButton.draw(spriteBatch);
-            else
+            if (Program.game.level % 6 == 0)
             {
-                string compText1 = "Congratulations!", compText2 = string.Empty;
+                string compText = string.Empty;
                 if (Program.game.level == 6)
-                    compText2 = "You have completed all the Easy Levels!";
+                    compText = "You have completed all the Easy Levels!";
                 else if (Program.game.level == 12)
-                    compText2 = "You have completed all the Hard Levels!";
-                Vector2 compSize1 = MazeAndBlue.font.MeasureString(compText1);
-                Program.game.draw(compText1, new Point(window.Left + window.Width / 4, window.Top + window.Height / 2));
-                Vector2 compSize2 = MazeAndBlue.font.MeasureString(compText2);
-                Program.game.draw(compText2, new Point(window.Left + window.Width / 4, window.Top + window.Height / 2));
+                    compText = "You have completed all the Hard Levels!";
+                Program.game.draw(compText, new Point(window.Left + window.Width / 2, window.Top + 45));
             }
-            restartButton.draw(spriteBatch);
             string timeTakenText = "Time taken: " + time + " seconds.";
-            string score = "Score: ";
-            Vector2 text1Size = MazeAndBlue.font.MeasureString(timeTakenText);
-            Vector2 text2Size = MazeAndBlue.font.MeasureString(score);
-            Program.game.draw(timeTakenText, new Point(window.Left + window.Width / 4, window.Top + window.Height / 2));
-            Program.game.draw(score, new Point(window.Left + window.Width / 4, window.Top + window.Height / 2));
+            string wallHitsText = "Wall Hits: " + hits; 
+            string scoreText = "Score: " + score;
+            Program.game.draw(timeTakenText, new Point(window.Left + window.Width / 4, window.Bottom - 4 * window.Height / 5));
+            Program.game.draw(wallHitsText, new Point(window.Left + window.Width / 4, window.Bottom - 3 * window.Height / 5));
+            Program.game.draw(scoreText, new Point(window.Left + window.Width / 4, window.Bottom - 2 * window.Height / 5));
+            foreach (Sprite star in stars)
+                star.draw(spriteBatch, Color.Yellow);
         }
 
         public void update()
         {
             if (menuButton.isSelected())
                 Program.game.startMainMenu();
-            else if (levelButton.isSelected() && Program.game.level != 12)
-                Program.game.nextLevel();
             else if (restartButton.isSelected())
             {
                 Program.game.level--;
                 Program.game.nextLevel();
             }
+            else if (levelButton.isSelected() && Program.game.level != 12)
+                Program.game.nextLevel();
         }
 
         public int calcScore()
