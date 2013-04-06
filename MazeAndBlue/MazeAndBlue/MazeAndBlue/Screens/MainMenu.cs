@@ -88,45 +88,5 @@ namespace MazeAndBlue
                 Program.game.Exit();
         }
 
-/*        public void onLeftClick(Point point)
-        {
-            if (singlePlayerButton.contains(point))
-                onSinglePlayerButtonPress();
-//            else if (coopModeButton.contains(point))
-//                onCoopModeButtonPress();
-            else if (settingsButton.contains(point))
-                onSettingsButtonPress();
-            else if (statisticsButton.contains(point))
-                onStatisticsButtonPress();
-            else if (instructionsButton.contains(point))
-                onInstructionButtonPress();
-            else if (exitButton.contains(point))
-                Program.game.Exit();
-        }
-
-        private void onSinglePlayerButtonPress()
-        {
-            //Program.game.startLevelSelectionScreen();
-        }
-        
-        private void onCoopModeButtonPress()
-        {
-            Program.game.startLevelSelectionScreen();
-        }
-
-        private void onSettingsButtonPress()
-        {
-            //Program.game.startSettingsScreen();
-        }
-
-        private void onStatisticsButtonPress()
-        {
-            //Program.game.startStatisticsScreen();
-        }
-
-        private void onInstructionButtonPress()
-        {
-            Program.game.startInstructionScreen();
-        }*/
     }
 }

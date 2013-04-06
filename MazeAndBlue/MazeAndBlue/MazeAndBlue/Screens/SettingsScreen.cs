@@ -84,57 +84,31 @@ namespace MazeAndBlue
             spriteBatch.DrawString(MazeAndBlue.font, text3, text3Pos, Color.Black); 
             spriteBatch.DrawString(MazeAndBlue.font, text4, text4Pos, Color.Black);
 
-            if (Program.game.players[0].rightHanded)
+            plRHand.selected = Program.game.players[0].rightHanded;
+            plLHand.selected = !plRHand.selected;
+
+            p2RHand.selected = Program.game.players[1].rightHanded;
+            p2LHand.selected = !p2RHand.selected;
+
+            roomQuiet.selected = false;
+            roomAver.selected = false;
+            roomLoud.selected = false;
+
+            switch (Program.game.settings.getVolume())
             {
-                plRHand.selected = true;
-                plLHand.selected = false;
-            }
-            else
-            {
-                plRHand.selected = false;
-                plLHand.selected = true;
+                case 0:
+                    roomQuiet.selected = true;
+                    break;
+                case 1:
+                    roomAver.selected = true;
+                    break;
+                case 2:
+                    roomLoud.selected = true;
+                    break;
             }
 
-            if (Program.game.players[1].rightHanded)
-            {
-                p2RHand.selected = true;
-                p2LHand.selected = false;
-            }
-            else
-            {
-                p2RHand.selected = false;
-                p2LHand.selected = true;
-            }
-
-            if (Program.game.vs.precision == 0.6)
-            {
-                roomQuiet.selected = true;
-                roomAver.selected = false;
-                roomLoud.selected = false;
-            }
-            else if (Program.game.vs.precision == 0.5)
-            {
-                roomQuiet.selected = false;
-                roomAver.selected = true;
-                roomLoud.selected = false;
-            }
-            else
-            {
-                roomQuiet.selected = false;
-                roomAver.selected = false;
-                roomLoud.selected = true;
-            }
-
-            if(Program.game.soundEffectPlayer.soundsOn)
-            {
-                soundsOn.selected = true;
-                soundsOff.selected = false;
-            }
-            else
-            {
-                soundsOn.selected = false;
-                soundsOff.selected = true;
-            }
+            soundsOn.selected = Program.game.soundEffectPlayer.soundsOn;
+            soundsOff.selected = !soundsOn.selected;
 
             foreach (Button button in buttons)
                 button.draw(spriteBatch);
@@ -148,51 +122,28 @@ namespace MazeAndBlue
             if (menuButton.isSelected())
                 Program.game.startMainMenu();
             else if (plRHand.isSelected())
-            {
-                Program.game.settings.updateP1PrimaryHand(1);
-                Program.game.players[0].switchHand(true);
-            }
+                Program.game.settings.updateP1PrimaryHand(true);
             else if (plLHand.isSelected())
-            {
-                Program.game.settings.updateP1PrimaryHand(0);
-                Program.game.players[0].switchHand(false);
-            }
+                Program.game.settings.updateP1PrimaryHand(false);
             else if (p2RHand.isSelected())
-            {
-                Program.game.settings.updateP2PrimaryHand(1);
-                Program.game.players[1].switchHand(true);
-            }
+                Program.game.settings.updateP2PrimaryHand(true);
             else if (p2LHand.isSelected())
-            {
-                Program.game.settings.updateP2PrimaryHand(0);
-                Program.game.players[1].switchHand(false);
-            }
+                Program.game.settings.updateP2PrimaryHand(false);
             else if (roomQuiet.isSelected())
-            {
                 Program.game.settings.updateVolume(0);
-                Program.game.vs.precision = 0.6;
-            }
             else if (roomAver.isSelected())
-            {
                 Program.game.settings.updateVolume(1);
-                Program.game.vs.precision = 0.5;
-            }
             else if (roomLoud.isSelected())
-            {
                 Program.game.settings.updateVolume(2);
-                Program.game.vs.precision = 0.4;
-            }
             else if (soundsOn.isSelected())
-            {
-                Program.game.settings.updateSound(1);
-                Program.game.soundEffectPlayer.soundsOn = true;
-            }
+                Program.game.settings.updateSound(true);
             else if (soundsOff.isSelected())
-            {
-                Program.game.settings.updateSound(0);
-                Program.game.soundEffectPlayer.soundsOn = false;
-            }
-            Program.game.settings.saveStats();
+                Program.game.settings.updateSound(false);
+            
+            Program.game.settings.applySettings();
+            
+            Program.game.settings.saveSettings();
         }
+
     }
 }

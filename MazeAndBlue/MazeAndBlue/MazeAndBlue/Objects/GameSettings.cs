@@ -5,25 +5,33 @@ using System.Xml.Serialization;
 
 namespace MazeAndBlue
 {
+    class SettingData
+    {
+        public bool p1RightHanded;
+        public bool p2RightHanded;
+        public int volume; //quiet=0; avg=1; noisy=2
+        public bool soundsOn;
+
+        public SettingData()
+        {
+            p1RightHanded = true;
+            p2RightHanded = true;
+            volume = 1;
+            soundsOn = true;
+        }
+    };
+
     public class GameSettings
     {
-        public struct SettingData
-        {
-            //right =1; left =0;
-            public int p1PrimaryHand;
-            public int p2PrimaryHand;
-            //quiet=0; avg=1; noisy=2
-            public int volume;
-            //on=1; off=0
-            public int gameSound;
-        };
-
-        public SettingData data;
+        SettingData data;
+        const string filename = "gameSettings.sav";
         
         public GameSettings()
         {
             data = new SettingData();
-            loadStats();
+            if (!loadSettings())
+                resetData();
+            applySettings();
         }
 
         public void resetData()
@@ -31,14 +39,24 @@ namespace MazeAndBlue
             data = new SettingData();
         }
 
-        public void updateP1PrimaryHand( int hand)
+        public void updateP1PrimaryHand(bool rightHand)
         {
-            data.p1PrimaryHand = hand;
+            data.p1RightHanded = rightHand;
         }
 
-        public void updateP2PrimaryHand(int hand)
+        public bool getP1RightHanded()
         {
-            data.p2PrimaryHand = hand;
+            return data.p1RightHanded;
+        }
+
+        public void updateP2PrimaryHand(bool rightHand)
+        {
+            data.p2RightHanded = rightHand;
+        }
+
+        public bool getP2RightHanded()
+        {
+            return data.p2RightHanded;
         }
 
         public void updateVolume(int vol)
@@ -46,92 +64,95 @@ namespace MazeAndBlue
             data.volume = vol;
         }
 
-        public void updateSound(int sound)
+        public int getVolume()
         {
-            data.gameSound = sound;
+            return data.volume;
         }
 
-        public void saveStats()
+        public void updateSound(bool sound)
         {
-            // Open a storage container.
-            IAsyncResult result =
-                StorageDevice.BeginShowSelector( null, null);
-
-            // Wait for the WaitHandle to become signaled.
-            result.AsyncWaitHandle.WaitOne();
-
-            StorageDevice device = StorageDevice.EndShowSelector(result);
-
-            result = device.BeginOpenContainer("MaizeAndBlueStorage", null, null);
-
-            StorageContainer container = device.EndOpenContainer(result);
-
-            // Close the wait handle.
-            result.AsyncWaitHandle.Close();
-
-            string filename = "gameSettings.sav";
-
-            // Check to see whether the save exists.
-            if (container.FileExists(filename))
-                // Delete it so that we can create one fresh.
-                container.DeleteFile(filename);
-
-            // Create the file.
-            Stream stream = container.CreateFile(filename);
-
-            // Convert the object to XML data and put it in the stream.
-            XmlSerializer serializer = new XmlSerializer(typeof(SettingData));
-
-            serializer.Serialize(stream, data);
-
-            // Close the file.
-            stream.Close();
-
-            // Dispose the container, to commit changes.
-            container.Dispose();
+            data.soundsOn = sound;
         }
 
-        public void loadStats()
+        public bool getSoundsOn()
         {
-            // Open a storage container.
-            IAsyncResult result =
-                StorageDevice.BeginShowSelector(null, null);
+            return data.soundsOn;
+        }
 
-            // Wait for the WaitHandle to become signaled.
-            result.AsyncWaitHandle.WaitOne();
+        public void saveSettings()
+        {
+            string[] lines = new string[4];
+            lines[0] = data.p1RightHanded.ToString();
+            lines[1] = data.p2RightHanded.ToString();
+            lines[2] = data.volume.ToString();
+            lines[3] = data.soundsOn.ToString();
 
-            StorageDevice device = StorageDevice.EndShowSelector(result);
+            File.WriteAllLines(filename, lines);
+        }
 
-            result = device.BeginOpenContainer("MaizeAndBlueStorage", null, null);
+        public bool loadSettings()
+        {
+            if (!File.Exists(filename))
+                return false;
 
-            StorageContainer container = device.EndOpenContainer(result);
+            string[] lines = File.ReadAllLines(filename);
 
-            // Close the wait handle.
-            result.AsyncWaitHandle.Close();
+            if (lines.Length != 4)
+                return false;
 
-            string filename = "gameSettings.sav";
+            if (lines[0] == "True")
+                data.p1RightHanded = true;
+            else if (lines[0] == "False")
+                data.p1RightHanded = false;
+            else
+                return false;
 
-            // Check to see whether the save exists.
-            if (!container.FileExists(filename))
+            if (lines[1] == "True")
+                data.p2RightHanded = true;
+            else if (lines[1] == "False")
+                data.p2RightHanded = false;
+            else
+                return false;
+
+            if (lines[2] == "0")
+                data.volume = 0;
+            else if (lines[2] == "1")
+                data.volume = 1;
+            else if (lines[2] == "2")
+                data.volume = 2;
+            else
+                return false;
+
+            if (lines[3] == "True")
+                data.soundsOn = true;
+            else if (lines[3] == "False")
+                data.soundsOn = false;
+            else
+                return false;
+
+            return true;
+        }
+
+        public void applySettings()
+        {
+            Program.game.players[0].switchHand(data.p1RightHanded);
+            Program.game.players[1].switchHand(data.p2RightHanded);
+
+            switch (data.volume)
             {
-                // If not, dispose of the container and return.
-                container.Dispose();
-                Console.Out.WriteLine("Error open file loading");
-                return;
+                case 0:
+                    Program.game.vs.precision = 0.6;
+                    break;
+                case 1:
+                    Program.game.vs.precision = 0.5;
+                    break;
+                case 2:
+                    Program.game.vs.precision = 0.4;
+                    break;
             }
 
-            // Open the file.
-            Stream stream = container.OpenFile(filename, FileMode.Open);
-
-            XmlSerializer serializer = new XmlSerializer(typeof(SettingData));
-
-            data = (SettingData)serializer.Deserialize(stream);
-
-            // Close the file.
-            stream.Close();
-
-            // Dispose the container.
-            container.Dispose();
+            Program.game.soundEffectPlayer.soundsOn = data.soundsOn;
         }
+
     }
 }

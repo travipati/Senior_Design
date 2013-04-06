@@ -50,8 +50,6 @@ namespace MazeAndBlue
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            gameStats = new GameStats();
-            settings = new GameSettings();
 
             var form = (System.Windows.Forms.Form)System.Windows.Forms.Form.FromHandle(Window.Handle);
             form.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -60,23 +58,27 @@ namespace MazeAndBlue
             graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;// -30;
             //graphics.IsFullScreen = true;
 
-            players = new List<Player>();
-            players.Add(new Player(-0.5f, 0f, Color.Blue, 0));
-            players.Add(new Player(0f, 0.5f, Color.Yellow, 1));
-
             level = 0;
         }
 
         protected override void Initialize()
         {
+            players = new List<Player>();
+            players.Add(new Player(-0.5f, 0f, Color.Blue, 0));
+            players.Add(new Player(0f, 0.5f, Color.Yellow, 1));
+
             kinect = new Kinect();
+            
             ms = new MouseSelect();
+            ks = new KeyboardSelect();
             vs = new VoiceSelect();
             vs.recognizeSpeech(kinect.getSensorReference());
-            ks = new KeyboardSelect();
+            
             soundEffectPlayer = new SoundEffectPlayer();
 
-            applySettings();
+            gameStats = new GameStats();
+            settings = new GameSettings();
+
             startMainMenu();
 
             base.Initialize();
@@ -225,9 +227,7 @@ namespace MazeAndBlue
             ks.grabInput();
 
             if (vs.word == "exit" || ks.key == "Esc")
-            {
                 Exit();
-            }
 
             switch (state)
             {
@@ -293,29 +293,5 @@ namespace MazeAndBlue
             return y + (screenHeight-Maze.height) / 2;
         }
 
-        private void applySettings()
-        {
-            if (settings.data.p1PrimaryHand == 1)
-                players[0].switchHand(true);
-            else
-                players[0].switchHand(false);
-
-            if (settings.data.p2PrimaryHand == 1)
-                players[1].switchHand(true);
-            else
-                players[1].switchHand(false);
-
-            if (settings.data.volume == 0)
-                vs.precision = 0.8;
-            else if (settings.data.volume == 1)
-                vs.precision = 0.7;
-            else if (settings.data.volume == 2)
-                vs.precision = 0.6;
-
-            if (settings.data.gameSound == 1)
-                soundEffectPlayer.soundsOn = true;
-            else if (settings.data.gameSound == 0)
-                soundEffectPlayer.soundsOn = false;
-        }
     }
 }
