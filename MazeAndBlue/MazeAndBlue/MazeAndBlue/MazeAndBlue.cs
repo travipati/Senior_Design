@@ -247,8 +247,8 @@ namespace MazeAndBlue
                     maze.update();
                     break;
                 case GameState.SCORE:
-                    scoreScreen.update();
                     fireworks.update();
+                    scoreScreen.update();
                     break;
                 case GameState.PAUSE:
                     pauseScreen.update();
