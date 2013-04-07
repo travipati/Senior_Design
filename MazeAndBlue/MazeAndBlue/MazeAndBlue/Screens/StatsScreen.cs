@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MazeAndBlue
@@ -53,16 +54,14 @@ namespace MazeAndBlue
             totalGameTime = hour + " : " + min + " : " + sec;
         }
 
-        void drawBlock(string[] textArray)
+        void drawBlock(List<string> textArray)
         {
-            int num = textArray.Length;
-            for (int i = 0; i < num; i++)
+            for (int i = 0; i < textArray.Count; i++)
             {
-                string text = textArray[i];
                 int x = window.Left + window.Width / 2;
                 int y = window.Top + (int)(0.1 * window.Height * (i + 1.5));
                 Point pos = new Point(x, y);
-                Program.game.draw(text, pos);
+                Program.game.draw(textArray[i], pos);
             }
         }
 
@@ -79,24 +78,24 @@ namespace MazeAndBlue
                 case StatsState.TOTAL:
 
                     Program.game.draw("Game Statistics", new Point(screenWidth * 10 / 15, screenHeight / 10));
-                    string[] totalBlock= new string[2];
-                    totalBlock[0] = "Total Game Time: " + totalGameTime + " seconds.";
-                    totalBlock[1]= "High score: " + Program.game.gameStats.data.totalScore + " pts.";
+                    List<string> totalBlock = new List<string>();
+                    totalBlock.Add("Total Game Time: " + totalGameTime + " seconds.");
+                    totalBlock.Add("High score: " + Program.game.gameStats.data.totalScore + " pts.");
                     drawBlock(totalBlock);
                     break;
 
                 case StatsState.SIMPLE:
                     Program.game.draw("Easy Levels Stats", new Point(screenWidth * 10 / 15, screenHeight / 10));
-                    string[] simpleBlock = new string[6];
+                    List<string> simpleBlock = new List<string>();
                     for (int i = 0; i < 6; i++)
-                        simpleBlock[i] = "Level " + (i + 1) + " Score: " + Program.game.gameStats.data.levelData[i].score;
+                        simpleBlock.Add("Level " + (i + 1) + " Score: " + Program.game.gameStats.data.levelData[i].score);
                     drawBlock(simpleBlock);
                     break;
                 case StatsState.HARD:
                     Program.game.draw("Hard Levels Stats", new Point(screenWidth * 10 / 15, screenHeight / 10));
-                    string[] hardBlock = new string[6];
+                    List<string> hardBlock = new List<string>();
                     for (int i = 0; i < 6; i++)
-                        hardBlock[i] = "Level " + (i + 1) + " Score: " + Program.game.gameStats.data.levelData[i+6].score;
+                        hardBlock.Add("Level " + (i + 1) + " Score: " + Program.game.gameStats.data.levelData[i+6].score);
                     drawBlock(hardBlock);
                     break;
                 default:

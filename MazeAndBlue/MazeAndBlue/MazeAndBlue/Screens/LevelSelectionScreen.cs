@@ -10,7 +10,9 @@ namespace MazeAndBlue
         Texture2D background;
         Button menuButton, easyButton, hardButton;
         List<Button> easyLevelButtons, hardLevelButtons;
-        bool singlePlayer, onEasy;
+        bool singlePlayer;
+        enum LevelsState { COOPEASY, COOPHARD };
+        LevelsState levelsState;
 
         public LevelSelectionScreen(bool _singlePlayer)
         {
@@ -54,7 +56,7 @@ namespace MazeAndBlue
             hardLevelButtons.Add(new Button(new Point(level2x, levelButton2y), levelButtonWidth, levelButtonHeight, "level five", "LevelThumbnails/level10"));
             hardLevelButtons.Add(new Button(new Point(level3x, levelButton2y), levelButtonWidth, levelButtonHeight, "level six", "LevelThumbnails/level11"));
 
-            onEasy = true;
+            levelsState = LevelsState.COOPEASY;
         }
         
         public void loadContent()
@@ -76,19 +78,20 @@ namespace MazeAndBlue
             easyButton.draw(spriteBatch);
             hardButton.draw(spriteBatch);
 
-            if (onEasy)
+            switch (levelsState)
             {
-                foreach (Button button in easyLevelButtons)
-                    button.draw(spriteBatch);
-                easyButton.selected = true;
-                hardButton.selected = false;
-            }
-            else
-            {
-                foreach (Button button in hardLevelButtons)
-                    button.draw(spriteBatch);
-                easyButton.selected = false;
-                hardButton.selected = true;
+                case LevelsState.COOPEASY:
+                    foreach (Button button in easyLevelButtons)
+                        button.draw(spriteBatch);
+                    easyButton.selected = true;
+                    hardButton.selected = false;
+                    break;
+                case LevelsState.COOPHARD:
+                    foreach (Button button in hardLevelButtons)
+                        button.draw(spriteBatch);
+                    easyButton.selected = false;
+                    hardButton.selected = true;
+                    break;
             }
         }
 
@@ -97,36 +100,27 @@ namespace MazeAndBlue
             if (menuButton.isSelected())
                 Program.game.startMainMenu();
             else if (easyButton.isSelected())
-                easyButtonPress();
+                levelsState = LevelsState.COOPEASY;
             else if (hardButton.isSelected())
-                hardButtonPress();
+                levelsState = LevelsState.COOPHARD;
 
-            if (onEasy)
+            switch (levelsState)
             {
-                for (int i = 0; i < easyLevelButtons.Count; i++)
-                {
-                    if (easyLevelButtons[i].isSelected())
-                        Program.game.startLevel(i, singlePlayer);
-                }
+                case LevelsState.COOPEASY:
+                    for (int i = 0; i < easyLevelButtons.Count; i++)
+                    {
+                        if (easyLevelButtons[i].isSelected())
+                            Program.game.startLevel(i, singlePlayer);
+                    }
+                    break;
+                case LevelsState.COOPHARD:
+                    for (int i = 0; i < hardLevelButtons.Count; i++)
+                    {
+                        if (hardLevelButtons[i].isSelected())
+                            Program.game.startLevel(i + 6, singlePlayer);
+                    }
+                    break;
             }
-            else
-            {
-                for (int i = 0; i < hardLevelButtons.Count; i++)
-                {
-                    if (hardLevelButtons[i].isSelected())
-                        Program.game.startLevel(i + 6, singlePlayer);
-                }
-            }
-        }
-
-        private void easyButtonPress()
-        {
-            onEasy = true;
-        }
-
-        private void hardButtonPress()
-        {
-            onEasy = false;
         }
     }
 }
