@@ -90,7 +90,7 @@ namespace MazeAndBlue
                 }
 
                 fireworks[i].EmitterLocation = new Vector2(x, y);
-                fireworks[i].Update();
+                fireworks[i].update();
 
                 if (fireworks[i].completed())
                 {
@@ -113,7 +113,7 @@ namespace MazeAndBlue
 
             for (int i = 0; i < fireworks.Count; i++)
             {
-                fireworks[i].Draw(spriteBatch, exploded[i]);
+                fireworks[i].draw(spriteBatch, exploded[i]);
             }
         }
     }

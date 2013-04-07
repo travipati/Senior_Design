@@ -25,7 +25,7 @@ namespace MazeAndBlue
             gravity = new Vector2((float)0, (float).09);
         }
 
-        public void Update()
+        public void update()
         {
             int total = 10;
             iter++;
@@ -45,12 +45,12 @@ namespace MazeAndBlue
 
             for (int i = 0; i < total; i++)
             {
-                particles.Add(GenerateNewParticle());
+                particles.Add(generateNewParticle());
             }
 
             for (int i = 0; i < particles.Count; i++)
             {
-                particles[i].Update();
+                particles[i].update();
                 if (particles[i].lifespan <= 0)
                 {
                     particles.RemoveAt(i);
@@ -64,7 +64,7 @@ namespace MazeAndBlue
             return (particles.Count == 0 && iter > 250);
         }
 
-        private Particle GenerateNewParticle()
+        private Particle generateNewParticle()
         {
             Vector2 position = EmitterLocation;
             Texture2D texture;
@@ -107,7 +107,7 @@ namespace MazeAndBlue
             return new Particle(texture, position, velocity, angle, angularVelocity, color, size, lifespan);
         }
 
-        public void Draw(SpriteBatch spriteBatch, bool isStage2)
+        public void draw(SpriteBatch spriteBatch, bool isStage2)
         {
             exploded = isStage2;
             for (int i = 0; i < particles.Count; i++)
@@ -116,7 +116,7 @@ namespace MazeAndBlue
                 {
                     particles[i].Velocity += gravity;
                 }
-                particles[i].Draw(spriteBatch);
+                particles[i].draw(spriteBatch);
             }
         }
     }

@@ -33,7 +33,7 @@ namespace MazeAndBlue
 
             menuButton = new Button(new Point(x, menuY), buttonWidth, buttonHeight, "Main Menu", "Buttons/mainMenuButton");
             restartButton = new Button(new Point(x, resumeY), buttonWidth, buttonHeight, "Restart Level", "Buttons/restartLevel");
-            if (Program.game.level != 6)
+            if (Program.game.level != 5)
                 levelButton = new Button(new Point(x, nextY), buttonWidth, buttonHeight, "Next Level", "Buttons/next");
             else
                 levelButton = new Button(new Point(x, nextY), buttonWidth, buttonHeight, "Hard", "Buttons/hard");
@@ -62,14 +62,14 @@ namespace MazeAndBlue
             spriteBatch.Draw(texture, window, new Color(128, 128, 128, 232));
             menuButton.draw(spriteBatch);
             restartButton.draw(spriteBatch);
-            if (Program.game.level != 12)
+            if (Program.game.level != 11)
                 levelButton.draw(spriteBatch);
-            if (Program.game.level % 6 == 0)
+            if (Program.game.level % 6 == 5)
             {
                 string compText = string.Empty;
-                if (Program.game.level == 6)
+                if (Program.game.level == 5)
                     compText = "You have completed all the Easy Levels!";
-                else if (Program.game.level == 12)
+                else if (Program.game.level == 11)
                     compText = "You have completed all the Hard Levels!";
                 Program.game.draw(compText, new Point(window.Left + window.Width / 2, window.Top + 45));
             }
@@ -89,7 +89,7 @@ namespace MazeAndBlue
                 Program.game.startMainMenu();
             else if (restartButton.isSelected())
                 Program.game.startLevel();
-            else if (levelButton.isSelected() && Program.game.level != 12)
+            else if (levelButton.isSelected() && Program.game.level != 11)
                 Program.game.nextLevel();
         }
 
