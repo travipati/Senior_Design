@@ -19,7 +19,7 @@
     <ApplicationIcon>Game.ico</ApplicationIcon>
     <Thumbnail>GameThumbnail.png</Thumbnail>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>publish\</PublishUrl>
+    <PublishUrl>C:\Program Files\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -149,18 +149,18 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Mazes\0.maze" />
-    <None Include="Mazes\1.maze" />
-    <None Include="Mazes\2.maze" />
-    <None Include="Mazes\3.maze" />
-    <None Include="Mazes\4.maze" />
-    <None Include="Mazes\5.maze" />
-    <None Include="Mazes\6.maze" />
-    <None Include="Mazes\7.maze" />
-    <None Include="Mazes\8.maze" />
-    <None Include="Mazes\9.maze" />
-    <None Include="Mazes\10.maze" />
-    <None Include="Mazes\11.maze" />
+    <Content Include="Mazes\0.maze" />
+    <Content Include="Mazes\1.maze" />
+    <Content Include="Mazes\2.maze" />
+    <Content Include="Mazes\3.maze" />
+    <Content Include="Mazes\4.maze" />
+    <Content Include="Mazes\5.maze" />
+    <Content Include="Mazes\6.maze" />
+    <Content Include="Mazes\7.maze" />
+    <Content Include="Mazes\8.maze" />
+    <Content Include="Mazes\9.maze" />
+    <Content Include="Mazes\10.maze" />
+    <Content Include="Mazes\11.maze" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
