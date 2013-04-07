@@ -273,6 +273,9 @@ namespace MazeAndBlue
                 case GameState.INSTR:
                     instructionScreen.update();
                     break;
+                case GameState.CALIBRATE:
+                    calibrationScreen.update();
+                    break;
             }
 
             players[0].update(kinect.playerSkeleton[0]);
