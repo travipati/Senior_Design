@@ -10,10 +10,12 @@ namespace MazeAndBlue
         Texture2D background;
         Button menuButton, easyButton, hardButton;
         List<Button> easyLevelButtons, hardLevelButtons;
-        bool onEasy;
+        bool singlePlayer, onEasy;
 
-        public LevelSelectionScreen()
+        public LevelSelectionScreen(bool _singlePlayer)
         {
+            singlePlayer = _singlePlayer;
+
             int screenWidth = Program.game.screenWidth;
             int screenHeight = Program.game.screenHeight;
             int levelButtonWidth = screenWidth / 8;
@@ -104,7 +106,7 @@ namespace MazeAndBlue
                 for (int i = 0; i < easyLevelButtons.Count; i++)
                 {
                     if (easyLevelButtons[i].isSelected())
-                        Program.game.startLevel(i);
+                        Program.game.startLevel(i, singlePlayer);
                 }
             }
             else
@@ -112,7 +114,7 @@ namespace MazeAndBlue
                 for (int i = 0; i < hardLevelButtons.Count; i++)
                 {
                     if (hardLevelButtons[i].isSelected())
-                        Program.game.startLevel(i+6);
+                        Program.game.startLevel(i + 6, singlePlayer);
                 }
             }
         }

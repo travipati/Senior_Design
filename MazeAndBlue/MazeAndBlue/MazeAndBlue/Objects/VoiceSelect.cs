@@ -43,7 +43,6 @@ namespace MazeAndBlue
             grammar.Add("level four");
             grammar.Add("level five");
             grammar.Add("level six");
-            grammar.Add("back");
             grammar.Add("player one left");
             grammar.Add("player one right");
             grammar.Add("player two left");

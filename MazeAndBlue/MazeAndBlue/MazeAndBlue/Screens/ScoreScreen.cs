@@ -88,10 +88,7 @@ namespace MazeAndBlue
             if (menuButton.isSelected())
                 Program.game.startMainMenu();
             else if (restartButton.isSelected())
-            {
-                Program.game.level--;
-                Program.game.nextLevel();
-            }
+                Program.game.startLevel();
             else if (levelButton.isSelected() && Program.game.level != 12)
                 Program.game.nextLevel();
         }

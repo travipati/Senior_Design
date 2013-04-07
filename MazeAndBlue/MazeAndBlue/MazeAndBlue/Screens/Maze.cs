@@ -17,13 +17,14 @@ namespace MazeAndBlue
         Texture2D wallTexture, goalTexture;
         Timer timer;
         int level;
+        bool singlePlayer;
         bool[] prevHit;
         const int mazeWidth = 970, mazeHeight = 490;
         public static int width { get { return mazeWidth; } }
         public static int height { get { return mazeHeight; } }
         public int wallHits { get; set; }
 
-        public Maze(int _level)
+        public Maze(int _level, bool _singlePlayer)
         {
             goalColor = Color.Red;
             wallColor = Color.Black;
@@ -31,6 +32,7 @@ namespace MazeAndBlue
             wallHits = 0;
             prevHit = new bool[2]{false, false};
             level = _level;
+            singlePlayer = _singlePlayer;
 
             balls = new List<Ball>();
             walls = new List<Rectangle>();
@@ -65,11 +67,12 @@ namespace MazeAndBlue
                 dswitch.draw(spriteBatch);
             spriteBatch.Draw(goalTexture, goal, goalColor);
             timer.draw(spriteBatch);
-            balls[1].draw(spriteBatch);
+            if (!singlePlayer)
+                balls[1].draw(spriteBatch);
             balls[0].draw(spriteBatch);
             for (int i = Program.game.players.Count - 1; i >= 0; i--)
             {
-                if (balls[0].playerId != i && balls[1].playerId != i)
+                if (balls[0].playerId != i && (singlePlayer || balls[1].playerId != i))
                     Program.game.players[i].draw(spriteBatch);
             }
         }
@@ -96,10 +99,11 @@ namespace MazeAndBlue
                 balls[i].moveBall(position);
             }
 
-            if (balls[0].playerId > 0 || balls[1].playerId > 0 || balls[0].mouseSelected || balls[1].mouseSelected)
+            if (balls[0].playerId > 0 || (!singlePlayer && balls[1].playerId > 0) 
+                || balls[0].mouseSelected || (!singlePlayer && balls[1].mouseSelected))
                 timer.start();
 
-            if (balls[0].overlaps(goal) && balls[1].overlaps(goal))
+            if (balls[0].overlaps(goal) && (singlePlayer || balls[1].overlaps(goal)))
             {
                 goalColor = Color.Green;
                 timer.stop();
@@ -120,7 +124,7 @@ namespace MazeAndBlue
                     ball.playerId = -1;
                     ball.mouseSelected = false;
                 }
-                Program.game.startPauseSelectionScreen(level);
+                Program.game.startPauseSelectionScreen();
             }
         }
 

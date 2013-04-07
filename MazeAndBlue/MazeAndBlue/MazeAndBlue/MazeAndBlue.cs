@@ -25,7 +25,7 @@ namespace MazeAndBlue
 
         public int level { get; set; }
         int numLevels = 12;
-        bool vsSecondCycle = false;
+        bool singlePlayer, vsSecondCycle = false;
 
         public List<Player> players { get; set; }
         public MouseSelect ms { get; set; }
@@ -106,25 +106,31 @@ namespace MazeAndBlue
             state = GameState.MAIN;
         }
 
-        public void startLevelSelectionScreen()
+        public void startLevelSelectionScreen(bool singlePlayer)
         {
-            levelSelectionScreen = new LevelSelectionScreen();
+            levelSelectionScreen = new LevelSelectionScreen(singlePlayer);
             levelSelectionScreen.loadContent();
             state = GameState.LEVEL;
         }
 
-        public void startLevel(int selectedLevel)
+        public void startLevel(int _level, bool _singlePlayer)
         {
-            level = selectedLevel;
-            nextLevel();
+            level = _level;
+            singlePlayer = _singlePlayer;
+            startLevel();
         }
 
         public void nextLevel()
         {
-            state = GameState.GAME;
-            level %= numLevels;
-            maze = new Maze(level);
             level++;
+            startLevel();
+        }
+
+        public void startLevel()
+        {
+            state = GameState.GAME;
+//            level %= numLevels;
+            maze = new Maze(level, singlePlayer);
             maze.loadContent();
         }
 
@@ -142,9 +148,9 @@ namespace MazeAndBlue
             state = GameState.SCORE;
         }
 
-        public void startPauseSelectionScreen(int level)
+        public void startPauseSelectionScreen()
         {
-            pauseScreen = new PauseScreen(level);
+            pauseScreen = new PauseScreen();
             pauseScreen.loadContent();
             state = GameState.PAUSE;
         }

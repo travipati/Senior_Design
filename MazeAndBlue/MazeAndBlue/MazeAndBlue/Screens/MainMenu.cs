@@ -74,10 +74,10 @@ namespace MazeAndBlue
             foreach (Button button in buttons)
                 button.update();
 
-            if (coopModeButton.isSelected())
-                Program.game.startLevelSelectionScreen();
-            else if (singlePlayerButton.isSelected())
+            if (singlePlayerButton.isSelected())
                 System.Windows.Forms.MessageBox.Show("Single Player Not Yet Implemented");
+            else if (coopModeButton.isSelected())
+                Program.game.startLevelSelectionScreen(false);
             else if (settingsButton.isSelected())
                 Program.game.startSettingsScreen();
             else if (instructionsButton.isSelected())

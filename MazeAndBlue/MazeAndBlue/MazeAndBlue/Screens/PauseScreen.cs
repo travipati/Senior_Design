@@ -10,11 +10,9 @@ namespace MazeAndBlue
         Rectangle window;
         Button resumeButton, restartButton, menuButton;
         List<Button> buttons;
-        int level;
 
-        public PauseScreen(int _level)
+        public PauseScreen()
         {
-            level = _level;
             int screenWidth = Program.game.screenWidth;
             int screenHeight = Program.game.screenHeight;
             window = new Rectangle(screenWidth / 8, screenHeight / 8, 3 * screenWidth / 4, 3 * screenHeight / 4);
@@ -64,7 +62,7 @@ namespace MazeAndBlue
             if (resumeButton.isSelected())
                 Program.game.resumeLevel();
             if (restartButton.isSelected())
-                Program.game.startLevel(level);            
+                Program.game.startLevel();            
             if (menuButton.isSelected())
                 Program.game.startMainMenu();
         }
