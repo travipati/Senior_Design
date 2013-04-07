@@ -20,7 +20,8 @@ namespace MazeAndBlue
         PauseScreen pauseScreen;
         SettingsScreen settingsScreen;
         StatsScreen statsScreen;
-        InstructionScreen instructionScreen; 
+        InstructionScreen instructionScreen;
+        CalibrationScreen calibrationScreen;
         Fireworks fireworks;
 
         public int level { get; set; }
@@ -33,7 +34,7 @@ namespace MazeAndBlue
         public KeyboardSelect ks { get; set; }
         public SoundEffectPlayer soundEffectPlayer { get; set; }
 
-        public enum GameState { MAIN, LEVEL, GAME, SCORE, PAUSE, SETTING, STATS, INSTR };
+        public enum GameState { MAIN, LEVEL, GAME, SCORE, PAUSE, SETTING, STATS, INSTR, CALIBRATE };
         public static GameState state { get; set; }
         
         public static SpriteFont font { get; set; }
@@ -176,6 +177,13 @@ namespace MazeAndBlue
             state = GameState.INSTR;
         }
 
+        public void startCalibrationScreen()
+        {
+            calibrationScreen = new CalibrationScreen();
+            calibrationScreen.loadContent();
+            state = GameState.CALIBRATE;
+        }
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.WhiteSmoke);
@@ -213,6 +221,9 @@ namespace MazeAndBlue
                     break;
                 case GameState.INSTR:
                     instructionScreen.draw(spriteBatch);
+                    break;
+                case GameState.CALIBRATE:
+                    calibrationScreen.draw(spriteBatch);
                     break;
             }
 
