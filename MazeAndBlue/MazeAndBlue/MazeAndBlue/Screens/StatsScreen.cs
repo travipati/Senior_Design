@@ -25,17 +25,18 @@ namespace MazeAndBlue
             hOtherRows = screenHeight / 15 * 2;
             buttonHeight = screenHeight / 8;
             buttonWidth = screenWidth / 7;
-            int x = window.Width / 4 - buttonWidth / 2;
-            int y1 = screenHeight / 2 - 7 * buttonHeight / 2;
-            int y2 = screenHeight / 2 - 2 * buttonHeight;
-            int y3 = screenHeight / 2 - buttonHeight / 2;
-            int y4 = screenHeight / 2 + buttonHeight;
-            int y5 = screenHeight / 2 + 5 * buttonHeight / 2;
-            upper1 = new Button(new Point(x, y1), buttonWidth, hOtherRows, "Total", "Buttons/statistics");
-            upper2 = new Button(new Point(x, y2), buttonWidth, hOtherRows, "Simple", "Buttons/easy");
-            upper3 = new Button(new Point(x, y3), buttonWidth, hOtherRows, "Hard", "Buttons/hard");
-            lower1 = new Button(new Point(x, y4), buttonWidth, hOtherRows, "Reset", "Buttons/reset");
-            lower2 = new Button(new Point(x, y5), buttonWidth, hOtherRows, "Main", "Buttons/mainMenuButton");
+            int x1 = screenWidth / 6 - buttonWidth / 2;
+            int x2 = 5 * screenWidth / 6 - buttonWidth / 2;
+            int x3 = screenWidth / 2 - buttonWidth / 2 ;
+            int x4 = screenWidth / 2 - 5 * buttonWidth / 2 + 50;
+            int x5 = screenWidth / 2 + 3 * buttonWidth / 2 - 50;
+            int y1 = screenHeight / 9 - buttonHeight / 2;
+            int y2 = screenHeight / 2 - 5 * buttonHeight / 2 + 20;
+            upper1 = new Button(new Point(x3, y2), buttonWidth, hOtherRows, "Total", "Buttons/statistics");
+            upper2 = new Button(new Point(x4, y2), buttonWidth, hOtherRows, "Simple", "Buttons/easy");
+            upper3 = new Button(new Point(x5, y2), buttonWidth, hOtherRows, "Hard", "Buttons/hard");
+            lower1 = new Button(new Point(x2, y1), buttonWidth, hOtherRows, "Reset", "Buttons/reset");
+            lower2 = new Button(new Point(x1, y1), buttonWidth, hOtherRows, "Main", "Buttons/mainMenuButton");
             int levelX = window.Right - window.Width / 3 - buttonWidth / 2;
             statsState = StatsState.TOTAL;
         }
@@ -64,8 +65,8 @@ namespace MazeAndBlue
         {
             for (int i = 0; i < textArray.Count; i++)
             {
-                int x = screenWidth / 2 + 100;
-                int y = window.Top + (int)(0.1 * screenHeight * (i + 1.5)) - 100;
+                int x = screenWidth / 2;
+                int y = window.Top + (int)(0.1 * screenHeight * (i + 1.5)) - 45;
                 Point pos = new Point(x, y);
                 Program.game.draw(textArray[i], pos);
             }
@@ -82,8 +83,8 @@ namespace MazeAndBlue
             upper3.draw(spriteBatch);
             lower1.draw(spriteBatch);
             lower2.draw(spriteBatch);
-            int x = screenWidth / 2 + 100;
-            int y = screenHeight / 10;
+            int x = screenWidth / 2;
+            int y = screenHeight / 9;
             upper1.selected = false;
             upper2.selected = false;
             upper3.selected = false;
@@ -96,7 +97,7 @@ namespace MazeAndBlue
                     Program.game.draw("Game Statistics", new Point(x, y));
                     List<string> totalBlock = new List<string>();
                     totalBlock.Add("Total Game Time: " + totalGameTime + " seconds.");
-                    totalBlock.Add("High score: " + Program.game.gameStats.data.totalScore + " pts.");
+                    totalBlock.Add("Total Score: " + Program.game.gameStats.data.totalScore + " pts.");
                     drawBlock(totalBlock);
                     break;
 

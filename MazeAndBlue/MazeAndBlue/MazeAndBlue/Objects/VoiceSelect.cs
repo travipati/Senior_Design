@@ -56,6 +56,7 @@ namespace MazeAndBlue
             grammar.Add("pause", "PAUSE");
             grammar.Add("resume", "RESUME");
             grammar.Add("restart level", "RESTART LEVEL");
+            grammar.Add("replay", "REPLAY");
             grammar.Add("next", "NEXT");
 
             var gb = new GrammarBuilder { Culture = ri.Culture };
