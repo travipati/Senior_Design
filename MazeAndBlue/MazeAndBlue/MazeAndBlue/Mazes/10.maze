@@ -1,46 +1,58 @@
 ﻿1 25 25
-2 905 425
-goal 650 10 70 70
+2 25 425
+goal 890 10 70 70
 wall 0 0 10 490
 wall 960 0 10 490
 wall 0 0 970 10
 wall 0 480 970 10
-wall 80 0 10 90
-wall 240 0 10 170
-wall 160 80 10 90
-wall 80 160 90 10
-wall 80 160 10 90
-wall 80 240 250 10
-wall 320 80 10 170
-wall 320 80 170 10
-wall 480 0 10 170
-wall 0 320 410 10
-wall 400 160 10 170
-wall 400 240 170 10
-wall 560 80 10 170
-wall 640 0 10 250
-wall 80 320 10 90
-wall 80 400 410 10
+wall 80 0 10 250
+wall 80 320 10 170
+wall 160 80 10 170
+wall 160 320 10 90
+wall 160 80 170 10
+wall 160 320 90 10
+wall 240 160 10 170
+wall 240 160 90 10
+wall 320 0 10 410
+wall 240 400 10 90
+wall 320 240 170 10
+wall 320 320 90 10
+wall 400 80 90 10
+wall 400 80 10 90
+wall 400 160 170 10
+wall 400 400 90 10
 wall 480 320 10 90
-wall 560 320 10 170
-wall 560 320 90 10
-wall 640 400 90 10
-wall 720 160 10 250
-wall 720 160 250 10
-wall 720 240 170 10
-wall 800 320 170 10
-wall 800 320 10 90
+wall 480 320 490 10
+wall 560 80 10 170
+wall 560 400 10 90
+wall 640 80 10 90
+wall 640 320 10 90
+wall 640 80 330 10
+wall 560 240 170 10
+wall 720 160 10 90
+wall 720 160 170 10
+wall 720 400 10 90
+wall 800 240 10 170
+wall 800 240 90 10
 wall 880 400 10 90
-wall 640 80 250 10
-door_switch false 1
-switch 25 345 40 40
-door 570 240 70 10
+door_switch true 2
+switch 25 265 40 40
+door 80 250 10 70
 door_switch true 1
-switch 425 25 40 40
-door 890 240 70 10
+switch 265 25 40 40
+door 90 320 70 10
+door_switch true 1
+switch 265 105 40 40
+door 90 400 70 10
+door_switch true 2
+switch 265 185 40 40
+door 250 400 70 10
+door_switch true 2
+switch 905 425 40 40
+door 410 320 70 10
 door_switch false 1
-switch 345 265 40 40
-door 720 410 10 70
+switch 425 105 40 40
+door 560 250 10 70
 door_switch false 1
-switch 745 185 40 40
-door 10 240 70 10
+switch 825 265 40 40
+door 560 10 10 70
