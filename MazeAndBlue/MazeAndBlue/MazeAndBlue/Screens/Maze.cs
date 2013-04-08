@@ -147,7 +147,7 @@ namespace MazeAndBlue
                 wallHits++;
                 prevHit[ballNum] = true;
                 Program.game.soundEffectPlayer.playWall();
-                wallColor = Color.Red;
+                wallColor = Color.DarkRed;
             }
             else if (!hit && prevHit[ballNum])
             {
