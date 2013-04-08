@@ -121,13 +121,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Backgrounds\instrs.jpg">
-      <Name>instrs</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Buttons\Hover.png">
       <Name>Hover</Name>
       <Importer>TextureImporter</Importer>
@@ -415,6 +408,13 @@
   <ItemGroup>
     <Compile Include="Backgrounds\statsScreen.jpg">
       <Name>statsScreen</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Backgrounds\instrs.jpg">
+      <Name>instrs</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
