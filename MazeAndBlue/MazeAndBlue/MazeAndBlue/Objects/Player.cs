@@ -15,7 +15,7 @@ namespace MazeAndBlue
 
         public Player(float xmin, float xmax, Color c, int playerNum)
         {
-            movementRange = 0.4f;
+            movementRange = 0.25f;
             rightHanded = true;
             color = c;
             id = playerNum;
@@ -105,12 +105,12 @@ namespace MazeAndBlue
             if (rightHanded)
             {
                 point = skeleton.Joints[JointType.HandRight].Position;
-                xPercent = (point.X - (center.X + movementRange * .1f)) / (movementRange);
+                xPercent = (point.X - (center.X + movementRange * .5f)) / (movementRange);
             }
             else
             {
                 point = skeleton.Joints[JointType.HandLeft].Position;
-                xPercent = ((center.X + movementRange * .1f) - point.X) / (movementRange);
+                xPercent = ((center.X + movementRange * .5f) - point.X) / (movementRange);
             }
 
              
@@ -119,7 +119,7 @@ namespace MazeAndBlue
             if (xPercent > 1)
                 xPercent = 1;
 
-            float yPercent = ((center.Y - (point.Y + movementRange / 3))*.5f)/(movementRange) + .5f;
+            float yPercent = ((center.Y - (point.Y + movementRange / 2))*.5f)/(movementRange) + .5f;
             if (yPercent < 0)
                 yPercent = 0;
             if (yPercent > 1)
