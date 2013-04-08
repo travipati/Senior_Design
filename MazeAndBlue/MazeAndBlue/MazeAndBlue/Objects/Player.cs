@@ -12,11 +12,13 @@ namespace MazeAndBlue
         Texture2D rh, lh;
         
         public bool rightHanded { get; private set; }
+        public bool visible { get; set; }
 
         public Player(float xmin, float xmax, Color c, int playerNum)
         {
             movementRange = 0.25f;
             rightHanded = true;
+            visible = true;
             color = c;
             id = playerNum;
         }

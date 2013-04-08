@@ -70,10 +70,10 @@ namespace MazeAndBlue
             if (!singlePlayer)
                 balls[1].draw(spriteBatch);
             balls[0].draw(spriteBatch);
-            for (int i = Program.game.players.Count - 1; i >= 0; i--)
+            foreach (Player player in Program.game.players)
             {
-                if (balls[0].playerId != i && (singlePlayer || balls[1].playerId != i))
-                    Program.game.players[i].draw(spriteBatch);
+                if (player.visible)
+                    player.draw(spriteBatch);
             }
         }
 
