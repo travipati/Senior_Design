@@ -45,14 +45,14 @@ door 880 250 10 70
 door_switch false 1
 switch 905 425 40 40
 door 250 160 70 10
-door_switch false 1
+door_switch true 1
 switch 25 345 40 40
 door 650 160 70 10
 door_switch false 1
 switch 505 265 40 40
 door 160 410 10 70
-door_switch false 1
-switch 25 905 40 40
+door_switch true 1
+switch 905 25 40 40
 door 400 90 10 70
 door_switch true 2
 switch 585 185 40 40
