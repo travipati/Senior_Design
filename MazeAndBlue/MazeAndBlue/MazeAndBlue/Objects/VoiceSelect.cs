@@ -26,8 +26,8 @@ namespace MazeAndBlue
             tempSpeechRec = new SpeechRecognitionEngine(ri.Id);
 
             var grammar = new Choices();
-            grammar.Add("select one", "SELECT ONE");
-            grammar.Add("select two", "SELECT TWO");
+            grammar.Add("select one", "SELECT ONE", "Select One", "player one select", "PLAYER ONE SELECT");
+            grammar.Add("select two", "SELECT TWO", "Select Two", "player two select", "PLAYER TWO SELECT");
             grammar.Add("exit", "EXIT");
             grammar.Add("single mode", "Single MODE");
             grammar.Add("co op mode", "CO OP MODE");
