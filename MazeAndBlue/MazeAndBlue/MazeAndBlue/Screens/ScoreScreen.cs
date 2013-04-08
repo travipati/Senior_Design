@@ -32,7 +32,7 @@ namespace MazeAndBlue
             int x = window.Right - window.Width / 4 - buttonWidth / 2;
 
             menuButton = new Button(new Point(x, menuY), buttonWidth, buttonHeight, "Main Menu", "Buttons/mainMenuButton");
-            restartButton = new Button(new Point(x, resumeY), buttonWidth, buttonHeight, "Restart Level", "Buttons/restartLevel");
+            restartButton = new Button(new Point(x, resumeY), buttonWidth, buttonHeight, "Replay", "Buttons/replay");
             if (Program.game.level != 5)
                 levelButton = new Button(new Point(x, nextY), buttonWidth, buttonHeight, "Next Level", "Buttons/next");
             else

@@ -99,9 +99,22 @@ namespace MazeAndBlue
                 balls[i].moveBall(position);
             }
 
-            if (balls[0].playerId > 0 || (!singlePlayer && balls[1].playerId > 0) 
+            if (balls[0].playerId >= 0 || (!singlePlayer && balls[1].playerId >= 0) 
                 || balls[0].mouseSelected || (!singlePlayer && balls[1].mouseSelected))
                 timer.start();
+
+            if (pauseButton.isSelected())
+            {
+                timer.stop();
+                foreach (Ball ball in balls)
+                {
+                    ball.playerId = -1;
+                    ball.mouseSelected = false;
+                }
+                foreach (Player player in Program.game.players)
+                    player.visible = true;
+                Program.game.startPauseSelectionScreen();
+            }
 
             if (balls[0].overlaps(goal) && (singlePlayer || balls[1].overlaps(goal)))
             {
@@ -112,19 +125,10 @@ namespace MazeAndBlue
                     ball.playerId = -1;
                     ball.mouseSelected = false;
                 }
+                foreach (Player player in Program.game.players)
+                    player.visible = true;
                 Program.game.soundEffectPlayer.playGoal();
                 Program.game.startScoreScreen(timer.time, wallHits);
-            }
-
-            if (pauseButton.isSelected())
-            {
-                timer.stop();
-                foreach (Ball ball in balls)
-                {
-                    ball.playerId = -1;
-                    ball.mouseSelected = false;
-                }
-                Program.game.startPauseSelectionScreen();
             }
         }
 
