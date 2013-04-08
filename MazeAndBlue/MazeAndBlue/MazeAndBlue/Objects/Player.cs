@@ -7,7 +7,7 @@ namespace MazeAndBlue
     public class Player : Sprite
     {
         int id;
-        float yRange, xRangeMin, xRangeMax;
+        float movementRange;
         Color color;
         Texture2D rh, lh;
         
@@ -15,10 +15,8 @@ namespace MazeAndBlue
 
         public Player(float xmin, float xmax, Color c, int playerNum)
         {
+            movementRange = 0.4f;
             rightHanded = true;
-            yRange = 0.5f;
-            xRangeMin = xmin;
-            xRangeMax = xmax;
             color = c;
             id = playerNum;
         }
@@ -81,28 +79,54 @@ namespace MazeAndBlue
             return false;
         }
 
+        public void setMovementRange(Skeleton skeleton)
+        {
+            SkeletonPoint center = skeleton.Joints[JointType.ShoulderCenter].Position;
+            SkeletonPoint point;
+
+            if (rightHanded)
+            {
+                point = skeleton.Joints[JointType.HandRight].Position;
+                movementRange = (point.X - center.X);
+            }
+            else
+            {
+                point = skeleton.Joints[JointType.HandLeft].Position;
+                movementRange = (center.X - point.X);
+            }
+        }
+
         private Point getPosition(Skeleton skeleton)
         {
+            SkeletonPoint center = skeleton.Joints[JointType.ShoulderCenter].Position;
             SkeletonPoint point;
-            if (rightHanded)
-                point = skeleton.Joints[JointType.HandRight].Position;
-            else
-                point = skeleton.Joints[JointType.HandLeft].Position;
 
-            float xPercent = (point.X - xRangeMin) / (xRangeMax - xRangeMin);
+            float xPercent = 0;
+            if (rightHanded)
+            {
+                point = skeleton.Joints[JointType.HandRight].Position;
+                xPercent = (point.X - (center.X + movementRange * .1f)) / (movementRange);
+            }
+            else
+            {
+                point = skeleton.Joints[JointType.HandLeft].Position;
+                xPercent = ((center.X + movementRange * .1f) - point.X) / (movementRange);
+            }
+
+             
             if (xPercent < 0)
                 xPercent = 0;
             if (xPercent > 1)
                 xPercent = 1;
 
-            float yPercent = (point.Y / yRange) + 0.5f;
+            float yPercent = ((center.Y - (point.Y + movementRange / 3))*.5f)/(movementRange) + .5f;
             if (yPercent < 0)
                 yPercent = 0;
             if (yPercent > 1)
                 yPercent = 1;
 
             int x = (int)(Program.game.screenWidth * xPercent);
-            int y = (int)(Program.game.screenHeight * (1 - yPercent));
+            int y = (int)(Program.game.screenHeight * (yPercent));
             
             return new Point(x, y);
         }
