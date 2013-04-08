@@ -5,44 +5,70 @@ using System.Xml.Serialization;
 
 namespace MazeAndBlue
 {
+
+    public struct LevelData 
+    { 
+        public int level;  
+        public int time;
+        public int hits;
+        public int score; 
+        public int numStars;
+
+        public string getLine()
+        {
+            string line =   level.ToString() + ' ' + 
+                            time.ToString() + ' ' +
+                            hits.ToString() + ' ' +
+                            score.ToString() + ' ' + 
+                            numStars.ToString();
+            return line;
+        }
+
+        public void setValues(string[] values)
+        {
+            level = Convert.ToInt32(values[0]);
+            time = Convert.ToInt32(values[1]);
+            hits = Convert.ToInt32(values[2]);
+            score = Convert.ToInt32(values[3]);
+            numStars = Convert.ToInt32(values[4]);
+        }
+
+    };
+
+    public class SaveGameData
+    {
+        public string PlayerName;
+        public int totalGameTime;
+        public int totalScore;
+        public LevelData[] levelData;
+        public int nextLevelToUnlock;
+
+        public SaveGameData()
+        {
+            levelData = new LevelData[12];
+        }
+    };
+
     public class GameStats
     {
-        public struct LevelData 
-        { 
-            public int level;  
-            public int time;
-            public int hits;
-            public int score; 
-            public int numStars; 
-        };
-
-        public struct SaveGameData
-        {
-            public string PlayerName;
-            public int totalGameTime;
-            public int totalScore;
-            public LevelData[] levelData;
-            public int nextLevelToUnlock;
-        };
-
         public SaveGameData data;
+        const string filename = "gameStats.sav";
 
         public GameStats()
         {
             data = new SaveGameData();
-            data.levelData = new LevelData[12];
-            loadStats();
+            if(!loadStats())
+                data = new SaveGameData();
         }
 
         public void resetData()
         {
             data = new SaveGameData();
-            data.levelData = new LevelData[12];
         }
 
         public void updateLevelStats(int level, int numSeconds, int numHitWall, int score, int stars)
         {
-            LevelData newLevel= new LevelData();
+            LevelData newLevel = new LevelData();
             newLevel.level = level;
             newLevel.time = numSeconds;
             newLevel.hits = numHitWall;
@@ -71,85 +97,37 @@ namespace MazeAndBlue
 
         public void saveStats()
         {
-            // Open a storage container.
-            IAsyncResult result =
-                StorageDevice.BeginShowSelector( null, null);
-
-            // Wait for the WaitHandle to become signaled.
-            result.AsyncWaitHandle.WaitOne();
-
-            StorageDevice device = StorageDevice.EndShowSelector(result);
-
-            result = device.BeginOpenContainer("MaizeAndBlueStorage", null, null);
-
-            StorageContainer container = device.EndOpenContainer(result);
-
-            // Close the wait handle.
-            result.AsyncWaitHandle.Close();
-
-            string filename = "gameStats.sav";
-
-            // Check to see whether the save exists.
-            if (container.FileExists(filename))
-                // Delete it so that we can create one fresh.
-                container.DeleteFile(filename);
-
-            // Create the file.
-            Stream stream = container.CreateFile(filename);
-
-            // Convert the object to XML data and put it in the stream.
-            XmlSerializer serializer = new XmlSerializer(typeof(SaveGameData));
-
-            serializer.Serialize(stream, data);
-
-            // Close the file.
-            stream.Close();
-
-            // Dispose the container, to commit changes.
-            container.Dispose();
+            string[] lines = new string[14];
+            for (int i = 0; i < 12; i++)
+                lines[i] = data.levelData[i].getLine();
+            lines[12] = data.totalGameTime.ToString();
+            lines[13] = data.totalScore.ToString();
+            File.WriteAllLines(filename, lines);
         }
 
-        public void loadStats()
-        {
-            // Open a storage container.
-            IAsyncResult result =
-                StorageDevice.BeginShowSelector(null, null);
+        public bool loadStats()
+        {            
+            if (!File.Exists(filename))
+                return false;
 
-            // Wait for the WaitHandle to become signaled.
-            result.AsyncWaitHandle.WaitOne();
+            string[] lines = File.ReadAllLines(filename);
 
-            StorageDevice device = StorageDevice.EndShowSelector(result);
+            if (lines.Length != 14)
+                return false;
 
-            result = device.BeginOpenContainer("MaizeAndBlueStorage", null, null);
-
-            StorageContainer container = device.EndOpenContainer(result);
-
-            // Close the wait handle.
-            result.AsyncWaitHandle.Close();
-
-            string filename = "gameStats.sav";
-
-            // Check to see whether the save exists.
-            if (!container.FileExists(filename))
+            for (int i = 0; i < 12; i++)
             {
-                // If not, dispose of the container and return.
-                container.Dispose();
-                Console.Out.WriteLine("Error open file loading");
-                return;
+                string[] values = lines[i].Split(' ');
+                if (values.Length != 5)
+                    return false;
+                data.levelData[i].setValues(values);
             }
 
-            // Open the file.
-            Stream stream = container.OpenFile(filename, FileMode.Open);
+            data.totalGameTime = Convert.ToInt32(lines[12]);
+            data.totalScore = Convert.ToInt32(lines[13]);
 
-            XmlSerializer serializer = new XmlSerializer(typeof(SaveGameData));
-
-            data = (SaveGameData)serializer.Deserialize(stream);
-
-            // Close the file.
-            stream.Close();
-
-            // Dispose the container.
-            container.Dispose();
+            return true;            
         }
+
     }
 }
