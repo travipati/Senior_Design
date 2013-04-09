@@ -27,6 +27,7 @@ x64/
 *.pgc
 *.pgd
 *.rsp
+*.sav
 *.sbr
 *.tlb
 *.tli
