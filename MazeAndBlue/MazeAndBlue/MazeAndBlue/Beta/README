@@ -1,0 +1,19 @@
+Installation Instructions
+- Run setup.exe, it will install XNA, the Kinect runtime, and .NET 4 if they
+  are not already and then it will install the game 
+
+Game Instructions
+- there is an instruction screen in the menu when you run the game
+- navigate menus with mouse or voice
+- use voice by saying button name or hovering hand over button and saying 
+  "select one" or "select two" based on which player you are
+- player one is blue hand, two is yellow
+- in gameplay move over a ball to select it, can deselect by saying "select one"
+  or hitting the '1' key, "select two" and '2' for second player
+
+Other Comments
+- Single player is not yet implemented; our game is mainly focused on cooperation
+  so single player is just a secondary mode to added for the final release.
+
+Contact email
+- maze.game@umich.edu

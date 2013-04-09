@@ -2,8 +2,6 @@
 [Bb]in/
 [Oo]bj/
 [Cc]ontent/
-*.exe
-*.sav
 
 # mstest test results
 TestResults
