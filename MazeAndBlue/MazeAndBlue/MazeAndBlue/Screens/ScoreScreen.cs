@@ -59,7 +59,7 @@ namespace MazeAndBlue
 
         public void draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, window, new Color(128, 128, 128, 232));
+            spriteBatch.Draw(texture, window, new Color(128, 128, 128, 200));
             menuButton.draw(spriteBatch);
             restartButton.draw(spriteBatch);
             if (Program.game.level != 11)

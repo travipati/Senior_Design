@@ -198,6 +198,7 @@ namespace MazeAndBlue
                     hit = true;
                 }
             }
+            /*
             if (spriteRight < wall.Left && spriteBottom < wall.Top && nextRight > wall.Left && nextBottom > wall.Top)
             {
                 nextPosition.X = wall.Left - ball.width;
@@ -222,7 +223,7 @@ namespace MazeAndBlue
                 nextPosition.Y = wall.Bottom;
                 hit = true;
             }
-
+            */
             return hit;
         }
 
