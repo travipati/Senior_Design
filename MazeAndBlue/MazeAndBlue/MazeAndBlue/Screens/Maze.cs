@@ -181,7 +181,7 @@ namespace MazeAndBlue
             if (spriteBottom > wall.Top && spriteTop < wall.Bottom)
             {
                 if (spriteRight <= wall.Left && (nextRight > wall.Left ||
-                    (!sliding && corner && oldRight > wall.Left)))
+                    (!sliding && corner && nextRight >= wall.Left)))
                 {
                     nextPosition.X = wall.Left - ball.width / 2;
                     if (!sliding && corner && oldBottom > wall.Top && oldTop < wall.Bottom)
@@ -190,7 +190,7 @@ namespace MazeAndBlue
                     hit = true;
                 }
                 if (spriteLeft >= wall.Right && (nextLeft < wall.Right ||
-                    (!sliding && corner && oldLeft < wall.Right)))
+                    (!sliding && corner && nextLeft <= wall.Right)))
                 {
                     nextPosition.X = wall.Right + ball.width / 2;
                     if (!sliding && corner && oldBottom > wall.Top && oldTop < wall.Bottom)
@@ -202,7 +202,7 @@ namespace MazeAndBlue
             if (spriteRight > wall.Left && spriteLeft < wall.Right)
             {
                 if (spriteBottom <= wall.Top && (nextBottom > wall.Top ||
-                    (!sliding && corner && oldBottom > wall.Top)))
+                    (!sliding && corner && nextBottom >= wall.Top)))
                 {
                     nextPosition.Y = wall.Top - ball.height / 2;
                     if (!sliding && corner && oldRight > wall.Left && oldLeft < wall.Right)
@@ -211,7 +211,7 @@ namespace MazeAndBlue
                     hit = true;
                 }
                 if (spriteTop >= wall.Bottom && (nextTop < wall.Bottom ||
-                    (!sliding && corner && oldTop < wall.Bottom)))
+                    (!sliding && corner && nextTop <= wall.Bottom)))
                 {
                     nextPosition.Y = wall.Bottom + ball.width / 2;
                     if (!sliding && corner && oldRight > wall.Left && oldLeft < wall.Right)

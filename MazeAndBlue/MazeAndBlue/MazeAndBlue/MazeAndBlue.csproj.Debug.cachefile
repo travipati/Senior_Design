@@ -52,13 +52,13 @@ Content\lefthand.xnb
 Content\righthand.xnb
 Content\Backgrounds\statsScreen.xnb
 Content\Backgrounds\instrs.xnb
+Content\Buttons\replay.xnb
 Content\font.xnb
 Content\Sounds\button.xnb
 Content\Sounds\door.xnb
 Content\Sounds\wall.xnb
 Content\Sounds\goal.xnb
 Content\Sounds\firework.xnb
-Content\Buttons\replay.xnb
 Mazes\0.maze
 Mazes\1.maze
 Mazes\2.maze
