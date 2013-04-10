@@ -14,6 +14,7 @@ Game Instructions
 Other Comments
 - Single player is not yet implemented; our game is mainly focused on cooperation
   so single player is just a secondary mode to added for the final release.
+- Currently hitting the escape key or saying "exit" at any point will close the game
 
 Contact email
 - maze.game@umich.edu
