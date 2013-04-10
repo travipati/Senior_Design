@@ -171,11 +171,6 @@ namespace MazeAndBlue
             int nextLeft = (int)nextPosition.X - ball.width / 2;
             int nextRight = (int)nextPosition.X + ball.width / 2;
 
-            int oldTop = (int)oldPosition.Y - ball.height / 2;
-            int oldBottom = (int)oldPosition.Y + ball.height / 2;
-            int oldLeft = (int)oldPosition.X - ball.width / 2;
-            int oldRight = (int)oldPosition.X + ball.width / 2;
-
             bool hit = false;
 
             if (spriteBottom > wall.Top && spriteTop < wall.Bottom)
@@ -184,7 +179,7 @@ namespace MazeAndBlue
                     (!sliding && corner && nextRight >= wall.Left)))
                 {
                     nextPosition.X = wall.Left - ball.width / 2;
-                    if (!sliding && corner && oldBottom > wall.Top && oldTop < wall.Bottom)
+                    if (!sliding && corner)
                         nextPosition.Y = oldPosition.Y;
                     sliding = true;
                     hit = true;
@@ -193,7 +188,7 @@ namespace MazeAndBlue
                     (!sliding && corner && nextLeft <= wall.Right)))
                 {
                     nextPosition.X = wall.Right + ball.width / 2;
-                    if (!sliding && corner && oldBottom > wall.Top && oldTop < wall.Bottom)
+                    if (!sliding && corner)
                         nextPosition.Y = oldPosition.Y;
                     sliding = true;
                     hit = true;
@@ -205,7 +200,7 @@ namespace MazeAndBlue
                     (!sliding && corner && nextBottom >= wall.Top)))
                 {
                     nextPosition.Y = wall.Top - ball.height / 2;
-                    if (!sliding && corner && oldRight > wall.Left && oldLeft < wall.Right)
+                    if (!sliding && corner)
                         nextPosition.X = oldPosition.X;
                     sliding = true;
                     hit = true;
@@ -214,56 +209,58 @@ namespace MazeAndBlue
                     (!sliding && corner && nextTop <= wall.Bottom)))
                 {
                     nextPosition.Y = wall.Bottom + ball.width / 2;
-                    if (!sliding && corner && oldRight > wall.Left && oldLeft < wall.Right)
+                    if (!sliding && corner)
                         nextPosition.X = oldPosition.X;
                     sliding = true;
                     hit = true;
                 }
             }
-            if (!sliding)
-            {
-                if (spriteRight <= wall.Left && spriteBottom <= wall.Top && nextRight > wall.Left && nextBottom > wall.Top)
-                {
-                    nextPosition.X = wall.Left - ball.width / 2;
-                    nextPosition.Y = wall.Top - ball.height / 2;
-                    if (oldPosition.X - spriteRight > oldPosition.Y - spriteBottom)
-                        nextPosition.X++;
-                    else
-                        nextPosition.Y++;
-                    corner = true;
-                }
-                if (spriteRight <= wall.Left && spriteTop >= wall.Bottom && nextRight > wall.Left && nextTop < wall.Bottom)
-                {
-                    nextPosition.X = wall.Left - ball.width / 2;
-                    nextPosition.Y = wall.Bottom + ball.height / 2;
-                    if (oldPosition.X - spriteRight >= spriteTop - oldPosition.Y)
-                        nextPosition.X++;
-                    else
-                        nextPosition.Y++;
-                    corner = true;
-                }
-                if (spriteLeft >= wall.Right && spriteBottom <= wall.Top && nextLeft < wall.Right && nextBottom > wall.Top)
-                {
-                    nextPosition.X = wall.Right + ball.width / 2;
-                    nextPosition.Y = wall.Top - ball.height / 2;
-                    if (spriteLeft - oldPosition.X > oldPosition.Y - spriteBottom)
-                        nextPosition.X++;
-                    else
-                        nextPosition.Y++;
-                    corner = true;
-                }
-                if (spriteLeft >= wall.Right && spriteTop >= wall.Bottom && nextLeft < wall.Right && nextTop < wall.Bottom)
-                {
-                    nextPosition.X = wall.Right + ball.width / 2;
-                    nextPosition.Y = wall.Bottom + ball.height / 2;
-                    if (spriteLeft - oldPosition.X >= spriteTop - oldPosition.Y)
-                        nextPosition.X++;
-                    else
-                        nextPosition.Y++;
-                    corner = true;
-                }
-            }
 
+            if (spriteRight <= wall.Left && spriteBottom <= wall.Top && nextRight > wall.Left && nextBottom > wall.Top)
+            {
+                nextPosition.X = wall.Left - ball.width / 2;
+                nextPosition.Y = wall.Top - ball.height / 2;
+                /*if (oldPosition.X - spriteRight > oldPosition.Y - spriteBottom)
+                    nextPosition.X++;
+                else
+                    nextPosition.Y++;*/
+                hit = true;
+                corner = true;
+            }
+            if (spriteRight <= wall.Left && spriteTop >= wall.Bottom && nextRight > wall.Left && nextTop < wall.Bottom)
+            {
+                nextPosition.X = wall.Left - ball.width / 2;
+                nextPosition.Y = wall.Bottom + ball.height / 2;
+                /*if (oldPosition.X - spriteRight >= spriteTop - oldPosition.Y)
+                    nextPosition.X++;
+                else
+                    nextPosition.Y++;*/
+                hit = true;
+                corner = true;
+            }
+            if (spriteLeft >= wall.Right && spriteBottom <= wall.Top && nextLeft < wall.Right && nextBottom > wall.Top)
+            {
+                nextPosition.X = wall.Right + ball.width / 2;
+                nextPosition.Y = wall.Top - ball.height / 2;
+                /*if (spriteLeft - oldPosition.X > oldPosition.Y - spriteBottom)
+                    nextPosition.X++;
+                else
+                    nextPosition.Y++;*/
+                hit = true;
+                corner = true;
+            }
+            if (spriteLeft >= wall.Right && spriteTop >= wall.Bottom && nextLeft < wall.Right && nextTop < wall.Bottom)
+            {
+                nextPosition.X = wall.Right + ball.width / 2;
+                nextPosition.Y = wall.Bottom + ball.height / 2;
+                /*if (spriteLeft - oldPosition.X >= spriteTop - oldPosition.Y)
+                    nextPosition.X++;
+                else
+                    nextPosition.Y++;*/
+                hit = true;
+                corner = true;
+            }
+            
             return hit;
         }
 
