@@ -1,6 +1,6 @@
 Installation Instructions
-- Run setup.exe, it will install XNA, the Kinect runtime, and .NET 4 if they
-  are not already and then it will install the game 
+- In the install folder run setup.exe, it will install XNA and the Kinect runtime
+  if they are not already and then it will install the game 
 
 Game Instructions
 - there is an instruction screen in the menu when you run the game
