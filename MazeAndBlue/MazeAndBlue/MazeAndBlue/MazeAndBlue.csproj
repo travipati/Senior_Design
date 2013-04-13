@@ -141,6 +141,7 @@
     <Compile Include="Objects\GameStats.cs" />
     <Compile Include="Objects\MouseSelect.cs" />
     <Compile Include="Objects\Particle.cs" />
+    <Compile Include="Objects\ProgressCircle.cs" />
     <Compile Include="Objects\SoundEffectPlayer.cs" />
     <Compile Include="Screens\CalibrationScreen.cs" />
     <Compile Include="Screens\Fireworks.cs" />

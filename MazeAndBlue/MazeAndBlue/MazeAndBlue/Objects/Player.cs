@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Kinect;
 
@@ -13,6 +14,8 @@ namespace MazeAndBlue
         bool hovering;
         Timer hoverTime;
         Button hoverBt;
+        ProgressCircle pc;
+        DateTime startTime;
         
         public bool rightHanded { get; private set; }
         public bool visible { get; set; }
@@ -26,6 +29,7 @@ namespace MazeAndBlue
             id = playerNum;
             hovering = false;
             hoverTime = new Timer();
+            pc = new ProgressCircle();
         }
 
         public void loadContent()
@@ -43,7 +47,7 @@ namespace MazeAndBlue
         {
             draw(spriteBatch, color);
             if (hovering)
-                Program.game.draw((2 - hoverTime.time).ToString(), position);
+                pc.draw(spriteBatch, hoverTime.time * 1000 + (DateTime.Now - startTime).Milliseconds, position);
         }
 
         public void update(Skeleton skeleton)
@@ -95,6 +99,7 @@ namespace MazeAndBlue
         {
             if (!hovering && overlaps(bt))
             {
+                startTime = DateTime.Now;
                 hoverTime.start();
                 hovering = true;
                 hoverBt = bt;
