@@ -75,7 +75,7 @@ namespace MazeAndBlue
                 button.update();
 
             if (singlePlayerButton.isSelected())
-                System.Windows.Forms.MessageBox.Show("Single Player Not Yet Implemented");
+                Program.game.startCreateMaze();//System.Windows.Forms.MessageBox.Show("Single Player Not Yet Implemented");
             else if (coopModeButton.isSelected())
                 Program.game.startLevelSelectionScreen(false);
             else if (settingsButton.isSelected())
