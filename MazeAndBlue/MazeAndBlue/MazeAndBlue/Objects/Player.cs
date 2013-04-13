@@ -52,11 +52,7 @@ namespace MazeAndBlue
                 moveHand(getPosition(skeleton));
 
             if (hovering && !overlaps(hoverBt))
-            {
-                hoverTime.stop();
-                hoverTime.time = 0;
-                hovering = false;
-            }
+                deselect();
         }
 
         public void switchHand(bool righthand)
@@ -104,14 +100,16 @@ namespace MazeAndBlue
                 hoverBt = bt;
             }
             if (hoverTime.time == 3 && overlaps(bt))
-            {
-                hoverTime.stop();
-                hoverTime.time = 0;
-                hovering = false;
                 return true;
-            }
 
             return false;
+        }
+
+        public void deselect()
+        {
+            hoverTime.stop();
+            hoverTime.time = 0;
+            hovering = false;
         }
 
         public void setMovementRange(Skeleton skeleton)
