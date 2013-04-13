@@ -103,7 +103,7 @@ namespace MazeAndBlue
             }
             foreach (Player player in Program.game.players)
             {
-                if (player.overlaps(this) && player.selecting())
+                if (player.overlaps(this) && (player.buttonSelecting(this) || player.selecting()))
                 {
                     Program.game.soundEffectPlayer.playButton();
                     return true;

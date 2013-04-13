@@ -9,26 +9,25 @@ namespace MazeAndBlue
     {
         DispatcherTimer timer;
         Vector2 timePos;
-        int _time;
-        public int time { get { return _time; } }
+        public int time { get; set; }
 
         public Timer()
         {
             timer = new DispatcherTimer();
             timer.Tick += new EventHandler(timerTick);
             timer.Interval = new TimeSpan(0, 0, 1);
-            _time = 0;
+            time = 0;
             timePos = new Vector2(Program.game.sx(0), Program.game.sy(485));
         }
 
         private void timerTick(object sender, EventArgs e)
         {
-            _time++;
+            time++;
         }
 
         public void draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(MazeAndBlue.font, "Time: " + _time.ToString() + " sec", timePos, Color.Black);
+            spriteBatch.DrawString(MazeAndBlue.font, "Time: " + time.ToString() + " sec", timePos, Color.Black);
         }
 
         public void start()

@@ -10,6 +10,9 @@ namespace MazeAndBlue
         float movementRange;
         Color color;
         Texture2D rh, lh;
+        bool hovering;
+        Timer hoverTime;
+        Button hoverBt;
         
         public bool rightHanded { get; private set; }
         public bool visible { get; set; }
@@ -21,6 +24,8 @@ namespace MazeAndBlue
             visible = true;
             color = c;
             id = playerNum;
+            hovering = false;
+            hoverTime = new Timer();
         }
 
         public void loadContent()
@@ -37,12 +42,21 @@ namespace MazeAndBlue
         public override void draw(SpriteBatch spriteBatch)
         {
             draw(spriteBatch, color);
+            if (hovering)
+                Program.game.draw((2 - hoverTime.time).ToString(), position);
         }
 
         public void update(Skeleton skeleton)
         {          
             if (skeleton != null)
                 moveHand(getPosition(skeleton));
+
+            if (hovering && !overlaps(hoverBt))
+            {
+                hoverTime.stop();
+                hoverTime.time = 0;
+                hovering = false;
+            }
         }
 
         public void switchHand(bool righthand)
@@ -78,6 +92,25 @@ namespace MazeAndBlue
                 return true;
             }
             
+            return false;
+        }
+
+        public bool buttonSelecting(Button bt)
+        {
+            if (!hovering && overlaps(bt))
+            {
+                hoverTime.start();
+                hovering = true;
+                hoverBt = bt;
+            }
+            if (hoverTime.time == 3 && overlaps(bt))
+            {
+                hoverTime.stop();
+                hoverTime.time = 0;
+                hovering = false;
+                return true;
+            }
+
             return false;
         }
 
