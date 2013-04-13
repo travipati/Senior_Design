@@ -9,15 +9,19 @@ namespace MazeAndBlue
 {
     class CalibrationScreen
     {
-        Texture2D texture;
+        Texture2D background;
         Rectangle window;
         Button menuButton;
         List<Button> buttons;
-        GameTime time;
+        int countdown;
+        Timer timer;
 
         public CalibrationScreen()
         {
-            time = new GameTime();
+            countdown = 5;
+            timer = new Timer();
+            timer.start();
+
             int screenWidth = Program.game.screenWidth;
             int screenHeight = Program.game.screenHeight;
             window = new Rectangle(0, 0, screenWidth, screenHeight);
@@ -26,25 +30,24 @@ namespace MazeAndBlue
             int buttonHeight = 92;
             int y = window.Bottom - window.Height / 2;
             int menuX = window.Left + window.Width / 2 - buttonWidth / 2;
-            menuButton = new Button(new Point(menuX, y), buttonWidth, buttonHeight, "Main Menu", "Buttons/mainMenuButton");
+            menuButton = new Button(new Point(menuX, y), buttonWidth, buttonHeight, "Main Menu", "Buttons/settings");
             buttons = new List<Button>();
             buttons.Add(menuButton);
         }
 
         public void loadContent()
         {
-            texture = new Texture2D(Program.game.GraphicsDevice, 1, 1);
-            texture.SetData<Color>(new Color[] { Color.White });
+            background = Program.game.Content.Load<Texture2D>("Backgrounds/blue");
             menuButton.loadContent();
         }
 
         public void draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, window, new Color(128, 128, 128, 232));
+            spriteBatch.Draw(background, Vector2.Zero, Color.White);
             menuButton.draw(spriteBatch);
             string text = "Calibrate the Kinect:\n\n" +
-                "Both players outstretch your controlling hand a comfortable distance to your side,\n" +
-                "Please wait " + (int)(3 - time.TotalGameTime.TotalSeconds) +" seconds for the game to calibrate";
+                "Outstretch your controlling hand a comfortable distance to your side,\n" +
+                "Please wait " + (int)(countdown - timer.time) +" seconds for the game to calibrate";
             Vector2 textSize = MazeAndBlue.font.MeasureString(text);
             int x = (int)(window.X + (window.Width - textSize.X) / 2);
             int y = (int)(window.Top + window.Height / 5 - textSize.Y / 2);
@@ -60,13 +63,16 @@ namespace MazeAndBlue
             }
             if (menuButton.isSelected())
             {
-                Program.game.startMainMenu();
+                Program.game.resumeSettings();
             }
 
-            if (3 - time.TotalGameTime.TotalSeconds <= 0)
+            if (countdown - timer.time <= 0)
             {
-                //call the player methods to update settings
-                Program.game.startMainMenu();
+                foreach (Player person in Program.game.players)
+                {
+                    person.calibrate();
+                }
+                Program.game.resumeSettings();
             }
         }
     }

@@ -181,9 +181,16 @@ namespace MazeAndBlue
 
         public void startCalibrationScreen()
         {
+            if (settingsScreen == null)
+                startSettingsScreen();
             calibrationScreen = new CalibrationScreen();
             calibrationScreen.loadContent();
             state = GameState.CALIBRATE;
+        }
+
+        public void resumeSettings()
+        {
+            state = GameState.SETTING;
         }
 
         public void startCreateMaze()
@@ -232,6 +239,7 @@ namespace MazeAndBlue
                     instructionScreen.draw(spriteBatch);
                     break;
                 case GameState.CALIBRATE:
+                    settingsScreen.draw(spriteBatch);
                     calibrationScreen.draw(spriteBatch);
                     break;
                 case GameState.CREATE:

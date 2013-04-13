@@ -30,7 +30,7 @@ namespace MazeAndBlue
             {
                 newKeyReady = true;
                 key = "Space";
-                //Program.game.startCalibrationScreen();
+                Program.game.startCalibrationScreen();
             }
             prev = cur;
         }

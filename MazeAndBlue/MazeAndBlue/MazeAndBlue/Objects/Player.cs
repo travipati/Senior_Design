@@ -59,6 +59,11 @@ namespace MazeAndBlue
                 deselect();
         }
 
+        public void calibrate()
+        {
+            //do calibration
+        }
+
         public void switchHand(bool righthand)
         {
             rightHanded = righthand;
