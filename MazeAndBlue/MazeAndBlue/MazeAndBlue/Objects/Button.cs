@@ -89,28 +89,36 @@ namespace MazeAndBlue
 
         public bool isSelected()
         {
+            bool selected = false;
+
             if (Program.game.ms.newPointReady && contains(Program.game.ms.point))
             {
                 Program.game.ms.newPointReady = false;
                 Program.game.soundEffectPlayer.playButton();
-                return true;
+                selected = true;
             }
             else if (Program.game.vs.newWordReady && Program.game.vs.word == text.ToLower())
             {
                 Program.game.vs.newWordReady = false;
                 Program.game.soundEffectPlayer.playButton();
-                return true;
+                selected = true;
             }
             foreach (Player player in Program.game.players)
             {
-                if (player.overlaps(this) && player.selecting())
+                if ((player.overlaps(this) && player.selecting()) || player.buttonSelecting(this))
                 {
                     Program.game.soundEffectPlayer.playButton();
-                    return true;
+                    selected = true;
                 }
             }
 
-            return false;
+            if (selected)
+            {
+                foreach (Player player in Program.game.players)
+                    player.deselect();
+            }
+
+            return selected;
         }
 
         public bool isOver()

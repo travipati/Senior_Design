@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Kinect;
 
@@ -10,6 +11,11 @@ namespace MazeAndBlue
         float movementRange;
         Color color;
         Texture2D rh, lh;
+        bool hovering;
+        Timer hoverTime;
+        Button hoverBt;
+        ProgressCircle pc;
+        DateTime startTime;
         
         public bool rightHanded { get; private set; }
         public bool visible { get; set; }
@@ -21,6 +27,9 @@ namespace MazeAndBlue
             visible = true;
             color = c;
             id = playerNum;
+            hovering = false;
+            hoverTime = new Timer();
+            pc = new ProgressCircle();
         }
 
         public void loadContent()
@@ -37,12 +46,17 @@ namespace MazeAndBlue
         public override void draw(SpriteBatch spriteBatch)
         {
             draw(spriteBatch, color);
+            if (hovering)
+                pc.draw(spriteBatch, hoverTime.time * 1000 + (DateTime.Now - startTime).Milliseconds, position);
         }
 
         public void update(Skeleton skeleton)
         {          
             if (skeleton != null)
                 moveHand(getPosition(skeleton));
+
+            if (hovering && !overlaps(hoverBt))
+                deselect();
         }
 
         public void switchHand(bool righthand)
@@ -79,6 +93,28 @@ namespace MazeAndBlue
             }
             
             return false;
+        }
+
+        public bool buttonSelecting(Button bt)
+        {
+            if (!hovering && overlaps(bt))
+            {
+                startTime = DateTime.Now;
+                hoverTime.start();
+                hovering = true;
+                hoverBt = bt;
+            }
+            if (hoverTime.time == 3 && overlaps(bt))
+                return true;
+
+            return false;
+        }
+
+        public void deselect()
+        {
+            hoverTime.stop();
+            hoverTime.time = 0;
+            hovering = false;
         }
 
         public void setMovementRange(Skeleton skeleton)
