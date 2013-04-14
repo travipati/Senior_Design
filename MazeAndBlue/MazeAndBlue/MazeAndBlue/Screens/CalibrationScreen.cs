@@ -45,9 +45,9 @@ namespace MazeAndBlue
         {
             spriteBatch.Draw(background, Vector2.Zero, Color.White);
             menuButton.draw(spriteBatch);
-            string text = "Calibrate the Kinect:\n\n" +
-                "Outstretch your controlling hand a comfortable distance to your side,\n" +
-                "Please wait " + (int)(countdown - timer.time) +" seconds for the game to calibrate";
+            string text = "Calibrating the Kinect:\n\n" +
+                "Outstretch your controlling arm fully to your side,\n" +
+                "Please wait " + (int)(countdown - timer.time) +" seconds for the game to calibrate.";
             Vector2 textSize = MazeAndBlue.font.MeasureString(text);
             int x = (int)(window.X + (window.Width - textSize.X) / 2);
             int y = (int)(window.Top + window.Height / 5 - textSize.Y / 2);
