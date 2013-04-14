@@ -11,6 +11,7 @@ namespace MazeAndBlue
         public bool p2RightHanded;
         public int volume; //quiet=0; avg=1; noisy=2
         public bool soundsOn;
+        public bool unlockOn;
 
         public SettingData()
         {
@@ -18,6 +19,7 @@ namespace MazeAndBlue
             p2RightHanded = true;
             volume = 1;
             soundsOn = true;
+            unlockOn = true;
         }
     };
 
@@ -79,13 +81,24 @@ namespace MazeAndBlue
             return data.soundsOn;
         }
 
+        public void updateUnlock(bool unlock)
+        {
+            data.unlockOn = unlock;
+        }
+
+        public bool getUnlockOn()
+        {
+            return data.unlockOn;
+        }
+
         public void saveSettings()
         {
-            string[] lines = new string[4];
+            string[] lines = new string[5];
             lines[0] = data.p1RightHanded.ToString();
             lines[1] = data.p2RightHanded.ToString();
             lines[2] = data.volume.ToString();
             lines[3] = data.soundsOn.ToString();
+            lines[4] = data.unlockOn.ToString();
 
             File.WriteAllLines(filename, lines);
         }
@@ -97,7 +110,7 @@ namespace MazeAndBlue
 
             string[] lines = File.ReadAllLines(filename);
 
-            if (lines.Length != 4)
+            if (lines.Length != 5)
                 return false;
 
             if (lines[0] == "True")
@@ -130,6 +143,13 @@ namespace MazeAndBlue
             else
                 return false;
 
+            if (lines[4] == "True")
+                data.unlockOn = true;
+            else if (lines[4] == "False")
+                data.unlockOn = false;
+            else
+                return false;
+
             return true;
         }
 
@@ -152,6 +172,7 @@ namespace MazeAndBlue
             }
 
             Program.game.soundEffectPlayer.soundsOn = data.soundsOn;
+            Program.game.unlockOn = data.unlockOn;
         }
 
     }

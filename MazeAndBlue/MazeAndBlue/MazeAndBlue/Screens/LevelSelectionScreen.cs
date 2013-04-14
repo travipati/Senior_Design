@@ -81,14 +81,24 @@ namespace MazeAndBlue
             switch (levelsState)
             {
                 case LevelsState.COOPEASY:
-                    foreach (Button button in easyLevelButtons)
-                        button.draw(spriteBatch);
+                    for (int i = 0; i < easyLevelButtons.Count; i++)
+                    {
+                        if (!Program.game.unlockOn || i <= Program.game.gameStats.data.nextLevelToUnlock)
+                            easyLevelButtons[i].draw(spriteBatch);
+                        else
+                            easyLevelButtons[i].draw(spriteBatch, Color.Gray);
+                    }
                     easyButton.selected = true;
                     hardButton.selected = false;
                     break;
                 case LevelsState.COOPHARD:
-                    foreach (Button button in hardLevelButtons)
-                        button.draw(spriteBatch);
+                    for (int i = 0; i < hardLevelButtons.Count; i++)
+                    {
+                        if (!Program.game.unlockOn || i + 6 <= Program.game.gameStats.data.nextLevelToUnlock)
+                            hardLevelButtons[i].draw(spriteBatch);
+                        else
+                            hardLevelButtons[i].draw(spriteBatch, Color.Gray);
+                    }
                     easyButton.selected = false;
                     hardButton.selected = true;
                     break;
@@ -109,14 +119,14 @@ namespace MazeAndBlue
                 case LevelsState.COOPEASY:
                     for (int i = 0; i < easyLevelButtons.Count; i++)
                     {
-                        if (easyLevelButtons[i].isSelected())
+                        if ((!Program.game.unlockOn || i <= Program.game.gameStats.data.nextLevelToUnlock) && easyLevelButtons[i].isSelected())
                             Program.game.startLevel(i, singlePlayer);
                     }
                     break;
                 case LevelsState.COOPHARD:
                     for (int i = 0; i < hardLevelButtons.Count; i++)
                     {
-                        if (hardLevelButtons[i].isSelected())
+                        if ((!Program.game.unlockOn || i + 6 <= Program.game.gameStats.data.nextLevelToUnlock) && hardLevelButtons[i].isSelected())
                             Program.game.startLevel(i + 6, singlePlayer);
                     }
                     break;

@@ -5,13 +5,14 @@ namespace MazeAndBlue
 {
     public class Button : Sprite
     {
+        public bool selected { get; set; }
         int originalW;
         int originalH;
         Point originalPos;
         string path;
-        public bool selected = false;
         Sprite hoverBg, selectBg;
         string text;
+        bool selectable;
 
         public Button(Point pos, int w, int h, string s, string p) : base(pos, w, h)
         {
@@ -21,7 +22,9 @@ namespace MazeAndBlue
             text = s;
             path = p;
             hoverBg = new Sprite(new Point(pos.X - 10, pos.Y - 10), w + 20, h + 20);
-            selectBg = new Sprite(new Point(pos.X - 5, pos.Y - 5), w + 10, h + 10); 
+            selectBg = new Sprite(new Point(pos.X - 5, pos.Y - 5), w + 10, h + 10);
+            selected = false;
+            selectable = true;
         }
 
         public void enlarge(double p)
@@ -61,7 +64,7 @@ namespace MazeAndBlue
 
         public void draw(SpriteBatch spriteBatch, Color textureColor, Color fontColor)
         {
-            if (isOver())
+            if (isOver() && selectable)
                 hoverBg.draw(spriteBatch);
             if (selected)
                 selectBg.draw(spriteBatch);

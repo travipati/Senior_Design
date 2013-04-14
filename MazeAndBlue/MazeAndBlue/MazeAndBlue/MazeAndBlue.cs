@@ -26,6 +26,7 @@ namespace MazeAndBlue
         CreateMaze createMaze;
 
         public int level { get; set; }
+        public bool unlockOn { get; set; }
         int numLevels = 12;
         bool singlePlayer, vsSecondCycle = false;
 
@@ -61,6 +62,7 @@ namespace MazeAndBlue
             //graphics.IsFullScreen = true;
 
             level = 0;
+            unlockOn = true;
         }
 
         protected override void Initialize()

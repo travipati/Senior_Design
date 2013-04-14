@@ -97,11 +97,12 @@ namespace MazeAndBlue
 
         public void saveStats()
         {
-            string[] lines = new string[14];
+            string[] lines = new string[15];
             for (int i = 0; i < 12; i++)
                 lines[i] = data.levelData[i].getLine();
             lines[12] = data.totalGameTime.ToString();
             lines[13] = data.totalScore.ToString();
+            lines[14] = data.nextLevelToUnlock.ToString();
             File.WriteAllLines(filename, lines);
         }
 
@@ -112,7 +113,7 @@ namespace MazeAndBlue
 
             string[] lines = File.ReadAllLines(filename);
 
-            if (lines.Length != 14)
+            if (lines.Length != 15)
                 return false;
 
             for (int i = 0; i < 12; i++)
@@ -125,6 +126,7 @@ namespace MazeAndBlue
 
             data.totalGameTime = Convert.ToInt32(lines[12]);
             data.totalScore = Convert.ToInt32(lines[13]);
+            data.nextLevelToUnlock = Convert.ToInt32(lines[14]);
 
             return true;            
         }
