@@ -68,10 +68,7 @@ namespace MazeAndBlue
 
             if (countdown - timer.time <= 0)
             {
-                foreach (Player person in Program.game.players)
-                {
-                    person.calibrate();
-                }
+                Program.game.calibratePlayers();
                 Program.game.resumeSettings();
             }
         }

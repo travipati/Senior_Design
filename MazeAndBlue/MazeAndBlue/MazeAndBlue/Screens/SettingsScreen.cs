@@ -9,7 +9,7 @@ namespace MazeAndBlue
     {
         Texture2D texture;
         Button menuButton, plRHand, plLHand, p2RHand, p2LHand, roomQuiet, roomAver, roomLoud, 
-                soundsOn, soundsOff, setBackground, setGoalImage;
+                soundsOn, soundsOff, setBackground, setGoalImage, calibrateKinect;
         List<Button> buttons;
         Rectangle screenRectangle;
 
@@ -38,6 +38,8 @@ namespace MazeAndBlue
                 largeButtonWidth, largeButtonHeight, "setBackground", "Buttons/setBackground");
             setGoalImage = new Button(new Point(screenWidth / 2 - 2 * largeButtonWidth, screenHeight - largeButtonHeight - 40), 
                 largeButtonWidth, largeButtonHeight, "setGoalImage", "Buttons/setGoalImage");
+            calibrateKinect = new Button(new Point(screenWidth / 2 - (int)(.5 * largeButtonWidth), screenHeight - largeButtonHeight - 40),
+                largeButtonWidth, largeButtonHeight, "setBackground", "Buttons/settings");
 
             buttons = new List<Button>();
             buttons.Add(menuButton);
@@ -52,6 +54,7 @@ namespace MazeAndBlue
             buttons.Add(soundsOff);
 //            buttons.Add(setBackground);
 //            buttons.Add(setGoalImage);
+            buttons.Add(calibrateKinect);
         }
 
         public void loadContent()
@@ -139,6 +142,8 @@ namespace MazeAndBlue
                 Program.game.settings.updateSound(true);
             else if (soundsOff.isSelected())
                 Program.game.settings.updateSound(false);
+            else if (calibrateKinect.isSelected())
+                Program.game.startCalibrationScreen();
             
             Program.game.settings.applySettings();
             

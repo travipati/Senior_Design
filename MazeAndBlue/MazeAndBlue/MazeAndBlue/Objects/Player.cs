@@ -9,6 +9,7 @@ namespace MazeAndBlue
     {
         int id;
         float movementRange;
+        float yPreference;
         Color color;
         Texture2D rh, lh;
         bool hovering;
@@ -22,7 +23,8 @@ namespace MazeAndBlue
 
         public Player(float xmin, float xmax, Color c, int playerNum)
         {
-            movementRange = 0.25f;
+            movementRange = 0.75f;
+            yPreference = -.1f;
             rightHanded = true;
             visible = true;
             color = c;
@@ -57,11 +59,6 @@ namespace MazeAndBlue
 
             if (hovering && !overlaps(hoverBt))
                 deselect();
-        }
-
-        public void calibrate()
-        {
-            //do calibration
         }
 
         public void switchHand(bool righthand)
@@ -131,11 +128,13 @@ namespace MazeAndBlue
             {
                 point = skeleton.Joints[JointType.HandRight].Position;
                 movementRange = (point.X - center.X);
+                yPreference = point.Y - center.Y;
             }
             else
             {
                 point = skeleton.Joints[JointType.HandLeft].Position;
                 movementRange = (center.X - point.X);
+                yPreference = point.Y - center.Y;
             }
         }
 
@@ -148,12 +147,12 @@ namespace MazeAndBlue
             if (rightHanded)
             {
                 point = skeleton.Joints[JointType.HandRight].Position;
-                xPercent = (point.X - (center.X + movementRange * .5f)) / (movementRange);
+                xPercent = (point.X - center.X) / (movementRange * .8f);
             }
             else
             {
                 point = skeleton.Joints[JointType.HandLeft].Position;
-                xPercent = ((center.X + movementRange * .5f) - point.X) / (movementRange);
+                xPercent = (center.X - point.X) / (movementRange * .8f);
             }
 
              
@@ -162,7 +161,7 @@ namespace MazeAndBlue
             if (xPercent > 1)
                 xPercent = 1;
 
-            float yPercent = ((center.Y - (point.Y + movementRange / 2))*.5f)/(movementRange) + .5f;
+            float yPercent = ((center.Y - yPreference) - point.Y) / (movementRange * .8f);
             if (yPercent < 0)
                 yPercent = 0;
             if (yPercent > 1)

@@ -26,12 +26,6 @@ namespace MazeAndBlue
                 newKeyReady = true;
                 key = "Esc";
             }
-            else if (cur.IsKeyDown(Keys.Space) && prev.IsKeyUp(Keys.Space))
-            {
-                newKeyReady = true;
-                key = "Space";
-                Program.game.startCalibrationScreen();
-            }
             prev = cur;
         }
     }

@@ -188,6 +188,17 @@ namespace MazeAndBlue
             state = GameState.CALIBRATE;
         }
 
+        public void calibratePlayers()
+        {
+            for (int i = 0; i < players.Count; i++)
+            {
+                if (kinect.playerSkeleton[i] != null)
+                {
+                    players[i].setMovementRange(kinect.playerSkeleton[i]);
+                }
+            }
+        }
+
         public void resumeSettings()
         {
             state = GameState.SETTING;
