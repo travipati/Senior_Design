@@ -71,14 +71,14 @@ namespace MazeAndBlue
                     compText = "You have completed all the Easy Levels!";
                 else if (Program.game.level == 11)
                     compText = "You have completed all the Hard Levels!";
-                Program.game.draw(compText, new Point(window.Left + window.Width / 2, window.Top + 45));
+                Program.game.drawText(compText, new Point(window.Left + window.Width / 2, window.Top + 45));
             }
             string timeTakenText = "Time taken: " + time + " seconds.";
             string wallHitsText = "Wall Hits: " + hits; 
             string scoreText = "Score: " + score;
-            Program.game.draw(timeTakenText, new Point(window.Left + window.Width / 4, window.Bottom - 4 * window.Height / 5));
-            Program.game.draw(wallHitsText, new Point(window.Left + window.Width / 4, window.Bottom - 3 * window.Height / 5));
-            Program.game.draw(scoreText, new Point(window.Left + window.Width / 4, window.Bottom - 2 * window.Height / 5));
+            Program.game.drawText(timeTakenText, new Point(window.Left + window.Width / 4, window.Bottom - 4 * window.Height / 5));
+            Program.game.drawText(wallHitsText, new Point(window.Left + window.Width / 4, window.Bottom - 3 * window.Height / 5));
+            Program.game.drawText(scoreText, new Point(window.Left + window.Width / 4, window.Bottom - 2 * window.Height / 5));
             foreach (Sprite star in stars)
                 star.draw(spriteBatch, Color.Yellow);
         }

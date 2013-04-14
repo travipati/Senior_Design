@@ -8,8 +8,8 @@ namespace MazeAndBlue
     {
         Rectangle window;
         Texture2D background;
-        Rectangle avatar;
-        Button upper1, upper2, upper3, empty, lower1, lower2;
+        //Rectangle avatar;
+        Button upper1, upper2, upper3, lower1, lower2;
         int hTopRow, hOtherRows, buttonWidth, buttonHeight;
         int screenWidth = Program.game.screenWidth;
         int screenHeight = Program.game.screenHeight;
@@ -68,7 +68,7 @@ namespace MazeAndBlue
                 int x = screenWidth / 2;
                 int y = window.Top + (int)(0.1 * screenHeight * (i + 1.5)) - 45;
                 Point pos = new Point(x, y);
-                Program.game.draw(textArray[i], pos);
+                Program.game.drawText(textArray[i], pos);
             }
         }
 
@@ -94,7 +94,7 @@ namespace MazeAndBlue
                 case StatsState.TOTAL:
 
                     upper1.selected = true;
-                    Program.game.draw("Game Statistics", new Point(x, y));
+                    Program.game.drawText("Game Statistics", new Point(x, y));
                     List<string> totalBlock = new List<string>();
                     totalBlock.Add("Total Game Time: " + totalGameTime + " seconds.");
                     totalBlock.Add("Total Score: " + Program.game.gameStats.data.totalScore + " pts.");
@@ -103,7 +103,7 @@ namespace MazeAndBlue
 
                 case StatsState.SIMPLE:
                     upper2.selected = true;
-                    Program.game.draw("Easy Levels Stats", new Point(x, y));
+                    Program.game.drawText("Easy Levels Stats", new Point(x, y));
                     List<string> simpleBlock = new List<string>();
                     for (int i = 0; i < 6; i++)
                         simpleBlock.Add("Level " + (i + 1) + " Score: " + Program.game.gameStats.data.levelData[i].score);
@@ -111,7 +111,7 @@ namespace MazeAndBlue
                     break;
                 case StatsState.HARD:
                     upper3.selected = true;
-                    Program.game.draw("Hard Levels Stats", new Point(x, y));
+                    Program.game.drawText("Hard Levels Stats", new Point(x, y));
                     List<string> hardBlock = new List<string>();
                     for (int i = 0; i < 6; i++)
                         hardBlock.Add("Level " + (i + 1) + " Score: " + Program.game.gameStats.data.levelData[i+6].score);

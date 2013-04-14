@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -8,17 +9,18 @@ namespace MazeAndBlue
     public class CreateMaze
     {
         enum CreateState { WALLS, GOAL, P1, P2 };
-        Button wallButton, goalButton, p1Button, p2Button;
+        Button wallButton, goalButton, p1Button, p2Button, saveButton;
         CreateState state;
         Color tempColor, hlColor, wallColor, goalColor;
         Texture2D texture;
         List<Rectangle> border, walls, twalls, tgoals, tplayers;
         Rectangle hlrect, goal;
         Ball p1, p2;
-        bool hl, prevDown, goalSet, p1set, p2set;
+        bool hl, prevDown, goalSet, p1set, p2set, singleplayer;
 
-        public CreateMaze()
+        public CreateMaze(bool hard, bool _singleplayer)
         {
+            singleplayer = _singleplayer;
             hl = prevDown = goalSet = p1set = p2set = false;
 
             state = CreateState.WALLS;
@@ -27,6 +29,7 @@ namespace MazeAndBlue
             goalButton = new Button(new Point(200, 30), 136, 72, "Goal", "Buttons/button");
             p1Button = new Button(new Point(370, 30), 136, 72, "P1", "Buttons/button");
             p2Button = new Button(new Point(540, 30), 136, 72, "P2", "Buttons/button");
+            saveButton = new Button(new Point(Program.game.screenWidth-166, 30), 136, 72, "Save", "Buttons/button");
 
             hlColor = Color.LightYellow;
             tempColor = new Color(0, 0, 0, 25);
@@ -45,17 +48,25 @@ namespace MazeAndBlue
             border.Add(new Rectangle(Program.game.sx(960), Program.game.sy(0), 10, 490));
             border.Add(new Rectangle(Program.game.sx(0), Program.game.sy(0), 970, 10));
             border.Add(new Rectangle(Program.game.sx(0), Program.game.sy(480), 970, 10));
-            
-            for (int i = 0; i < 6; i++)
+
+            int cols = 6, rows = 3, size = 160;
+            if (hard)
             {
-                for (int j = 0; j < 3; j++)
+                cols *= 2;
+                rows *= 2;
+                size /= 2;
+            }
+
+            for (int i = 0; i < cols; i++)
+            {
+                for (int j = 0; j < rows; j++)
                 {
                     if (j > 0)
-                        twalls.Add(new Rectangle(Program.game.sx(i * 160), Program.game.sy(j * 160), 170, 10));
+                        twalls.Add(new Rectangle(Program.game.sx(i * size), Program.game.sy(j * size), size + 10, 10));
                     if (i > 0)
-                        twalls.Add(new Rectangle(Program.game.sx(i * 160), Program.game.sy(j * 160), 10, 170));
-                    tgoals.Add(new Rectangle(Program.game.sx(10 + i * 160), Program.game.sy(10 + j * 160), 150, 150));
-                    tplayers.Add(new Rectangle(Program.game.sx(i * 160 + 65), Program.game.sy(j * 160 + 65), 40, 40));
+                        twalls.Add(new Rectangle(Program.game.sx(i * size), Program.game.sy(j * size), 10, size + 10));
+                    tgoals.Add(new Rectangle(Program.game.sx(10 + i * size), Program.game.sy(10 + j * size), size - 10, size - 10));
+                    tplayers.Add(new Rectangle(Program.game.sx(i * size + size / 2 - 15), Program.game.sy(j * size + size / 2 - 15), 40, 40));
                 }
             }
         }
@@ -70,6 +81,7 @@ namespace MazeAndBlue
             p2Button.loadContent();
             p1.loadContent();
             p2.loadContent();
+            saveButton.loadContent();
         }
 
         public void draw(SpriteBatch spriteBatch)
@@ -77,7 +89,9 @@ namespace MazeAndBlue
             wallButton.draw(spriteBatch);
             goalButton.draw(spriteBatch);
             p1Button.draw(spriteBatch);
-            p2Button.draw(spriteBatch);
+            if(!singleplayer)
+                p2Button.draw(spriteBatch);
+            saveButton.draw(spriteBatch);
 
             switch (state)
             {
@@ -113,98 +127,22 @@ namespace MazeAndBlue
         public void update()
         {
             MouseState mouse = Mouse.GetState();
+            Point point = new Point(mouse.X, mouse.Y);
             bool down = mouse.LeftButton == ButtonState.Pressed;
             hl = false;
             switch (state)
             {
                 case CreateState.WALLS:
-                    foreach (Rectangle rect in twalls)
-                    {
-                        if (rect.Contains(mouse.X, mouse.Y))
-                        {
-                            if (prevDown && !down)
-                            {
-                                if (walls.Contains(rect))
-                                    walls.Remove(rect);
-                                else
-                                    walls.Add(rect);
-                            }
-                            else
-                            {
-                                hl = true;
-                                hlrect = rect;
-                            }
-                        }
-                    }
+                    wallsUpdate(point, down);
                     break;
                 case CreateState.GOAL:
-                    foreach (Rectangle rect in tgoals)
-                    {
-                        if (rect.Contains(mouse.X, mouse.Y))
-                        {
-                            if (prevDown && !down)
-                            {
-                                if (goalSet && goal == rect)
-                                    goalSet = false;
-                                else
-                                {
-                                    goal = rect;
-                                    goalSet = true;
-                                }
-                            }
-                            else
-                            {
-                                hl = true;
-                                hlrect = rect;
-                            }
-                        }
-                    }
+                    goalUpdate(point, down);
                     break;
                 case CreateState.P1:
-                    foreach (Rectangle rect in tplayers)
-                    {
-                        if (rect.Contains(mouse.X, mouse.Y))
-                        {
-                            if (prevDown && !down)
-                            {
-                                if (p1set && p1.position == new Point(rect.Left, rect.Top))
-                                    p1set = false;
-                                else
-                                {
-                                    p1.moveBall(new Point(rect.Left + p1.width / 2, rect.Top + p1.height / 2));
-                                    p1set = true;
-                                }
-                            }
-                            else
-                            {
-                                hl = true;
-                                hlrect = rect;
-                            }
-                        }
-                    }
+                    p1Update(point, down);
                     break;
                 case CreateState.P2:
-                    foreach (Rectangle rect in tplayers)
-                    {
-                        if (rect.Contains(mouse.X, mouse.Y))
-                        {
-                            if (prevDown && !down)
-                            {
-                                if (p2set && p2.position == new Point(rect.Left, rect.Top))
-                                    p2set = false;
-                                else
-                                {
-                                    p2.moveBall(new Point(rect.Left + p2.width / 2, rect.Top + p2.height / 2));
-                                    p2set = true;
-                                }
-                            }
-                            else
-                            {
-                                hl = true;
-                                hlrect = rect;
-                            }
-                        }
-                    }
+                    p2Update(point, down);
                     break;
             }
             prevDown = down;
@@ -215,8 +153,144 @@ namespace MazeAndBlue
                 state = CreateState.GOAL;
             else if (p1Button.isSelected())
                 state = CreateState.P1;
-            else if (p2Button.isSelected())
+            else if (p2Button.isSelected() && !singleplayer)
                 state = CreateState.P2;
+            else if (saveButton.isSelected())
+                saveMaze();
+        }
+
+        void wallsUpdate(Point point, bool down)
+        {
+            foreach (Rectangle rect in twalls)
+            {
+                if (rect.Contains(point))
+                {
+                    if (prevDown && !down)
+                    {
+                        if (walls.Contains(rect))
+                            walls.Remove(rect);
+                        else
+                            walls.Add(rect);
+                    }
+                    else
+                    {
+                        hl = true;
+                        hlrect = rect;
+                    }
+                }
+            }
+        }
+
+        void goalUpdate(Point point, bool down)
+        {
+            foreach (Rectangle rect in tgoals)
+            {
+                if (rect.Contains(point))
+                {
+                    if (prevDown && !down)
+                    {
+                        if (goalSet && goal == rect)
+                            goalSet = false;
+                        else
+                        {
+                            goal = rect;
+                            goalSet = true;
+                        }
+                    }
+                    else
+                    {
+                        hl = true;
+                        hlrect = rect;
+                    }
+                }
+            }
+        }
+
+        void p1Update(Point point, bool down)
+        {
+            foreach (Rectangle rect in tplayers)
+            {
+                if (rect.Contains(point))
+                {
+                    if (prevDown && !down)
+                    {
+                        if (p1set && p1.position == new Point(rect.Left, rect.Top))
+                            p1set = false;
+                        else
+                        {
+                            p1.moveBall(new Point(rect.Left + p1.width / 2, rect.Top + p1.height / 2));
+                            p1set = true;
+                        }
+                    }
+                    else
+                    {
+                        hl = true;
+                        hlrect = rect;
+                    }
+                }
+            }
+        }
+
+        void p2Update(Point point, bool down)
+        {
+            foreach (Rectangle rect in tplayers)
+            {
+                if (rect.Contains(point))
+                {
+                    if (prevDown && !down)
+                    {
+                        if (p2set && p2.position == new Point(rect.Left, rect.Top))
+                            p2set = false;
+                        else
+                        {
+                            p2.moveBall(new Point(rect.Left + p2.width / 2, rect.Top + p2.height / 2));
+                            p2set = true;
+                        }
+                    }
+                    else
+                    {
+                        hl = true;
+                        hlrect = rect;
+                    }
+                }
+            }
+        }
+
+        void saveMaze()
+        {
+            if(!(goalSet && p1set && (singleplayer || p2set)))
+                return;
+
+            int size = walls.Count + 6; // 4 border walls, goal, p1
+            if(!singleplayer)
+                size++;
+            
+            string[] lines = new string[size];
+
+            int index = 0;
+            lines[index++] = "1 " + scaleX(p1.position.X) + ' ' + scaleY(p1.position.Y);
+            if (!singleplayer)
+                lines[index++] = "2 " + scaleX(p2.position.X) + ' ' + scaleY(p2.position.Y);
+            lines[index++] = "goal " + scaleX(goal.Left) + ' ' + scaleY(goal.Top) + ' ' + goal.Width + ' ' + goal.Height;
+            for(int i = 0; i<border.Count; i++)
+                lines[index++] = "wall " + scaleX(border[i].Left) + ' ' + scaleY(border[i].Top) + ' ' + border[i].Width + ' ' + border[i].Height;
+            for (int i = 0; i < walls.Count; i++)
+                lines[index++] = "wall " + scaleX(walls[i].Left) + ' ' + scaleY(walls[i].Top) + ' ' + walls[i].Width + ' ' + walls[i].Height;
+
+            string filename = "Mazes/temp.maze";
+            File.WriteAllLines(filename, lines);
+
+            Program.game.startMainMenu();
+        }
+
+        int scaleX(int x)
+        {
+            return x - (Program.game.screenWidth - Maze.width) / 2;
+        }
+
+        int scaleY(int y)
+        {
+            return y - (Program.game.screenHeight - Maze.height) / 2;
         }
 
     }

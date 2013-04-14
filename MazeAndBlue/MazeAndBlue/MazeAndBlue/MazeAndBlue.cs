@@ -28,7 +28,7 @@ namespace MazeAndBlue
         public int level { get; set; }
         public bool singlePlayer { get; set; }
         public bool unlockOn { get; set; }
-        int numLevels = 12;
+        //const int numLevels = 12;
         bool vsSecondCycle = false;
 
         public List<Player> players { get; set; }
@@ -207,9 +207,9 @@ namespace MazeAndBlue
             state = GameState.SETTING;
         }
 
-        public void startCreateMaze()
+        public void startCreateMaze(bool hard, bool singleplayer)
         {
-            createMaze = new CreateMaze();
+            createMaze = new CreateMaze(hard, singleplayer);
             createMaze.loadContent();
             state = GameState.CREATE;
         }
@@ -331,7 +331,7 @@ namespace MazeAndBlue
             base.Update(gameTime);
         }
 
-        public void draw(string text, Point pos)
+        public void drawText(string text, Point pos)
         {
             Vector2 textSize = MazeAndBlue.font.MeasureString(text);
             int x = (int)(pos.X - textSize.X / 2);
