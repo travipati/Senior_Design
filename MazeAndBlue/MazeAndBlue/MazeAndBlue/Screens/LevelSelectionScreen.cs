@@ -13,6 +13,7 @@ namespace MazeAndBlue
         bool singlePlayer;
         enum LevelsState { COOPEASY, COOPHARD };
         LevelsState levelsState;
+        string[] levelNames = { "level one", "level two", "level three", "level four", "level five", "level six" };
 
         public LevelSelectionScreen(bool _singlePlayer)
         {
@@ -25,11 +26,13 @@ namespace MazeAndBlue
             int menuButtonWidth = 170;
             int menuButtonHeight = 92;
 
-            int levelButton1y = screenHeight / 2 - 10;
-            int levelButton2y = 2 * screenHeight / 3 + 40;
-            int level1x = screenWidth / 2 - 5 * levelButtonWidth / 2;
-            int level2x = screenWidth / 2 - levelButtonWidth / 2;
-            int level3x = screenWidth / 2 + 3 * levelButtonWidth / 2;
+            List<int> levely = new List<int>();
+            levely.Add(screenHeight / 2 - 10);
+            levely.Add(2 * screenHeight / 3 + 40);
+            List<int> levelx = new List<int>();
+            levelx.Add(screenWidth / 2 - 5 * levelButtonWidth / 2);
+            levelx.Add(screenWidth / 2 - levelButtonWidth / 2);
+            levelx.Add(screenWidth / 2 + 3 * levelButtonWidth / 2);
 
             int menuButtony = screenHeight / 5;
             int easyx = screenWidth / 8;
@@ -41,29 +44,24 @@ namespace MazeAndBlue
             hardButton = new Button(new Point(hardx, menuButtony), menuButtonWidth, menuButtonHeight, "Hard", "Buttons/hard");
 
             easyLevelButtons = new List<Button>();
-            easyLevelButtons.Add(new Button(new Point(level1x, levelButton1y), levelButtonWidth, levelButtonHeight, "level one", "LevelThumbnails/level0"));
-            easyLevelButtons.Add(new Button(new Point(level2x, levelButton1y), levelButtonWidth, levelButtonHeight, "level two", "LevelThumbnails/level1"));
-            easyLevelButtons.Add(new Button(new Point(level3x, levelButton1y), levelButtonWidth, levelButtonHeight, "level three", "LevelThumbnails/level2"));
-            easyLevelButtons.Add(new Button(new Point(level1x, levelButton2y), levelButtonWidth, levelButtonHeight, "level four", "LevelThumbnails/level3"));
-            easyLevelButtons.Add(new Button(new Point(level2x, levelButton2y), levelButtonWidth, levelButtonHeight, "level five", "LevelThumbnails/level4"));
-            easyLevelButtons.Add(new Button(new Point(level3x, levelButton2y), levelButtonWidth, levelButtonHeight, "level six", "LevelThumbnails/level5"));
-
             hardLevelButtons = new List<Button>();
-            hardLevelButtons.Add(new Button(new Point(level1x, levelButton1y), levelButtonWidth, levelButtonHeight, "level one", "LevelThumbnails/level6"));
-            hardLevelButtons.Add(new Button(new Point(level2x, levelButton1y), levelButtonWidth, levelButtonHeight, "level two", "LevelThumbnails/level7"));
-            hardLevelButtons.Add(new Button(new Point(level3x, levelButton1y), levelButtonWidth, levelButtonHeight, "level three", "LevelThumbnails/level8"));
-            hardLevelButtons.Add(new Button(new Point(level1x, levelButton2y), levelButtonWidth, levelButtonHeight, "level four", "LevelThumbnails/level9"));
-            hardLevelButtons.Add(new Button(new Point(level2x, levelButton2y), levelButtonWidth, levelButtonHeight, "level five", "LevelThumbnails/level10"));
-            hardLevelButtons.Add(new Button(new Point(level3x, levelButton2y), levelButtonWidth, levelButtonHeight, "level six", "LevelThumbnails/level11"));
+
+            for (int i = 0; i < 12; i++)
+            {
+                if (i < 6)
+                    easyLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/level" + i));
+                else
+                    hardLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[(i % 6) / 3]), levelButtonWidth, levelButtonHeight, levelNames[i % 6], "LevelThumbnails/level" + i));
+            }
 
             for (int i = 0; i < easyLevelButtons.Count; i++)
             {
-                if (Program.game.unlockOn && i > Program.game.gameStats.data.nextLevelToUnlock)
+                if (Program.game.unlockOn && i > Program.game.gameStats.data.coopNextLevelToUnlock)
                     easyLevelButtons[i].selectable = false;
             }
             for (int i = 0; i < hardLevelButtons.Count; i++)
             {
-                if (Program.game.unlockOn && i + 6 > Program.game.gameStats.data.nextLevelToUnlock)
+                if (Program.game.unlockOn && i + 6 > Program.game.gameStats.data.coopNextLevelToUnlock)
                     hardLevelButtons[i].selectable = false;
             }
 

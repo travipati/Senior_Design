@@ -26,9 +26,10 @@ namespace MazeAndBlue
         CreateMaze createMaze;
 
         public int level { get; set; }
+        public bool singlePlayer { get; set; }
         public bool unlockOn { get; set; }
         int numLevels = 12;
-        bool singlePlayer, vsSecondCycle = false;
+        bool vsSecondCycle = false;
 
         public List<Player> players { get; set; }
         public MouseSelect ms { get; set; }

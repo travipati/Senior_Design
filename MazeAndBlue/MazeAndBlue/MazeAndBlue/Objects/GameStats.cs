@@ -41,7 +41,8 @@ namespace MazeAndBlue
         public int totalGameTime;
         public int totalScore;
         public LevelData[] levelData;
-        public int nextLevelToUnlock;
+        public int singleNextLevelToUnlock;
+        public int coopNextLevelToUnlock;
 
         public SaveGameData()
         {
@@ -82,8 +83,11 @@ namespace MazeAndBlue
             newLevel.numStars = stars;
 
             data.totalGameTime+= numSeconds;
-            if (data.nextLevelToUnlock <= level)
-                data.nextLevelToUnlock = level + 1;
+
+            if (Program.game.singlePlayer && data.singleNextLevelToUnlock <= level)
+                data.singleNextLevelToUnlock = level + 1;
+            if (!Program.game.singlePlayer && data.coopNextLevelToUnlock <= level)
+                data.coopNextLevelToUnlock = level + 1;
 
             if (level >= 12)
                 System.Windows.Forms.MessageBox.Show("error updating level stats", "Error @ GameStats");
@@ -97,12 +101,13 @@ namespace MazeAndBlue
 
         public void saveStats()
         {
-            string[] lines = new string[15];
+            string[] lines = new string[16];
             for (int i = 0; i < 12; i++)
                 lines[i] = data.levelData[i].getLine();
             lines[12] = data.totalGameTime.ToString();
             lines[13] = data.totalScore.ToString();
-            lines[14] = data.nextLevelToUnlock.ToString();
+            lines[14] = data.singleNextLevelToUnlock.ToString();
+            lines[15] = data.coopNextLevelToUnlock.ToString();
             File.WriteAllLines(filename, lines);
         }
 
@@ -113,7 +118,7 @@ namespace MazeAndBlue
 
             string[] lines = File.ReadAllLines(filename);
 
-            if (lines.Length != 15)
+            if (lines.Length != 16)
                 return false;
 
             for (int i = 0; i < 12; i++)
@@ -126,7 +131,8 @@ namespace MazeAndBlue
 
             data.totalGameTime = Convert.ToInt32(lines[12]);
             data.totalScore = Convert.ToInt32(lines[13]);
-            data.nextLevelToUnlock = Convert.ToInt32(lines[14]);
+            data.singleNextLevelToUnlock = Convert.ToInt32(lines[14]);
+            data.coopNextLevelToUnlock = Convert.ToInt32(lines[15]);
 
             return true;            
         }
