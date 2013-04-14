@@ -16,7 +16,7 @@ namespace MazeAndBlue
 
         public VoiceSelect()
         {
-            precision = .7;
+            precision = .5;
             newWordReady = false;
 
             RecognizerInfo ri = GetKinectRecognizer();
@@ -28,7 +28,10 @@ namespace MazeAndBlue
             var grammar = new Choices();
             grammar.Add("select one", "SELECT ONE", "Select One", "player one select", "PLAYER ONE SELECT");
             grammar.Add("select two", "SELECT TWO", "Select Two", "player two select", "PLAYER TWO SELECT");
+            grammar.Add("pause", "PAUSE");
             grammar.Add("exit", "EXIT");
+            //Would suggest deleting grammar additions below this line to narrow the possibilities the VS class must parse
+            //I was experimenting with having them commented out and things were fairly nice when combined with about .55 for confidence
             grammar.Add("single mode", "Single MODE");
             grammar.Add("co op mode", "CO OP MODE");
             grammar.Add("settings", "SETTINGS");
@@ -53,7 +56,6 @@ namespace MazeAndBlue
             grammar.Add("sounds on");
             grammar.Add("sounds off");
             grammar.Add("reset stats");
-            grammar.Add("pause", "PAUSE");
             grammar.Add("resume", "RESUME");
             grammar.Add("restart level", "RESTART LEVEL");
             grammar.Add("replay", "REPLAY");
