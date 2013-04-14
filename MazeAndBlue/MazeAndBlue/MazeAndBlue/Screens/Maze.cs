@@ -79,6 +79,8 @@ namespace MazeAndBlue
 
         public void update()
         {
+            pauseButton.selectable = true;
+
             foreach (DoorSwitch dswitch in switches)
                 dswitch.update(balls, ref walls);
 
@@ -113,6 +115,7 @@ namespace MazeAndBlue
                 }
                 foreach (Player player in Program.game.players)
                     player.visible = true;
+                pauseButton.selectable = false;
                 Program.game.startPauseSelectionScreen();
             }
 
@@ -128,6 +131,7 @@ namespace MazeAndBlue
                 foreach (Player player in Program.game.players)
                     player.visible = true;
                 Program.game.soundEffectPlayer.playGoal();
+                pauseButton.selectable = false;
                 Program.game.startScoreScreen(timer.time, wallHits);
             }
         }

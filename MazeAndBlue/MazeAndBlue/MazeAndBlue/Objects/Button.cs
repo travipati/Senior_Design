@@ -6,13 +6,13 @@ namespace MazeAndBlue
     public class Button : Sprite
     {
         public bool selected { get; set; }
+        public bool selectable { get; set; }
         int originalW;
         int originalH;
         Point originalPos;
         string path;
         Sprite hoverBg, selectBg;
         string text;
-        bool selectable;
 
         public Button(Point pos, int w, int h, string s, string p) : base(pos, w, h)
         {
@@ -97,28 +97,24 @@ namespace MazeAndBlue
             if (Program.game.ms.newPointReady && contains(Program.game.ms.point))
             {
                 Program.game.ms.newPointReady = false;
-                Program.game.soundEffectPlayer.playButton();
                 selected = true;
             }
             else if (Program.game.vs.newWordReady && Program.game.vs.word == text.ToLower())
             {
                 Program.game.vs.newWordReady = false;
-                Program.game.soundEffectPlayer.playButton();
                 selected = true;
             }
             foreach (Player player in Program.game.players)
             {
                 if ((player.overlaps(this) && player.selecting()) || player.buttonSelecting(this))
-                {
-                    Program.game.soundEffectPlayer.playButton();
                     selected = true;
-                }
             }
 
             if (selected)
             {
                 foreach (Player player in Program.game.players)
                     player.deselect();
+                Program.game.soundEffectPlayer.playButton();
             }
 
             return selected;

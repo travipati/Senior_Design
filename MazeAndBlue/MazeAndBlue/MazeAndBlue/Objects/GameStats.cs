@@ -82,7 +82,7 @@ namespace MazeAndBlue
             newLevel.numStars = stars;
 
             data.totalGameTime+= numSeconds;
-            if (data.nextLevelToUnlock == level)
+            if (data.nextLevelToUnlock <= level)
                 data.nextLevelToUnlock = level + 1;
 
             if (level >= 12)

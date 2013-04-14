@@ -56,6 +56,17 @@ namespace MazeAndBlue
             hardLevelButtons.Add(new Button(new Point(level2x, levelButton2y), levelButtonWidth, levelButtonHeight, "level five", "LevelThumbnails/level10"));
             hardLevelButtons.Add(new Button(new Point(level3x, levelButton2y), levelButtonWidth, levelButtonHeight, "level six", "LevelThumbnails/level11"));
 
+            for (int i = 0; i < easyLevelButtons.Count; i++)
+            {
+                if (Program.game.unlockOn && i > Program.game.gameStats.data.nextLevelToUnlock)
+                    easyLevelButtons[i].selectable = false;
+            }
+            for (int i = 0; i < hardLevelButtons.Count; i++)
+            {
+                if (Program.game.unlockOn && i + 6 > Program.game.gameStats.data.nextLevelToUnlock)
+                    hardLevelButtons[i].selectable = false;
+            }
+
             levelsState = LevelsState.COOPEASY;
         }
         
@@ -83,7 +94,7 @@ namespace MazeAndBlue
                 case LevelsState.COOPEASY:
                     for (int i = 0; i < easyLevelButtons.Count; i++)
                     {
-                        if (!Program.game.unlockOn || i <= Program.game.gameStats.data.nextLevelToUnlock)
+                        if (easyLevelButtons[i].selectable)
                             easyLevelButtons[i].draw(spriteBatch);
                         else
                             easyLevelButtons[i].draw(spriteBatch, Color.Gray);
@@ -94,7 +105,7 @@ namespace MazeAndBlue
                 case LevelsState.COOPHARD:
                     for (int i = 0; i < hardLevelButtons.Count; i++)
                     {
-                        if (!Program.game.unlockOn || i + 6 <= Program.game.gameStats.data.nextLevelToUnlock)
+                        if (hardLevelButtons[i].selectable)
                             hardLevelButtons[i].draw(spriteBatch);
                         else
                             hardLevelButtons[i].draw(spriteBatch, Color.Gray);
@@ -119,14 +130,14 @@ namespace MazeAndBlue
                 case LevelsState.COOPEASY:
                     for (int i = 0; i < easyLevelButtons.Count; i++)
                     {
-                        if ((!Program.game.unlockOn || i <= Program.game.gameStats.data.nextLevelToUnlock) && easyLevelButtons[i].isSelected())
+                        if (easyLevelButtons[i].selectable && easyLevelButtons[i].isSelected())
                             Program.game.startLevel(i, singlePlayer);
                     }
                     break;
                 case LevelsState.COOPHARD:
                     for (int i = 0; i < hardLevelButtons.Count; i++)
                     {
-                        if ((!Program.game.unlockOn || i + 6 <= Program.game.gameStats.data.nextLevelToUnlock) && hardLevelButtons[i].isSelected())
+                        if (hardLevelButtons[i].selectable && hardLevelButtons[i].isSelected())
                             Program.game.startLevel(i + 6, singlePlayer);
                     }
                     break;
