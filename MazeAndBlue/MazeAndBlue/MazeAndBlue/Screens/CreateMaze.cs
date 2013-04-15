@@ -9,7 +9,7 @@ namespace MazeAndBlue
     public class CreateMaze
     {
         enum CreateState { WALLS, GOAL, P1, P2 };
-        Button wallButton, goalButton, p1Button, p2Button, saveButton;
+        Button wallButton, goalButton, p1Button, p2Button, mainMenuButton, saveButton;
         CreateState state;
         Color tempColor, hlColor, wallColor, goalColor;
         Texture2D texture;
@@ -29,6 +29,7 @@ namespace MazeAndBlue
             goalButton = new Button(new Point(200, 30), 136, 72, "Goal", "Buttons/button");
             p1Button = new Button(new Point(370, 30), 136, 72, "P1", "Buttons/button");
             p2Button = new Button(new Point(540, 30), 136, 72, "P2", "Buttons/button");
+            mainMenuButton = new Button(new Point(Program.game.screenWidth - 332, 30), 136, 72, "Back", "Buttons/button");
             saveButton = new Button(new Point(Program.game.screenWidth-166, 30), 136, 72, "Save", "Buttons/button");
 
             hlColor = Color.LightYellow;
@@ -81,6 +82,7 @@ namespace MazeAndBlue
             p2Button.loadContent();
             p1.loadContent();
             p2.loadContent();
+            mainMenuButton.loadContent();
             saveButton.loadContent();
         }
 
@@ -91,6 +93,7 @@ namespace MazeAndBlue
             p1Button.draw(spriteBatch);
             if(!singleplayer)
                 p2Button.draw(spriteBatch);
+            mainMenuButton.draw(spriteBatch);
             saveButton.draw(spriteBatch);
 
             switch (state)
@@ -155,6 +158,8 @@ namespace MazeAndBlue
                 state = CreateState.P1;
             else if (p2Button.isSelected() && !singleplayer)
                 state = CreateState.P2;
+            else if (mainMenuButton.isSelected())
+                Program.game.startMainMenu();
             else if (saveButton.isSelected())
                 saveMaze();
         }
