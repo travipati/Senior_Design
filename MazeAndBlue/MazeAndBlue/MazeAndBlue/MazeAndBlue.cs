@@ -146,6 +146,14 @@ namespace MazeAndBlue
             state = GameState.GAME;
         }
 
+        public void startCustomLevel(int i)
+        {
+            state = GameState.GAME;
+            //            level %= numLevels;
+            maze = new Maze(i);
+            maze.loadContent();
+        }
+
         public void startScoreScreen(int time, int hits)
         {
             scoreScreen = new ScoreScreen(time, hits);

@@ -289,7 +289,13 @@ namespace MazeAndBlue
             for (int i = 0; i < walls.Count; i++)
                 lines[index++] = "wall " + scaleX(walls[i].Left) + ' ' + scaleY(walls[i].Top) + ' ' + walls[i].Width + ' ' + walls[i].Height;
 
-            string filename = "Mazes/temp.maze";
+            int nameId = 0;
+            string filename = "Mazes/temp" + nameId + ".maze";
+            while (File.Exists(filename))
+            {
+                nameId++;
+                filename = "Mazes/temp" + nameId + ".maze";
+            }
             File.WriteAllLines(filename, lines);
 
             //Hard coded coordinates
@@ -299,7 +305,7 @@ namespace MazeAndBlue
             System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(Maze.width, Maze.height);
             System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bitmap);
             g.CopyFromScreen(new System.Drawing.Point(Program.game.sx(0) + dx, Program.game.sy(0) + dy), System.Drawing.Point.Empty, bitmap.Size);
-            bitmap.Save("test.png", System.Drawing.Imaging.ImageFormat.Png);
+            bitmap.Save("test" + nameId + ".png", System.Drawing.Imaging.ImageFormat.Png);
 
             Program.game.startMainMenu();
         }

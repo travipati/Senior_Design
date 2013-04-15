@@ -24,6 +24,26 @@ namespace MazeAndBlue
         public static int height { get { return mazeHeight; } }
         public int wallHits { get; set; }
 
+        public Maze(int custLevel)
+        {
+            goalColor = Color.Red;
+            wallColor = Color.Black;
+            timer = new Timer();
+            wallHits = 0;
+            prevHit = new bool[2] { false, false };
+
+            balls = new List<Ball>();
+            walls = new List<Rectangle>();
+            goal = new Rectangle();
+            switches = new List<DoorSwitch>();
+
+            string mazeFile = "Mazes/temp" + custLevel + ".maze";
+            readFile(mazeFile);
+            singlePlayer = balls.Count == 1;
+
+            pauseButton = new Button(new Point(Program.game.screenWidth - 170, 30), 136, 72, "Pause", "Buttons/pause");
+        }
+
         public Maze(int _level, bool _singlePlayer)
         {
             goalColor = Color.Red;

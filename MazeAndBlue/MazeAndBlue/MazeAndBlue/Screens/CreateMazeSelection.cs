@@ -1,3 +1,4 @@
+using System.IO;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,6 +14,18 @@ namespace MazeAndBlue
 
         public CreateMazeSelection()
         {
+            int screenWidth = Program.game.screenWidth;
+            int screenHeight = Program.game.screenHeight;
+            int levelButtonWidth = screenWidth / 8;
+            int levelButtonHeight = screenHeight / 8;
+            List<int> levely = new List<int>();
+            levely.Add(screenHeight / 2 - 10);
+            levely.Add(2 * screenHeight / 3 + 40);
+            List<int> levelx = new List<int>();
+            levelx.Add(screenWidth / 2 - 5 * levelButtonWidth / 2);
+            levelx.Add(screenWidth / 2 - levelButtonWidth / 2);
+            levelx.Add(screenWidth / 2 + 3 * levelButtonWidth / 2);
+
             singlePlayer = true;
             easy = true;
 
@@ -28,6 +41,14 @@ namespace MazeAndBlue
                 (new Point(500, 150), 200, 100, "hard", "Buttons/hard");
 
             levelButtons = new List<Button>();
+            int nameId = 0;
+            string filename = "Mazes/temp" + nameId + ".maze";
+            while (File.Exists(filename))
+            {
+                levelButtons.Add(new Button(new Point(levelx[nameId % 3], levely[nameId / 3]), levelButtonWidth, levelButtonHeight, nameId.ToString(), "star"));
+                nameId++;
+                filename = "Mazes/temp" + nameId + ".maze";
+            }
 
             buttons = new List<Button>();
             buttons.Add(createMazeButton);
@@ -68,6 +89,11 @@ namespace MazeAndBlue
                 easy = true;
             else if (hardButton.isSelected())
                 easy = false;
+            for (int i = 0; i < levelButtons.Count; i++)
+            {
+                if (levelButtons[i].selectable && levelButtons[i].isSelected())
+                    Program.game.startCustomLevel(i);
+            }
         }
     }
 }
