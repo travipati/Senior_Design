@@ -75,7 +75,7 @@ namespace MazeAndBlue
             else if (coopModeButton.isSelected())
                 Program.game.startLevelSelectionScreen(false);
             else if (createMazeButton.isSelected())
-                Program.game.startCreateMaze(true, true);
+                Program.game.startCreateMazeSelect();
             else if (instructionsButton.isSelected())
                 Program.game.startInstructionScreen();
             else if (statisticsButton.isSelected())

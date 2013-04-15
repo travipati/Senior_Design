@@ -145,6 +145,7 @@
     <Compile Include="Objects\ProgressCircle.cs" />
     <Compile Include="Objects\SoundEffectPlayer.cs" />
     <Compile Include="Screens\CalibrationScreen.cs" />
+    <Compile Include="Screens\CreateMazeSelection.cs" />
     <Compile Include="Screens\CreateMaze.cs" />
     <Compile Include="Screens\Fireworks.cs" />
     <Compile Include="Screens\StatsScreen.cs" />

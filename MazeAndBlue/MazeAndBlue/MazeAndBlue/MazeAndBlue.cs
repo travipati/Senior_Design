@@ -23,6 +23,7 @@ namespace MazeAndBlue
         InstructionScreen instructionScreen;
         CalibrationScreen calibrationScreen;
         Fireworks fireworks;
+        CreateMazeSelection createMazeSelect;
         CreateMaze createMaze;
 
         public int level { get; set; }
@@ -37,7 +38,7 @@ namespace MazeAndBlue
         public KeyboardSelect ks { get; set; }
         public SoundEffectPlayer soundEffectPlayer { get; set; }
 
-        public enum GameState { MAIN, LEVEL, GAME, SCORE, PAUSE, SETTING, STATS, INSTR, CALIBRATE, CREATE };
+        public enum GameState { MAIN, LEVEL, GAME, SCORE, PAUSE, SETTING, STATS, INSTR, CALIBRATE, CREATESELECT, CREATE };
         public static GameState state { get; set; }
         
         public static SpriteFont font { get; set; }
@@ -207,6 +208,13 @@ namespace MazeAndBlue
             state = GameState.SETTING;
         }
 
+        public void startCreateMazeSelect()
+        {
+            createMazeSelect = new CreateMazeSelection();
+            createMazeSelect.loadContent();
+            state = GameState.CREATESELECT;
+        }
+        
         public void startCreateMaze(bool hard, bool singleplayer)
         {
             createMaze = new CreateMaze(hard, singleplayer);
@@ -255,6 +263,9 @@ namespace MazeAndBlue
                 case GameState.CALIBRATE:
                     settingsScreen.draw(spriteBatch);
                     calibrationScreen.draw(spriteBatch);
+                    break;
+                case GameState.CREATESELECT:
+                    createMazeSelect.draw(spriteBatch);
                     break;
                 case GameState.CREATE:
                     createMaze.draw(spriteBatch);
@@ -309,6 +320,9 @@ namespace MazeAndBlue
                     break;
                 case GameState.CALIBRATE:
                     calibrationScreen.update();
+                    break;
+                case GameState.CREATESELECT:
+                    createMazeSelect.update();
                     break;
                 case GameState.CREATE:
                     createMaze.update();

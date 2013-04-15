@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MazeAndBlue
 {
-
     public class LevelSelectionScreen 
     {
         Texture2D background;
@@ -43,11 +42,8 @@ namespace MazeAndBlue
             easyButton = new Button(new Point(easyx, menuButtony), menuButtonWidth, menuButtonHeight, "Easy", "Buttons/easy");
             hardButton = new Button(new Point(hardx, menuButtony), menuButtonWidth, menuButtonHeight, "Hard", "Buttons/hard");
 
-            levelsState = LevelsState.EASY;
-
             easyLevelButtons = new List<Button>();
             hardLevelButtons = new List<Button>();
-
 
             if (singlePlayer)
             {
@@ -73,6 +69,8 @@ namespace MazeAndBlue
                         hardLevelButtons[i].selectable = false;
                 }
             }
+
+            levelsState = LevelsState.EASY;
         }
         
         public void loadContent()
