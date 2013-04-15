@@ -8,7 +8,7 @@ namespace MazeAndBlue
 {
     public class CreateMaze
     {
-        enum CreateState { WALLS, GOAL, P1, P2 };
+        enum CreateState { WALLS, GOAL, P1, P2, SAVE };
         Button wallButton, goalButton, p1Button, p2Button, mainMenuButton, saveButton;
         CreateState state;
         Color tempColor, hlColor, wallColor, goalColor;
@@ -16,12 +16,12 @@ namespace MazeAndBlue
         List<Rectangle> border, walls, twalls, tgoals, tplayers;
         Rectangle hlrect, goal;
         Ball p1, p2;
-        bool hl, prevDown, goalSet, p1set, p2set, singleplayer;
+        bool hl, prevDown, goalSet, p1set, p2set, singleplayer, done;
 
         public CreateMaze(bool hard, bool _singleplayer)
         {
             singleplayer = _singleplayer;
-            hl = prevDown = goalSet = p1set = p2set = false;
+            hl = prevDown = goalSet = p1set = p2set = done = false;
 
             state = CreateState.WALLS;
 
@@ -111,6 +111,9 @@ namespace MazeAndBlue
                     foreach (Rectangle rect in tplayers)
                         spriteBatch.Draw(texture, rect, tempColor);
                     break;
+                case CreateState.SAVE:
+                    done = true;
+                    break;
             }
 
             foreach (Rectangle rect in walls)
@@ -129,6 +132,19 @@ namespace MazeAndBlue
 
         public void update()
         {
+            if (wallButton.isSelected())
+                state = CreateState.WALLS;
+            else if (goalButton.isSelected())
+                state = CreateState.GOAL;
+            else if (p1Button.isSelected())
+                state = CreateState.P1;
+            else if (p2Button.isSelected() && !singleplayer)
+                state = CreateState.P2;
+            else if (saveButton.isSelected())
+                state = CreateState.SAVE;
+            else if (mainMenuButton.isSelected())
+                Program.game.startMainMenu();
+
             MouseState mouse = Mouse.GetState();
             Point point = new Point(mouse.X, mouse.Y);
             bool down = mouse.LeftButton == ButtonState.Pressed;
@@ -147,21 +163,12 @@ namespace MazeAndBlue
                 case CreateState.P2:
                     p2Update(point, down);
                     break;
+                case CreateState.SAVE:
+                    if(done)
+                        saveMaze();
+                    break;
             }
             prevDown = down;
-
-            if (wallButton.isSelected())
-                state = CreateState.WALLS;
-            else if (goalButton.isSelected())
-                state = CreateState.GOAL;
-            else if (p1Button.isSelected())
-                state = CreateState.P1;
-            else if (p2Button.isSelected() && !singleplayer)
-                state = CreateState.P2;
-            else if (mainMenuButton.isSelected())
-                Program.game.startMainMenu();
-            else if (saveButton.isSelected())
-                saveMaze();
         }
 
         void wallsUpdate(Point point, bool down)
@@ -287,11 +294,12 @@ namespace MazeAndBlue
 
             //Hard coded coordinates
             //automatically save the thumbnail.
-            System.Drawing.Rectangle bounds = new System.Drawing.Rectangle(0, 0, 1280, 768);//define size of image output
-            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
+            int dx = Program.game.GraphicsDevice.Adapter.CurrentDisplayMode.Width - Program.game.screenWidth;
+            int dy = Program.game.GraphicsDevice.Adapter.CurrentDisplayMode.Height - Program.game.screenHeight;
+            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(Maze.width, Maze.height);
             System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bitmap);
-            g.CopyFromScreen(new System.Drawing.Point(300, 200), System.Drawing.Point.Empty, bounds.Size);
-            bitmap.Save("test.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+            g.CopyFromScreen(new System.Drawing.Point(Program.game.sx(0) + dx, Program.game.sy(0) + dy), System.Drawing.Point.Empty, bitmap.Size);
+            bitmap.Save("test.png", System.Drawing.Imaging.ImageFormat.Png);
 
             Program.game.startMainMenu();
         }
