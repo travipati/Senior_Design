@@ -60,6 +60,12 @@ Content\Sounds\wall.xnb
 Content\Sounds\goal.xnb
 Content\Sounds\firework.xnb
 Content\square.xnb
+Content\Buttons\calibrateKinect.xnb
+Content\Buttons\goal.xnb
+Content\Buttons\playerOne.xnb
+Content\Buttons\playerTwo.xnb
+Content\Buttons\save.xnb
+Content\Buttons\wall.xnb
 Mazes\0.maze
 Mazes\1.maze
 Mazes\2.maze

@@ -7,8 +7,8 @@ namespace MazeAndBlue
     public class MainMenu
     {
         Texture2D texture;
-        Button singlePlayerButton, coopModeButton, settingsButton, instructionsButton,
-             statisticsButton, exitButton;
+        Button singlePlayerButton, coopModeButton, createMazeButton, instructionsButton,
+             statisticsButton, settingsButton, exitButton;
         List<Button> buttons;
         Rectangle screenRectangle;
 
@@ -31,21 +31,24 @@ namespace MazeAndBlue
                 (new Point(X1, Y1), buttonWidth, buttonHeight, "single mode", "Buttons/singlePlayer");
             coopModeButton = new Button
                 (new Point(X2, Y1), buttonWidth, buttonHeight, "co op mode", "Buttons/coopMode");
-            settingsButton = new Button
-                (new Point(X3, Y1), buttonWidth, buttonHeight, "settings", "Buttons/settings");
+            createMazeButton = new Button
+                (new Point(X3, Y1), buttonWidth, buttonHeight, "create maze", "Buttons/exit");
             instructionsButton = new Button
                 (new Point(X1, Y2), buttonWidth, buttonHeight, "instructions", "Buttons/instructions");
             statisticsButton = new Button
                 (new Point(X2, Y2), buttonWidth, buttonHeight, "statistics", "Buttons/statistics");
+            settingsButton = new Button
+                (new Point(X3, Y2), buttonWidth, buttonHeight, "settings", "Buttons/settings");
             exitButton = new Button
-                (new Point(X3, Y2), buttonWidth, buttonHeight, "exit","Buttons/exit");
+                (new Point(Program.game.screenWidth - 170, 30), 136, 72, "exit", "Buttons/exit");
 
             buttons = new List<Button>();
             buttons.Add(singlePlayerButton);
             buttons.Add(coopModeButton);
-            buttons.Add(settingsButton);
+            buttons.Add(createMazeButton);
             buttons.Add(instructionsButton);
             buttons.Add(statisticsButton);
+            buttons.Add(settingsButton);
             buttons.Add(exitButton);
         }
 
@@ -61,32 +64,26 @@ namespace MazeAndBlue
         public void draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, screenRectangle, Color.White);
-            singlePlayerButton.draw(spriteBatch);
-            coopModeButton.draw(spriteBatch);
-            settingsButton.draw(spriteBatch);
-            instructionsButton.draw(spriteBatch);
-            statisticsButton.draw(spriteBatch);
-            exitButton.draw(spriteBatch);
+            foreach (Button button in buttons)
+                button.draw(spriteBatch);
         }
 
         public void update()
         {
-            foreach (Button button in buttons)
-                button.update();
-
             if (singlePlayerButton.isSelected())
-                Program.game.startCreateMaze(false, false);// params: hard, singleplayer 
+                Program.game.startLevelSelectionScreen(true);
             else if (coopModeButton.isSelected())
                 Program.game.startLevelSelectionScreen(false);
-            else if (settingsButton.isSelected())
-                Program.game.startSettingsScreen();
+            else if (createMazeButton.isSelected())
+                Program.game.startCreateMaze(true, true);
             else if (instructionsButton.isSelected())
                 Program.game.startInstructionScreen();
             else if (statisticsButton.isSelected())
                 Program.game.startStatsScreen();
+            else if (settingsButton.isSelected())
+                Program.game.startSettingsScreen();
             else if (exitButton.isSelected())
                 Program.game.Exit();
-        }
-
+         }
     }
 }

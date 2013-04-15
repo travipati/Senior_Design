@@ -253,6 +253,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="MazeAndBlue_TemporaryKey.pfx" />
+    <None Include="Mazes\12.maze" />
+    <None Include="Mazes\13.maze" />
+    <None Include="Mazes\14.maze" />
+    <None Include="Mazes\15.maze" />
+    <None Include="Mazes\16.maze" />
+    <None Include="Mazes\17.maze" />
+    <None Include="Mazes\18.maze" />
+    <None Include="Mazes\19.maze" />
+    <None Include="Mazes\20.maze" />
+    <None Include="Mazes\21.maze" />
+    <None Include="Mazes\22.maze" />
+    <None Include="Mazes\23.maze" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

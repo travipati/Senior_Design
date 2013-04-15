@@ -9,7 +9,7 @@ namespace MazeAndBlue
     {
         Texture2D texture;
         Button menuButton, plRHand, plLHand, p2RHand, p2LHand, roomQuiet, roomAver, roomLoud, 
-                soundsOn, soundsOff, setBackground, setGoalImage, calibrateKinect;
+                soundsOn, soundsOff, unlockOn, unlockOff, setBackground, setGoalImage, calibrateKinect;
         List<Button> buttons;
         Rectangle screenRectangle;
 
@@ -25,21 +25,23 @@ namespace MazeAndBlue
             int largeButtonHeight = 92;
 
             menuButton = new Button(new Point(screenWidth / 8, 50), smallButtonWidth, smallButtonHeight, "Main Menu", "Buttons/mainMenuButton");
-            plLHand = new Button(new Point(screenWidth / 2 + smallButtonWidth, 170), smallButtonWidth, smallButtonHeight, "player one left", "Buttons/left");
-            plRHand = new Button(new Point(screenWidth / 2 + 3 * smallButtonWidth, 170), smallButtonWidth, smallButtonHeight, "player one right", "Buttons/right");
-            p2LHand = new Button(new Point(screenWidth / 2 + smallButtonWidth, 275), smallButtonWidth, smallButtonHeight, "player two left", "Buttons/left");
-            p2RHand = new Button(new Point(screenWidth / 2 + 3 * smallButtonWidth, 275), smallButtonWidth, smallButtonHeight, "player two right", "Buttons/right");
-            roomQuiet = new Button(new Point(screenWidth / 2 - smallButtonWidth, 380), smallButtonWidth, smallButtonHeight, "room low", "Buttons/low");
-            roomAver = new Button(new Point(screenWidth / 2 + smallButtonWidth, 380), smallButtonWidth, smallButtonHeight, "room medium", "Buttons/medium");
-            roomLoud = new Button(new Point(screenWidth / 2 + 3 * smallButtonWidth, 380), smallButtonWidth, smallButtonHeight, "room high", "Buttons/high");
-            soundsOn = new Button(new Point(screenWidth / 2 + smallButtonWidth, 485), smallButtonWidth, smallButtonHeight, "sounds on", "Buttons/on");
-            soundsOff = new Button(new Point(screenWidth / 2 + 3 * smallButtonWidth, 485), smallButtonWidth, smallButtonHeight, "sounds off", "Buttons/off");
-            setBackground = new Button(new Point(screenWidth / 2 + largeButtonWidth, screenHeight - largeButtonHeight - 40), 
+            plLHand = new Button(new Point(screenWidth / 2 + smallButtonWidth, 150), smallButtonWidth, smallButtonHeight, "player one left", "Buttons/left");
+            plRHand = new Button(new Point(screenWidth / 2 + 3 * smallButtonWidth, 150), smallButtonWidth, smallButtonHeight, "player one right", "Buttons/right");
+            p2LHand = new Button(new Point(screenWidth / 2 + smallButtonWidth, 245), smallButtonWidth, smallButtonHeight, "player two left", "Buttons/left");
+            p2RHand = new Button(new Point(screenWidth / 2 + 3 * smallButtonWidth, 245), smallButtonWidth, smallButtonHeight, "player two right", "Buttons/right");
+            roomQuiet = new Button(new Point(screenWidth / 2 - smallButtonWidth, 340), smallButtonWidth, smallButtonHeight, "room low", "Buttons/low");
+            roomAver = new Button(new Point(screenWidth / 2 + smallButtonWidth, 340), smallButtonWidth, smallButtonHeight, "room medium", "Buttons/medium");
+            roomLoud = new Button(new Point(screenWidth / 2 + 3 * smallButtonWidth, 340), smallButtonWidth, smallButtonHeight, "room high", "Buttons/high");
+            soundsOn = new Button(new Point(screenWidth / 2 + smallButtonWidth, 435), smallButtonWidth, smallButtonHeight, "sounds on", "Buttons/on");
+            soundsOff = new Button(new Point(screenWidth / 2 + 3 * smallButtonWidth, 435), smallButtonWidth, smallButtonHeight, "sounds off", "Buttons/off");
+            unlockOn = new Button(new Point(screenWidth / 2 + smallButtonWidth, 530), smallButtonWidth, smallButtonHeight, "unlock on", "Buttons/on");
+            unlockOff = new Button(new Point(screenWidth / 2 + 3 * smallButtonWidth, 530), smallButtonWidth, smallButtonHeight, "unlock off", "Buttons/off");
+            setBackground = new Button(new Point(screenWidth / 2 + largeButtonWidth, screenHeight - largeButtonHeight - 20), 
                 largeButtonWidth, largeButtonHeight, "setBackground", "Buttons/setBackground");
-            setGoalImage = new Button(new Point(screenWidth / 2 - 2 * largeButtonWidth, screenHeight - largeButtonHeight - 40), 
+            setGoalImage = new Button(new Point(screenWidth / 2 - 2 * largeButtonWidth, screenHeight - largeButtonHeight - 20), 
                 largeButtonWidth, largeButtonHeight, "setGoalImage", "Buttons/setGoalImage");
-            calibrateKinect = new Button(new Point(screenWidth / 2 - (int)(.5 * largeButtonWidth), screenHeight - largeButtonHeight - 40),
-                largeButtonWidth, largeButtonHeight, "setBackground", "Buttons/settings");
+            calibrateKinect = new Button(new Point(screenWidth / 2 - (int)(.5 * largeButtonWidth), screenHeight - largeButtonHeight - 20),
+                largeButtonWidth, largeButtonHeight, "calibrateKinect", "Buttons/calibrateKinect");
 
             buttons = new List<Button>();
             buttons.Add(menuButton);
@@ -52,6 +54,8 @@ namespace MazeAndBlue
             buttons.Add(roomLoud);
             buttons.Add(soundsOn);
             buttons.Add(soundsOff);
+            buttons.Add(unlockOn);
+            buttons.Add(unlockOff);
 //            buttons.Add(setBackground);
 //            buttons.Add(setGoalImage);
             buttons.Add(calibrateKinect);
@@ -73,19 +77,23 @@ namespace MazeAndBlue
             string text2 = "Player Two Primary Hand";
             string text3 = "Room Volume";
             string text4 = "Game Sounds";
+            string text5 = "Unlock Levels";
             int x = 150;
-            int y1 = 180;
-            int y2 = 285;
-            int y3 = 390;
-            int y4 = 495;
+            int y1 = 160;
+            int y2 = 255;
+            int y3 = 350;
+            int y4 = 445;
+            int y5 = 540;
             Vector2 text1Pos = new Vector2(x, y1);
             Vector2 text2Pos = new Vector2(x, y2);
             Vector2 text3Pos = new Vector2(x, y3);
             Vector2 text4Pos = new Vector2(x, y4);
+            Vector2 text5Pos = new Vector2(x, y5);
             spriteBatch.DrawString(MazeAndBlue.font, text1, text1Pos, Color.Black);
             spriteBatch.DrawString(MazeAndBlue.font, text2, text2Pos, Color.Black); 
             spriteBatch.DrawString(MazeAndBlue.font, text3, text3Pos, Color.Black); 
             spriteBatch.DrawString(MazeAndBlue.font, text4, text4Pos, Color.Black);
+            spriteBatch.DrawString(MazeAndBlue.font, text5, text5Pos, Color.Black);
 
             plRHand.selected = Program.game.players[0].rightHanded;
             plLHand.selected = !plRHand.selected;
@@ -113,6 +121,9 @@ namespace MazeAndBlue
             soundsOn.selected = Program.game.soundEffectPlayer.soundsOn;
             soundsOff.selected = !soundsOn.selected;
 
+            unlockOn.selected = Program.game.unlockOn;
+            unlockOff.selected = !unlockOn.selected;
+           
             foreach (Button button in buttons)
                 button.draw(spriteBatch);
         }
@@ -142,6 +153,10 @@ namespace MazeAndBlue
                 Program.game.settings.updateSound(true);
             else if (soundsOff.isSelected())
                 Program.game.settings.updateSound(false);
+            else if (unlockOn.isSelected())
+                Program.game.settings.updateUnlock(true);
+            else if (unlockOff.isSelected())
+                Program.game.settings.updateUnlock(false);
             else if (calibrateKinect.isSelected())
                 Program.game.startCalibrationScreen();
             

@@ -11,7 +11,7 @@ namespace MazeAndBlue
         Button menuButton, easyButton, hardButton;
         List<Button> easyLevelButtons, hardLevelButtons;
         bool singlePlayer;
-        enum LevelsState { COOPEASY, COOPHARD };
+        enum LevelsState { EASY, HARD };
         LevelsState levelsState;
         string[] levelNames = { "level one", "level two", "level three", "level four", "level five", "level six" };
 
@@ -43,26 +43,35 @@ namespace MazeAndBlue
             easyButton = new Button(new Point(easyx, menuButtony), menuButtonWidth, menuButtonHeight, "Easy", "Buttons/easy");
             hardButton = new Button(new Point(hardx, menuButtony), menuButtonWidth, menuButtonHeight, "Hard", "Buttons/hard");
 
-            if (!singlePlayer)
-                levelsState = LevelsState.COOPEASY;
+            levelsState = LevelsState.EASY;
 
             easyLevelButtons = new List<Button>();
             hardLevelButtons = new List<Button>();
 
-            switch (levelsState)
+
+            if (singlePlayer)
             {
-                case LevelsState.COOPEASY:
-                case LevelsState.COOPHARD:
-                    for (int i = 0; i < 6; i++)
-                    {
-                        easyLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/level" + i));
-                        hardLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/level" + (i + 6)));
-                        if (Program.game.unlockOn && i > Program.game.gameStats.data.coopNextLevelToUnlock)
-                            easyLevelButtons[i].selectable = false;
-                        if (Program.game.unlockOn && i + 6 > Program.game.gameStats.data.coopNextLevelToUnlock)
-                            hardLevelButtons[i].selectable = false;
-                    }
-                    break;
+                for (int i = 0; i < 6; i++)
+                {
+                    easyLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/level" + i));
+                    hardLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/level" + (i + 6)));
+                    if (Program.game.unlockOn && i > Program.game.gameStats.data.singleNextLevelToUnlock)
+                        easyLevelButtons[i].selectable = false;
+                    if (Program.game.unlockOn && i + 6 > Program.game.gameStats.data.singleNextLevelToUnlock)
+                        hardLevelButtons[i].selectable = false;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    easyLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/level" + i));
+                    hardLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/level" + (i + 6)));
+                    if (Program.game.unlockOn && i > Program.game.gameStats.data.coopNextLevelToUnlock)
+                        easyLevelButtons[i].selectable = false;
+                    if (Program.game.unlockOn && i + 6 > Program.game.gameStats.data.coopNextLevelToUnlock)
+                        hardLevelButtons[i].selectable = false;
+                }
             }
         }
         
@@ -87,7 +96,7 @@ namespace MazeAndBlue
 
             switch (levelsState)
             {
-                case LevelsState.COOPEASY:
+                case LevelsState.EASY:
                     for (int i = 0; i < easyLevelButtons.Count; i++)
                     {
                         if (easyLevelButtons[i].selectable)
@@ -98,7 +107,7 @@ namespace MazeAndBlue
                     easyButton.selected = true;
                     hardButton.selected = false;
                     break;
-                case LevelsState.COOPHARD:
+                case LevelsState.HARD:
                     for (int i = 0; i < hardLevelButtons.Count; i++)
                     {
                         if (hardLevelButtons[i].selectable)
@@ -117,20 +126,20 @@ namespace MazeAndBlue
             if (menuButton.isSelected())
                 Program.game.startMainMenu();
             else if (easyButton.isSelected())
-                levelsState = LevelsState.COOPEASY;
+                levelsState = LevelsState.EASY;
             else if (hardButton.isSelected())
-                levelsState = LevelsState.COOPHARD;
+                levelsState = LevelsState.HARD;
 
             switch (levelsState)
             {
-                case LevelsState.COOPEASY:
+                case LevelsState.EASY:
                     for (int i = 0; i < easyLevelButtons.Count; i++)
                     {
                         if (easyLevelButtons[i].selectable && easyLevelButtons[i].isSelected())
                             Program.game.startLevel(i, singlePlayer);
                     }
                     break;
-                case LevelsState.COOPHARD:
+                case LevelsState.HARD:
                     for (int i = 0; i < hardLevelButtons.Count; i++)
                     {
                         if (hardLevelButtons[i].selectable && hardLevelButtons[i].isSelected())

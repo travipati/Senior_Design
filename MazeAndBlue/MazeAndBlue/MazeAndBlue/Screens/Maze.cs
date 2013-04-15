@@ -39,7 +39,11 @@ namespace MazeAndBlue
             goal = new Rectangle();
             switches = new List<DoorSwitch>();
 
-            string mazeFile = "Mazes/" + level + ".maze";
+            string mazeFile;
+            if (singlePlayer)
+                mazeFile = "Mazes/" + (level + 12) + ".maze";
+            else
+                mazeFile = "Mazes/" + level + ".maze";
             readFile(mazeFile);
 
             pauseButton = new Button(new Point(Program.game.screenWidth - 170, 30), 136, 72, "Pause", "Buttons/pause");

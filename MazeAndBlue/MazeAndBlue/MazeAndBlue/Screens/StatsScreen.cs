@@ -106,7 +106,9 @@ namespace MazeAndBlue
                     Program.game.drawText("Easy Levels Stats", new Point(x, y));
                     List<string> simpleBlock = new List<string>();
                     for (int i = 0; i < 6; i++)
-                        simpleBlock.Add("Level " + (i + 1) + " Score: " + Program.game.gameStats.data.levelData[i].score);
+                        simpleBlock.Add("Level " + (i + 1) + "        Score: " + Program.game.gameStats.data.levelData[i].score +
+                            "        Time: " + Program.game.gameStats.data.levelData[i].time + "        Wall Hits: " + Program.game.gameStats.data.levelData[i].hits
+                             + "        Stars: " + Program.game.gameStats.data.levelData[i].numStars);
                     drawBlock(simpleBlock);
                     break;
                 case StatsState.HARD:

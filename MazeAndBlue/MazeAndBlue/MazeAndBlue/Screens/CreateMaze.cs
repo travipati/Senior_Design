@@ -25,12 +25,12 @@ namespace MazeAndBlue
 
             state = CreateState.WALLS;
 
-            wallButton = new Button(new Point(30, 30), 136, 72, "Walls", "Buttons/button");
-            goalButton = new Button(new Point(200, 30), 136, 72, "Goal", "Buttons/button");
-            p1Button = new Button(new Point(370, 30), 136, 72, "P1", "Buttons/button");
-            p2Button = new Button(new Point(540, 30), 136, 72, "P2", "Buttons/button");
-            mainMenuButton = new Button(new Point(Program.game.screenWidth - 332, 30), 136, 72, "Back", "Buttons/button");
-            saveButton = new Button(new Point(Program.game.screenWidth-166, 30), 136, 72, "Save", "Buttons/button");
+            wallButton = new Button(new Point(30, 30), 136, 72, "Wall", "Buttons/wall");
+            goalButton = new Button(new Point(200, 30), 136, 72, "Goal", "Buttons/goal");
+            p1Button = new Button(new Point(370, 30), 136, 72, "Player One", "Buttons/playerOne");
+            p2Button = new Button(new Point(540, 30), 136, 72, "Player Two", "Buttons/playerTwo");
+            mainMenuButton = new Button(new Point(Program.game.screenWidth - 166, 30), 136, 72, "Main Menu", "Buttons/mainMenuButton");
+            saveButton = new Button(new Point(Program.game.screenWidth - 332, 30), 136, 72, "Save", "Buttons/save");
 
             hlColor = Color.LightYellow;
             tempColor = new Color(0, 0, 0, 25);
