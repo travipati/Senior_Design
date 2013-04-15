@@ -285,6 +285,14 @@ namespace MazeAndBlue
             string filename = "Mazes/temp.maze";
             File.WriteAllLines(filename, lines);
 
+            //Hard coded coordinates
+            //automatically save the thumbnail.
+            System.Drawing.Rectangle bounds = new System.Drawing.Rectangle(0, 0, 1280, 768);//define size of image output
+            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
+            System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bitmap);
+            g.CopyFromScreen(new System.Drawing.Point(300, 200), System.Drawing.Point.Empty, bounds.Size);
+            bitmap.Save("test.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+
             Program.game.startMainMenu();
         }
 

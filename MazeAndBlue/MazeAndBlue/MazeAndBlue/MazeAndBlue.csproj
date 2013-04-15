@@ -108,6 +108,7 @@
       <Private>False</Private>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms">
       <Private>False</Private>
       <EmbedInteropTypes>False</EmbedInteropTypes>
