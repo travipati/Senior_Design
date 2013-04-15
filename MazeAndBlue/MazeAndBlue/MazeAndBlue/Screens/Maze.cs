@@ -295,6 +295,7 @@ namespace MazeAndBlue
 
             Point vec;
             Rectangle rect;
+            Sprite sprite;
 
             if (words[0] == "1" || words[0] == "2")
             {
@@ -307,7 +308,7 @@ namespace MazeAndBlue
                 else if (words[0] == "2")
                     balls.Add(new Ball(vec, Color.Yellow));
             }
-            else if (words[0] == "goal" || words[0] == "wall" || words[0] == "switch" || words[0] == "door")
+            else if (words[0] == "goal" || words[0] == "wall" || words[0] == "door")
             {
                 if (words.Length != 5)
                     return false;
@@ -318,12 +319,6 @@ namespace MazeAndBlue
                     goal = rect;
                 else if (words[0] == "wall")
                     walls.Add(rect);
-                else if (words[0] == "switch")
-                {
-                    if (switches.Count == 0)
-                        return false;
-                    switches[switches.Count - 1].addSwitch(rect);
-                }
                 else if (words[0] == "door")
                 {
                     if (switches.Count == 0)
@@ -338,6 +333,15 @@ namespace MazeAndBlue
                     return false;
 
                 switches.Add(new DoorSwitch(Convert.ToBoolean(words[1]), Convert.ToInt32(words[2])));
+            }
+            else if (words[0] == "switch")
+            {
+                if (words.Length != 5 || switches.Count == 0)
+                    return false;
+                sprite = new Sprite(new Point(Program.game.sx(Convert.ToInt32(words[1])), Program.game.sy(Convert.ToInt32(words[2]))),
+                    Convert.ToInt32(words[3]), Convert.ToInt32(words[4]));
+
+                switches[switches.Count - 1].addSwitch(sprite);
             }
             else
                 return false;

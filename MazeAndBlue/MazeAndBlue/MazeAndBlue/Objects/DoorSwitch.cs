@@ -8,11 +8,10 @@ namespace MazeAndBlue
     {
         Color color;
         Color doorColor;
-        List<Rectangle> switches;
+        List<Sprite> switches;
         List<Rectangle> doors;
         bool permanent;
         int numRequired;
-        Texture2D switchTexture;
         Texture2D doorTexture;
 
         static Color[] colorArray = new Color[] { Color.Orange, Color.Purple, Color.Cyan, Color.Silver, Color.Crimson, Color.Pink, Color.Maroon, Color.Lime };
@@ -24,15 +23,15 @@ namespace MazeAndBlue
         {
             permanent = _permanent;
             numRequired = _numRequired;
-            switches = new List<Rectangle>();
+            switches = new List<Sprite>();
             doors = new List<Rectangle>();
             color = doorColor = colorArray[curColorIndex++];
             curColorIndex %= colorArray.Length;
         }
 
-        public void addSwitch(Rectangle door)
+        public void addSwitch(Sprite dswitch)
         {
-            switches.Add(door);
+            switches.Add(dswitch);
         }
 
         public void addDoor(Rectangle door)
@@ -44,31 +43,23 @@ namespace MazeAndBlue
         {
             doorTexture = new Texture2D(Program.game.GraphicsDevice, 1, 1);
             doorTexture.SetData<Color>(new Color[] { Color.White });
-            switchTexture = new Texture2D(Program.game.GraphicsDevice, 1, 1);
-            switchTexture.SetData<Color>(new Color[] { Color.White });
+            foreach (Sprite dswitch in switches)
+            {
+                if (numRequired > 1)
+                    dswitch.loadContent("star");
+                else if (permanent)
+                    dswitch.loadContent("diamond");
+                else
+                    dswitch.loadContent("square");
+            }
         }
 
         public void draw(SpriteBatch spriteBatch)
         {
-            string text = string.Empty;
-            if (numRequired > 1)
-                text = "M";
-            else if (permanent)
-                text = "P";
             foreach (Rectangle rect in doors)
                 spriteBatch.Draw(doorTexture, rect, doorColor);
-            foreach (Rectangle rect in switches)
-            {
-                spriteBatch.Draw(switchTexture, rect, color);
-                if (numRequired > 1 || permanent)
-                {
-                    Vector2 textSize = MazeAndBlue.font.MeasureString(text);
-                    int x = (int)(rect.X + (rect.Width - textSize.X) / 2);
-                    int y = (int)(rect.Y + (rect.Height - textSize.Y) / 2);
-                    Vector2 textPos = new Vector2(x, y);
-                    spriteBatch.DrawString(MazeAndBlue.font, text, textPos, Color.Black);
-                }
-            }
+            foreach (Sprite dswitch in switches)
+                dswitch.draw(spriteBatch, color);
         }
 
         public void update(List<Ball> balls, ref List<Rectangle> walls)
@@ -76,7 +67,7 @@ namespace MazeAndBlue
             bool playsound = false;
 
             int count = 0;
-            foreach (Rectangle dswitch in switches)
+            foreach (Sprite dswitch in switches)
             {
                 foreach (Ball ball in balls)
                 {
@@ -113,6 +104,5 @@ namespace MazeAndBlue
             if (playsound)
                 Program.game.soundEffectPlayer.playDoor();
         }
-
     }
 }

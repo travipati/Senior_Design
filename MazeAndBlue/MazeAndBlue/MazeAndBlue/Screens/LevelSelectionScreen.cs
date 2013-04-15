@@ -43,29 +43,27 @@ namespace MazeAndBlue
             easyButton = new Button(new Point(easyx, menuButtony), menuButtonWidth, menuButtonHeight, "Easy", "Buttons/easy");
             hardButton = new Button(new Point(hardx, menuButtony), menuButtonWidth, menuButtonHeight, "Hard", "Buttons/hard");
 
+            if (!singlePlayer)
+                levelsState = LevelsState.COOPEASY;
+
             easyLevelButtons = new List<Button>();
             hardLevelButtons = new List<Button>();
 
-            for (int i = 0; i < 12; i++)
+            switch (levelsState)
             {
-                if (i < 6)
-                    easyLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/level" + i));
-                else
-                    hardLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[(i % 6) / 3]), levelButtonWidth, levelButtonHeight, levelNames[i % 6], "LevelThumbnails/level" + i));
+                case LevelsState.COOPEASY:
+                case LevelsState.COOPHARD:
+                    for (int i = 0; i < 6; i++)
+                    {
+                        easyLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/level" + i));
+                        hardLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/level" + (i + 6)));
+                        if (Program.game.unlockOn && i > Program.game.gameStats.data.coopNextLevelToUnlock)
+                            easyLevelButtons[i].selectable = false;
+                        if (Program.game.unlockOn && i + 6 > Program.game.gameStats.data.coopNextLevelToUnlock)
+                            hardLevelButtons[i].selectable = false;
+                    }
+                    break;
             }
-
-            for (int i = 0; i < easyLevelButtons.Count; i++)
-            {
-                if (Program.game.unlockOn && i > Program.game.gameStats.data.coopNextLevelToUnlock)
-                    easyLevelButtons[i].selectable = false;
-            }
-            for (int i = 0; i < hardLevelButtons.Count; i++)
-            {
-                if (Program.game.unlockOn && i + 6 > Program.game.gameStats.data.coopNextLevelToUnlock)
-                    hardLevelButtons[i].selectable = false;
-            }
-
-            levelsState = LevelsState.COOPEASY;
         }
         
         public void loadContent()
