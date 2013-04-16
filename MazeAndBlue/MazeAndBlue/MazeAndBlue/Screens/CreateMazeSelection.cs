@@ -7,10 +7,11 @@ namespace MazeAndBlue
 {
     public class CreateMazeSelection 
     {
-        Button createMazeButton, singleButton, coOpButton, easyButton, hardButton, nextButton, prevButton;
+        Button createMazeButton, singleButton, coOpButton, easyButton, hardButton, nextButton, prevButton,
+            playButton, deleteButton;
         List<Button> levelButtons;
         List<Button> buttons;
-        bool singlePlayer, easy;
+        bool singlePlayer, easy, play;
         int page;
 
         public CreateMazeSelection()
@@ -29,18 +30,23 @@ namespace MazeAndBlue
 
             singlePlayer = true;
             easy = true;
+            play = true;
             page = 0;
 
             createMazeButton = new Button
-                (new Point(10, 10), 200, 100, "Create", "Buttons/button");
+                (new Point(20, 20), 200, 100, "Create", "Buttons/button");
             singleButton = new Button
-                (new Point(250, 10), 200, 100, "Single Player", "Buttons/button");
+                (new Point(260, 20), 200, 100, "Single Player", "Buttons/button");
             coOpButton = new Button
-                (new Point(500, 10), 200, 100, "Co Op", "Buttons/button");
+                (new Point(490, 20), 200, 100, "Co Op", "Buttons/button");
             easyButton = new Button
-                (new Point(250, 150), 200, 100, "easy", "Buttons/easy");
+                (new Point(720, 20), 200, 100, "easy", "Buttons/easy");
             hardButton = new Button
-                (new Point(500, 150), 200, 100, "hard", "Buttons/hard");
+                (new Point(950, 20), 200, 100, "hard", "Buttons/hard");
+            playButton = new Button
+                (new Point(300, 150), 200, 100, "Play", "Buttons/button");
+            deleteButton = new Button
+                (new Point(600, 150), 200, 100, "Delete", "Buttons/button");
 
             levelButtons = new List<Button>();
             int nameId = 0;
@@ -65,6 +71,8 @@ namespace MazeAndBlue
             buttons.Add(coOpButton);
             buttons.Add(easyButton);
             buttons.Add(hardButton);
+            buttons.Add(playButton);
+            buttons.Add(deleteButton);
         }
 
         public void loadContent()
@@ -83,6 +91,8 @@ namespace MazeAndBlue
             coOpButton.selected = !singlePlayer;
             easyButton.selected = easy;
             hardButton.selected = !easy;
+            playButton.selected = play;
+            deleteButton.selected = !play;
 
             foreach (Button button in buttons)
                 button.draw(spriteBatch);
@@ -113,13 +123,17 @@ namespace MazeAndBlue
                 easy = true;
             else if (hardButton.isSelected())
                 easy = false;
+            else if (playButton.isSelected())
+                play = true;
+            else if (deleteButton.isSelected())
+                play = false;
             else if (levelButtons.Count > (page + 1) * 6 && nextButton.isSelected())
                 page++;
             else if (page > 0 && prevButton.isSelected())
                 page--;
             for (int i = 0; i < levelButtons.Count; i++)
             {
-                if (levelButtons[i].selectable && levelButtons[i].isSelected())
+                if (play && levelButtons[i].selectable && levelButtons[i].isSelected())
                     Program.game.startCustomLevel(i);
             }
         }
