@@ -56,12 +56,9 @@ namespace MazeAndBlue
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
-            var form = (System.Windows.Forms.Form)System.Windows.Forms.Form.FromHandle(Window.Handle);
-            form.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-
             graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;// -8;
             graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;// -30;
-            //graphics.IsFullScreen = true;
+            graphics.IsFullScreen = true;
 
             level = 0;
             unlockOn = true;
