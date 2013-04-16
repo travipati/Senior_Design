@@ -7,10 +7,11 @@ namespace MazeAndBlue
 {
     public class CreateMazeSelection 
     {
-        Button createMazeButton, singleButton, coOpButton, easyButton, hardButton, next, previous;
+        Button createMazeButton, singleButton, coOpButton, easyButton, hardButton, nextButton, prevButton;
         List<Button> levelButtons;
         List<Button> buttons;
         bool singlePlayer, easy;
+        int page;
 
         public CreateMazeSelection()
         {
@@ -28,6 +29,7 @@ namespace MazeAndBlue
 
             singlePlayer = true;
             easy = true;
+            page = 0;
 
             createMazeButton = new Button
                 (new Point(10, 10), 200, 100, "Create", "Buttons/button");
@@ -46,11 +48,16 @@ namespace MazeAndBlue
             string imagename = "test" + nameId + ".png";
             while (File.Exists(filename) && File.Exists(imagename))
             {
-                levelButtons.Add(new Button(new Point(levelx[nameId % 3], levely[nameId / 3]), levelButtonWidth, levelButtonHeight, nameId.ToString(), imagename, true));
+                levelButtons.Add(new Button(new Point(levelx[nameId % 3], levely[(nameId / 3) % 2]), levelButtonWidth, levelButtonHeight, nameId.ToString(), imagename, true));
                 nameId++;
                 filename = "Mazes/temp" + nameId + ".maze";
                 imagename = "test" + nameId + ".png";
             }
+
+            nextButton = new Button
+                (new Point(screenWidth - 220, screenHeight - 120), 200, 100, "Next", "Buttons/button");
+            prevButton = new Button
+                (new Point(20, screenHeight - 120), 200, 100, "Previous", "Buttons/button");
 
             buttons = new List<Button>();
             buttons.Add(createMazeButton);
@@ -58,14 +65,16 @@ namespace MazeAndBlue
             buttons.Add(coOpButton);
             buttons.Add(easyButton);
             buttons.Add(hardButton);
-            foreach (Button levelButton in levelButtons)
-                buttons.Add(levelButton);
         }
 
         public void loadContent()
         {
             foreach (Button button in buttons)
                 button.loadContent();
+            nextButton.loadContent();
+            prevButton.loadContent();
+            foreach (Button levelButton in levelButtons)
+                levelButton.loadContent();
         }
 
         public void draw(SpriteBatch spriteBatch)
@@ -77,6 +86,19 @@ namespace MazeAndBlue
 
             foreach (Button button in buttons)
                 button.draw(spriteBatch);
+            if (levelButtons.Count <= (page + 1) * 6)
+            {
+                for (int i = page * 6; i < levelButtons.Count; i++)
+                    levelButtons[i].draw(spriteBatch);
+            }
+            else
+            {
+                for (int i = page * 6; i < (page + 1) * 6; i++)
+                    levelButtons[i].draw(spriteBatch);                  
+                nextButton.draw(spriteBatch);
+            }
+            if (page > 0)
+                prevButton.draw(spriteBatch);
         }
 
         public void update()
@@ -91,6 +113,10 @@ namespace MazeAndBlue
                 easy = true;
             else if (hardButton.isSelected())
                 easy = false;
+            else if (levelButtons.Count > (page + 1) * 6 && nextButton.isSelected())
+                page++;
+            else if (page > 0 && prevButton.isSelected())
+                page--;
             for (int i = 0; i < levelButtons.Count; i++)
             {
                 if (levelButtons[i].selectable && levelButtons[i].isSelected())
