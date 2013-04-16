@@ -63,9 +63,19 @@ namespace MazeAndBlue
 
             if (countdown - timer.time <= 0)
             {
-                Program.game.calibratePlayers();
+                calibratePlayers();
                 Program.game.resumeSettings();
             }
         }
+
+        public void calibratePlayers()
+        {
+            for (int i = 0; i <Program.game.players.Count; i++)
+            {
+                if (Program.game.kinect.playerSkeleton[i] != null)
+                    Program.game.players[i].setMovementRange(Program.game.kinect.playerSkeleton[i]);
+            }
+        }
+
     }
 }
