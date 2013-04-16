@@ -152,7 +152,7 @@ namespace MazeAndBlue
             else
             {
                 point = skeleton.Joints[JointType.HandLeft].Position;
-                xPercent = (point.X - center.X) / (movementRange * .8f);
+                xPercent = (center.X + point.X) / (movementRange * .8f) + 1;
             }
 
              

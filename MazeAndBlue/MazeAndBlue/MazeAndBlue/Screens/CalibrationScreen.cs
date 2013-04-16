@@ -43,7 +43,8 @@ namespace MazeAndBlue
 
         public void draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(background, Vector2.Zero, Color.White);
+            spriteBatch.Draw(background, Vector2.Zero, null, Color.White, 0f, 
+                Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
             menuButton.draw(spriteBatch);
             string text = "Calibrating the Kinect:\n\n" +
                 "Outstretch your controlling arm fully to your side,\n" +
