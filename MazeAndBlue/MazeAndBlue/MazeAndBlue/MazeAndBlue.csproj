@@ -254,18 +254,42 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="MazeAndBlue_TemporaryKey.pfx" />
-    <None Include="Mazes\12.maze" />
-    <None Include="Mazes\13.maze" />
-    <None Include="Mazes\14.maze" />
-    <None Include="Mazes\15.maze" />
-    <None Include="Mazes\16.maze" />
-    <None Include="Mazes\17.maze" />
-    <None Include="Mazes\18.maze" />
-    <None Include="Mazes\19.maze" />
-    <None Include="Mazes\20.maze" />
-    <None Include="Mazes\21.maze" />
-    <None Include="Mazes\22.maze" />
-    <None Include="Mazes\23.maze" />
+    <Content Include="Mazes\12.maze">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Mazes\13.maze">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Mazes\14.maze">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Mazes\15.maze">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Mazes\16.maze">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Mazes\17.maze">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Mazes\18.maze">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Mazes\19.maze">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Mazes\20.maze">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Mazes\21.maze">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Mazes\22.maze">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Mazes\23.maze">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
