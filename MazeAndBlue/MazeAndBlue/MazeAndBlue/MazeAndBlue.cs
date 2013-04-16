@@ -10,10 +10,10 @@ namespace MazeAndBlue
         SpriteBatch spriteBatch;
         Texture2D background;
 
-        Kinect kinect;
-        Maze maze;
+        public Kinect kinect;
         public GameStats gameStats;
         public GameSettings settings;
+        Maze maze;
         MainMenu mainMenu;
         ScoreScreen scoreScreen;
         LevelSelectionScreen levelSelectionScreen;
@@ -29,7 +29,6 @@ namespace MazeAndBlue
         public int level { get; set; }
         public bool singlePlayer { get; set; }
         public bool unlockOn { get; set; }
-        //const int numLevels = 12;
         bool vsSecondCycle = false;
 
         public List<Player> players { get; set; }
@@ -49,15 +48,12 @@ namespace MazeAndBlue
 
         public MazeAndBlue()
         {
-            // Whenever hard-coding screen coordinates or widths/height, the sx/sy functions must be used
-            // Optimal screen resolution: 1366 x 768 (no scaling will occur at this resolution)
-
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
-            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;// -8;
-            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;// -30;
+            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             graphics.IsFullScreen = true;
 
             level = 0;
@@ -133,7 +129,6 @@ namespace MazeAndBlue
         public void startLevel()
         {
             state = GameState.GAME;
-//            level %= numLevels;
             maze = new Maze(level, singlePlayer);
             maze.loadContent();
         }
@@ -146,7 +141,6 @@ namespace MazeAndBlue
         public void startCustomLevel(int i)
         {
             state = GameState.GAME;
-            //            level %= numLevels;
             maze = new Maze(i);
             maze.loadContent();
         }
@@ -195,17 +189,6 @@ namespace MazeAndBlue
             calibrationScreen = new CalibrationScreen();
             calibrationScreen.loadContent();
             state = GameState.CALIBRATE;
-        }
-
-        public void calibratePlayers()
-        {
-            for (int i = 0; i < players.Count; i++)
-            {
-                if (kinect.playerSkeleton[i] != null)
-                {
-                    players[i].setMovementRange(kinect.playerSkeleton[i]);
-                }
-            }
         }
 
         public void resumeSettings()
@@ -293,8 +276,14 @@ namespace MazeAndBlue
             ms.grabInput();
             ks.grabInput();
 
-            if (vs.word == "exit" || ks.key == "Esc")
+            if (vs.word == "exit")
                 Exit();
+
+            if (ks.newKeyReady && ks.key == "Esc")
+            {
+                graphics.ToggleFullScreen(); 
+                ks.newKeyReady = false;
+            }
 
             switch (state)
             {
