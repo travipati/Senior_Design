@@ -4,7 +4,7 @@ using Microsoft.Kinect;
 
 namespace MazeAndBlue
 {
-    class Kinect
+    public class Kinect
     {
         KinectSensor sensor;
         public Skeleton[] playerSkeleton;
