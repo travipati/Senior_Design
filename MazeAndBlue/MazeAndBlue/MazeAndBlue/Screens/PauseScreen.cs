@@ -56,9 +56,6 @@ namespace MazeAndBlue
 
         public void update()
         {
-            foreach (Button button in buttons)
-                button.update();
-
             if (resumeButton.isSelected())
                 Program.game.resumeLevel();
             if (restartButton.isSelected())

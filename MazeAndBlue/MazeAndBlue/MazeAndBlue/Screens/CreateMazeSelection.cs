@@ -43,11 +43,13 @@ namespace MazeAndBlue
             levelButtons = new List<Button>();
             int nameId = 0;
             string filename = "Mazes/temp" + nameId + ".maze";
-            while (File.Exists(filename))
+            string imagename = "test" + nameId + ".png";
+            while (File.Exists(filename) && File.Exists(imagename))
             {
-                levelButtons.Add(new Button(new Point(levelx[nameId % 3], levely[nameId / 3]), levelButtonWidth, levelButtonHeight, nameId.ToString(), "star"));
+                levelButtons.Add(new Button(new Point(levelx[nameId % 3], levely[nameId / 3]), levelButtonWidth, levelButtonHeight, nameId.ToString(), imagename, true));
                 nameId++;
                 filename = "Mazes/temp" + nameId + ".maze";
+                imagename = "test" + nameId + ".png";
             }
 
             buttons = new List<Button>();

@@ -57,14 +57,8 @@ namespace MazeAndBlue
 
         public void update()
         {
-            foreach (Button button in buttons)
-            {
-                button.update();
-            }
             if (menuButton.isSelected())
-            {
                 Program.game.resumeSettings();
-            }
 
             if (countdown - timer.time <= 0)
             {

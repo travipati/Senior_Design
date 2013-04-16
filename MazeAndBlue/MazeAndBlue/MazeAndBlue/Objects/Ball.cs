@@ -10,9 +10,8 @@ namespace MazeAndBlue
         int prevId;
         Color color;
 
-        public Ball(Point pos, Color c)
+        public Ball(Point pos, Color c) : base(pos)
         {
-            position = pos;
             color = c;
             playerId = -1;
             prevId = -1;

@@ -130,9 +130,6 @@ namespace MazeAndBlue
 
         public void update()
         {
-            foreach (Button button in buttons)
-                button.update();
-
             if (menuButton.isSelected())
                 Program.game.startMainMenu();
             else if (plRHand.isSelected())

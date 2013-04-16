@@ -32,7 +32,7 @@ namespace MazeAndBlue
             mainMenuButton = new Button(new Point(Program.game.screenWidth - 166, 30), 136, 72, "Main Menu", "Buttons/mainMenuButton");
             saveButton = new Button(new Point(Program.game.screenWidth - 332, 30), 136, 72, "Save", "Buttons/save");
 
-            hlColor = Color.LightYellow;
+            hlColor = new Color(25, 255, 55, 25);
             tempColor = new Color(0, 0, 0, 25);
             wallColor = Color.Black;
             goalColor = Color.Red;

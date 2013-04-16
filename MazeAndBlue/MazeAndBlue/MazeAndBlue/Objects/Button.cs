@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.IO;
 
 namespace MazeAndBlue
 {
@@ -7,18 +8,16 @@ namespace MazeAndBlue
     {
         public bool selected { get; set; }
         public bool selectable { get; set; }
-        int originalW;
-        int originalH;
-        Point originalPos;
-        string path;
+        string text, path;
         Sprite hoverBg, selectBg;
-        string text;
+        bool isStream;
 
-        public Button(Point pos, int w, int h, string s, string p) : base(pos, w, h)
+        public Button(Point pos, int w, int h, string s, string p)
+            : this(pos, w, h, s, p, false) { }
+
+        public Button(Point pos, int w, int h, string s, string p, bool stream) : base(pos, w, h)
         {
-            originalH = h;
-            originalW = w;
-            originalPos = pos;
+            isStream = stream;
             text = s;
             path = p;
             hoverBg = new Sprite(new Point(pos.X - 10, pos.Y - 10), w + 20, h + 20);
@@ -27,67 +26,31 @@ namespace MazeAndBlue
             selectable = true;
         }
 
-        public void enlarge(double p)
-        {
-            int w = (int)(originalW * (1 + p));
-            int h = (int)(originalH * (1 + p));
-            this.position.X = originalPos.X - (int)(originalW * 0.5 * p);  
-            this.position.Y = originalPos.Y - (int)(originalH * 0.5 * p);
-            this.width = w;
-            this.height = h;
-        }
-
-        public void resetSize()
-        {
-            this.position = originalPos;
-            this.height = originalH;
-            this.width = originalW;
-        }
-
-        public void reload()
-        {
-            resetSize();
-            loadContent(path);
-        }
-
         public void loadContent()
         {
-            loadContent(path);
+            if (isStream)
+                loadContent(File.OpenRead(path));
+            else
+                loadContent(path);
             hoverBg.loadContent("Buttons/black");
             selectBg.loadContent("Buttons/maize");
         }
 
         public override void draw(SpriteBatch spriteBatch, Color textureColor)
         {
-            draw(spriteBatch, textureColor, Color.Black);
-        }
-
-        public void draw(SpriteBatch spriteBatch, Color textureColor, Color fontColor)
-        {
             if (isOver() && selectable)
                 hoverBg.draw(spriteBatch);
             if (selected)
                 selectBg.draw(spriteBatch);
-            spriteBatch.Draw(texture, new Rectangle((int)position.X, (int)position.Y, width, height), textureColor);
+            base.draw(spriteBatch, textureColor);
             if (path == "Buttons/button")
             {
                 Vector2 textSize = MazeAndBlue.font.MeasureString(text);
                 int x = (int)(position.X + (width - textSize.X) / 2);
                 int y = (int)(position.Y + (height - textSize.Y) / 2);
                 Vector2 textPos = new Vector2(x, y);
-                spriteBatch.DrawString(MazeAndBlue.font, text, textPos, fontColor);
+                spriteBatch.DrawString(MazeAndBlue.font, text, textPos, Color.Black);
             }
-        }
-
-        public void update()
-        {
-           /* if (isOver())
-            {
-                enlarge(0.1);
-                loadContent("Buttons/Hover");
-            }
-            else
-                reload();*/
         }
 
         public bool isSelected()
@@ -132,5 +95,6 @@ namespace MazeAndBlue
 
             return false;
         }
+
     }
 }

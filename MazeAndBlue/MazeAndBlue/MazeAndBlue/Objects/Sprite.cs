@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.IO;
 
 namespace MazeAndBlue
 {
@@ -11,7 +12,6 @@ namespace MazeAndBlue
 
         public Sprite() : this(new Point(-40, -40)) { }
 
-        //public Sprite(Point pos) : this(pos, Program.game.sx(40), Program.game.sy(40)) { }
         public Sprite(Point pos) : this(pos, 40, 40) { }
 
         public Sprite(Point pos, int w, int h)
@@ -24,6 +24,11 @@ namespace MazeAndBlue
         public void loadContent(string name)
         {
             texture = Program.game.Content.Load<Texture2D>(name);
+        }
+
+        public void loadContent(Stream stream)
+        {
+            texture = Texture2D.FromStream(Program.game.GraphicsDevice, stream);
         }
 
         public virtual void draw(SpriteBatch spriteBatch)
