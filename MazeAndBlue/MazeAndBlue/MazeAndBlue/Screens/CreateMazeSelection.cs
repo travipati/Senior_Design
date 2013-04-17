@@ -136,7 +136,7 @@ namespace MazeAndBlue
                 page++;
             else if (page > 0 && prevButton.isSelected())
                 page--;
-            else if (mainMenuButton.isSelected())
+            else if (menuButton.isSelected())
                 Program.game.startMainMenu();
             for (int i = 0; i < levelButtons.Count; i++)
             {
