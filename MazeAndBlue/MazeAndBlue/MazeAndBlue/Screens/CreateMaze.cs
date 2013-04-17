@@ -88,6 +88,27 @@ namespace MazeAndBlue
 
         public void draw(SpriteBatch spriteBatch)
         {
+            wallButton.selected = false;
+            goalButton.selected = false;
+            p1Button.selected = false;
+            p2Button.selected = false;
+
+            switch (state)
+            {
+                case CreateState.WALLS:
+                    wallButton.selected = true;
+                    break;
+                case CreateState.GOAL:
+                    goalButton.selected = true;
+                    break;
+                case CreateState.P1:
+                    p1Button.selected = true;
+                    break;
+                case CreateState.P2:
+                    p2Button.selected = true;
+                    break;
+            }
+            
             wallButton.draw(spriteBatch);
             goalButton.draw(spriteBatch);
             p1Button.draw(spriteBatch);

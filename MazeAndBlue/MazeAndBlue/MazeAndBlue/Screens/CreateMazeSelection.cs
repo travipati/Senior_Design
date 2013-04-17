@@ -65,9 +65,9 @@ namespace MazeAndBlue
             }
 
             nextButton = new Button
-                (new Point(screenWidth - 220, screenHeight - 120), 200, 100, "Next", "Buttons/button");
+                (new Point(screenWidth - 220, screenHeight - 120), 200, 100, "Next", "Buttons/next");
             prevButton = new Button
-                (new Point(20, screenHeight - 120), 200, 100, "Previous", "Buttons/button");
+                (new Point(20, screenHeight - 120), 200, 100, "Previous", "Buttons/previous");
 
             buttons = new List<Button>();
             buttons.Add(createMazeButton);
