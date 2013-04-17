@@ -8,16 +8,21 @@ namespace MazeAndBlue
     {
         Texture2D texture;
         Rectangle window;
+        Fireworks fireworks;
         Button menuButton, levelButton, restartButton;
-        int time, hits, score, numStars;
         List<Sprite> stars;
+        int time, hits, score, numStars;
 
         public ScoreScreen(int _time, int _hits)
         {
-            time = _time;
             hits = _hits;
-            score = calcScore();
-            numStars = calcNumStars();
+            time = _time;
+
+            if (time == 0)
+                time = 1;
+
+            calcScore();
+            calcNumStars();
 
             int screenWidth = Program.game.screenWidth;
             int screenHeight = Program.game.screenHeight;
@@ -47,7 +52,6 @@ namespace MazeAndBlue
 
         public void loadContent()
         {
-            //background = Program.game.Content.Load<Texture2D>("Backgrounds/simple0");
             texture = new Texture2D(Program.game.GraphicsDevice, 1, 1);
             texture.SetData<Color>(new Color[] { Color.White });
             menuButton.loadContent();
@@ -55,10 +59,13 @@ namespace MazeAndBlue
             levelButton.loadContent();
             foreach (Sprite star in stars)
                 star.loadContent("star");
+            fireworks = new Fireworks();
+            fireworks.loadContent();
         }
 
         public void draw(SpriteBatch spriteBatch)
         {
+            fireworks.draw(spriteBatch);
             spriteBatch.Draw(texture, window, new Color(128, 128, 128, 200));
             menuButton.draw(spriteBatch);
             restartButton.draw(spriteBatch);
@@ -85,6 +92,8 @@ namespace MazeAndBlue
 
         public void update()
         {
+            fireworks.update();
+
             if (menuButton.isSelected())
                 Program.game.startMainMenu();
             else if (restartButton.isSelected())
@@ -93,28 +102,36 @@ namespace MazeAndBlue
                 Program.game.nextLevel();
         }
 
-        public int calcScore()
+        void calcScore()
         {
-            double multiplier = 1.5 - 0.01 * hits;
+            double hitMultiplier = 1.4 - 0.02 * hits;
+            if (hitMultiplier < 0)
+                hitMultiplier = 0;
+            
+            double timeMultiplier = 1.4 - 0.015 * time;
+            if (timeMultiplier < 0)
+                timeMultiplier = 0;
+            
+            double multiplier = hitMultiplier + timeMultiplier;
 
-            if (multiplier < 0.5)
-                multiplier = 0.5;
+            score = (int)(multiplier * 1000);
 
-            int baseScore = (int)(multiplier * 100.0 * 20.0 / time);
+            if (score < 0)
+                score = 100;
 
-            return baseScore;
+            if (score > 2500)
+                score = 2500;
         }
 
-        public int calcNumStars()
+        void calcNumStars()
         {
-            if (score >= 100)
-                return 3;
-            else if (score >= 50)
-                return 2;
-            else if (score > 0)
-                return 1;
+            if (score >= 2000)
+                numStars = 3;
+            else if (score >= 1000)
+                numStars = 2;
             else
-                return 0;
+                numStars = 1;
         }
+
     }
 }
