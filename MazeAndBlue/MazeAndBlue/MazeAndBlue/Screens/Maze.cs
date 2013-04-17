@@ -163,14 +163,23 @@ namespace MazeAndBlue
             if (hit && !prevHit[ballNum])
             {
                 wallHits++;
+                
                 prevHit[ballNum] = true;
+                
                 Program.game.soundEffectPlayer.playWall();
+                
                 wallColor = Color.DarkRed;
             }
             else if (!hit && prevHit[ballNum])
             {
-                wallColor = Color.Black;
                 prevHit[ballNum] = false;
+
+                int otherNum = 0;
+                if (ballNum == 0)
+                    otherNum = 1;
+
+                if(!prevHit[otherNum])
+                    wallColor = Color.Black;
             }
         }
 
