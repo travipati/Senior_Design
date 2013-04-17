@@ -488,11 +488,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Buttons\2keys.png">
-      <Name>2keys</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Buttons\lockBnW.png">
       <Name>lockBnW</Name>
       <Importer>TextureImporter</Importer>
@@ -502,6 +497,13 @@
   <ItemGroup>
     <Compile Include="LevelThumbnails\lockColor.png">
       <Name>lockColor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Buttons\2keys.png">
+      <Name>2keys</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
