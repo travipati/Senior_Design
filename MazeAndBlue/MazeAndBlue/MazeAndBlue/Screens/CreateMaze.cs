@@ -298,15 +298,19 @@ namespace MazeAndBlue
             }
             File.WriteAllLines(filename, lines);
 
-            //Hard coded coordinates
+            
             //automatically save the thumbnail.
             int dx = Program.game.GraphicsDevice.Adapter.CurrentDisplayMode.Width - Program.game.screenWidth;
             int dy = Program.game.GraphicsDevice.Adapter.CurrentDisplayMode.Height - Program.game.screenHeight;
             System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(Maze.width, Maze.height);
             System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bitmap);
-            g.CopyFromScreen(new System.Drawing.Point(Program.game.sx(0) + dx, Program.game.sy(0) + dy), System.Drawing.Point.Empty, bitmap.Size);
+            
+            //g.CopyFromScreen(new System.Drawing.Point(Program.game.sx(0) + dx, Program.game.sy(0) + dy), System.Drawing.Point.Empty, bitmap.Size);
+            g.CopyFromScreen(0, 0, 0, 0, bitmap.Size,System.Drawing.CopyPixelOperation.SourceCopy);
             bitmap.Save("test" + nameId + ".png", System.Drawing.Imaging.ImageFormat.Png);
-
+            System.Console.Out.WriteLine("sx: " + Program.game.sx(0) + " sy: " + Program.game.sy(0));
+            System.Console.Out.WriteLine("screenWidth: " + Program.game.screenWidth);
+            System.Console.Out.WriteLine("bitmap width: " + bitmap);
             Program.game.startMainMenu();
         }
 
