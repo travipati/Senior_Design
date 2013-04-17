@@ -3,6 +3,8 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Runtime.InteropServices;
+using System;
 
 namespace MazeAndBlue
 {
@@ -16,12 +18,12 @@ namespace MazeAndBlue
         List<Rectangle> border, walls, twalls, tgoals, tplayers;
         Rectangle hlrect, goal;
         Ball p1, p2;
-        bool hl, prevDown, goalSet, p1set, p2set, singleplayer, done;
+        bool hl, goalSet, p1set, p2set, singleplayer, done;
 
         public CreateMaze(bool hard, bool _singleplayer)
         {
             singleplayer = _singleplayer;
-            hl = prevDown = goalSet = p1set = p2set = done = false;
+            hl = goalSet = p1set = p2set = done = false;
 
             state = CreateState.WALLS;
 
@@ -145,39 +147,37 @@ namespace MazeAndBlue
             else if (mainMenuButton.isSelected())
                 Program.game.startMainMenu();
 
-            MouseState mouse = Mouse.GetState();
-            Point point = new Point(mouse.X, mouse.Y);
-            bool down = mouse.LeftButton == ButtonState.Pressed;
+            bool clicked = Program.game.ms.newPointReady;
+            Point point = Program.game.ms.point;
             hl = false;
             switch (state)
             {
                 case CreateState.WALLS:
-                    wallsUpdate(point, down);
+                    wallsUpdate(point, clicked);
                     break;
                 case CreateState.GOAL:
-                    goalUpdate(point, down);
+                    goalUpdate(point, clicked);
                     break;
                 case CreateState.P1:
-                    p1Update(point, down);
+                    p1Update(point, clicked);
                     break;
                 case CreateState.P2:
-                    p2Update(point, down);
+                    p2Update(point, clicked);
                     break;
                 case CreateState.SAVE:
                     if(done)
                         saveMaze();
                     break;
             }
-            prevDown = down;
         }
 
-        void wallsUpdate(Point point, bool down)
+        void wallsUpdate(Point point, bool clicked)
         {
             foreach (Rectangle rect in twalls)
             {
                 if (rect.Contains(point))
                 {
-                    if (prevDown && !down)
+                    if (clicked)
                     {
                         if (walls.Contains(rect))
                             walls.Remove(rect);
@@ -193,13 +193,13 @@ namespace MazeAndBlue
             }
         }
 
-        void goalUpdate(Point point, bool down)
+        void goalUpdate(Point point, bool clicked)
         {
             foreach (Rectangle rect in tgoals)
             {
                 if (rect.Contains(point))
                 {
-                    if (prevDown && !down)
+                    if (clicked)
                     {
                         if (goalSet && goal == rect)
                             goalSet = false;
@@ -218,13 +218,13 @@ namespace MazeAndBlue
             }
         }
 
-        void p1Update(Point point, bool down)
+        void p1Update(Point point, bool clicked)
         {
             foreach (Rectangle rect in tplayers)
             {
                 if (rect.Contains(point))
                 {
-                    if (prevDown && !down)
+                    if (clicked)
                     {
                         if (p1set && p1.position == new Point(rect.Left, rect.Top))
                             p1set = false;
@@ -243,13 +243,13 @@ namespace MazeAndBlue
             }
         }
 
-        void p2Update(Point point, bool down)
+        void p2Update(Point point, bool clicked)
         {
             foreach (Rectangle rect in tplayers)
             {
                 if (rect.Contains(point))
                 {
-                    if (prevDown && !down)
+                    if (clicked)
                     {
                         if (p2set && p2.position == new Point(rect.Left, rect.Top))
                             p2set = false;
@@ -298,20 +298,29 @@ namespace MazeAndBlue
             }
             File.WriteAllLines(filename, lines);
 
-            
-            //automatically save the thumbnail.
-            int dx = Program.game.GraphicsDevice.Adapter.CurrentDisplayMode.Width - Program.game.screenWidth;
-            int dy = Program.game.GraphicsDevice.Adapter.CurrentDisplayMode.Height - Program.game.screenHeight;
-            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(Maze.width, Maze.height);
-            System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bitmap);
-            
-            //g.CopyFromScreen(new System.Drawing.Point(Program.game.sx(0) + dx, Program.game.sy(0) + dy), System.Drawing.Point.Empty, bitmap.Size);
-            g.CopyFromScreen(0, 0, 0, 0, bitmap.Size,System.Drawing.CopyPixelOperation.SourceCopy);
-            bitmap.Save("test" + nameId + ".png", System.Drawing.Imaging.ImageFormat.Png);
-            System.Console.Out.WriteLine("sx: " + Program.game.sx(0) + " sy: " + Program.game.sy(0));
-            System.Console.Out.WriteLine("screenWidth: " + Program.game.screenWidth);
-            System.Console.Out.WriteLine("bitmap width: " + bitmap);
-            Program.game.startMainMenu();
+
+            if (Program.game.graphics.IsFullScreen)
+            {
+
+            }
+            else
+            {
+                //automatically save the thumbnail.
+                int dx = Program.game.GraphicsDevice.Adapter.CurrentDisplayMode.Width - Program.game.screenWidth;
+                int dy = Program.game.GraphicsDevice.Adapter.CurrentDisplayMode.Height - Program.game.screenHeight;
+                System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(Maze.width, Maze.height);
+                System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bitmap);
+                g.CopyFromScreen(new System.Drawing.Point(Program.game.sx(0) + dx, Program.game.sy(0) + dy), 
+                    System.Drawing.Point.Empty, bitmap.Size);
+                bitmap.Save("test" + nameId + ".png", System.Drawing.Imaging.ImageFormat.Png);
+
+                System.Console.Out.WriteLine("sx: " + Program.game.sx(0) + " sy: " + Program.game.sy(0));
+                System.Console.Out.WriteLine("screenWidth: " + Program.game.screenWidth);
+                System.Console.Out.WriteLine("bitmap width: " + bitmap);
+            }
+
+            Program.game.startCreateMazeSelect();
+
         }
 
         int scaleX(int x)
@@ -324,5 +333,11 @@ namespace MazeAndBlue
             return y - (Program.game.screenHeight - Maze.height) / 2;
         }
 
+        public System.Drawing.Bitmap ScreenShot()
+        {
+            System.Drawing.Bitmap screenShotBMP = new System.Drawing.Bitmap(System.Drawing.Screen.PrimaryScreen.Bounds.Width,
+                Screen.PrimaryScreen.Bounds.Height, PixelFormat.Format32bppArgb);
+
+        }
     }
 }

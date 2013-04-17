@@ -32,7 +32,7 @@ namespace MazeAndBlue
             coopModeButton = new Button
                 (new Point(X2, Y1), buttonWidth, buttonHeight, "co op mode", "Buttons/coopMode");
             createMazeButton = new Button
-                (new Point(X3, Y1), buttonWidth, buttonHeight, "create maze", "Buttons/exit");
+                (new Point(X3, Y1), buttonWidth, buttonHeight, "create maze", "Buttons/createMaze");
             instructionsButton = new Button
                 (new Point(X1, Y2), buttonWidth, buttonHeight, "instructions", "Buttons/instructions");
             statisticsButton = new Button

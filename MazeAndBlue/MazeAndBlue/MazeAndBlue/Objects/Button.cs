@@ -8,7 +8,8 @@ namespace MazeAndBlue
     {
         public bool selected { get; set; }
         public bool selectable { get; set; }
-        string text, path;
+        public string path { get; set; }
+        string text;
         Sprite hoverBg, selectBg;
         bool isStream;
 

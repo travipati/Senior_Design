@@ -94,8 +94,6 @@ namespace MazeAndBlue
             else
                 data.levelData[level] = newLevel;
             
-            Console.Out.WriteLine(numHitWall);
-            //System.Windows.Forms.MessageBox.Show(numHitWall.ToString(), "");
             saveStats();
         }
 

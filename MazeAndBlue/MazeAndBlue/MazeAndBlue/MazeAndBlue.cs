@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -6,7 +7,7 @@ namespace MazeAndBlue
 {
     public class MazeAndBlue : Microsoft.Xna.Framework.Game
     {
-        GraphicsDeviceManager graphics;
+        public GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Texture2D background;
 
@@ -30,6 +31,8 @@ namespace MazeAndBlue
         public bool singlePlayer { get; set; }
         public bool unlockOn { get; set; }
         bool vsSecondCycle = false;
+
+        public List<string> deleteList;
 
         public List<Player> players { get; set; }
         public MouseSelect ms { get; set; }
@@ -58,6 +61,7 @@ namespace MazeAndBlue
 
             level = 0;
             unlockOn = true;
+            deleteList = new List<string>();
         }
 
         protected override void Initialize()
