@@ -8,7 +8,7 @@ namespace MazeAndBlue
     public class CreateMazeSelection 
     {
         Button createMazeButton, singleButton, coOpButton, easyButton, hardButton, nextButton, prevButton,
-            playButton, deleteButton;
+            playButton, deleteButton, menuButton;
         List<Button> levelButtons;
         List<Button> buttons;
         bool singlePlayer, easy, play;
@@ -34,11 +34,11 @@ namespace MazeAndBlue
             page = 0;
 
             createMazeButton = new Button
-                (new Point(20, 20), 200, 100, "Create", "Buttons/button");
+                (new Point(20, 20), 200, 100, "create maze", "Buttons/createMaze");
             singleButton = new Button
-                (new Point(260, 20), 200, 100, "Single Player", "Buttons/button");
+                (new Point(260, 20), 200, 100, "Single Player", "Buttons/singlePlayer");
             coOpButton = new Button
-                (new Point(490, 20), 200, 100, "Co Op", "Buttons/button");
+                (new Point(490, 20), 200, 100, "Co Op Mode", "Buttons/coopMode");
             easyButton = new Button
                 (new Point(720, 20), 200, 100, "easy", "Buttons/easy");
             hardButton = new Button
@@ -47,17 +47,21 @@ namespace MazeAndBlue
                 (new Point(300, 150), 200, 100, "Play", "Buttons/button");
             deleteButton = new Button
                 (new Point(600, 150), 200, 100, "Delete", "Buttons/button");
+            menuButton = new Button
+                (new Point(Program.game.screenWidth - 166, 30), 136, 72, "Main Menu", "Buttons/mainMenuButton");
 
+            int i = 0;
             levelButtons = new List<Button>();
-            int nameId = 0;
-            string filename = "Mazes/temp" + nameId + ".maze";
-            string imagename = "test" + nameId + ".png";
-            while (File.Exists(filename) && File.Exists(imagename))
+            string[] files = Directory.GetFiles(@"Mazes\", "temp*.maze");
+            foreach (string file in files)
             {
-                levelButtons.Add(new Button(new Point(levelx[nameId % 3], levely[(nameId / 3) % 2]), levelButtonWidth, levelButtonHeight, nameId.ToString(), imagename, true));
-                nameId++;
-                filename = "Mazes/temp" + nameId + ".maze";
-                imagename = "test" + nameId + ".png";
+                string nameId = file.Substring(10, file.IndexOf(".") - 10);
+                string imageName = "test" + nameId + ".png";
+                if (File.Exists(imageName))
+                {
+                    levelButtons.Add(new Button(new Point(levelx[i % 3], levely[(i / 3) % 2]), levelButtonWidth, levelButtonHeight, nameId.ToString(), imageName, true));
+                    i++;
+                }
             }
 
             nextButton = new Button
@@ -73,6 +77,7 @@ namespace MazeAndBlue
             buttons.Add(hardButton);
             buttons.Add(playButton);
             buttons.Add(deleteButton);
+            buttons.Add(menuButton);
         }
 
         public void loadContent()
@@ -131,10 +136,23 @@ namespace MazeAndBlue
                 page++;
             else if (page > 0 && prevButton.isSelected())
                 page--;
+            else if (mainMenuButton.isSelected())
+                Program.game.startMainMenu();
             for (int i = 0; i < levelButtons.Count; i++)
             {
                 if (play && levelButtons[i].selectable && levelButtons[i].isSelected())
                     Program.game.startCustomLevel(i);
+                if (!play && levelButtons[i].selectable && levelButtons[i].isSelected())
+                {
+                    string imageName = levelButtons[i].path;
+                    string nameId = imageName.Substring(4, imageName.IndexOf(".") - 4);
+                    string mazeName = "Mazes\\temp" + nameId + ".maze";
+                    System.Console.WriteLine(mazeName);
+                    //levelButtons[i].unLoadContent();
+                    levelButtons.Remove(levelButtons[i]);
+                    File.Delete(mazeName);
+                    Program.game.deleteList.Add(imageName);
+                }
             }
         }
     }
