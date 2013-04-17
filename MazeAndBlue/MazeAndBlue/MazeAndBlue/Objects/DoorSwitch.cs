@@ -46,11 +46,11 @@ namespace MazeAndBlue
             foreach (Sprite dswitch in switches)
             {
                 if (numRequired > 1)
-                    dswitch.loadContent("star");
+                    dswitch.loadContent("buttons/2keys");
                 else if (permanent)
-                    dswitch.loadContent("diamond");
+                    dswitch.loadContent("buttons/lockBnW");
                 else
-                    dswitch.loadContent("square");
+                    dswitch.loadContent("buttons/1key");
             }
         }
 

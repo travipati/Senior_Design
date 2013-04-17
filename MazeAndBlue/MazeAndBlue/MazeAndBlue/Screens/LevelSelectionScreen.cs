@@ -49,24 +49,48 @@ namespace MazeAndBlue
             {
                 for (int i = 0; i < 6; i++)
                 {
-                    easyLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/level" + i));
-                    hardLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/level" + (i + 6)));
                     if (Program.game.unlockOn && i > Program.game.gameStats.data.singleNextLevelToUnlock)
+                    {
+                        hardLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/lockColor"));
                         easyLevelButtons[i].selectable = false;
+                    }
+                    else
+                    {
+                        easyLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/level" + i));
+                    }
                     if (Program.game.unlockOn && i + 6 > Program.game.gameStats.data.singleNextLevelToUnlock)
+                    {
+                        hardLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/lockColor"));
                         hardLevelButtons[i].selectable = false;
+                    }
+                    else
+                    {
+                        hardLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/level" + (i + 6)));
+                    }
                 }
             }
             else
             {
                 for (int i = 0; i < 6; i++)
                 {
-                    easyLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/level" + i));
-                    hardLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/level" + (i + 6)));
                     if (Program.game.unlockOn && i > Program.game.gameStats.data.coopNextLevelToUnlock)
+                    {
+                        easyLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/lockColor"));
                         easyLevelButtons[i].selectable = false;
+                    }
+                    else
+                    {
+                        easyLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/level" + i));
+                    }
                     if (Program.game.unlockOn && i + 6 > Program.game.gameStats.data.coopNextLevelToUnlock)
+                    {
+                        hardLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/lockColor"));
                         hardLevelButtons[i].selectable = false;
+                    }
+                    else
+                    {
+                        hardLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/level" + (i + 6)));
+                    }
                 }
             }
 

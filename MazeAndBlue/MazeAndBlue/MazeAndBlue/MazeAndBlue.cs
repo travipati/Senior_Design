@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -31,6 +32,8 @@ namespace MazeAndBlue
         public bool unlockOn { get; set; }
         bool vsSecondCycle = false;
 
+        public List<string> deleteList;
+
         public List<Player> players { get; set; }
         public MouseSelect ms { get; set; }
         public VoiceSelect vs { get; set; }
@@ -58,6 +61,7 @@ namespace MazeAndBlue
 
             level = 0;
             unlockOn = true;
+            deleteList = new List<string>();
         }
 
         protected override void Initialize()
