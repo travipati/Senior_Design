@@ -10,7 +10,8 @@ namespace MazeAndBlue
     {
         Button pauseButton;
         Color goalColor, wallColor;
-        Rectangle goal;
+        Rectangle goal; 
+        Sprite image;
         List<Ball> balls;
         List<Rectangle> walls;
         List<DoorSwitch> switches;
@@ -89,7 +90,8 @@ namespace MazeAndBlue
                 spriteBatch.Draw(wallTexture, rect, wallColor);
             foreach (DoorSwitch dswitch in switches)
                 dswitch.draw(spriteBatch);
-            spriteBatch.Draw(goalTexture, goal, goalColor);
+            spriteBatch.Draw(goalTexture, goal, goalColor); 
+            //image.draw(spriteBatch);
             timer.draw(spriteBatch);
             if (!singlePlayer)
                 balls[1].draw(spriteBatch);
@@ -340,7 +342,11 @@ namespace MazeAndBlue
                                         Convert.ToInt32(words[3]), Convert.ToInt32(words[4]));
 
                 if (words[0] == "goal")
-                    goal = rect;
+                {
+                    goal = rect; 
+                    //image = new Sprite(rect.Location, rect.Width, rect.Height);
+                    //image.loadContent(File.OpenRead("bootz.png"));
+                }
                 else if (words[0] == "wall")
                     walls.Add(rect);
                 else if (words[0] == "door")
