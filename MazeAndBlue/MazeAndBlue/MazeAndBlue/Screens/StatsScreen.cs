@@ -6,21 +6,26 @@ namespace MazeAndBlue
 {
     class StatsScreen
     {
-        Rectangle window;
-        Texture2D background;
+        Rectangle window, confWindow;
+        Texture2D background, confTexture;
         //Rectangle avatar;
-        Button totalButton, easyButton, hardButton, resetButton, mainMenuButton, createdMazesButton, singlePlayerButton, coopModeButton;
+        Button totalButton, easyButton, hardButton, resetButton, mainMenuButton, createdMazesButton, singlePlayerButton, coopModeButton,
+            yesButton, noButton;
         int hTopRow, hOtherRows, smallButtonWidth, smallButtonHeight, largeButtonWidth, largeButtonHeight;
         int screenWidth = Program.game.screenWidth;
         int screenHeight = Program.game.screenHeight;
         string totalGameTime;
         enum StatsState {TOTAL, SINGLESIMPLE, SINGLEHARD, COOPSIMPLE, COOPHARD, CREATED};
         StatsState statsState;
+        List<Button> buttons;
+        bool conformation;
 
         public StatsScreen()
         {
+            conformation = false;
             calcTotalGameTime();
             window = new Rectangle(screenWidth * 7 / 25 , screenHeight / 3 + 50, 8 * screenWidth / 15, 7 * screenHeight / 10);
+            confWindow = new Rectangle(3 * screenWidth / 8, 3 * screenHeight / 8, screenWidth / 4, screenHeight / 4);
             hTopRow = screenHeight / 5;
             hOtherRows = screenHeight / 15 * 2;
             smallButtonHeight = 72;
@@ -48,21 +53,32 @@ namespace MazeAndBlue
                 smallButtonHeight, "Easy", "Buttons/easy");
             hardButton = new Button(new Point(screenWidth / 2 + smallButtonWidth, row3), smallButtonWidth, 
                 smallButtonHeight, "Hard", "Buttons/hard");
+            yesButton = new Button(new Point(screenWidth / 2 - 120, confWindow.Bottom - 100), 80, 50, "Yes", "Buttons/button");
+            noButton = new Button(new Point(screenWidth / 2 + 40, confWindow.Bottom - 100), 80, 50, "No", "Buttons/button");
             int levelX = window.Right - window.Width / 3 - smallButtonWidth / 2;
             statsState = StatsState.TOTAL;
+
+            buttons = new List<Button>();
+            buttons.Add(totalButton);
+            buttons.Add(easyButton);
+            buttons.Add(hardButton);
+            buttons.Add(resetButton);
+            buttons.Add(mainMenuButton);
+            buttons.Add(singlePlayerButton);
+            buttons.Add(coopModeButton);
+            buttons.Add(createdMazesButton);
         }
 
         public void loadContent()
         {
             background = Program.game.Content.Load<Texture2D>("Backgrounds/statsScreen");
-            totalButton.loadContent();
-            easyButton.loadContent();
-            hardButton.loadContent();
-            resetButton.loadContent();
-            mainMenuButton.loadContent();
-            singlePlayerButton.loadContent();
-            coopModeButton.loadContent();
-            createdMazesButton.loadContent();
+            confTexture = new Texture2D(Program.game.GraphicsDevice, 1, 1);
+            confTexture.SetData<Color>(new Color[] { Color.White });
+
+            foreach (Button button in buttons)
+                button.loadContent();
+            yesButton.loadContent();
+            noButton.loadContent();
         }
 
         private void calcTotalGameTime()
@@ -173,33 +189,60 @@ namespace MazeAndBlue
                     System.Windows.Forms.MessageBox.Show("error in drawTitle, StatsScreen", "Error @ StatsScreen");
                     break;
             }
+
+            if (conformation)
+            {
+                spriteBatch.Draw(confTexture, confWindow, new Color(128, 128, 128, 200));
+                Program.game.drawText("Restart stat?", new Point(screenWidth / 2, confWindow.Top + 55));
+                yesButton.draw(spriteBatch);
+                noButton.draw(spriteBatch);
+            }
         }
 
         public void update()
         {
-            if (mainMenuButton.isSelected())
-                Program.game.startMainMenu();
-            
-            if (resetButton.isSelected())
+            if (!conformation)
             {
-                //System.Windows.Forms.MessageBox.Show("Resetting your stats", "Warning");
-                Program.game.gameStats.resetData();
-                Program.game.gameStats.saveStats();
-                calcTotalGameTime();
+                if (mainMenuButton.isSelected())
+                    Program.game.startMainMenu();
+                else if (resetButton.isSelected())
+                {
+                    //System.Windows.Forms.MessageBox.Show("Resetting your stats", "Warning");
+                    conformation = true;
+                    foreach (Button button in buttons)
+                        button.selectable = false;
+                }
+                else if (totalButton.isSelected())
+                    statsState = StatsState.TOTAL;
+                else if (singlePlayerButton.isSelected() && !hardButton.isSelected())
+                    statsState = StatsState.SINGLESIMPLE;
+                else if (singlePlayerButton.isSelected())
+                    statsState = StatsState.SINGLEHARD;
+                else if (coopModeButton.isSelected() && !hardButton.isSelected())
+                    statsState = StatsState.COOPSIMPLE;
+                else if (coopModeButton.isSelected())
+                    statsState = StatsState.COOPHARD;
+                else if (createdMazesButton.isSelected())
+                    statsState = StatsState.CREATED;
             }
+            else
+            {
+                if (yesButton.isSelected())
+                {
+                    Program.game.gameStats.resetData();
+                    Program.game.gameStats.saveStats();
+                    calcTotalGameTime();
+                    conformation = false;
+                }
+                if (noButton.isSelected())
+                    conformation = false;
 
-            if (totalButton.isSelected())
-                statsState = StatsState.TOTAL;
-            else if (singlePlayerButton.isSelected() && !hardButton.isSelected())
-                statsState = StatsState.SINGLESIMPLE;
-            else if (singlePlayerButton.isSelected())
-                statsState = StatsState.SINGLEHARD;
-            else if (coopModeButton.isSelected() && !hardButton.isSelected())
-                statsState = StatsState.COOPSIMPLE;
-            else if (coopModeButton.isSelected())
-                statsState = StatsState.COOPHARD;
-            else if (createdMazesButton.isSelected())
-                statsState = StatsState.CREATED;
+                if (!conformation)
+                {
+                    foreach (Button button in buttons)
+                        button.selectable = true;
+                }
+            }
         }
     }
 }
