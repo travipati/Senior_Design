@@ -21,6 +21,7 @@ namespace MazeAndBlue
         static private MazeAndBlue _game;
         static public MazeAndBlue game { get { return _game; } }
 
+        [STAThread]
         static void Main(string[] args)
         {
             SetThreadExecutionState(EXECUTION_STATE.ES_DISPLAY_REQUIRED | EXECUTION_STATE.ES_CONTINUOUS);

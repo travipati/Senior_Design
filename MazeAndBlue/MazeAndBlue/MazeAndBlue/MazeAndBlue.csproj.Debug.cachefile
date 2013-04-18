@@ -72,6 +72,16 @@ Content\Sounds\door.xnb
 Content\Sounds\wall.xnb
 Content\Sounds\goal.xnb
 Content\Sounds\firework.xnb
+Content\Buttons\play.xnb
+Content\Buttons\delete.xnb
+Content\Buttons\yes.xnb
+Content\Buttons\no.xnb
+Content\Buttons\createdMazes.xnb
+Content\Buttons\totalButton.xnb
+Content\Buttons\back.xnb
+Content\Buttons\deleteImage.xnb
+Content\Buttons\setImage.xnb
+Content\Buttons\ok.xnb
 Mazes\0.maze
 Mazes\1.maze
 Mazes\2.maze

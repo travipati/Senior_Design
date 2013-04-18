@@ -40,11 +40,10 @@ namespace MazeAndBlue
         public string PlayerName;
         public int totalGameTime;
         public int totalScore;
-        public LevelData[] levelData;
         public int singleNextLevelToUnlock;
         public int coopNextLevelToUnlock;
-        //public int[] customLevelIDs;
-        //public LevelData[] customData;
+        //public int numCustomLevels;
+        public LevelData[] levelData;
 
         public SaveGameData()
         {
@@ -114,10 +113,11 @@ namespace MazeAndBlue
             else
                 data.levelData[level] = newLevel;
 
-            if (Program.game.singlePlayer && data.singleNextLevelToUnlock <= level)
-                data.singleNextLevelToUnlock = level + 1;
+            if (Program.game.singlePlayer && data.singleNextLevelToUnlock <= level - 12)
+                data.singleNextLevelToUnlock = level - 11;
             if (!Program.game.singlePlayer && data.coopNextLevelToUnlock <= level)
                 data.coopNextLevelToUnlock = level + 1;
+
             
             saveStats();
         }
@@ -151,7 +151,6 @@ namespace MazeAndBlue
                     return false;
                 data.levelData[i].setValues(values);
             }
-
             data.totalGameTime = Convert.ToInt32(lines[24]);
             data.totalScore = Convert.ToInt32(lines[25]);
             data.singleNextLevelToUnlock = Convert.ToInt32(lines[26]);

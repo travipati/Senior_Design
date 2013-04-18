@@ -28,6 +28,7 @@ namespace MazeAndBlue
         CreateMaze createMaze;
         public List<int> numCustomLevelIDs;
 
+        public string goalImage { get; set; }
         public int level { get; set; }
         public bool singlePlayer { get; set; }
         public bool customLevel { get; set; }
@@ -60,6 +61,7 @@ namespace MazeAndBlue
 
             level = 0;
             unlockOn = true;
+            goalImage = "";
         }
 
         protected override void Initialize()
@@ -309,6 +311,16 @@ namespace MazeAndBlue
             base.Draw(gameTime);
         }
 
+        public bool isFullScreen()
+        {
+            return graphics.IsFullScreen;
+        }
+
+        public void toggleFullScreen()
+        {
+            graphics.ToggleFullScreen(); 
+        }
+
         protected override void Update(GameTime gameTime)
         {
             ms.grabInput();
@@ -319,7 +331,7 @@ namespace MazeAndBlue
 
             if (ks.newKeyReady && ks.key == "Esc")
             {
-                graphics.ToggleFullScreen(); 
+                toggleFullScreen();
                 ks.newKeyReady = false;
             }
 
@@ -383,6 +395,22 @@ namespace MazeAndBlue
             int y = (int)(pos.Y - textSize.Y / 2);
             Vector2 textPos = new Vector2(x, y);
             spriteBatch.DrawString(MazeAndBlue.font, text, textPos, Color.Black);
+        }
+
+        public void drawZoomableText(string text, Point pos, float scalar)
+        {
+            Vector2 textSize = MazeAndBlue.font.MeasureString(text);
+            int x = (int)(pos.X - (textSize.X * scalar / 2));
+            int y = (int)(pos.Y - (textSize.Y * scalar / 2));
+            Vector2 textPos = new Vector2(x, y);
+            spriteBatch.DrawString(MazeAndBlue.font, text, textPos, Color.Black, 0f, Vector2.Zero, scalar, SpriteEffects.None, 0f);
+        }
+
+        public void drawScoreStar (Vector2 pos, float scalar, float rotation)
+        {
+            Texture2D star = Content.Load<Texture2D>("star");
+            Rectangle sourceRectangle = new Rectangle(0, 0, 16, 16);
+            spriteBatch.Draw(star, pos, sourceRectangle, Color.Yellow, rotation, Vector2.Zero, scalar, SpriteEffects.None, 0f);
         }
 
         public int sx(int x)
