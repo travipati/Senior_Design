@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
@@ -52,11 +53,11 @@ namespace MazeAndBlue
 
             int i = 0;
             levelButtons = new List<Button>();
-            string[] files = Directory.GetFiles(@"Mazes\", "temp*.maze");
+            string[] files = Directory.GetFiles(@"Mazes\", "custom*.maze");
             foreach (string file in files)
             {
-                string nameId = file.Substring(10, file.IndexOf(".") - 10);
-                string imageName = "test" + nameId + ".png";
+                string nameId = file.Substring(12, file.IndexOf(".") - 12);
+                string imageName = "custom" + nameId + ".png";
                 if (File.Exists(imageName))
                 {
                     levelButtons.Add(new Button(new Point(levelx[i % 3], levely[(i / 3) % 2]), levelButtonWidth, levelButtonHeight, nameId.ToString(), imageName, true));
@@ -141,12 +142,12 @@ namespace MazeAndBlue
             for (int i = 0; i < levelButtons.Count; i++)
             {
                 if (play && levelButtons[i].selectable && levelButtons[i].isSelected())
-                    Program.game.startCustomLevel(i);
+                    Program.game.startCustomLevel(Convert.ToInt32(levelButtons[i].path.Substring(6, levelButtons[i].path.IndexOf(".") - 6)));
                 if (!play && levelButtons[i].selectable && levelButtons[i].isSelected())
                 {
                     string imageName = levelButtons[i].path;
-                    string nameId = imageName.Substring(4, imageName.IndexOf(".") - 4);
-                    string mazeName = "Mazes\\temp" + nameId + ".maze";
+                    string nameId = imageName.Substring(6, imageName.IndexOf(".") - 6);
+                    string mazeName = "Mazes\\custom" + nameId + ".maze";
                     System.Console.WriteLine(mazeName);
                     //levelButtons[i].unLoadContent();
                     levelButtons.Remove(levelButtons[i]);

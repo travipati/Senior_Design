@@ -69,9 +69,9 @@ namespace MazeAndBlue
             spriteBatch.Draw(texture, window, new Color(128, 128, 128, 200));
             menuButton.draw(spriteBatch);
             restartButton.draw(spriteBatch);
-            if (Program.game.level != 11)
+            if (Program.game.level != 11 && !Program.game.customLevel)
                 levelButton.draw(spriteBatch);
-            if (Program.game.level % 6 == 5)
+            if (Program.game.level % 6 == 5 && !Program.game.customLevel)
             {
                 string compText = string.Empty;
                 if (Program.game.level == 5)
@@ -98,7 +98,7 @@ namespace MazeAndBlue
                 Program.game.startMainMenu();
             else if (restartButton.isSelected())
                 Program.game.startLevel();
-            else if (levelButton.isSelected() && Program.game.level != 11)
+            else if (Program.game.level != 11 && !Program.game.customLevel && levelButton.isSelected())
                 Program.game.nextLevel();
         }
 

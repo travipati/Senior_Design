@@ -312,14 +312,13 @@ namespace MazeAndBlue
                 lines[index++] = "wall " + scaleX(walls[i].Left) + ' ' + scaleY(walls[i].Top) + ' ' + walls[i].Width + ' ' + walls[i].Height;
 
             int nameId = 0;
-            string filename = "Mazes/temp" + nameId + ".maze";
+            string filename = "Mazes/custom" + nameId + ".maze";
             while (File.Exists(filename))
             {
                 nameId++;
-                filename = "Mazes/temp" + nameId + ".maze";
+                filename = "Mazes/custom" + nameId + ".maze";
             }
             File.WriteAllLines(filename, lines);
-
 
             if (Program.game.graphics.IsFullScreen)
                 ControlAero(false);
@@ -330,11 +329,11 @@ namespace MazeAndBlue
             System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bitmap);
             g.CopyFromScreen(new System.Drawing.Point(Program.game.sx(0) + dx, Program.game.sy(0) + dy), 
                 System.Drawing.Point.Empty, bitmap.Size);
-            bitmap.Save("test" + nameId + ".png", System.Drawing.Imaging.ImageFormat.Png);
+            bitmap.Save("custom" + nameId + ".png", System.Drawing.Imaging.ImageFormat.Png);
             if (Program.game.graphics.IsFullScreen)
                 ControlAero(true);
-            Program.game.startCreateMazeSelect();
 
+            Program.game.startCreateMazeSelect();
         }
 
         int scaleX(int x)

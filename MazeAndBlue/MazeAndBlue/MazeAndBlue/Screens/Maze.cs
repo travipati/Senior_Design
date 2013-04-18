@@ -24,24 +24,7 @@ namespace MazeAndBlue
         public static int height { get { return mazeHeight; } }
         public int wallHits { get; set; }
 
-        public Maze(int custLevel) : this()
-        {
-            string mazeFile = "Mazes/temp" + custLevel + ".maze";
-            readFile(mazeFile);
-            singlePlayer = balls.Count == 1;
-        }
-
-        public Maze(int level, bool _singlePlayer) : this()
-        {
-            string mazeFile;
-            if ((singlePlayer = _singlePlayer))
-                mazeFile = "Mazes/" + (level + 12) + ".maze";
-            else
-                mazeFile = "Mazes/" + level + ".maze";
-            readFile(mazeFile);
-        }
-
-        private Maze()
+        public Maze()
         {
             goalColor = Color.Red;
             wallColor = Color.Black;
@@ -55,6 +38,22 @@ namespace MazeAndBlue
             switches = new List<DoorSwitch>();
 
             pauseButton = new Button(new Point(Program.game.screenWidth - 170, 30), 136, 72, "Pause", "Buttons/pause");
+
+            string mazeFile;
+            if (!Program.game.customLevel)
+            {
+                if (singlePlayer = Program.game.singlePlayer)
+                    mazeFile = "Mazes/" + (Program.game.level + 12) + ".maze";
+                else
+                    mazeFile = "Mazes/" + Program.game.level + ".maze";
+                readFile(mazeFile);
+            }
+            else
+            {
+                mazeFile = "Mazes/custom" + Program.game.level + ".maze";
+                readFile(mazeFile);
+                singlePlayer = balls.Count == 1;
+            }
         }
 
         public void loadContent()

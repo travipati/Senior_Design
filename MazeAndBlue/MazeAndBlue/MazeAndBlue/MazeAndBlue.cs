@@ -28,6 +28,7 @@ namespace MazeAndBlue
 
         public int level { get; set; }
         public bool singlePlayer { get; set; }
+        public bool customLevel { get; set; }
         public bool unlockOn { get; set; }
         bool vsSecondCycle = false;
 
@@ -120,6 +121,14 @@ namespace MazeAndBlue
         {
             level = _level;
             singlePlayer = _singlePlayer;
+            customLevel = false;
+            startLevel();
+        }
+
+        public void startCustomLevel(int _level)
+        {
+            level = _level;
+            customLevel = true;
             startLevel();
         }
 
@@ -132,20 +141,13 @@ namespace MazeAndBlue
         public void startLevel()
         {
             state = GameState.GAME;
-            maze = new Maze(level, singlePlayer);
+            maze = new Maze();
             maze.loadContent();
         }
 
         public void resumeLevel()
         {
             state = GameState.GAME;
-        }
-
-        public void startCustomLevel(int i)
-        {
-            state = GameState.GAME;
-            maze = new Maze(i);
-            maze.loadContent();
         }
 
         public void startScoreScreen(int time, int hits)
