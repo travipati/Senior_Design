@@ -42,19 +42,19 @@ namespace MazeAndBlue
             mainMenuButton = new Button(new Point(screenWidth / 6 - smallButtonWidth / 2, row1), largeButtonWidth, 
                 largeButtonHeight, "Main", "Buttons/mainMenuButton");
             totalButton = new Button(new Point(screenWidth / 2 - smallButtonWidth * 3, row2), smallButtonWidth, 
-                smallButtonHeight, "Total", "Buttons/statistics");
+                smallButtonHeight, "Total", "Buttons/totalButton");
             singlePlayerButton = new Button(new Point(screenWidth / 2 - (int)(smallButtonWidth * 3/2) + 20, row2), smallButtonWidth, 
                 smallButtonHeight, "Total", "Buttons/singlePlayer");
             coopModeButton = new Button(new Point(screenWidth / 2 + (int)(smallButtonWidth / 2) - 20, row2), smallButtonWidth, 
                 smallButtonHeight, "Total", "Buttons/coopMode");
             createdMazesButton = new Button(new Point(screenWidth / 2 + smallButtonWidth * 2, row2), smallButtonWidth, 
-                smallButtonHeight, "Total", "Buttons/createMaze");
+                smallButtonHeight, "Total", "Buttons/createdMazes");
             easyButton = new Button(new Point(screenWidth / 2 - 2 * smallButtonWidth, row3), smallButtonWidth, 
                 smallButtonHeight, "Easy", "Buttons/easy");
             hardButton = new Button(new Point(screenWidth / 2 + smallButtonWidth, row3), smallButtonWidth, 
                 smallButtonHeight, "Hard", "Buttons/hard");
-            yesButton = new Button(new Point(screenWidth / 2 - 120, confWindow.Bottom - 100), 80, 50, "Yes", "Buttons/button");
-            noButton = new Button(new Point(screenWidth / 2 + 40, confWindow.Bottom - 100), 80, 50, "No", "Buttons/button");
+            yesButton = new Button(new Point(screenWidth / 2 - 120, confWindow.Bottom - 100), 80, 50, "Yes", "Buttons/yes");
+            noButton = new Button(new Point(screenWidth / 2 + 40, confWindow.Bottom - 100), 80, 50, "No", "Buttons/no");
             int levelX = window.Right - window.Width / 3 - smallButtonWidth / 2;
             statsState = StatsState.TOTAL;
 
@@ -193,7 +193,7 @@ namespace MazeAndBlue
             if (conformation)
             {
                 spriteBatch.Draw(confTexture, confWindow, new Color(128, 128, 128, 200));
-                Program.game.drawText("Restart stat?", new Point(screenWidth / 2, confWindow.Top + 55));
+                Program.game.drawText("Reset stat?", new Point(screenWidth / 2, confWindow.Top + 55));
                 yesButton.draw(spriteBatch);
                 noButton.draw(spriteBatch);
             }
