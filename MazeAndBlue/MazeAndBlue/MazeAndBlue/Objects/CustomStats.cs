@@ -12,12 +12,12 @@ namespace MazeAndBlue
         public int totalGameTime;
         public int totalScore;
         public int numCustomLevels;
-        public int[] customLevelIDs;
+        public List<int> customLevelIDs;
         public Dictionary<int, LevelData> customData;
 
         public CustomSaveGameData()
         {
-            customLevelIDs = new int[numCustomLevels];
+            customLevelIDs = new List<int>();
             customData = new Dictionary<int, LevelData>();
         }
     };
@@ -116,7 +116,7 @@ namespace MazeAndBlue
 
             for (int i = 0; i < data.numCustomLevels; i++)
             {
-                data.customLevelIDs[i] = Convert.ToInt32(lines[3 + 2 * i]);
+                data.customLevelIDs.Add(Convert.ToInt32(lines[3 + 2 * i]));
                 string[] values = lines[4 + 2 * i].Split(' ');
                 if (values.Length != 5)
                     return false;
@@ -129,6 +129,19 @@ namespace MazeAndBlue
             return true;            
         }
 
-
+        public void addLevelData(int levelID)
+        {
+            data.customLevelIDs.Add(levelID);
+            LevelData newData= new LevelData();
+            newData.level=levelID;
+            data.customData.Add(levelID, newData);
+            data.numCustomLevels++;
+        }
+        public void deleteLevelData(int levelID)
+        {
+            data.customLevelIDs.Remove(levelID);
+            data.customData.Remove(levelID);
+            data.numCustomLevels--;
+        }
     }
 }

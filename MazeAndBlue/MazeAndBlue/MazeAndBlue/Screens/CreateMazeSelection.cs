@@ -76,6 +76,8 @@ namespace MazeAndBlue
                 }
             }
 
+            Program.game.customStats.data.numCustomLevels = levelButtons.Count;
+
             buttons = new List<Button>();
             buttons.Add(createMazeButton);
             buttons.Add(singleButton);
@@ -189,6 +191,7 @@ namespace MazeAndBlue
                     File.Delete(mazeName);
                     File.Delete(imageName);
                     conformation = false;
+                    Program.game.customStats.deleteLevelData(Convert.ToInt32(nameId));
                 }
                 if (noButton.isSelected())
                     conformation = false;

@@ -79,9 +79,8 @@ namespace MazeAndBlue
 
             soundEffectPlayer = new SoundEffectPlayer();
             gameStats = new GameStats();
-            customStats = new CustomStats();
             settings = new GameSettings();
-
+            customStats = new CustomStats();
             startMainMenu();
 
             base.Initialize();

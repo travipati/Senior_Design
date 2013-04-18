@@ -2,6 +2,7 @@
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace MazeAndBlue
 {
@@ -356,7 +357,7 @@ namespace MazeAndBlue
             File.WriteAllLines(filename, lines);
 
             Program.game.saveScreenShot("custom" + nameId + ".png");
-
+            Program.game.customStats.addLevelData(Convert.ToInt32(nameId));
             Program.game.startCreateMazeSelect();
         }
 
