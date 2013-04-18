@@ -47,7 +47,7 @@ namespace MazeAndBlue
             for (int i = 0; i < numStars; i++)
                 stars.Add(new Sprite(new Point(i * 80 + window.Left + window.Width / 4 - 100, window.Bottom - window.Height / 5 - 20)));
 
-            Program.game.gameStats.updateLevelStats(Program.game.level, time, hits, score, numStars);
+            Program.game.gameStats.updateLevelStats(time, hits, score, numStars);
         }
 
         public void loadContent()

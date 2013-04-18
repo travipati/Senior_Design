@@ -8,12 +8,14 @@ namespace MazeAndBlue
 {
     public class CreateMazeSelection 
     {
+        Rectangle confWindow;
+        Texture2D confTexture;
         Button createMazeButton, singleButton, coOpButton, easyButton, hardButton, nextButton, prevButton,
-            playButton, deleteButton, menuButton;
+            playButton, deleteButton, menuButton, yesButton, noButton;
         List<Button> levelButtons;
         List<Button> buttons;
-        bool singlePlayer, easy, play;
-        int page;
+        bool singlePlayer, easy, play, conformation;
+        int page, delLevel;
 
         public CreateMazeSelection()
         {
@@ -32,7 +34,10 @@ namespace MazeAndBlue
             singlePlayer = true;
             easy = true;
             play = true;
+            conformation = false;
             page = 0;
+
+            confWindow = new Rectangle(3 * screenWidth / 8, 3 * screenHeight / 8, screenWidth / 4, screenHeight / 4);
 
             createMazeButton = new Button
                 (new Point(20, 20), 200, 100, "create maze", "Buttons/createMaze");
@@ -50,6 +55,12 @@ namespace MazeAndBlue
                 (new Point(600, 150), 200, 100, "Delete", "Buttons/button");
             menuButton = new Button
                 (new Point(Program.game.screenWidth - 166, 30), 136, 72, "Main Menu", "Buttons/mainMenuButton");
+            nextButton = new Button
+                (new Point(screenWidth - 220, screenHeight - 120), 200, 100, "Next", "Buttons/next");
+            prevButton = new Button
+                (new Point(20, screenHeight - 120), 200, 100, "Previous", "Buttons/previous");
+            yesButton = new Button(new Point(screenWidth / 2 - 120, confWindow.Bottom - 100), 80, 50, "Yes", "Buttons/button");
+            noButton = new Button(new Point(screenWidth / 2 + 40, confWindow.Bottom - 100), 80, 50, "No", "Buttons/button");
 
             int i = 0;
             levelButtons = new List<Button>();
@@ -65,11 +76,6 @@ namespace MazeAndBlue
                 }
             }
 
-            nextButton = new Button
-                (new Point(screenWidth - 220, screenHeight - 120), 200, 100, "Next", "Buttons/next");
-            prevButton = new Button
-                (new Point(20, screenHeight - 120), 200, 100, "Previous", "Buttons/previous");
-
             buttons = new List<Button>();
             buttons.Add(createMazeButton);
             buttons.Add(singleButton);
@@ -83,12 +89,17 @@ namespace MazeAndBlue
 
         public void loadContent()
         {
+            confTexture = new Texture2D(Program.game.GraphicsDevice, 1, 1);
+            confTexture.SetData<Color>(new Color[] { Color.White });
+
             foreach (Button button in buttons)
                 button.loadContent();
             nextButton.loadContent();
             prevButton.loadContent();
             foreach (Button levelButton in levelButtons)
                 levelButton.loadContent();
+            yesButton.loadContent();
+            noButton.loadContent();
         }
 
         public void draw(SpriteBatch spriteBatch)
@@ -115,44 +126,82 @@ namespace MazeAndBlue
             }
             if (page > 0)
                 prevButton.draw(spriteBatch);
+
+            if (conformation)
+            {
+                spriteBatch.Draw(confTexture, confWindow, new Color(128, 128, 128, 200));
+                Program.game.drawText("Delete maze?", new Point(Program.game.screenWidth / 2, confWindow.Top + 55));
+                yesButton.draw(spriteBatch);
+                noButton.draw(spriteBatch);
+            }
         }
 
         public void update()
         {
-            if (createMazeButton.isSelected())
-                Program.game.startCreateMaze(!easy, singlePlayer);
-            else if (singleButton.isSelected())
-                singlePlayer = true;
-            else if (coOpButton.isSelected())
-                singlePlayer = false;
-            else if (easyButton.isSelected())
-                easy = true;
-            else if (hardButton.isSelected())
-                easy = false;
-            else if (playButton.isSelected())
-                play = true;
-            else if (deleteButton.isSelected())
-                play = false;
-            else if (levelButtons.Count > (page + 1) * 6 && nextButton.isSelected())
-                page++;
-            else if (page > 0 && prevButton.isSelected())
-                page--;
-            else if (menuButton.isSelected())
-                Program.game.startMainMenu();
-            for (int i = 0; i < levelButtons.Count; i++)
+            if (!conformation)
             {
-                if (play && levelButtons[i].selectable && levelButtons[i].isSelected())
-                    Program.game.startCustomLevel(Convert.ToInt32(levelButtons[i].path.Substring(6, levelButtons[i].path.IndexOf(".") - 6)));
-                if (!play && levelButtons[i].selectable && levelButtons[i].isSelected())
+                if (createMazeButton.isSelected())
+                    Program.game.startCreateMaze(!easy, singlePlayer);
+                else if (singleButton.isSelected())
+                    singlePlayer = true;
+                else if (coOpButton.isSelected())
+                    singlePlayer = false;
+                else if (easyButton.isSelected())
+                    easy = true;
+                else if (hardButton.isSelected())
+                    easy = false;
+                else if (playButton.isSelected())
+                    play = true;
+                else if (deleteButton.isSelected())
+                    play = false;
+                else if (levelButtons.Count > (page + 1) * 6 && nextButton.isSelected())
+                    page++;
+                else if (page > 0 && prevButton.isSelected())
+                    page--;
+                else if (menuButton.isSelected())
+                    Program.game.startMainMenu();
+                for (int i = 0; i < levelButtons.Count; i++)
                 {
-                    string imageName = levelButtons[i].path;
+                    if (play && levelButtons[i].selectable && levelButtons[i].isSelected())
+                        Program.game.startCustomLevel(Convert.ToInt32(levelButtons[i].path.Substring(6, levelButtons[i].path.IndexOf(".") - 6)));
+                    if (!play && levelButtons[i].selectable && levelButtons[i].isSelected())
+                    {
+                        delLevel = i;
+                        conformation = true;
+                        foreach (Button button in buttons)
+                            button.selectable = false;
+                        nextButton.selectable = false;
+                        prevButton.selectable = false;
+                        foreach (Button levelButton in levelButtons)
+                            levelButton.selectable = false;
+                    }
+                }
+            }
+            else
+            {
+                if (yesButton.isSelected())
+                {
+                    string imageName = levelButtons[delLevel].path;
                     string nameId = imageName.Substring(6, imageName.IndexOf(".") - 6);
                     string mazeName = "Mazes\\custom" + nameId + ".maze";
                     System.Console.WriteLine(mazeName);
                     //levelButtons[i].unLoadContent();
-                    levelButtons.Remove(levelButtons[i]);
+                    levelButtons.Remove(levelButtons[delLevel]);
                     File.Delete(mazeName);
                     Program.game.deleteList.Add(imageName);
+                    conformation = false;
+                }
+                if (noButton.isSelected())
+                    conformation = false;
+
+                if (!conformation)
+                {
+                    foreach (Button button in buttons)
+                        button.selectable = true;
+                    nextButton.selectable = true;
+                    prevButton.selectable = true;
+                    foreach (Button levelButton in levelButtons)
+                        levelButton.selectable = true;
                 }
             }
         }

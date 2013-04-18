@@ -67,8 +67,9 @@ namespace MazeAndBlue
             data = new SaveGameData();
         }
 
-        public void updateLevelStats(int level, int numSeconds, int numHitWall, int score, int stars)
+        public void updateLevelStats(int numSeconds, int numHitWall, int score, int stars)
         {
+            int level = Program.game.level;
             LevelData newLevel = new LevelData();
             newLevel.level = level;
             newLevel.time = numSeconds;
