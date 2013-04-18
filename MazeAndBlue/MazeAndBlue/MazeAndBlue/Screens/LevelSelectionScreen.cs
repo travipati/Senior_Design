@@ -9,6 +9,7 @@ namespace MazeAndBlue
         Texture2D background;
         Button menuButton, easyButton, hardButton;
         List<Button> easyLevelButtons, hardLevelButtons;
+        List<Sprite> easyLevelStars, hardLevelStars;
         bool singlePlayer;
         enum LevelsState { EASY, HARD };
         LevelsState levelsState;
@@ -44,6 +45,8 @@ namespace MazeAndBlue
 
             easyLevelButtons = new List<Button>();
             hardLevelButtons = new List<Button>();
+            easyLevelStars = new List<Sprite>();
+            hardLevelStars = new List<Sprite>();
 
             if (singlePlayer)
             {
@@ -57,6 +60,8 @@ namespace MazeAndBlue
                     else
                     {
                         easyLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/level" + i));
+                        for (int j = 0; j < Program.game.gameStats.data.levelData[i + 12].numStars; j++)
+                            easyLevelStars.Add(new Sprite(new Point(j * 60 + levelx[i % 3] + levelButtonWidth / 2 - 80, levely[i / 3] + levelButtonHeight - 20)));
                     }
                     if (Program.game.unlockOn && i + 6 > Program.game.gameStats.data.singleNextLevelToUnlock)
                     {
@@ -66,6 +71,8 @@ namespace MazeAndBlue
                     else
                     {
                         hardLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/level" + (i + 6)));
+                        for (int j = 0; j < Program.game.gameStats.data.levelData[i + 18].numStars; j++)
+                            hardLevelStars.Add(new Sprite(new Point(j * 60 + levelx[i % 3] + levelButtonWidth / 2 - 80, levely[i / 3] + levelButtonHeight - 20)));
                     }
                 }
             }
@@ -81,6 +88,8 @@ namespace MazeAndBlue
                     else
                     {
                         easyLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/level" + i));
+                        for (int j = 0; j < Program.game.gameStats.data.levelData[i].numStars; j++)
+                            easyLevelStars.Add(new Sprite(new Point(j * 60 + levelx[i % 3] + levelButtonWidth / 2 - 80, levely[i / 3] + levelButtonHeight - 20)));
                     }
                     if (Program.game.unlockOn && i + 6 > Program.game.gameStats.data.coopNextLevelToUnlock)
                     {
@@ -90,6 +99,8 @@ namespace MazeAndBlue
                     else
                     {
                         hardLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/level" + (i + 6)));
+                        for (int j = 0; j < Program.game.gameStats.data.levelData[i + 6].numStars; j++)
+                            hardLevelStars.Add(new Sprite(new Point(j * 60 + levelx[i % 3] + levelButtonWidth / 2 - 80, levely[i / 3] + levelButtonHeight - 20)));
                     }
                 }
             }
@@ -107,6 +118,10 @@ namespace MazeAndBlue
                 button.loadContent();
             foreach (Button button in hardLevelButtons)
                 button.loadContent();
+            foreach (Sprite star in easyLevelStars)
+                star.loadContent("star");
+            foreach (Sprite star in hardLevelStars)
+                star.loadContent("star");
         }
         
         public void draw(SpriteBatch spriteBatch)
@@ -126,6 +141,8 @@ namespace MazeAndBlue
                         else
                             easyLevelButtons[i].draw(spriteBatch, Color.Gray);
                     }
+                    foreach (Sprite star in easyLevelStars)
+                        star.draw(spriteBatch, Color.Yellow);
                     easyButton.selected = true;
                     hardButton.selected = false;
                     break;
@@ -137,6 +154,8 @@ namespace MazeAndBlue
                         else
                             hardLevelButtons[i].draw(spriteBatch, Color.Gray);
                     }
+                    foreach (Sprite star in hardLevelStars)
+                        star.draw(spriteBatch, Color.Yellow);
                     easyButton.selected = false;
                     hardButton.selected = true;
                     break;
