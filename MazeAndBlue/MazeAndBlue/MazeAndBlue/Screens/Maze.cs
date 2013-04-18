@@ -17,7 +17,6 @@ namespace MazeAndBlue
         List<DoorSwitch> switches;
         Texture2D wallTexture, goalTexture;
         Timer timer;
-        int level;
         bool singlePlayer;
         bool[] prevHit;
         const int mazeWidth = 970, mazeHeight = 490;
@@ -25,47 +24,35 @@ namespace MazeAndBlue
         public static int height { get { return mazeHeight; } }
         public int wallHits { get; set; }
 
-        public Maze(int custLevel)
+        public Maze(int custLevel) : this()
         {
-            goalColor = Color.Red;
-            wallColor = Color.Black;
-            timer = new Timer();
-            wallHits = 0;
-            prevHit = new bool[2] { false, false };
-
-            balls = new List<Ball>();
-            walls = new List<Rectangle>();
-            goal = new Rectangle();
-            switches = new List<DoorSwitch>();
-
             string mazeFile = "Mazes/temp" + custLevel + ".maze";
             readFile(mazeFile);
             singlePlayer = balls.Count == 1;
-
-            pauseButton = new Button(new Point(Program.game.screenWidth - 170, 30), 136, 72, "Pause", "Buttons/pause");
         }
 
-        public Maze(int _level, bool _singlePlayer)
+        public Maze(int level, bool _singlePlayer) : this()
         {
-            goalColor = Color.Red;
-            wallColor = Color.Black;
-            timer = new Timer();
-            wallHits = 0;
-            prevHit = new bool[2] { false, false };
-            level = _level;
-            singlePlayer = _singlePlayer;
-
-            balls = new List<Ball>();
-            walls = new List<Rectangle>();
-            goal = new Rectangle();
-            switches = new List<DoorSwitch>();
-
             string mazeFile;
-            if (singlePlayer)
+            if ((singlePlayer = _singlePlayer))
                 mazeFile = "Mazes/" + (level + 12) + ".maze";
             else
                 mazeFile = "Mazes/" + level + ".maze";
             readFile(mazeFile);
+        }
+
+        private Maze()
+        {
+            goalColor = Color.Red;
+            wallColor = Color.Black;
+            timer = new Timer();
+            wallHits = 0;
+            prevHit = new bool[2] { false, false };
+
+            balls = new List<Ball>();
+            walls = new List<Rectangle>();
+            goal = new Rectangle();
+            switches = new List<DoorSwitch>();
 
             pauseButton = new Button(new Point(Program.game.screenWidth - 170, 30), 136, 72, "Pause", "Buttons/pause");
         }
@@ -176,14 +163,23 @@ namespace MazeAndBlue
             if (hit && !prevHit[ballNum])
             {
                 wallHits++;
+                
                 prevHit[ballNum] = true;
+                
                 Program.game.soundEffectPlayer.playWall();
+                
                 wallColor = Color.DarkRed;
             }
             else if (!hit && prevHit[ballNum])
             {
-                wallColor = Color.Black;
                 prevHit[ballNum] = false;
+
+                int otherNum = 0;
+                if (ballNum == 0)
+                    otherNum = 1;
+
+                if(!prevHit[otherNum])
+                    wallColor = Color.Black;
             }
         }
 

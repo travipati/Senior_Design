@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Input;
 using System.Runtime.InteropServices;
 using System;
 
+
 namespace MazeAndBlue
 {
     public class CreateMaze
@@ -90,6 +91,27 @@ namespace MazeAndBlue
 
         public void draw(SpriteBatch spriteBatch)
         {
+            wallButton.selected = false;
+            goalButton.selected = false;
+            p1Button.selected = false;
+            p2Button.selected = false;
+
+            switch (state)
+            {
+                case CreateState.WALLS:
+                    wallButton.selected = true;
+                    break;
+                case CreateState.GOAL:
+                    goalButton.selected = true;
+                    break;
+                case CreateState.P1:
+                    p1Button.selected = true;
+                    break;
+                case CreateState.P2:
+                    p2Button.selected = true;
+                    break;
+            }
+            
             wallButton.draw(spriteBatch);
             goalButton.draw(spriteBatch);
             p1Button.draw(spriteBatch);
@@ -300,25 +322,17 @@ namespace MazeAndBlue
 
 
             if (Program.game.graphics.IsFullScreen)
-            {
-
-            }
-            else
-            {
-                //automatically save the thumbnail.
-                int dx = Program.game.GraphicsDevice.Adapter.CurrentDisplayMode.Width - Program.game.screenWidth;
-                int dy = Program.game.GraphicsDevice.Adapter.CurrentDisplayMode.Height - Program.game.screenHeight;
-                System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(Maze.width, Maze.height);
-                System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bitmap);
-                g.CopyFromScreen(new System.Drawing.Point(Program.game.sx(0) + dx, Program.game.sy(0) + dy), 
-                    System.Drawing.Point.Empty, bitmap.Size);
-                bitmap.Save("test" + nameId + ".png", System.Drawing.Imaging.ImageFormat.Png);
-
-                System.Console.Out.WriteLine("sx: " + Program.game.sx(0) + " sy: " + Program.game.sy(0));
-                System.Console.Out.WriteLine("screenWidth: " + Program.game.screenWidth);
-                System.Console.Out.WriteLine("bitmap width: " + bitmap);
-            }
-
+                ControlAero(false);
+            //automatically save the thumbnail.
+            int dx = Program.game.GraphicsDevice.Adapter.CurrentDisplayMode.Width - Program.game.screenWidth;
+            int dy = Program.game.GraphicsDevice.Adapter.CurrentDisplayMode.Height - Program.game.screenHeight;
+            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(Maze.width, Maze.height);
+            System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bitmap);
+            g.CopyFromScreen(new System.Drawing.Point(Program.game.sx(0) + dx, Program.game.sy(0) + dy), 
+                System.Drawing.Point.Empty, bitmap.Size);
+            bitmap.Save("test" + nameId + ".png", System.Drawing.Imaging.ImageFormat.Png);
+            if (Program.game.graphics.IsFullScreen)
+                ControlAero(true);
             Program.game.startCreateMazeSelect();
 
         }
@@ -333,11 +347,14 @@ namespace MazeAndBlue
             return y - (Program.game.screenHeight - Maze.height) / 2;
         }
 
-        public System.Drawing.Bitmap ScreenShot()
+        [DllImport("dwmapi.dll", EntryPoint = "DwmEnableComposition")]
+        protected extern static uint Win32DwmEnableComposition(uint uCompositionAction);
+        public void ControlAero(bool enable)
         {
-            System.Drawing.Bitmap screenShotBMP = new System.Drawing.Bitmap(System.Drawing.Screen.PrimaryScreen.Bounds.Width,
-                Screen.PrimaryScreen.Bounds.Height, PixelFormat.Format32bppArgb);
-
+                if (enable)
+                    Win32DwmEnableComposition(1);
+                if (!enable)
+                    Win32DwmEnableComposition(0);
         }
     }
 }

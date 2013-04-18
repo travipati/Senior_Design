@@ -23,7 +23,6 @@ namespace MazeAndBlue
         StatsScreen statsScreen;
         InstructionScreen instructionScreen;
         CalibrationScreen calibrationScreen;
-        Fireworks fireworks;
         CreateMazeSelection createMazeSelect;
         CreateMaze createMaze;
 
@@ -153,8 +152,6 @@ namespace MazeAndBlue
         {
             scoreScreen = new ScoreScreen(time, hits);
             scoreScreen.loadContent();
-            fireworks = new Fireworks(); 
-            fireworks.loadContent();
             state = GameState.SCORE;
         }
 
@@ -236,7 +233,6 @@ namespace MazeAndBlue
                     break;
                 case GameState.SCORE:
                     maze.draw(spriteBatch);
-                    fireworks.draw(spriteBatch);
                     scoreScreen.draw(spriteBatch);
                     break;
                 case GameState.PAUSE:
@@ -301,7 +297,6 @@ namespace MazeAndBlue
                     maze.update();
                     break;
                 case GameState.SCORE:
-                    fireworks.update();
                     scoreScreen.update();
                     break;
                 case GameState.PAUSE:

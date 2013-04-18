@@ -51,7 +51,7 @@ namespace MazeAndBlue
                 {
                     if (Program.game.unlockOn && i > Program.game.gameStats.data.singleNextLevelToUnlock)
                     {
-                        hardLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/lockColor"));
+                        easyLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/lockColor"));
                         easyLevelButtons[i].selectable = false;
                     }
                     else

@@ -9,46 +9,60 @@ namespace MazeAndBlue
         Rectangle window;
         Texture2D background;
         //Rectangle avatar;
-        Button upper1, upper2, upper3, lower1, lower2;
-        int hTopRow, hOtherRows, buttonWidth, buttonHeight;
+        Button totalButton, easyButton, hardButton, resetButton, mainMenuButton, createdMazesButton, singlePlayerButton, coopModeButton;
+        int hTopRow, hOtherRows, smallButtonWidth, smallButtonHeight, largeButtonWidth, largeButtonHeight;
         int screenWidth = Program.game.screenWidth;
         int screenHeight = Program.game.screenHeight;
         string totalGameTime;
-        enum StatsState {TOTAL, SIMPLE, HARD};
+        enum StatsState {TOTAL, SINGLESIMPLE, SINGLEHARD, COOPSIMPLE, COOPHARD, CREATED};
         StatsState statsState;
 
         public StatsScreen()
         {
             calcTotalGameTime();
-            window = new Rectangle(screenWidth * 7 / 25 , screenHeight / 3, 8 * screenWidth / 15, 7 * screenHeight / 10);
+            window = new Rectangle(screenWidth * 7 / 25 , screenHeight / 3 + 50, 8 * screenWidth / 15, 7 * screenHeight / 10);
             hTopRow = screenHeight / 5;
             hOtherRows = screenHeight / 15 * 2;
-            buttonHeight = screenHeight / 8;
-            buttonWidth = screenWidth / 7;
-            int x1 = screenWidth / 6 - buttonWidth / 2;
-            int x2 = 5 * screenWidth / 6 - buttonWidth / 2;
-            int x3 = screenWidth / 2 - buttonWidth / 2 ;
-            int x4 = screenWidth / 2 - 5 * buttonWidth / 2 + 50;
-            int x5 = screenWidth / 2 + 3 * buttonWidth / 2 - 50;
-            int y1 = screenHeight / 9 - buttonHeight / 2;
-            int y2 = screenHeight / 2 - 5 * buttonHeight / 2 + 20;
-            upper1 = new Button(new Point(x3, y2), buttonWidth, hOtherRows, "Total", "Buttons/statistics");
-            upper2 = new Button(new Point(x4, y2), buttonWidth, hOtherRows, "Simple", "Buttons/easy");
-            upper3 = new Button(new Point(x5, y2), buttonWidth, hOtherRows, "Hard", "Buttons/hard");
-            lower1 = new Button(new Point(x2, y1), buttonWidth, hOtherRows, "Reset", "Buttons/reset");
-            lower2 = new Button(new Point(x1, y1), buttonWidth, hOtherRows, "Main", "Buttons/mainMenuButton");
-            int levelX = window.Right - window.Width / 3 - buttonWidth / 2;
+            smallButtonHeight = 72;
+            smallButtonWidth = 136;
+            largeButtonWidth = 170;
+            largeButtonHeight = 92;
+            
+            int row1 = screenHeight / 9 - largeButtonHeight / 2;
+            int row2 = screenHeight / 2 - 3 * smallButtonHeight;
+            int row3 = screenHeight / 2 - 3 * smallButtonHeight / 2 - 10;
+
+            resetButton = new Button(new Point(5 * screenWidth / 6 - smallButtonWidth / 2, row1), largeButtonWidth, 
+                largeButtonHeight, "Reset", "Buttons/reset");
+            mainMenuButton = new Button(new Point(screenWidth / 6 - smallButtonWidth / 2, row1), largeButtonWidth, 
+                largeButtonHeight, "Main", "Buttons/mainMenuButton");
+            totalButton = new Button(new Point(screenWidth / 2 - smallButtonWidth * 3, row2), smallButtonWidth, 
+                smallButtonHeight, "Total", "Buttons/statistics");
+            singlePlayerButton = new Button(new Point(screenWidth / 2 - (int)(smallButtonWidth * 3/2) + 20, row2), smallButtonWidth, 
+                smallButtonHeight, "Total", "Buttons/singlePlayer");
+            coopModeButton = new Button(new Point(screenWidth / 2 + (int)(smallButtonWidth / 2) - 20, row2), smallButtonWidth, 
+                smallButtonHeight, "Total", "Buttons/coopMode");
+            createdMazesButton = new Button(new Point(screenWidth / 2 + smallButtonWidth * 2, row2), smallButtonWidth, 
+                smallButtonHeight, "Total", "Buttons/createMaze");
+            easyButton = new Button(new Point(screenWidth / 2 - 2 * smallButtonWidth, row3), smallButtonWidth, 
+                smallButtonHeight, "Easy", "Buttons/easy");
+            hardButton = new Button(new Point(screenWidth / 2 + smallButtonWidth, row3), smallButtonWidth, 
+                smallButtonHeight, "Hard", "Buttons/hard");
+            int levelX = window.Right - window.Width / 3 - smallButtonWidth / 2;
             statsState = StatsState.TOTAL;
         }
 
         public void loadContent()
         {
             background = Program.game.Content.Load<Texture2D>("Backgrounds/statsScreen");
-            upper1.loadContent();
-            upper2.loadContent();
-            upper3.loadContent();
-            lower1.loadContent();
-            lower2.loadContent();
+            totalButton.loadContent();
+            easyButton.loadContent();
+            hardButton.loadContent();
+            resetButton.loadContent();
+            mainMenuButton.loadContent();
+            singlePlayerButton.loadContent();
+            coopModeButton.loadContent();
+            createdMazesButton.loadContent();
         }
 
         private void calcTotalGameTime()
@@ -66,7 +80,7 @@ namespace MazeAndBlue
             for (int i = 0; i < textArray.Count; i++)
             {
                 int x = screenWidth / 2;
-                int y = window.Top + (int)(0.1 * screenHeight * (i + 1.5)) - 45;
+                int y = window.Top + (int)(0.08 * screenHeight * (i + 2)) - 55;
                 Point pos = new Point(x, y);
                 Program.game.drawText(textArray[i], pos);
             }
@@ -78,46 +92,82 @@ namespace MazeAndBlue
             position.X = screenWidth / 1000;
             position.Y = screenHeight / 10 - 80;
             spriteBatch.Draw(background, position, Color.White);*/
-            upper1.draw(spriteBatch);
-            upper2.draw(spriteBatch);
-            upper3.draw(spriteBatch);
-            lower1.draw(spriteBatch);
-            lower2.draw(spriteBatch);
+            totalButton.draw(spriteBatch);
+            easyButton.draw(spriteBatch);
+            hardButton.draw(spriteBatch);
+            resetButton.draw(spriteBatch);
+            mainMenuButton.draw(spriteBatch);
+            singlePlayerButton.draw(spriteBatch);
+            coopModeButton.draw(spriteBatch);
+            createdMazesButton.draw(spriteBatch);
+           
             int x = screenWidth / 2;
             int y = screenHeight / 9;
-            upper1.selected = false;
-            upper2.selected = false;
-            upper3.selected = false;
+            totalButton.selected = false;
+            easyButton.selected = false;
+            hardButton.selected = false;
+            singlePlayerButton.selected = false;
+            coopModeButton.selected = false;
+            createdMazesButton.selected = false;
 
             switch (statsState)
             {
                 case StatsState.TOTAL:
-
-                    upper1.selected = true;
+                    totalButton.selected = true;
                     Program.game.drawText("Game Statistics", new Point(x, y));
                     List<string> totalBlock = new List<string>();
                     totalBlock.Add("Total Game Time: " + totalGameTime + " seconds.");
                     totalBlock.Add("Total Score: " + Program.game.gameStats.data.totalScore + " pts.");
                     drawBlock(totalBlock);
                     break;
-
-                case StatsState.SIMPLE:
-                    upper2.selected = true;
-                    Program.game.drawText("Easy Levels Stats", new Point(x, y));
-                    List<string> simpleBlock = new List<string>();
+                case StatsState.SINGLESIMPLE:
+                    easyButton.selected = true;
+                    singlePlayerButton.selected = true;
+                    Program.game.drawText("Single Easy Levels Stats", new Point(x, y));
+                    List<string> singleSimpleBlock = new List<string>();
+                    singleSimpleBlock.Add("                         Score      Time      Wall Hits    Stars");
                     for (int i = 0; i < 6; i++)
-                        simpleBlock.Add("Level " + (i + 1) + "        Score: " + Program.game.gameStats.data.levelData[i].score +
-                            "        Time: " + Program.game.gameStats.data.levelData[i].time + "        Wall Hits: " + Program.game.gameStats.data.levelData[i].hits
-                             + "        Stars: " + Program.game.gameStats.data.levelData[i].numStars);
-                    drawBlock(simpleBlock);
+                        singleSimpleBlock.Add("Level " + (i + 1) + ":             " + Program.game.gameStats.data.levelData[i].score +
+                            "              " + Program.game.gameStats.data.levelData[i].time + "              " +
+                            Program.game.gameStats.data.levelData[i].hits + "              " + Program.game.gameStats.data.levelData[i].numStars);
+                    drawBlock(singleSimpleBlock);
                     break;
-                case StatsState.HARD:
-                    upper3.selected = true;
-                    Program.game.drawText("Hard Levels Stats", new Point(x, y));
-                    List<string> hardBlock = new List<string>();
+                case StatsState.SINGLEHARD:
+                    hardButton.selected = true;
+                    singlePlayerButton.selected = true;
+                    Program.game.drawText("coop Hard Levels Stats", new Point(x, y));
+                    List<string> singleHardBlock = new List<string>();
                     for (int i = 0; i < 6; i++)
-                        hardBlock.Add("Level " + (i + 1) + " Score: " + Program.game.gameStats.data.levelData[i+6].score);
-                    drawBlock(hardBlock);
+                        singleHardBlock.Add("Level " + (i + 1) + " Score: " + Program.game.gameStats.data.levelData[i + 18].score);
+                    drawBlock(singleHardBlock);
+                    break;
+                case StatsState.COOPSIMPLE:
+                    easyButton.selected = true;
+                    coopModeButton.selected = true;
+                    Program.game.drawText("Coop Easy Levels Stats", new Point(x, y));
+                    List<string> coopSimpleBlock = new List<string>();
+                    for (int i = 0; i < 6; i++)
+                        coopSimpleBlock.Add("Level " + (i + 1) + ":   Score: " + Program.game.gameStats.data.levelData[i].score +
+                            "\n           Time: " + Program.game.gameStats.data.levelData[i].time + "\n           Wall Hits: " + 
+                            Program.game.gameStats.data.levelData[i].hits + "\n           Stars: " + Program.game.gameStats.data.levelData[i].numStars);
+                    drawBlock(coopSimpleBlock);
+                    break;
+                case StatsState.COOPHARD:
+                    hardButton.selected = true;
+                    coopModeButton.selected = true;
+                    Program.game.drawText("Coop Hard Levels Stats", new Point(x, y));
+                    List<string> coopHardBlock = new List<string>();
+                    for (int i = 0; i < 6; i++)
+                        coopHardBlock.Add("Level " + (i + 1) + " Score: " + Program.game.gameStats.data.levelData[i + 6].score);
+                    drawBlock(coopHardBlock);
+                    break;
+                case StatsState.CREATED:
+                    createdMazesButton.selected = true;
+                    Program.game.drawText("Created Mazes Stats", new Point(x, y));
+                    List<string> createdBlock = new List<string>();
+                    for (int i = 0; i < 6; i++)
+                        createdBlock.Add("Level " + (i + 1) + " Score: " + Program.game.gameStats.data.levelData[i].score);
+                    drawBlock(createdBlock);
                     break;
                 default:
                     System.Windows.Forms.MessageBox.Show("error in drawTitle, StatsScreen", "Error @ StatsScreen");
@@ -127,10 +177,10 @@ namespace MazeAndBlue
 
         public void update()
         {
-            if (lower2.isSelected())
+            if (mainMenuButton.isSelected())
                 Program.game.startMainMenu();
             
-            if (lower1.isSelected())
+            if (resetButton.isSelected())
             {
                 //System.Windows.Forms.MessageBox.Show("Resetting your stats", "Warning");
                 Program.game.gameStats.resetData();
@@ -138,14 +188,18 @@ namespace MazeAndBlue
                 calcTotalGameTime();
             }
 
-            if (upper1.isSelected())
+            if (totalButton.isSelected())
                 statsState = StatsState.TOTAL;
-            else if (upper2.isSelected())
-                statsState = StatsState.SIMPLE;
-            else if (upper3.isSelected())
-                statsState = StatsState.HARD;
-
-
+            else if (singlePlayerButton.isSelected() && !hardButton.isSelected())
+                statsState = StatsState.SINGLESIMPLE;
+            else if (singlePlayerButton.isSelected())
+                statsState = StatsState.SINGLEHARD;
+            else if (coopModeButton.isSelected() && !hardButton.isSelected())
+                statsState = StatsState.COOPSIMPLE;
+            else if (coopModeButton.isSelected())
+                statsState = StatsState.COOPHARD;
+            else if (createdMazesButton.isSelected())
+                statsState = StatsState.CREATED;
         }
     }
 }

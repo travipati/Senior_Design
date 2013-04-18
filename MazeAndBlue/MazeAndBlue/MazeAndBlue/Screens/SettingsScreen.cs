@@ -40,7 +40,7 @@ namespace MazeAndBlue
                 largeButtonWidth, largeButtonHeight, "setBackground", "Buttons/setBackground");
             setGoalImage = new Button(new Point(screenWidth / 2 - 2 * largeButtonWidth, screenHeight - largeButtonHeight - 20), 
                 largeButtonWidth, largeButtonHeight, "setGoalImage", "Buttons/setGoalImage");
-            calibrateKinect = new Button(new Point(screenWidth / 2 - (int)(.5 * largeButtonWidth), screenHeight - largeButtonHeight - 20),
+            calibrateKinect = new Button(new Point(screenWidth / 2 + largeButtonWidth, screenHeight - largeButtonHeight - 20),
                 largeButtonWidth, largeButtonHeight, "calibrateKinect", "Buttons/calibrateKinect");
 
             buttons = new List<Button>();
@@ -57,7 +57,7 @@ namespace MazeAndBlue
             buttons.Add(unlockOn);
             buttons.Add(unlockOff);
 //            buttons.Add(setBackground);
-//            buttons.Add(setGoalImage);
+            buttons.Add(setGoalImage);
             buttons.Add(calibrateKinect);
         }
 
@@ -75,7 +75,7 @@ namespace MazeAndBlue
             spriteBatch.Draw(texture, screenRectangle, Color.White);
             string text1 = "Player One Primary Hand";
             string text2 = "Player Two Primary Hand";
-            string text3 = "Room Volume";
+            string text3 = "Voice Sensitivity";
             string text4 = "Game Sounds";
             string text5 = "Unlock Levels";
             int x = 150;
@@ -141,11 +141,11 @@ namespace MazeAndBlue
             else if (p2LHand.isSelected())
                 Program.game.settings.updateP2PrimaryHand(false);
             else if (roomQuiet.isSelected())
-                Program.game.settings.updateVolume(0);
+                Program.game.settings.updateVolume(2);
             else if (roomAver.isSelected())
                 Program.game.settings.updateVolume(1);
             else if (roomLoud.isSelected())
-                Program.game.settings.updateVolume(2);
+                Program.game.settings.updateVolume(0);
             else if (soundsOn.isSelected())
                 Program.game.settings.updateSound(true);
             else if (soundsOff.isSelected())
