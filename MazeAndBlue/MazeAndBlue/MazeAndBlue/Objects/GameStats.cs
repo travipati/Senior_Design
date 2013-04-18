@@ -111,7 +111,7 @@ namespace MazeAndBlue
             lines[2] = data.singleNextLevelToUnlock.ToString();
             lines[3] = data.coopNextLevelToUnlock.ToString();
             lines[4] = data.numCustomLevels.ToString();
-            for (int i = 5; i < 24; i++)
+            for (int i = 5; i < 29; i++)
                 lines[i] = data.levelData[i].getLine();
             File.WriteAllLines(filename, lines);
         }
@@ -132,7 +132,7 @@ namespace MazeAndBlue
             data.coopNextLevelToUnlock = Convert.ToInt32(lines[3]);
             data.numCustomLevels = Convert.ToInt32(lines[4]);
 
-            for (int i = 5; i < 24; i++)
+            for (int i = 5; i < 29; i++)
             {
                 string[] values = lines[i].Split(' ');
                 if (values.Length != 5)
