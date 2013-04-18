@@ -43,10 +43,11 @@ namespace MazeAndBlue
         public LevelData[] levelData;
         public int singleNextLevelToUnlock;
         public int coopNextLevelToUnlock;
+        public int numCustomLevels;
 
         public SaveGameData()
         {
-            levelData = new LevelData[12];
+            levelData = new LevelData[24];
         }
     };
 
@@ -73,7 +74,8 @@ namespace MazeAndBlue
             LevelData newLevel = new LevelData();
             newLevel.level = level;
             newLevel.time = numSeconds;
-            newLevel.hits = numHitWall;
+            if(numHitWall< data.levelData[level].hits)
+                newLevel.hits = numHitWall;
             if (score > data.levelData[level].score)
             {
                 newLevel.score = score;
@@ -90,7 +92,7 @@ namespace MazeAndBlue
             if (!Program.game.singlePlayer && data.coopNextLevelToUnlock <= level)
                 data.coopNextLevelToUnlock = level + 1;
 
-            if (level >= 12)
+            if (level >= 24)
                 System.Windows.Forms.MessageBox.Show("error updating level stats", "Error @ GameStats");
             else
                 data.levelData[level] = newLevel;
@@ -100,13 +102,14 @@ namespace MazeAndBlue
 
         public void saveStats()
         {
-            string[] lines = new string[16];
-            for (int i = 0; i < 12; i++)
+            string[] lines = new string[29];
+            for (int i = 0; i < 24; i++)
                 lines[i] = data.levelData[i].getLine();
-            lines[12] = data.totalGameTime.ToString();
-            lines[13] = data.totalScore.ToString();
-            lines[14] = data.singleNextLevelToUnlock.ToString();
-            lines[15] = data.coopNextLevelToUnlock.ToString();
+            lines[24] = data.totalGameTime.ToString();
+            lines[25] = data.totalScore.ToString();
+            lines[26] = data.singleNextLevelToUnlock.ToString();
+            lines[27] = data.coopNextLevelToUnlock.ToString();
+            lines[28] = data.numCustomLevels.ToString();
             File.WriteAllLines(filename, lines);
         }
 
@@ -117,10 +120,10 @@ namespace MazeAndBlue
 
             string[] lines = File.ReadAllLines(filename);
 
-            if (lines.Length != 16)
+            if (lines.Length != 29)
                 return false;
 
-            for (int i = 0; i < 12; i++)
+            for (int i = 0; i < 24; i++)
             {
                 string[] values = lines[i].Split(' ');
                 if (values.Length != 5)
@@ -128,10 +131,11 @@ namespace MazeAndBlue
                 data.levelData[i].setValues(values);
             }
 
-            data.totalGameTime = Convert.ToInt32(lines[12]);
-            data.totalScore = Convert.ToInt32(lines[13]);
-            data.singleNextLevelToUnlock = Convert.ToInt32(lines[14]);
-            data.coopNextLevelToUnlock = Convert.ToInt32(lines[15]);
+            data.totalGameTime = Convert.ToInt32(lines[24]);
+            data.totalScore = Convert.ToInt32(lines[25]);
+            data.singleNextLevelToUnlock = Convert.ToInt32(lines[26]);
+            data.coopNextLevelToUnlock = Convert.ToInt32(lines[27]);
+            data.numCustomLevels = Convert.ToInt32(lines[28]);
 
             return true;            
         }
