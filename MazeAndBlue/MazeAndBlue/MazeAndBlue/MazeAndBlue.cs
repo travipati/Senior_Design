@@ -26,6 +26,7 @@ namespace MazeAndBlue
         CreateMazeSelection createMazeSelect;
         CreateMaze createMaze;
 
+        public string goalImage { get; set; }
         public int level { get; set; }
         public bool singlePlayer { get; set; }
         public bool customLevel { get; set; }
@@ -59,6 +60,7 @@ namespace MazeAndBlue
 
             level = 0;
             unlockOn = true;
+            goalImage = "";
         }
 
         protected override void Initialize()
@@ -307,6 +309,16 @@ namespace MazeAndBlue
             base.Draw(gameTime);
         }
 
+        public bool isFullScreen()
+        {
+            return graphics.IsFullScreen;
+        }
+
+        public void toggleFullScreen()
+        {
+            graphics.ToggleFullScreen(); 
+        }
+
         protected override void Update(GameTime gameTime)
         {
             ms.grabInput();
@@ -317,7 +329,7 @@ namespace MazeAndBlue
 
             if (ks.newKeyReady && ks.key == "Esc")
             {
-                graphics.ToggleFullScreen(); 
+                toggleFullScreen();
                 ks.newKeyReady = false;
             }
 

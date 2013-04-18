@@ -19,6 +19,7 @@ namespace MazeAndBlue
         Timer timer;
         bool singlePlayer;
         bool[] prevHit;
+        bool drawImage;
         const int mazeWidth = 970, mazeHeight = 490;
         public static int width { get { return mazeWidth; } }
         public static int height { get { return mazeHeight; } }
@@ -67,6 +68,13 @@ namespace MazeAndBlue
             goalTexture = new Texture2D(Program.game.GraphicsDevice, 1, 1);
             goalTexture.SetData<Color>(new Color[] { Color.White });
             pauseButton.loadContent();
+            drawImage = false;
+            string goalImage = Program.game.goalImage;
+            if (goalImage != "" && File.Exists(goalImage))
+            {
+                image.loadContent(File.OpenRead(goalImage));
+                drawImage = true;
+            }
         }
 
         public void draw(SpriteBatch spriteBatch)
@@ -76,8 +84,9 @@ namespace MazeAndBlue
                 spriteBatch.Draw(wallTexture, rect, wallColor);
             foreach (DoorSwitch dswitch in switches)
                 dswitch.draw(spriteBatch);
-            spriteBatch.Draw(goalTexture, goal, goalColor); 
-            //image.draw(spriteBatch);
+            spriteBatch.Draw(goalTexture, goal, goalColor);
+            if(drawImage)
+                image.draw(spriteBatch);
             timer.draw(spriteBatch);
             if (!singlePlayer)
                 balls[1].draw(spriteBatch);
@@ -339,8 +348,7 @@ namespace MazeAndBlue
                 if (words[0] == "goal")
                 {
                     goal = rect; 
-                    //image = new Sprite(rect.Location, rect.Width, rect.Height);
-                    //image.loadContent(File.OpenRead("bootz.png"));
+                    image = new Sprite(rect.Location, rect.Width, rect.Height);
                 }
                 else if (words[0] == "wall")
                     walls.Add(rect);

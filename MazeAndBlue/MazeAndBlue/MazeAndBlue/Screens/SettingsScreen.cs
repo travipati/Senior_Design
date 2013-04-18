@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Windows.Forms;
+using System.IO;
 
 namespace MazeAndBlue
 {
@@ -12,6 +14,8 @@ namespace MazeAndBlue
                 soundsOn, soundsOff, unlockOn, unlockOff, setBackground, setGoalImage, calibrateKinect;
         List<Button> buttons;
         Rectangle screenRectangle;
+        Sprite image;
+        bool drawImage;
 
         public SettingsScreen()
         {
@@ -43,6 +47,9 @@ namespace MazeAndBlue
             calibrateKinect = new Button(new Point(screenWidth / 2 + largeButtonWidth, screenHeight - largeButtonHeight - 20),
                 largeButtonWidth, largeButtonHeight, "calibrateKinect", "Buttons/calibrateKinect");
 
+            image = new Sprite(new Point(screenWidth / 2 - largeButtonWidth + 10, screenHeight - largeButtonHeight - 20),
+                largeButtonHeight, largeButtonHeight);
+
             buttons = new List<Button>();
             buttons.Add(menuButton);
             buttons.Add(plRHand);
@@ -68,6 +75,14 @@ namespace MazeAndBlue
             
             foreach (Button button in buttons)
                 button.loadContent();
+
+            drawImage = false;
+            string goalImage = Program.game.goalImage;
+            if (goalImage != "" && File.Exists(goalImage))
+            {
+                image.loadContent(File.OpenRead(goalImage));
+                drawImage = true;
+            }
         }
 
         public void draw(SpriteBatch spriteBatch)
@@ -126,6 +141,9 @@ namespace MazeAndBlue
            
             foreach (Button button in buttons)
                 button.draw(spriteBatch);
+
+            if (drawImage)
+                image.draw(spriteBatch);
         }
 
         public void update()
@@ -156,10 +174,54 @@ namespace MazeAndBlue
                 Program.game.settings.updateUnlock(false);
             else if (calibrateKinect.isSelected())
                 Program.game.startCalibrationScreen();
+            else if (setGoalImage.isSelected())
+                selectImage();
             
             Program.game.settings.applySettings();
             
             Program.game.settings.saveSettings();
+        }
+
+        void selectImage()
+        {
+            //if(change image)
+                setImage();
+            /*else
+            {
+                Program.game.goalImage = "";
+                drawImage = false;
+            } */               
+        }
+
+        void setImage()
+        {
+            bool wasFullScreen = Program.game.isFullScreen();
+            
+            if (wasFullScreen)
+                Program.game.toggleFullScreen();
+
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Supported files (GIF, JPEG, PNG)|*.GIF;*.JPG;*.PNG;*.JPEG";
+            ofd.CheckFileExists = true;
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                string ext = Path.GetExtension(ofd.FileName).ToUpper();
+                if (ext == ".GIF" || ext == ".JPG" || ext == ".PNG" || ext == ".JPEG")
+                {
+                    Program.game.goalImage = ofd.FileName;
+                    image.loadContent(File.OpenRead(ofd.FileName));
+                    drawImage = true;
+                }
+                else
+                {
+                    Program.game.goalImage = "";
+                    drawImage = false;
+                }
+            }
+
+            if (wasFullScreen)
+                Program.game.toggleFullScreen();
         }
 
     }
