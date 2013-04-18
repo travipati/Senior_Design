@@ -76,22 +76,26 @@ namespace MazeAndBlue
 
             LevelData newLevel = new LevelData();
             newLevel.level = level;
-            newLevel.time = numSeconds;
-            if(numHitWall< data.levelData[level].hits)
-                newLevel.hits = numHitWall;
             if (score > data.levelData[level].score)
             {
+                newLevel.time = numSeconds;
+                newLevel.hits = numHitWall;
                 newLevel.score = score;
+                newLevel.numStars = stars;
                 data.totalScore += score;
             }
             else
+            {
+                newLevel.time = data.levelData[level].time;
+                newLevel.hits = data.levelData[level].hits;
                 newLevel.score = data.levelData[level].score;
-            newLevel.numStars = stars;
+                newLevel.numStars = data.levelData[level].numStars;
+            }
 
             data.totalGameTime+= numSeconds;
 
-            if (Program.game.singlePlayer && data.singleNextLevelToUnlock <= level)
-                data.singleNextLevelToUnlock = level + 1;
+            if (Program.game.singlePlayer && data.singleNextLevelToUnlock <= level - 12)
+                data.singleNextLevelToUnlock = level - 11;
             if (!Program.game.singlePlayer && data.coopNextLevelToUnlock <= level)
                 data.coopNextLevelToUnlock = level + 1;
 
