@@ -89,10 +89,18 @@ namespace MazeAndBlue
 
         public void update()
         {
-            if (scalar < 1)
+            if (scalar < 1 || rotation * 100 % 100 != 0)
             {
-                scalar += .025f;
-                rotation += (float)(.025 * 5);
+                float circle = MathHelper.Pi * 2;
+                if (scalar >= 1)
+                {
+                    scalar = 1;
+                }
+                else
+                {
+                    scalar += .025f;
+                }
+                rotation = (float)(scalar * circle);
             }
 
             fireworks.update();
