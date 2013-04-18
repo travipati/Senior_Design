@@ -40,10 +40,10 @@ namespace MazeAndBlue
         public string PlayerName;
         public int totalGameTime;
         public int totalScore;
-        public LevelData[] levelData;
         public int singleNextLevelToUnlock;
         public int coopNextLevelToUnlock;
         public int numCustomLevels;
+        public LevelData[] levelData;
 
         public SaveGameData()
         {
@@ -71,6 +71,9 @@ namespace MazeAndBlue
         public void updateLevelStats(int numSeconds, int numHitWall, int score, int stars)
         {
             int level = Program.game.level;
+            if (Program.game.singlePlayer)
+                level += 12;
+
             LevelData newLevel = new LevelData();
             newLevel.level = level;
             newLevel.time = numSeconds;
@@ -103,13 +106,13 @@ namespace MazeAndBlue
         public void saveStats()
         {
             string[] lines = new string[29];
-            for (int i = 0; i < 24; i++)
+            lines[0] = data.totalGameTime.ToString();
+            lines[1] = data.totalScore.ToString();
+            lines[2] = data.singleNextLevelToUnlock.ToString();
+            lines[3] = data.coopNextLevelToUnlock.ToString();
+            lines[4] = data.numCustomLevels.ToString();
+            for (int i = 5; i < 24; i++)
                 lines[i] = data.levelData[i].getLine();
-            lines[24] = data.totalGameTime.ToString();
-            lines[25] = data.totalScore.ToString();
-            lines[26] = data.singleNextLevelToUnlock.ToString();
-            lines[27] = data.coopNextLevelToUnlock.ToString();
-            lines[28] = data.numCustomLevels.ToString();
             File.WriteAllLines(filename, lines);
         }
 
@@ -123,19 +126,19 @@ namespace MazeAndBlue
             if (lines.Length != 29)
                 return false;
 
-            for (int i = 0; i < 24; i++)
+            data.totalGameTime = Convert.ToInt32(lines[0]);
+            data.totalScore = Convert.ToInt32(lines[1]);
+            data.singleNextLevelToUnlock = Convert.ToInt32(lines[2]);
+            data.coopNextLevelToUnlock = Convert.ToInt32(lines[3]);
+            data.numCustomLevels = Convert.ToInt32(lines[4]);
+
+            for (int i = 5; i < 24; i++)
             {
                 string[] values = lines[i].Split(' ');
                 if (values.Length != 5)
                     return false;
                 data.levelData[i].setValues(values);
             }
-
-            data.totalGameTime = Convert.ToInt32(lines[24]);
-            data.totalScore = Convert.ToInt32(lines[25]);
-            data.singleNextLevelToUnlock = Convert.ToInt32(lines[26]);
-            data.coopNextLevelToUnlock = Convert.ToInt32(lines[27]);
-            data.numCustomLevels = Convert.ToInt32(lines[28]);
 
             return true;            
         }
