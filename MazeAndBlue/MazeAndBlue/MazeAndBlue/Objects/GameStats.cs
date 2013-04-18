@@ -40,13 +40,14 @@ namespace MazeAndBlue
         public string PlayerName;
         public int totalGameTime;
         public int totalScore;
-        public LevelData[] levelData;
         public int singleNextLevelToUnlock;
         public int coopNextLevelToUnlock;
+        public int numCustomLevels;
+        public LevelData[] levelData;
 
         public SaveGameData()
         {
-            levelData = new LevelData[12];
+            levelData = new LevelData[24];
         }
     };
 
@@ -70,27 +71,36 @@ namespace MazeAndBlue
         public void updateLevelStats(int numSeconds, int numHitWall, int score, int stars)
         {
             int level = Program.game.level;
+            if (Program.game.singlePlayer)
+                level += 12;
+
             LevelData newLevel = new LevelData();
             newLevel.level = level;
-            newLevel.time = numSeconds;
-            newLevel.hits = numHitWall;
             if (score > data.levelData[level].score)
             {
+                newLevel.time = numSeconds;
+                newLevel.hits = numHitWall;
                 newLevel.score = score;
+                newLevel.numStars = stars;
+                data.totalScore -= data.levelData[level].score;
                 data.totalScore += score;
             }
             else
+            {
+                newLevel.time = data.levelData[level].time;
+                newLevel.hits = data.levelData[level].hits;
                 newLevel.score = data.levelData[level].score;
-            newLevel.numStars = stars;
+                newLevel.numStars = data.levelData[level].numStars;
+            }
 
             data.totalGameTime+= numSeconds;
 
-            if (Program.game.singlePlayer && data.singleNextLevelToUnlock <= level)
-                data.singleNextLevelToUnlock = level + 1;
+            if (Program.game.singlePlayer && data.singleNextLevelToUnlock <= level - 12)
+                data.singleNextLevelToUnlock = level - 11;
             if (!Program.game.singlePlayer && data.coopNextLevelToUnlock <= level)
                 data.coopNextLevelToUnlock = level + 1;
 
-            if (level >= 12)
+            if (level >= 24)
                 System.Windows.Forms.MessageBox.Show("error updating level stats", "Error @ GameStats");
             else
                 data.levelData[level] = newLevel;
@@ -100,13 +110,14 @@ namespace MazeAndBlue
 
         public void saveStats()
         {
-            string[] lines = new string[16];
-            for (int i = 0; i < 12; i++)
-                lines[i] = data.levelData[i].getLine();
-            lines[12] = data.totalGameTime.ToString();
-            lines[13] = data.totalScore.ToString();
-            lines[14] = data.singleNextLevelToUnlock.ToString();
-            lines[15] = data.coopNextLevelToUnlock.ToString();
+            string[] lines = new string[29];
+            lines[0] = data.totalGameTime.ToString();
+            lines[1] = data.totalScore.ToString();
+            lines[2] = data.singleNextLevelToUnlock.ToString();
+            lines[3] = data.coopNextLevelToUnlock.ToString();
+            lines[4] = data.numCustomLevels.ToString();
+            for (int i = 5; i < 29; i++)
+                lines[i] = data.levelData[i - 5].getLine();
             File.WriteAllLines(filename, lines);
         }
 
@@ -117,21 +128,22 @@ namespace MazeAndBlue
 
             string[] lines = File.ReadAllLines(filename);
 
-            if (lines.Length != 16)
+            if (lines.Length != 29)
                 return false;
 
-            for (int i = 0; i < 12; i++)
+            data.totalGameTime = Convert.ToInt32(lines[0]);
+            data.totalScore = Convert.ToInt32(lines[1]);
+            data.singleNextLevelToUnlock = Convert.ToInt32(lines[2]);
+            data.coopNextLevelToUnlock = Convert.ToInt32(lines[3]);
+            data.numCustomLevels = Convert.ToInt32(lines[4]);
+
+            for (int i = 5; i < 29; i++)
             {
                 string[] values = lines[i].Split(' ');
                 if (values.Length != 5)
                     return false;
-                data.levelData[i].setValues(values);
+                data.levelData[i - 5].setValues(values);
             }
-
-            data.totalGameTime = Convert.ToInt32(lines[12]);
-            data.totalScore = Convert.ToInt32(lines[13]);
-            data.singleNextLevelToUnlock = Convert.ToInt32(lines[14]);
-            data.coopNextLevelToUnlock = Convert.ToInt32(lines[15]);
 
             return true;            
         }

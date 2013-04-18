@@ -10,7 +10,8 @@ namespace MazeAndBlue
         Rectangle window;
         Fireworks fireworks;
         Button menuButton, levelButton, restartButton;
-        List<Sprite> stars;
+        float scalar;
+        float rotation;
         int time, hits, score, numStars;
 
         public ScoreScreen(int _time, int _hits)
@@ -26,6 +27,8 @@ namespace MazeAndBlue
 
             int screenWidth = Program.game.screenWidth;
             int screenHeight = Program.game.screenHeight;
+            scalar = 0;
+            rotation = 0;
 
             window = new Rectangle(screenWidth / 8, screenHeight / 8, 3 * screenWidth / 4, 3 * screenHeight / 4);
             int buttonWidth = screenWidth / 8;
@@ -43,10 +46,6 @@ namespace MazeAndBlue
             else
                 levelButton = new Button(new Point(x, nextY), buttonWidth, buttonHeight, "Hard", "Buttons/hard");
 
-            stars = new List<Sprite>();
-            for (int i = 0; i < numStars; i++)
-                stars.Add(new Sprite(new Point(i * 80 + window.Left + window.Width / 4 - 100, window.Bottom - window.Height / 5 - 20)));
-
             Program.game.gameStats.updateLevelStats(time, hits, score, numStars);
         }
 
@@ -57,8 +56,6 @@ namespace MazeAndBlue
             menuButton.loadContent();
             restartButton.loadContent();
             levelButton.loadContent();
-            foreach (Sprite star in stars)
-                star.loadContent("star");
             fireworks = new Fireworks();
             fireworks.loadContent();
         }
@@ -83,15 +80,29 @@ namespace MazeAndBlue
             string timeTakenText = "Time taken: " + time + " seconds.";
             string wallHitsText = "Wall Hits: " + hits; 
             string scoreText = "Score: " + score;
-            Program.game.drawText(timeTakenText, new Point(window.Left + window.Width / 4, window.Bottom - 4 * window.Height / 5));
-            Program.game.drawText(wallHitsText, new Point(window.Left + window.Width / 4, window.Bottom - 3 * window.Height / 5));
-            Program.game.drawText(scoreText, new Point(window.Left + window.Width / 4, window.Bottom - 2 * window.Height / 5));
-            foreach (Sprite star in stars)
-                star.draw(spriteBatch, Color.Yellow);
+            Program.game.drawZoomableText(timeTakenText, new Point((int)(window.Left + window.Width / 3.5), window.Bottom - 4 * window.Height / 5), scalar);
+            Program.game.drawZoomableText(wallHitsText, new Point((int)(window.Left + window.Width / 3.5), window.Bottom - 3 * window.Height / 5), scalar);
+            Program.game.drawZoomableText(scoreText, new Point((int)(window.Left + window.Width / 3.5), window.Bottom - 2 * window.Height / 5), scalar);
+            for (int i = 0; i < numStars; i++)
+                Program.game.drawScoreStar(new Vector2((int)(i * 80 + window.Left + window.Width / 3.5 - 100), window.Bottom - window.Height / 5 - 20), scalar*(40/16), rotation);
         }
 
         public void update()
         {
+            if (scalar < 1 || rotation * 100 % 100 != 0)
+            {
+                float circle = MathHelper.Pi * 2;
+                if (scalar >= 1)
+                {
+                    scalar = 1;
+                }
+                else
+                {
+                    scalar += .025f;
+                }
+                rotation = (float)(scalar * circle);
+            }
+
             fireworks.update();
 
             if (menuButton.isSelected())

@@ -10,7 +10,7 @@ namespace MazeAndBlue
         Rectangle failWindow;
         Texture2D failTexture;
         enum CreateState { WALLS, GOAL, P1, P2, SAVE };
-        Button wallButton, goalButton, p1Button, p2Button, mainMenuButton, saveButton, okButton;
+        Button wallButton, goalButton, p1Button, p2Button, backButton, saveButton, okButton;
         List<Button> buttons;
         CreateState state;
         Color tempColor, hlColor, wallColor, goalColor;
@@ -34,16 +34,16 @@ namespace MazeAndBlue
             goalButton = new Button(new Point(200, 30), 136, 72, "Goal", "Buttons/goal");
             p1Button = new Button(new Point(370, 30), 136, 72, "Player One", "Buttons/playerOne");
             p2Button = new Button(new Point(540, 30), 136, 72, "Player Two", "Buttons/playerTwo");
-            mainMenuButton = new Button(new Point(Program.game.screenWidth - 166, 30), 136, 72, "Main Menu", "Buttons/mainMenuButton");
+            backButton = new Button(new Point(Program.game.screenWidth - 166, 30), 136, 72, "Back", "Buttons/back");
             saveButton = new Button(new Point(Program.game.screenWidth - 332, 30), 136, 72, "Save", "Buttons/save");
-            okButton = new Button(new Point(Program.game.screenWidth / 2 - 40, failWindow.Bottom - 100), 80, 50, "OK", "Buttons/button");
+            okButton = new Button(new Point(Program.game.screenWidth / 2 - 40, failWindow.Bottom - 100), 80, 50, "okay", "Buttons/ok");
 
             buttons = new List<Button>();
             buttons.Add(wallButton);
             buttons.Add(goalButton);
             buttons.Add(p1Button);
             buttons.Add(p2Button);
-            buttons.Add(mainMenuButton);
+            buttons.Add(backButton);
             buttons.Add(saveButton);
 
             hlColor = new Color(25, 255, 55, 25);
@@ -129,7 +129,7 @@ namespace MazeAndBlue
             p1Button.draw(spriteBatch);
             if(!singleplayer)
                 p2Button.draw(spriteBatch);
-            mainMenuButton.draw(spriteBatch);
+            backButton.draw(spriteBatch);
             saveButton.draw(spriteBatch);
 
             switch (state)
@@ -187,8 +187,8 @@ namespace MazeAndBlue
                     state = CreateState.P2;
                 else if (saveButton.isSelected())
                     state = CreateState.SAVE;
-                else if (mainMenuButton.isSelected())
-                    Program.game.startMainMenu();
+                else if (backButton.isSelected())
+                    Program.game.startCreateMazeSelect();
 
                 bool clicked = Program.game.ms.newPointReady;
                 Point point = Program.game.ms.point;
