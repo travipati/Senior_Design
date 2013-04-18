@@ -43,7 +43,8 @@ namespace MazeAndBlue
         public LevelData[] levelData;
         public int singleNextLevelToUnlock;
         public int coopNextLevelToUnlock;
-        public int numCustomLevels;
+        //public int[] customLevelIDs;
+        //public LevelData[] customData;
 
         public SaveGameData()
         {
@@ -71,45 +72,65 @@ namespace MazeAndBlue
         public void updateLevelStats(int numSeconds, int numHitWall, int score, int stars)
         {
             int level = Program.game.level;
+            if (Program.game.singlePlayer)
+                level += 12;
             LevelData newLevel = new LevelData();
             newLevel.level = level;
-            newLevel.time = numSeconds;
-            if(numHitWall< data.levelData[level].hits)
-                newLevel.hits = numHitWall;
-            if (score > data.levelData[level].score)
+            if (data.levelData[level].time == 0)
             {
+                newLevel.time = numSeconds;
+                newLevel.hits = numHitWall;
                 newLevel.score = score;
+                newLevel.numStars = stars;
                 data.totalScore += score;
             }
             else
-                newLevel.score = data.levelData[level].score;
-            newLevel.numStars = stars;
+            {
+                if (numSeconds < data.levelData[level].time)
+                    newLevel.time = numSeconds;
+                else
+                    newLevel.time = data.levelData[level].time;
 
+                if (numHitWall < data.levelData[level].hits)
+                    newLevel.hits = numHitWall;
+
+                if (score > data.levelData[level].score)
+                {
+                    newLevel.score = score;
+                    data.totalScore += score;
+                }
+                else
+                    newLevel.score = data.levelData[level].score;
+
+                if (stars > data.levelData[level].numStars)
+                    newLevel.numStars = stars;
+                else
+                    newLevel.numStars = data.levelData[level].numStars;
+            }
             data.totalGameTime+= numSeconds;
-
-            if (Program.game.singlePlayer && data.singleNextLevelToUnlock <= level)
-                data.singleNextLevelToUnlock = level + 1;
-            if (!Program.game.singlePlayer && data.coopNextLevelToUnlock <= level)
-                data.coopNextLevelToUnlock = level + 1;
 
             if (level >= 24)
                 System.Windows.Forms.MessageBox.Show("error updating level stats", "Error @ GameStats");
             else
                 data.levelData[level] = newLevel;
+
+            if (Program.game.singlePlayer && data.singleNextLevelToUnlock <= level)
+                data.singleNextLevelToUnlock = level + 1;
+            if (!Program.game.singlePlayer && data.coopNextLevelToUnlock <= level)
+                data.coopNextLevelToUnlock = level + 1;
             
             saveStats();
         }
 
         public void saveStats()
         {
-            string[] lines = new string[29];
+            string[] lines = new string[28];
             for (int i = 0; i < 24; i++)
                 lines[i] = data.levelData[i].getLine();
             lines[24] = data.totalGameTime.ToString();
             lines[25] = data.totalScore.ToString();
             lines[26] = data.singleNextLevelToUnlock.ToString();
             lines[27] = data.coopNextLevelToUnlock.ToString();
-            lines[28] = data.numCustomLevels.ToString();
             File.WriteAllLines(filename, lines);
         }
 
@@ -120,7 +141,7 @@ namespace MazeAndBlue
 
             string[] lines = File.ReadAllLines(filename);
 
-            if (lines.Length != 29)
+            if (lines.Length != 28)
                 return false;
 
             for (int i = 0; i < 24; i++)
@@ -135,7 +156,6 @@ namespace MazeAndBlue
             data.totalScore = Convert.ToInt32(lines[25]);
             data.singleNextLevelToUnlock = Convert.ToInt32(lines[26]);
             data.coopNextLevelToUnlock = Convert.ToInt32(lines[27]);
-            data.numCustomLevels = Convert.ToInt32(lines[28]);
 
             return true;            
         }

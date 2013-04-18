@@ -13,6 +13,7 @@ namespace MazeAndBlue
 
         public Kinect kinect;
         public GameStats gameStats;
+        public CustomStats customStats;
         public GameSettings settings;
         Maze maze;
         MainMenu mainMenu;
@@ -25,6 +26,7 @@ namespace MazeAndBlue
         CalibrationScreen calibrationScreen;
         CreateMazeSelection createMazeSelect;
         CreateMaze createMaze;
+        public List<int> numCustomLevelIDs;
 
         public int level { get; set; }
         public bool singlePlayer { get; set; }
@@ -52,7 +54,6 @@ namespace MazeAndBlue
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-
             graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             graphics.IsFullScreen = true;
@@ -73,10 +74,10 @@ namespace MazeAndBlue
             ks = new KeyboardSelect();
             vs = new VoiceSelect();
             vs.recognizeSpeech(kinect.getSensorReference());
-            
-            soundEffectPlayer = new SoundEffectPlayer();
 
+            soundEffectPlayer = new SoundEffectPlayer();
             gameStats = new GameStats();
+            customStats = new CustomStats();
             settings = new GameSettings();
 
             startMainMenu();
@@ -98,6 +99,7 @@ namespace MazeAndBlue
         {
             kinect.stop();
             gameStats.saveStats();
+            customStats.saveStats();
         }
 
         public void startMainMenu()

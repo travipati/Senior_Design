@@ -137,6 +137,7 @@
   <ItemGroup>
     <Compile Include="Objects\Ball.cs" />
     <Compile Include="Objects\Button.cs" />
+    <Compile Include="Objects\CustomStats.cs" />
     <Compile Include="Objects\FireworkGenerator.cs" />
     <Compile Include="Objects\GameSettings.cs" />
     <Compile Include="Objects\GameStats.cs" />
