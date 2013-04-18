@@ -7,7 +7,7 @@ namespace MazeAndBlue
 {
     public class MazeAndBlue : Microsoft.Xna.Framework.Game
     {
-        public GraphicsDeviceManager graphics;
+        GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Texture2D background;
 
@@ -31,8 +31,6 @@ namespace MazeAndBlue
         public bool customLevel { get; set; }
         public bool unlockOn { get; set; }
         bool vsSecondCycle = false;
-
-        public List<string> deleteList;
 
         public List<Player> players { get; set; }
         public MouseSelect ms { get; set; }
@@ -61,7 +59,6 @@ namespace MazeAndBlue
 
             level = 0;
             unlockOn = true;
-            deleteList = new List<string>();
         }
 
         protected override void Initialize()
@@ -211,6 +208,43 @@ namespace MazeAndBlue
             createMaze = new CreateMaze(hard, singleplayer);
             createMaze.loadContent();
             state = GameState.CREATE;
+        }
+
+        public void saveScreenShot(string filename)
+        {
+            Rectangle rect = new Rectangle(sx(0), sy(0), Maze.width, Maze.height);
+            
+            int w = GraphicsDevice.PresentationParameters.BackBufferWidth;
+            int h = GraphicsDevice.PresentationParameters.BackBufferHeight;
+
+            RenderTarget2D screenShot = new RenderTarget2D(GraphicsDevice, w, h);
+
+            GraphicsDevice.SetRenderTarget(screenShot);
+
+            Draw(new GameTime());
+
+            GraphicsDevice.SetRenderTarget(null);
+
+            GraphicsDevice gd = screenShot.GraphicsDevice;
+            RenderTarget2D cropped = new RenderTarget2D(gd, Maze.width, Maze.height);
+            SpriteBatch sb = new SpriteBatch(gd);
+
+            gd.SetRenderTarget(cropped);
+            gd.Clear(new Color(0, 0, 0, 0));
+
+            sb.Begin();
+            sb.Draw(screenShot, Vector2.Zero, rect, Color.White);
+            sb.End();
+
+            gd.SetRenderTarget(null);
+
+            screenShot.Dispose();
+
+            using (FileStream stream = new FileStream(filename, FileMode.Create))
+            {
+                cropped.SaveAsPng(stream, screenShot.Width, screenShot.Height);
+                cropped.Dispose();
+            }
         }
 
         protected override void Draw(GameTime gameTime)

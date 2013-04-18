@@ -29,6 +29,7 @@ namespace MazeAndBlue
         public void loadContent(Stream stream)
         {
             texture = Texture2D.FromStream(Program.game.GraphicsDevice, stream);
+            stream.Close();
         }
 
         public virtual void draw(SpriteBatch spriteBatch)

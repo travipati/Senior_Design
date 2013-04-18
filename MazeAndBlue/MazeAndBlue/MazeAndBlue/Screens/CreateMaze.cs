@@ -2,10 +2,6 @@
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System.Runtime.InteropServices;
-using System;
-
 
 namespace MazeAndBlue
 {
@@ -320,18 +316,7 @@ namespace MazeAndBlue
             }
             File.WriteAllLines(filename, lines);
 
-            if (Program.game.graphics.IsFullScreen)
-                ControlAero(false);
-            //automatically save the thumbnail.
-            int dx = Program.game.GraphicsDevice.Adapter.CurrentDisplayMode.Width - Program.game.screenWidth;
-            int dy = Program.game.GraphicsDevice.Adapter.CurrentDisplayMode.Height - Program.game.screenHeight;
-            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(Maze.width, Maze.height);
-            System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bitmap);
-            g.CopyFromScreen(new System.Drawing.Point(Program.game.sx(0) + dx, Program.game.sy(0) + dy), 
-                System.Drawing.Point.Empty, bitmap.Size);
-            bitmap.Save("custom" + nameId + ".png", System.Drawing.Imaging.ImageFormat.Png);
-            if (Program.game.graphics.IsFullScreen)
-                ControlAero(true);
+            Program.game.saveScreenShot("custom" + nameId + ".png");
 
             Program.game.startCreateMazeSelect();
         }
@@ -346,14 +331,5 @@ namespace MazeAndBlue
             return y - (Program.game.screenHeight - Maze.height) / 2;
         }
 
-        [DllImport("dwmapi.dll", EntryPoint = "DwmEnableComposition")]
-        protected extern static uint Win32DwmEnableComposition(uint uCompositionAction);
-        public void ControlAero(bool enable)
-        {
-                if (enable)
-                    Win32DwmEnableComposition(1);
-                if (!enable)
-                    Win32DwmEnableComposition(0);
-        }
     }
 }

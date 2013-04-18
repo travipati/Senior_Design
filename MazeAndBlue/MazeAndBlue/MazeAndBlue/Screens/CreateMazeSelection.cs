@@ -139,6 +139,7 @@ namespace MazeAndBlue
                 page--;
             else if (menuButton.isSelected())
                 Program.game.startMainMenu();
+            
             for (int i = 0; i < levelButtons.Count; i++)
             {
                 if (play && levelButtons[i].selectable && levelButtons[i].isSelected())
@@ -148,13 +149,12 @@ namespace MazeAndBlue
                     string imageName = levelButtons[i].path;
                     string nameId = imageName.Substring(6, imageName.IndexOf(".") - 6);
                     string mazeName = "Mazes\\custom" + nameId + ".maze";
-                    System.Console.WriteLine(mazeName);
-                    //levelButtons[i].unLoadContent();
                     levelButtons.Remove(levelButtons[i]);
                     File.Delete(mazeName);
-                    Program.game.deleteList.Add(imageName);
+                    File.Delete(imageName);
                 }
             }
         }
+
     }
 }
