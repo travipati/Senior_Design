@@ -82,6 +82,7 @@ namespace MazeAndBlue
                 newLevel.hits = numHitWall;
                 newLevel.score = score;
                 newLevel.numStars = stars;
+                data.totalScore -= data.levelData[level].score;
                 data.totalScore += score;
             }
             else
@@ -116,7 +117,7 @@ namespace MazeAndBlue
             lines[3] = data.coopNextLevelToUnlock.ToString();
             lines[4] = data.numCustomLevels.ToString();
             for (int i = 5; i < 29; i++)
-                lines[i] = data.levelData[i].getLine();
+                lines[i] = data.levelData[i - 5].getLine();
             File.WriteAllLines(filename, lines);
         }
 
@@ -141,7 +142,7 @@ namespace MazeAndBlue
                 string[] values = lines[i].Split(' ');
                 if (values.Length != 5)
                     return false;
-                data.levelData[i].setValues(values);
+                data.levelData[i - 5].setValues(values);
             }
 
             return true;            
