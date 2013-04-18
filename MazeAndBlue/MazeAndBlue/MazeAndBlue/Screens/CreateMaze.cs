@@ -11,15 +11,18 @@ namespace MazeAndBlue
 {
     public class CreateMaze
     {
+        Rectangle failWindow;
+        Texture2D failTexture;
         enum CreateState { WALLS, GOAL, P1, P2, SAVE };
-        Button wallButton, goalButton, p1Button, p2Button, mainMenuButton, saveButton;
+        Button wallButton, goalButton, p1Button, p2Button, mainMenuButton, saveButton, okButton;
+        List<Button> buttons;
         CreateState state;
         Color tempColor, hlColor, wallColor, goalColor;
         Texture2D texture;
         List<Rectangle> border, walls, twalls, tgoals, tplayers;
         Rectangle hlrect, goal;
         Ball p1, p2;
-        bool hl, goalSet, p1set, p2set, singleplayer, done;
+        bool hl, goalSet, p1set, p2set, singleplayer, done, failedSave;
 
         public CreateMaze(bool hard, bool _singleplayer)
         {
@@ -28,12 +31,24 @@ namespace MazeAndBlue
 
             state = CreateState.WALLS;
 
+            failWindow = new Rectangle(3 * Program.game.screenWidth / 8, 3 * Program.game.screenHeight / 8, 
+                Program.game.screenWidth / 4, Program.game.screenHeight / 4);
+
             wallButton = new Button(new Point(30, 30), 136, 72, "Wall", "Buttons/wall");
             goalButton = new Button(new Point(200, 30), 136, 72, "Goal", "Buttons/goal");
             p1Button = new Button(new Point(370, 30), 136, 72, "Player One", "Buttons/playerOne");
             p2Button = new Button(new Point(540, 30), 136, 72, "Player Two", "Buttons/playerTwo");
             mainMenuButton = new Button(new Point(Program.game.screenWidth - 166, 30), 136, 72, "Main Menu", "Buttons/mainMenuButton");
             saveButton = new Button(new Point(Program.game.screenWidth - 332, 30), 136, 72, "Save", "Buttons/save");
+            okButton = new Button(new Point(Program.game.screenWidth / 2 - 40, failWindow.Bottom - 100), 80, 50, "OK", "Buttons/button");
+
+            buttons = new List<Button>();
+            buttons.Add(wallButton);
+            buttons.Add(goalButton);
+            buttons.Add(p1Button);
+            buttons.Add(p2Button);
+            buttons.Add(mainMenuButton);
+            buttons.Add(saveButton);
 
             hlColor = new Color(25, 255, 55, 25);
             tempColor = new Color(0, 0, 0, 25);
@@ -79,14 +94,15 @@ namespace MazeAndBlue
         {
             texture = new Texture2D(Program.game.GraphicsDevice, 1, 1);
             texture.SetData<Color>(new Color[] { Color.White });
-            wallButton.loadContent();
-            goalButton.loadContent();
-            p1Button.loadContent();
+            failTexture = new Texture2D(Program.game.GraphicsDevice, 1, 1);
+            failTexture.SetData<Color>(new Color[] { Color.White });
+
+            foreach (Button button in buttons)
+                button.loadContent();
+            okButton.loadContent();
             p2Button.loadContent();
             p1.loadContent();
             p2.loadContent();
-            mainMenuButton.loadContent();
-            saveButton.loadContent();
         }
 
         public void draw(SpriteBatch spriteBatch)
@@ -152,44 +168,62 @@ namespace MazeAndBlue
                 p2.draw(spriteBatch);
             if (hl)
                 spriteBatch.Draw(texture, hlrect, hlColor);
+
+            if (failedSave)
+            {
+                spriteBatch.Draw(failTexture, failWindow, new Color(128, 128, 128, 200));
+                Program.game.drawText("Save failed", new Point(Program.game.screenWidth / 2, failWindow.Top + 55));
+                okButton.draw(spriteBatch);
+            }
         }
 
         public void update()
         {
-            if (wallButton.isSelected())
-                state = CreateState.WALLS;
-            else if (goalButton.isSelected())
-                state = CreateState.GOAL;
-            else if (p1Button.isSelected())
-                state = CreateState.P1;
-            else if (p2Button.isSelected() && !singleplayer)
-                state = CreateState.P2;
-            else if (saveButton.isSelected())
-                state = CreateState.SAVE;
-            else if (mainMenuButton.isSelected())
-                Program.game.startMainMenu();
-
-            bool clicked = Program.game.ms.newPointReady;
-            Point point = Program.game.ms.point;
-            hl = false;
-            switch (state)
+            if (!failedSave)
             {
-                case CreateState.WALLS:
-                    wallsUpdate(point, clicked);
-                    break;
-                case CreateState.GOAL:
-                    goalUpdate(point, clicked);
-                    break;
-                case CreateState.P1:
-                    p1Update(point, clicked);
-                    break;
-                case CreateState.P2:
-                    p2Update(point, clicked);
-                    break;
-                case CreateState.SAVE:
-                    if(done)
-                        saveMaze();
-                    break;
+                if (wallButton.isSelected())
+                    state = CreateState.WALLS;
+                else if (goalButton.isSelected())
+                    state = CreateState.GOAL;
+                else if (p1Button.isSelected())
+                    state = CreateState.P1;
+                else if (p2Button.isSelected() && !singleplayer)
+                    state = CreateState.P2;
+                else if (saveButton.isSelected())
+                    state = CreateState.SAVE;
+                else if (mainMenuButton.isSelected())
+                    Program.game.startMainMenu();
+
+                bool clicked = Program.game.ms.newPointReady;
+                Point point = Program.game.ms.point;
+                hl = false;
+                switch (state)
+                {
+                    case CreateState.WALLS:
+                        wallsUpdate(point, clicked);
+                        break;
+                    case CreateState.GOAL:
+                        goalUpdate(point, clicked);
+                        break;
+                    case CreateState.P1:
+                        p1Update(point, clicked);
+                        break;
+                    case CreateState.P2:
+                        p2Update(point, clicked);
+                        break;
+                    case CreateState.SAVE:
+                        if (done)
+                            saveMaze();
+                        break;
+                }
+            }
+            else if (okButton.isSelected())
+            {
+                state = CreateState.WALLS;
+                // done = false;
+                failedSave = false;
+                foreach (Button button in buttons)
+                    button.selectable = true;
             }
         }
 
@@ -292,8 +326,13 @@ namespace MazeAndBlue
 
         void saveMaze()
         {
-            if(!(goalSet && p1set && (singleplayer || p2set)))
+            if (!(goalSet && p1set && (singleplayer || p2set)))
+            {
+                failedSave = true;
+                foreach (Button button in buttons)
+                    button.selectable = false;
                 return;
+            }
 
             int size = walls.Count + 6; // 4 border walls, goal, p1
             if(!singleplayer)
