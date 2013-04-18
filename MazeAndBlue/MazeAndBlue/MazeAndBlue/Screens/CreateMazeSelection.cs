@@ -50,17 +50,17 @@ namespace MazeAndBlue
             hardButton = new Button
                 (new Point(950, 20), 200, 100, "hard", "Buttons/hard");
             playButton = new Button
-                (new Point(300, 150), 200, 100, "Play", "Buttons/button");
+                (new Point(300, 150), 200, 100, "Play", "Buttons/play");
             deleteButton = new Button
-                (new Point(600, 150), 200, 100, "Delete", "Buttons/button");
+                (new Point(600, 150), 200, 100, "Delete", "Buttons/delete");
             menuButton = new Button
                 (new Point(Program.game.screenWidth - 166, 30), 136, 72, "Main Menu", "Buttons/mainMenuButton");
             nextButton = new Button
                 (new Point(screenWidth - 220, screenHeight - 120), 200, 100, "Next", "Buttons/next");
             prevButton = new Button
                 (new Point(20, screenHeight - 120), 200, 100, "Previous", "Buttons/previous");
-            yesButton = new Button(new Point(screenWidth / 2 - 120, confWindow.Bottom - 100), 80, 50, "Yes", "Buttons/button");
-            noButton = new Button(new Point(screenWidth / 2 + 40, confWindow.Bottom - 100), 80, 50, "No", "Buttons/button");
+            yesButton = new Button(new Point(screenWidth / 2 - 120, confWindow.Bottom - 100), 80, 50, "Yes", "Buttons/yes");
+            noButton = new Button(new Point(screenWidth / 2 + 40, confWindow.Bottom - 100), 80, 50, "No", "Buttons/no");
 
             int i = 0;
             levelButtons = new List<Button>();
@@ -204,6 +204,5 @@ namespace MazeAndBlue
                 }
             }
         }
-
     }
 }
