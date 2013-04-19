@@ -31,13 +31,21 @@ namespace MazeAndBlue
         public CustomStats()
         {
             data = new CustomSaveGameData();
-            if(!loadStats())
+            if (!loadStats())
+            {
                 data = new CustomSaveGameData();
+            }
         }
 
         public void resetData()
         {
+            List<int> tempIDs = new List<int>(data.customLevelIDs);
+            int tempnum = data.numCustomLevels;
             data = new CustomSaveGameData();
+            data.numCustomLevels = tempnum;
+            data.customLevelIDs = new List<int>(tempIDs);
+            foreach (int id in data.customLevelIDs)
+                data.customData.Add(id, new LevelData());
         }
 
         public void updateLevelStats(int numSeconds, int numHitWall, int score, int stars)
@@ -53,6 +61,7 @@ namespace MazeAndBlue
                 newLevel.numStars = stars;
                 data.totalScore -= data.customData[level].score;
                 data.totalScore += score;
+                data.customData.Add(level, newLevel);
             }
             else
             {
