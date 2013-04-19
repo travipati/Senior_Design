@@ -11,6 +11,7 @@ namespace MazeAndBlue
     {
         Texture2D background;
         Rectangle window;
+        Button startButton;
         Button menuButton;
         List<Button> buttons;
         int countdown;
@@ -20,7 +21,7 @@ namespace MazeAndBlue
         {
             countdown = 5;
             timer = new Timer();
-            timer.start();
+            
 
             int screenWidth = Program.game.screenWidth;
             int screenHeight = Program.game.screenHeight;
@@ -30,6 +31,8 @@ namespace MazeAndBlue
             int buttonHeight = 92;
             int y = window.Bottom - window.Height / 2;
             int menuX = window.Left + window.Width / 2 - buttonWidth / 2;
+            startButton = new Button(new Point(menuX, y), buttonWidth, buttonHeight, "Main Menu", "Buttons/save");
+            y = window.Bottom - window.Height / 3;
             menuButton = new Button(new Point(menuX, y), buttonWidth, buttonHeight, "Main Menu", "Buttons/settings");
             buttons = new List<Button>();
             buttons.Add(menuButton);
@@ -38,6 +41,7 @@ namespace MazeAndBlue
         public void loadContent()
         {
             background = Program.game.Content.Load<Texture2D>("Backgrounds/blue");
+            startButton.loadContent();
             menuButton.loadContent();
         }
 
@@ -45,6 +49,7 @@ namespace MazeAndBlue
         {
             spriteBatch.Draw(background, Vector2.Zero, null, Color.White, 0f, 
                 Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
+            startButton.draw(spriteBatch);
             menuButton.draw(spriteBatch);
             string text = "Calibrating the Kinect:\n\n" +
                 "Fully outstretch your controlling arm to your side,\n" +
@@ -58,6 +63,9 @@ namespace MazeAndBlue
 
         public void update()
         {
+            if (startButton.isSelected())
+                timer.start();
+
             if (menuButton.isSelected())
                 Program.game.resumeSettings();
 
