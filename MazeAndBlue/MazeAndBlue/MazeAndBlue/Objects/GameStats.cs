@@ -117,7 +117,6 @@ namespace MazeAndBlue
                 data.singleNextLevelToUnlock = level - 11;
             if (!Program.game.singlePlayer && data.coopNextLevelToUnlock <= level)
                 data.coopNextLevelToUnlock = level + 1;
-
             
             saveStats();
         }

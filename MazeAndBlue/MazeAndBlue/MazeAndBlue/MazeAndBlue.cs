@@ -103,8 +103,8 @@ namespace MazeAndBlue
         protected override void UnloadContent()
         {
             kinect.stop();
-            gameStats.saveStats();
-            customStats.saveStats();
+//            gameStats.saveStats();
+//            customStats.saveStats();
         }
 
         public void startMainMenu()
