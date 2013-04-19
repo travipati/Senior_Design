@@ -81,6 +81,7 @@ namespace MazeAndBlue
                 newLevel.hits = numHitWall;
                 newLevel.score = score;
                 newLevel.numStars = stars;
+                data.totalGameTime -= data.levelData[level].score;
                 data.totalScore += score;
             }
             else
@@ -92,10 +93,13 @@ namespace MazeAndBlue
 
                 if (numHitWall < data.levelData[level].hits)
                     newLevel.hits = numHitWall;
+                else
+                    newLevel.hits = data.levelData[level].hits;
 
                 if (score > data.levelData[level].score)
                 {
                     newLevel.score = score;
+                    data.totalGameTime -= data.levelData[level].score;
                     data.totalScore += score;
                 }
                 else
