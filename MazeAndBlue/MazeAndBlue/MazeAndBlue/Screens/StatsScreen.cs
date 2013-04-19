@@ -56,12 +56,12 @@ namespace MazeAndBlue
                 smallButtonHeight, "Easy", "Buttons/easy");
             hardButton = new Button(new Point(screenWidth / 2 + smallButtonWidth, row3), smallButtonWidth, 
                 smallButtonHeight, "Hard", "Buttons/hard");
-            nextButton = new Button
-                (new Point(screenWidth - 220, screenHeight - 120), smallButtonWidth, smallButtonHeight, "Next", "Buttons/next");
-            prevButton = new Button
-                (new Point(20, screenHeight - 120), smallButtonWidth, smallButtonHeight, "Previous", "Buttons/previous");
-            yesButton = new Button(new Point(screenWidth / 2 - 120, confWindow.Bottom - 100), 80, 50, "Yes", "Buttons/yes");
-            noButton = new Button(new Point(screenWidth / 2 + 40, confWindow.Bottom - 100), 80, 50, "No", "Buttons/no");
+            nextButton = new Button(new Point(10 * screenWidth / 11 - smallButtonWidth / 2, 10 * screenHeight / 11 - smallButtonHeight / 2), 
+                smallButtonWidth, smallButtonHeight, "Next", "Buttons/next");
+            prevButton = new Button(new Point(screenWidth / 11 - smallButtonWidth / 2, 10 * screenHeight / 11 - smallButtonHeight / 2), 
+                smallButtonWidth, smallButtonHeight, "Previous", "Buttons/previous");
+            yesButton = new Button(new Point(confWindow.Left + confWindow.Width / 4 - 40, confWindow.Bottom - confWindow.Height / 3 - 25), 80, 50, "Yes", "Buttons/yes");
+            noButton = new Button(new Point(confWindow.Right - confWindow.Width / 4 - 40, confWindow.Bottom - confWindow.Height / 3 - 25), 80, 50, "No", "Buttons/no");
             int levelX = window.Right - window.Width / 3 - smallButtonWidth / 2;
             statsState = StatsState.TOTAL;
 
@@ -120,12 +120,12 @@ namespace MazeAndBlue
         {
             for (int i = 0; i < textArray.Count; i++)
             {
-                int x = screenWidth / 6;
+                int x = screenWidth / 2;
                 int y = window.Top + (int)(0.07 * screenHeight * (i + 2)) - 50;
-                //Point pos = new Point(x, y);
-                Vector2 textPos = new Vector2(x, y);
-                spriteBatch.DrawString(MazeAndBlue.font, textArray[i], textPos, Color.Black);
-                //Program.game.drawText(textArray[i], pos);
+                Point pos = new Point(x, y);
+                //Vector2 textPos = new Vector2(x, y);
+                //spriteBatch.DrawString(MazeAndBlue.font, textArray[i], textPos, Color.Black);
+                Program.game.drawText(textArray[i], pos);
             }
         }
 
@@ -168,12 +168,12 @@ namespace MazeAndBlue
                     hardButton.draw(spriteBatch);
                     Program.game.drawText("Single Easy Levels Stats", new Point(x, y));
                     List<string> singleSimpleBlock = new List<string>();
-                    singleSimpleBlock.Add("\tScore\tTime\tWall Hits\tStars");
+                    singleSimpleBlock.Add("\tTime\tWall Hits\tScore\tStars");
                     for (int i = 0; i < 6; i++)
                     {
                         LevelData levelData = Program.game.gameStats.data.levelData[i + 12];
-                        singleSimpleBlock.Add("Level " + (i + 1) + ":\t" + levelData.score + "\t" + levelData.time + "\t" +
-                            levelData.hits + "\t" + levelData.numStars);
+                        singleSimpleBlock.Add("Level " + (i + 1) + ":\t" + levelData.time + "\t" +
+                            levelData.hits + "\t" + levelData.score + "\t"  + levelData.numStars);
                     }
                     drawBlock(singleSimpleBlock, new Point(screenWidth / 5 - 50, screenHeight / 3 + 120), spriteBatch);
                     break;
@@ -184,12 +184,12 @@ namespace MazeAndBlue
                     hardButton.draw(spriteBatch);
                     Program.game.drawText("Co-op Hard Levels Stats", new Point(x, y));
                     List<string> singleHardBlock = new List<string>();
-                    singleHardBlock.Add("\tScore\tTime\tWall Hits\tStars");
+                    singleHardBlock.Add("\tTime\tWall Hits\tScore\tStars");
                     for (int i = 0; i < 6; i++)
                     {
                         LevelData levelData = Program.game.gameStats.data.levelData[i + 18];
-                        singleHardBlock.Add("Level " + (i + 1) + ":\t" + levelData.score + "\t" + levelData.time + "\t" +
-                            levelData.hits + "\t" + levelData.numStars);
+                        singleHardBlock.Add("Level " + (i + 1) + ":\t" + levelData.time + "\t" +
+                            levelData.hits + "\t" + levelData.score + "\t" + levelData.numStars);
                     }
                     drawBlock(singleHardBlock, new Point(screenWidth / 5 - 50, screenHeight / 3 + 120), spriteBatch);
                     break;
@@ -198,9 +198,9 @@ namespace MazeAndBlue
                     coopModeButton.selected = true;
                     easyButton.draw(spriteBatch);
                     hardButton.draw(spriteBatch);
-                    Program.game.drawText("Coop Easy Levels Stats", new Point(x, y));
+                    Program.game.drawText("Co-op Easy Levels Stats", new Point(x, y));
                     List<string> coopSimpleBlock = new List<string>();
-                    coopSimpleBlock.Add("\tScore\tTime\tWall Hits\tStars");
+                    coopSimpleBlock.Add("\tTime\tWall Hits\tScore\tStars");
                     for (int i = 0; i < 6; i++)
                     {
                         LevelData levelData = Program.game.gameStats.data.levelData[i];
@@ -214,14 +214,14 @@ namespace MazeAndBlue
                     coopModeButton.selected = true;
                     easyButton.draw(spriteBatch);
                     hardButton.draw(spriteBatch);
-                    Program.game.drawText("Coop Hard Levels Stats", new Point(x, y));
+                    Program.game.drawText("Co-op Hard Levels Stats", new Point(x, y));
                     List<string> coopHardBlock = new List<string>();
-                    coopHardBlock.Add("\tScore\tTime\tWall Hits\tStars");
+                    coopHardBlock.Add("\tTime\tWall Hits\tScore\tStars");
                     for (int i = 0; i < 6; i++)
                     {
                         LevelData levelData = Program.game.gameStats.data.levelData[i + 6];
-                        coopHardBlock.Add("Level " + (i + 1) + ":\t" + levelData.score + "\t" + levelData.time + "\t" +
-                            levelData.hits + "\t" + levelData.numStars);
+                        coopHardBlock.Add("Level " + (i + 1) + ":\t" + levelData.time + "\t" +
+                            levelData.hits + "\t" + levelData.score + "\t" + levelData.numStars);
                     }
                     drawBlock(coopHardBlock, new Point(screenWidth / 5 - 50, screenHeight / 3 + 120), spriteBatch);
                     break;
@@ -229,7 +229,7 @@ namespace MazeAndBlue
                     createdMazesButton.selected = true;
                     Program.game.drawText("Created Mazes Stats", new Point(x, y));
                     List<string> createdBlock = new List<string>();
-                    createdBlock.Add("\tScore\tTime\tWall Hits\tStars");
+                    createdBlock.Add("\tTime\tWall Hits\tScore\tStars");
                     if (Program.game.customStats.data.customLevelIDs.Count <= (custPage + 1) * 6)
                     {
                         for (int i = custPage * 6; i < Program.game.customStats.data.customLevelIDs.Count; i++)
@@ -246,8 +246,8 @@ namespace MazeAndBlue
                         {
                             int level = Program.game.customStats.data.customLevelIDs[i];
                             LevelData levelData = Program.game.customStats.data.customData[level];
-                            createdBlock.Add("Level " + level + ":\t" + levelData.score + "\t" + levelData.time + "\t" +
-                                levelData.hits + "\t" + levelData.numStars);
+                            createdBlock.Add("Level " + level + ":\t" + levelData.time + "\t" +
+                                levelData.hits + "\t" + levelData.score + "\t" + levelData.numStars);
                         }
                         nextButton.draw(spriteBatch);
                     }
@@ -263,7 +263,7 @@ namespace MazeAndBlue
             if (conformation)
             {
                 spriteBatch.Draw(confTexture, confWindow, new Color(128, 128, 128, 200));
-                Program.game.drawText("Reset stats?", new Point(screenWidth / 2, confWindow.Top + 55));
+                Program.game.drawText("Reset stats?", new Point(screenWidth / 2, confWindow.Top + confWindow.Height / 3));
                 yesButton.draw(spriteBatch);
                 noButton.draw(spriteBatch);
             }
