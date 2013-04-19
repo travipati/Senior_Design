@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MazeAndBlue
@@ -8,6 +9,9 @@ namespace MazeAndBlue
         Texture2D texture;
         Rectangle screenRectangle;
         Button menuButton, systemsButton, selectButton, gameButton, createButton;
+        List<Button> buttons;
+        enum InstrState { SYSTEM, SELECT, GAME, CREATE };
+        InstrState instrState;
 
         public InstructionScreen()
         {
@@ -25,33 +29,66 @@ namespace MazeAndBlue
             selectButton = new Button(new Point(2 * screenWidth / 5 - buttonWidth / 2, Y2), buttonWidth, buttonHeight, "Select Options", "Buttons/selectOptions");
             gameButton = new Button(new Point(3 * screenWidth / 5 - buttonWidth / 2, Y2), buttonWidth, buttonHeight, "Game Play", "Buttons/gamePlay");
             createButton = new Button(new Point(4 * screenWidth / 5 - buttonWidth / 2, Y2), buttonWidth, buttonHeight, "Creating Mazes", "Buttons/creatingMazes");
+
+            buttons = new List<Button>();
+            buttons.Add(menuButton);
+            buttons.Add(systemsButton);
+            buttons.Add(selectButton);
+            buttons.Add(gameButton);
+            buttons.Add(createButton);
+
+            instrState = InstrState.SYSTEM;
         }
 
         public void loadContent()
         {
             texture = new Texture2D(Program.game.GraphicsDevice, 1, 1);
-            texture = Program.game.Content.Load<Texture2D>("Backgrounds/blue");
-            menuButton.loadContent();
-            systemsButton.loadContent();
-            selectButton.loadContent();
-            gameButton.loadContent();
-            createButton.loadContent();
+            foreach (Button button in buttons)
+                button.loadContent();
         }
 
         public void draw(SpriteBatch spriteBatch)
         {
+            foreach (Button button in buttons)
+                button.selected = false;
+
+            switch (instrState)
+            {
+                case InstrState.SYSTEM:
+                    texture = Program.game.Content.Load<Texture2D>("Backgrounds/instrs");
+                    systemsButton.selected = true;
+                    break;
+                case InstrState.SELECT:
+                    texture = Program.game.Content.Load<Texture2D>("Backgrounds/simple0");
+                    selectButton.selected = true;
+                    break;
+                case InstrState.GAME:
+                    texture = Program.game.Content.Load<Texture2D>("Backgrounds/blue");
+                    gameButton.selected = true;
+                    break;
+                case InstrState.CREATE:
+                    texture = Program.game.Content.Load<Texture2D>("Backgrounds/blue");
+                    createButton.selected = true;
+                    break;
+            }
+
             spriteBatch.Draw(texture, screenRectangle, Color.White);
-            menuButton.draw(spriteBatch);
-            systemsButton.draw(spriteBatch);
-            selectButton.draw(spriteBatch);
-            gameButton.draw(spriteBatch);
-            createButton.draw(spriteBatch);
+            foreach (Button button in buttons)
+                button.draw(spriteBatch);
         }
 
         public void update()
         {
             if (menuButton.isSelected())
                 Program.game.startMainMenu();
+            else if (systemsButton.isSelected())
+                instrState = InstrState.SYSTEM;
+            else if (selectButton.isSelected())
+                instrState = InstrState.SELECT;
+            else if (gameButton.isSelected())
+                instrState = InstrState.GAME;
+            else if (createButton.isSelected())
+                instrState = InstrState.CREATE;
         }
     }
 }
