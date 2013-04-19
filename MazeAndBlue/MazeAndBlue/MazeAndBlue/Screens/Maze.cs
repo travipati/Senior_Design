@@ -70,7 +70,7 @@ namespace MazeAndBlue
             pauseButton.loadContent();
             drawImage = false;
             string goalImage = Program.game.goalImage;
-            if (goalImage != "" && File.Exists(goalImage))
+            if (goalImage != "null" && File.Exists(goalImage))
             {
                 image.loadContent(File.OpenRead(goalImage));
                 drawImage = true;

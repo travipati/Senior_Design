@@ -15,6 +15,7 @@ namespace MazeAndBlue
         public bool unlockOn;
         public List<float> movementRange;
         public List<float> yPreference;
+        public string goalFile;
 
         public SettingData()
         {
@@ -30,6 +31,7 @@ namespace MazeAndBlue
             movementRange.Add(0.75f);
             yPreference.Add(-.1f);
             yPreference.Add(-.1f);
+            goalFile = "null";
         }
     };
 
@@ -37,6 +39,7 @@ namespace MazeAndBlue
     {
         SettingData data;
         const string filename = "gameSettings.sav";
+        const int numLines = 10;
         
         public GameSettings()
         {
@@ -58,21 +61,11 @@ namespace MazeAndBlue
             saveSettings();
         }
 
-        public bool getP1RightHanded()
-        {
-            return data.p1RightHanded;
-        }
-
         public void updateP2PrimaryHand(bool rightHand)
         {
             data.p2RightHanded = rightHand;
             applySettings();    
             saveSettings();
-        }
-
-        public bool getP2RightHanded()
-        {
-            return data.p2RightHanded;
         }
 
         public void updateVolume(int vol)
@@ -94,21 +87,11 @@ namespace MazeAndBlue
             saveSettings();
         }
 
-        public bool getSoundsOn()
-        {
-            return data.soundsOn;
-        }
-
         public void updateUnlock(bool unlock)
         {
             data.unlockOn = unlock;
             applySettings();    
             saveSettings();
-        }
-
-        public bool getUnlockOn()
-        {
-            return data.unlockOn;
         }
 
         public void updateMovmentRange (int i, float val)
@@ -118,11 +101,6 @@ namespace MazeAndBlue
             saveSettings();
         }
 
-        public float getMovmentRange (int i)
-        {
-            return data.movementRange[i];
-        }
-
         public void updateYpreference (int i, float val)
         {
             data.yPreference[i] = val;
@@ -130,14 +108,16 @@ namespace MazeAndBlue
             saveSettings();
         }
 
-        public float getYpreference (int i)
+        public void updateGoalFile(string file)
         {
-            return data.yPreference[i];
+            data.goalFile = file;
+            applySettings();
+            saveSettings();
         }
 
         public void saveSettings()
         {
-            string[] lines = new string[9];
+            string[] lines = new string[numLines];
             lines[0] = data.p1RightHanded.ToString();
             lines[1] = data.p2RightHanded.ToString();
             lines[2] = data.volume.ToString();
@@ -147,6 +127,7 @@ namespace MazeAndBlue
             lines[6] = data.movementRange[1].ToString();
             lines[7] = data.yPreference[0].ToString();
             lines[8] = data.yPreference[1].ToString();
+            lines[9] = data.goalFile;
 
             File.WriteAllLines(filename, lines);
         }
@@ -158,7 +139,7 @@ namespace MazeAndBlue
 
             string[] lines = File.ReadAllLines(filename);
 
-            if (lines.Length != 9)
+            if (lines.Length != numLines)
                 return false;
 
             if (lines[0] == "True")
@@ -204,6 +185,8 @@ namespace MazeAndBlue
             data.yPreference[0] = float.Parse(lines[7]);
             data.yPreference[1] = float.Parse(lines[8]);
 
+            data.goalFile = lines[9];
+
             return true;
         }
 
@@ -230,6 +213,8 @@ namespace MazeAndBlue
 
             Program.game.movementRange = data.movementRange;
             Program.game.yPreference = data.yPreference;
+
+            Program.game.goalImage = data.goalFile;
         }
 
     }

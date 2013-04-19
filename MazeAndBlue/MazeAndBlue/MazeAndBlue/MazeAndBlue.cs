@@ -63,7 +63,7 @@ namespace MazeAndBlue
 
             level = 0;
             unlockOn = true;
-            goalImage = "";
+            goalImage = "null";
         }
 
         protected override void Initialize()
