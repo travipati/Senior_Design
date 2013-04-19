@@ -144,12 +144,12 @@ namespace MazeAndBlue
             if (rightHanded)
             {
                 point = skeleton.Joints[JointType.HandRight].Position;
-                xPercent = (point.X - (center.X + .10f)) / (Program.game.movementRange[id] * .7f);
+                xPercent = (point.X - (center.X)) / (Program.game.movementRange[id] * .7f);
             }
             else
             {
                 point = skeleton.Joints[JointType.HandLeft].Position;
-                xPercent = (((center.X - .10f) - point.X) / (Program.game.movementRange[id] * .7f));
+                xPercent = (((center.X) - point.X) / (Program.game.movementRange[id] * .7f));
             }
              
             if (xPercent < 0)
@@ -157,7 +157,7 @@ namespace MazeAndBlue
             if (xPercent > 1)
                 xPercent = 1;
 
-            float yPercent = ((center.Y - Program.game.yPreference[id]) - point.Y) / (Program.game.movementRange[id] * .65f);
+            float yPercent = ((center.Y - Program.game.yPreference[id]) - point.Y) / (Program.game.movementRange[id] * .7f);
             if (yPercent < 0)
                 yPercent = 0;
             if (yPercent > 1)
