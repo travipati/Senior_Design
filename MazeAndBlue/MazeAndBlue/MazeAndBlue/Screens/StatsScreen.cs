@@ -219,7 +219,7 @@ namespace MazeAndBlue
                     coopHardBlock.Add("\tScore\tTime\tWall Hits\tStars");
                     for (int i = 0; i < 6; i++)
                     {
-                        LevelData levelData = Program.game.gameStats.data.levelData[i];
+                        LevelData levelData = Program.game.gameStats.data.levelData[i + 6];
                         coopHardBlock.Add("Level " + (i + 1) + ":\t" + levelData.score + "\t" + levelData.time + "\t" +
                             levelData.hits + "\t" + levelData.numStars);
                     }
