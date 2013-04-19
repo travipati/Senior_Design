@@ -14,6 +14,7 @@ namespace MazeAndBlue
         Button startButton;
         Button menuButton;
         List<Button> buttons;
+        bool started;
         int countdown;
         Timer timer;
 
@@ -49,11 +50,14 @@ namespace MazeAndBlue
         {
             spriteBatch.Draw(background, Vector2.Zero, null, Color.White, 0f, 
                 Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
-            startButton.draw(spriteBatch);
+            if (!started)
+            {
+                startButton.draw(spriteBatch);
+            }
             menuButton.draw(spriteBatch);
             string text = "Calibrating the Kinect:\n\n" +
-                "Fully outstretch your controlling arm to your side,\n" +
-                "Press start and wait " + (int)(countdown - timer.time) +" seconds for the game to calibrate.";
+                "Fully outstretch both arms,\n" +
+                "Press save and wait " + (int)(countdown - timer.time) +" seconds for the game to calibrate.";
             Vector2 textSize = MazeAndBlue.font.MeasureString(text);
             int x = (int)(window.X + (window.Width - textSize.X) / 2);
             int y = (int)(window.Top + window.Height / 5 - textSize.Y / 2);
@@ -63,8 +67,12 @@ namespace MazeAndBlue
 
         public void update()
         {
-            if (startButton.isSelected())
+            if (!started && startButton.isSelected())
+            {
+                started = true;
+                startButton.selectable = false;
                 timer.start();
+            }
 
             if (menuButton.isSelected())
                 Program.game.resumeSettings();
