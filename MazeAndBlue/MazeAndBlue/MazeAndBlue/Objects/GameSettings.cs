@@ -54,6 +54,8 @@ namespace MazeAndBlue
         public void updateP1PrimaryHand(bool rightHand)
         {
             data.p1RightHanded = rightHand;
+            applySettings();    
+            saveSettings();
         }
 
         public bool getP1RightHanded()
@@ -64,6 +66,8 @@ namespace MazeAndBlue
         public void updateP2PrimaryHand(bool rightHand)
         {
             data.p2RightHanded = rightHand;
+            applySettings();    
+            saveSettings();
         }
 
         public bool getP2RightHanded()
@@ -74,6 +78,8 @@ namespace MazeAndBlue
         public void updateVolume(int vol)
         {
             data.volume = vol;
+            applySettings();    
+            saveSettings();
         }
 
         public int getVolume()
@@ -84,6 +90,8 @@ namespace MazeAndBlue
         public void updateSound(bool sound)
         {
             data.soundsOn = sound;
+            applySettings();    
+            saveSettings();
         }
 
         public bool getSoundsOn()
@@ -94,6 +102,8 @@ namespace MazeAndBlue
         public void updateUnlock(bool unlock)
         {
             data.unlockOn = unlock;
+            applySettings();    
+            saveSettings();
         }
 
         public bool getUnlockOn()
@@ -101,9 +111,11 @@ namespace MazeAndBlue
             return data.unlockOn;
         }
 
-        public void setMovmentRange (int i, float val)
+        public void updateMovmentRange (int i, float val)
         {
             data.movementRange[i] = val;
+            applySettings();    
+            saveSettings();
         }
 
         public float getMovmentRange (int i)
@@ -111,9 +123,11 @@ namespace MazeAndBlue
             return data.movementRange[i];
         }
 
-        public void setYpreference (int i, float val)
+        public void updateYpreference (int i, float val)
         {
             data.yPreference[i] = val;
+            applySettings();    
+            saveSettings();
         }
 
         public float getYpreference (int i)
