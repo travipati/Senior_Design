@@ -52,8 +52,8 @@ namespace MazeAndBlue
         {
             sensor.SkeletonStream.Enable(new TransformSmoothParameters()
             {
-                Smoothing = 0.6f,//0.5f,
-                Correction = 0.4f,//0.5f,
+                Smoothing = 0.5f,//0.5f,
+                Correction = 0.5f,//0.5f,
                 Prediction = 0.5f,
                 JitterRadius = 0.05f,
                 MaxDeviationRadius = 0.04f

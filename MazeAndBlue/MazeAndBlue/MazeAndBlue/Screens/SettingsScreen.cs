@@ -223,8 +223,8 @@ namespace MazeAndBlue
                 }
             }
 
-            Program.game.settings.applySettings();           
-            Program.game.settings.saveSettings();
+//            Program.game.settings.applySettings();           
+//            Program.game.settings.saveSettings();
         }
 
         void selectImage()
