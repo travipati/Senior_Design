@@ -62,18 +62,13 @@ namespace MazeAndBlue
             yesButton = new Button(new Point(screenWidth / 2 - 120, confWindow.Bottom - 100), 80, 50, "Yes", "Buttons/yes");
             noButton = new Button(new Point(screenWidth / 2 + 40, confWindow.Bottom - 100), 80, 50, "No", "Buttons/no");
 
-            int i = 0;
             levelButtons = new List<Button>();
-            string[] files = Directory.GetFiles(@"Mazes\", "custom*.maze");
-            foreach (string file in files)
+            for (int i = 0; i < Program.game.customStats.data.customLevelIDs.Count; i++)
             {
-                string nameId = file.Substring(12, file.IndexOf(".") - 12);
+                int nameId = Program.game.customStats.data.customLevelIDs[i];
                 string imageName = "custom" + nameId + ".png";
                 if (File.Exists(imageName))
-                {
-                    levelButtons.Add(new Button(new Point(levelx[i % 3], levely[(i / 3) % 2]), levelButtonWidth, levelButtonHeight, nameId.ToString(), imageName, true));
-                    i++;
-                }
+                    levelButtons.Add(new Button(new Point(levelx[i % 3], levely[(i / 3) % 2]), levelButtonWidth, levelButtonHeight, "Level " + nameId, imageName, true));
             }
 
             Program.game.customStats.data.numCustomLevels = levelButtons.Count;
@@ -163,7 +158,7 @@ namespace MazeAndBlue
                 else if (menuButton.isSelected())
                     Program.game.startMainMenu();
                 
-								for (int i = 0; i < levelButtons.Count; i++)
+				for (int i = 0; i < levelButtons.Count; i++)
                 {
                     if (play && levelButtons[i].selectable && levelButtons[i].isSelected())
                         Program.game.startCustomLevel(Convert.ToInt32(levelButtons[i].path.Substring(6, levelButtons[i].path.IndexOf(".") - 6)));

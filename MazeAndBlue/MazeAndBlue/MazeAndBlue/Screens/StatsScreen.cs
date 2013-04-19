@@ -288,7 +288,10 @@ namespace MazeAndBlue
                 else if (coopModeButton.isSelected())
                     statsState = StatsState.COOPEASY;
                 else if (createdMazesButton.isSelected())
+                {
+                    custPage = 0;
                     statsState = StatsState.CREATED;
+                }
                 else if (singlePlayerButton.selected && easyButton.isSelected())
                     statsState = StatsState.SINGLEEASY;
                 else if (singlePlayerButton.selected && hardButton.isSelected())
@@ -297,6 +300,11 @@ namespace MazeAndBlue
                     statsState = StatsState.COOPEASY;
                 else if (coopModeButton.selected && hardButton.isSelected())
                     statsState = StatsState.COOPHARD;
+                else if (createdMazesButton.selected && Program.game.customStats.data.customLevelIDs.Count 
+                    > (custPage + 1) * 6 && nextButton.isSelected())
+                    custPage++;
+                else if (createdMazesButton.selected && custPage > 0 && prevButton.isSelected())
+                    custPage--;
             }
             else
             {
