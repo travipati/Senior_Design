@@ -33,6 +33,8 @@ namespace MazeAndBlue
         public bool singlePlayer { get; set; }
         public bool customLevel { get; set; }
         public bool unlockOn { get; set; }
+        public List<float> movementRange { get; set; }
+        public List<float> yPreference { get; set; }
         bool vsSecondCycle = false;
 
         public List<Player> players { get; set; }
@@ -79,6 +81,8 @@ namespace MazeAndBlue
 
             soundEffectPlayer = new SoundEffectPlayer();
             gameStats = new GameStats();
+            movementRange = new List<float>();
+            yPreference = new List<float>();
             settings = new GameSettings();
             customStats = new CustomStats();
             startMainMenu();

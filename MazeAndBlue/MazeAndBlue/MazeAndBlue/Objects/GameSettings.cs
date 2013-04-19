@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework.Storage;
 using System.IO;
 using System.Xml.Serialization;
@@ -12,14 +13,23 @@ namespace MazeAndBlue
         public int volume; //quiet=0; avg=1; noisy=2
         public bool soundsOn;
         public bool unlockOn;
+        public List<float> movementRange;
+        public List<float> yPreference;
 
         public SettingData()
         {
+            movementRange = new List<float>();
+            yPreference = new List<float>();
+
             p1RightHanded = true;
             p2RightHanded = true;
             volume = 1;
             soundsOn = true;
             unlockOn = true;
+            movementRange.Add(0.75f);
+            movementRange.Add(0.75f);
+            yPreference.Add(-.1f);
+            yPreference.Add(-.1f);
         }
     };
 
@@ -91,14 +101,38 @@ namespace MazeAndBlue
             return data.unlockOn;
         }
 
+        public void setMovmentRange (int i, float val)
+        {
+            data.movementRange[i] = val;
+        }
+
+        public float getMovmentRange (int i)
+        {
+            return data.movementRange[i];
+        }
+
+        public void setYpreference (int i, float val)
+        {
+            data.yPreference[i] = val;
+        }
+
+        public float getYpreference (int i)
+        {
+            return data.yPreference[i];
+        }
+
         public void saveSettings()
         {
-            string[] lines = new string[5];
+            string[] lines = new string[9];
             lines[0] = data.p1RightHanded.ToString();
             lines[1] = data.p2RightHanded.ToString();
             lines[2] = data.volume.ToString();
             lines[3] = data.soundsOn.ToString();
             lines[4] = data.unlockOn.ToString();
+            lines[5] = data.movementRange[0].ToString();
+            lines[6] = data.movementRange[1].ToString();
+            lines[7] = data.yPreference[0].ToString();
+            lines[8] = data.yPreference[1].ToString();
 
             File.WriteAllLines(filename, lines);
         }
@@ -110,7 +144,7 @@ namespace MazeAndBlue
 
             string[] lines = File.ReadAllLines(filename);
 
-            if (lines.Length != 5)
+            if (lines.Length != 9)
                 return false;
 
             if (lines[0] == "True")
@@ -150,6 +184,12 @@ namespace MazeAndBlue
             else
                 return false;
 
+            data.movementRange[0] = float.Parse(lines[5]);
+            data.movementRange[1] = float.Parse(lines[6]);
+
+            data.yPreference[0] = float.Parse(lines[7]);
+            data.yPreference[1] = float.Parse(lines[8]);
+
             return true;
         }
 
@@ -173,6 +213,9 @@ namespace MazeAndBlue
 
             Program.game.soundEffectPlayer.soundsOn = data.soundsOn;
             Program.game.unlockOn = data.unlockOn;
+
+            Program.game.movementRange = data.movementRange;
+            Program.game.yPreference = data.yPreference;
         }
 
     }
