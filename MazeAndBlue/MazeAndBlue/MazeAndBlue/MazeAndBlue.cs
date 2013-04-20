@@ -35,6 +35,7 @@ namespace MazeAndBlue
         public bool unlockOn { get; set; }
         public List<float> movementRange { get; set; }
         public List<float> yPreference { get; set; }
+        public List<float> xOffset { get; set; }
         bool vsSecondCycle = false;
 
         public List<Player> players { get; set; }

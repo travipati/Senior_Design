@@ -15,12 +15,14 @@ namespace MazeAndBlue
         public bool unlockOn;
         public List<float> movementRange;
         public List<float> yPreference;
+        public List<float> xOffset;
         public string goalFile;
 
         public SettingData()
         {
             movementRange = new List<float>();
             yPreference = new List<float>();
+            xOffset = new List<float>();
 
             p1RightHanded = true;
             p2RightHanded = true;
@@ -29,8 +31,10 @@ namespace MazeAndBlue
             unlockOn = true;
             movementRange.Add(0.75f);
             movementRange.Add(0.75f);
-            yPreference.Add(-.1f);
-            yPreference.Add(-.1f);
+            yPreference.Add(.35f);
+            yPreference.Add(.35f);
+            xOffset.Add(.10f);
+            xOffset.Add(.10f);
             goalFile = "null";
         }
     };
@@ -39,7 +43,7 @@ namespace MazeAndBlue
     {
         SettingData data;
         const string filename = "gameSettings.sav";
-        const int numLines = 10;
+        const int numLines = 12;
         
         public GameSettings()
         {
@@ -108,6 +112,13 @@ namespace MazeAndBlue
             saveSettings();
         }
 
+        public void getXoffset(int i, float val)
+        {
+            data.xOffset[i] = val;
+            applySettings();
+            saveSettings();
+        }
+
         public void updateGoalFile(string file)
         {
             data.goalFile = file;
@@ -127,7 +138,9 @@ namespace MazeAndBlue
             lines[6] = data.movementRange[1].ToString();
             lines[7] = data.yPreference[0].ToString();
             lines[8] = data.yPreference[1].ToString();
-            lines[9] = data.goalFile;
+            lines[9] = data.xOffset[0].ToString();
+            lines[10] = data.xOffset[1].ToString();
+            lines[11] = data.goalFile;
 
             File.WriteAllLines(filename, lines);
         }
@@ -185,7 +198,10 @@ namespace MazeAndBlue
             data.yPreference[0] = float.Parse(lines[7]);
             data.yPreference[1] = float.Parse(lines[8]);
 
-            data.goalFile = lines[9];
+            data.xOffset[0] = float.Parse(lines[9]);
+            data.xOffset[1] = float.Parse(lines[10]);
+          
+            data.goalFile = lines[11];
 
             return true;
         }
@@ -213,6 +229,7 @@ namespace MazeAndBlue
 
             Program.game.movementRange = data.movementRange;
             Program.game.yPreference = data.yPreference;
+            Program.game.xOffset = data.xOffset;
 
             Program.game.goalImage = data.goalFile;
         }

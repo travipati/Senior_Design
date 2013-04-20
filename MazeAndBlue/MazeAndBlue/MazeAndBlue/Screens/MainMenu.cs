@@ -28,7 +28,7 @@ namespace MazeAndBlue
             int X3 = screenRectangle.Left + 5 * screenRectangle.Width / 7;
             
             singlePlayerButton = new Button
-                (new Point(X1, Y1), buttonWidth, buttonHeight, "single mode", "Buttons/singlePlayer");
+                (new Point(X1, Y1), buttonWidth, buttonHeight, "single player", "Buttons/singlePlayer");
             coopModeButton = new Button
                 (new Point(X2, Y1), buttonWidth, buttonHeight, "co op mode", "Buttons/coopMode");
             createMazeButton = new Button

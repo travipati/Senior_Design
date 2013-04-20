@@ -26,18 +26,23 @@ namespace MazeAndBlue
             tempSpeechRec = new SpeechRecognitionEngine(ri.Id);
 
             var grammar = new Choices();
-            grammar.Add("select one", "SELECT ONE", "Select One", "player one select", "PLAYER ONE SELECT");
-            grammar.Add("select two", "SELECT TWO", "Select Two", "player two select", "PLAYER TWO SELECT");
+            grammar.Add("select one", "SELECT ONE", "Select One");
+            grammar.Add("select two", "SELECT TWO", "Select Two");
             grammar.Add("pause", "PAUSE");
             grammar.Add("exit", "EXIT");
             //Would suggest deleting grammar additions below this line to narrow the possibilities the VS class must parse
             //I was experimenting with having them commented out and things were fairly nice when combined with about .55 for confidence
-            grammar.Add("single mode", "Single MODE");
+            grammar.Add("single player", "SINGLE PLAYER");
             grammar.Add("co op mode", "CO OP MODE");
             grammar.Add("settings", "SETTINGS");
             grammar.Add("instructions", "INSTRUCTIONS");
             grammar.Add("statistics", "STATISTICS");
             grammar.Add("Main Menu", "MAIN MENU");
+            grammar.Add("resume", "RESUME");
+            grammar.Add("restart level", "RESTART LEVEL");
+            grammar.Add("replay", "REPLAY");
+            /*
+            grammar.Add("next", "NEXT");
             grammar.Add("Easy", "EASY");
             grammar.Add("Hard", "HARD");
             grammar.Add("level one");
@@ -56,10 +61,7 @@ namespace MazeAndBlue
             grammar.Add("sounds on");
             grammar.Add("sounds off");
             grammar.Add("reset stats");
-            grammar.Add("resume", "RESUME");
-            grammar.Add("restart level", "RESTART LEVEL");
-            grammar.Add("replay", "REPLAY");
-            grammar.Add("next", "NEXT");
+             * */
 
             var gb = new GrammarBuilder { Culture = ri.Culture };
             gb.Append(grammar);
