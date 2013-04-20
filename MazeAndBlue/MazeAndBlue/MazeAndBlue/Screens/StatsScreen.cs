@@ -92,7 +92,7 @@ namespace MazeAndBlue
 
         private void calcTotalGameTime()
         {
-            int sec = Program.game.gameStats.data.totalGameTime;
+            int sec = Program.game.gameStats.data.totalGameTime + Program.game.customStats.data.totalGameTime;
             int hour = sec / 3600;
             sec = sec - hour * 3600;
             int min = sec / 60;
@@ -158,7 +158,7 @@ namespace MazeAndBlue
                     Program.game.drawText("Game Statistics", new Point(x, y));
                     List<string> totalBlock = new List<string>();
                     totalBlock.Add("Total Game Time: " + totalGameTime + " seconds.");
-                    totalBlock.Add("Total Score: " + Program.game.gameStats.data.totalScore + " pts.");
+                    totalBlock.Add("Total Score: " + (Program.game.gameStats.data.totalScore + Program.game.customStats.data.totalScore) + " pts.");
                     drawBlock(totalBlock, spriteBatch);
                     break;
                 case StatsState.SINGLEEASY:
