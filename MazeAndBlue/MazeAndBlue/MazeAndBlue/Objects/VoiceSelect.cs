@@ -39,10 +39,10 @@ namespace MazeAndBlue
             grammar.Add("resume", "RESUME");
             grammar.Add("restart level", "RESTART LEVEL");
             grammar.Add("replay", "REPLAY");
-            /*
             grammar.Add("next", "NEXT");
             grammar.Add("Easy", "EASY");
             grammar.Add("Hard", "HARD");
+            /*
             grammar.Add("level one");
             grammar.Add("level two");
             grammar.Add("level three");
@@ -59,7 +59,7 @@ namespace MazeAndBlue
             grammar.Add("sounds on");
             grammar.Add("sounds off");
             grammar.Add("reset stats");
-             * */
+            */
 
             var gb = new GrammarBuilder { Culture = ri.Culture };
             gb.Append(grammar);
