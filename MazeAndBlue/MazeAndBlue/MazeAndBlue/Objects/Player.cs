@@ -8,7 +8,6 @@ namespace MazeAndBlue
     public class Player : Sprite
     {
         int id;
-        Color color;
         Texture2D rh, lh;
         bool hovering;
         Timer hoverTime;
@@ -16,6 +15,7 @@ namespace MazeAndBlue
         ProgressCircle pc;
         DateTime startTime;
         
+        public Color color { get; private set; }
         public bool rightHanded { get; private set; }
         public bool visible { get; set; }
 

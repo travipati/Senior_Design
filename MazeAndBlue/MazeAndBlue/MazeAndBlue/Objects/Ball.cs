@@ -10,6 +10,8 @@ namespace MazeAndBlue
         int prevId;
         Color color;
 
+        public Ball(Point pos) : this(pos, Color.WhiteSmoke) { }
+
         public Ball(Point pos, Color c) : base(pos)
         {
             color = c;
@@ -43,6 +45,7 @@ namespace MazeAndBlue
                     if (i != prevId && Program.game.players[i].visible && Program.game.players[i].overlaps(this))
                     {
                         playerId = i;
+                        color = Program.game.players[i].color;
                         Program.game.players[playerId].visible = false;
                     }
                 }
@@ -52,6 +55,7 @@ namespace MazeAndBlue
                 prevId = playerId;
                 Program.game.players[playerId].visible = true;
                 playerId = -1;
+                color = Color.WhiteSmoke;
             }
 
             if (prevId >= 0 && !Program.game.players[prevId].overlaps(this))
