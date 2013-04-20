@@ -204,8 +204,8 @@ namespace MazeAndBlue
                     for (int i = 0; i < 6; i++)
                     {
                         LevelData levelData = Program.game.gameStats.data.levelData[i];
-                        coopSimpleBlock.Add("Level " + (i + 1) + ":\t" + levelData.score + "\t" + levelData.time + "\t" +
-                            levelData.hits + "\t" + levelData.numStars);
+                        coopSimpleBlock.Add("Level " + (i + 1) + ":\t" + levelData.time + "\t" +
+                            levelData.hits + "\t" + levelData.score + "\t" + levelData.numStars);
                     }
                     drawBlock(coopSimpleBlock, new Point(screenWidth / 5 - 50, screenHeight / 3 + 120), spriteBatch);
                     break;
@@ -236,8 +236,8 @@ namespace MazeAndBlue
                         {
                             int level = Program.game.customStats.data.customLevelIDs[i];
                             LevelData levelData = Program.game.customStats.data.customData[level];
-                            createdBlock.Add("Level " + (i+1) + ":\t" + levelData.score + "\t" + levelData.time + "\t" +
-                                levelData.hits + "\t" + levelData.numStars);
+                            createdBlock.Add("Level " + (i + 1) + ":\t" + levelData.time + "\t" +
+                                levelData.hits + "\t" + levelData.score + "\t" + levelData.numStars);
                         }
                     }
                     else
@@ -246,7 +246,7 @@ namespace MazeAndBlue
                         {
                             int level = Program.game.customStats.data.customLevelIDs[i];
                             LevelData levelData = Program.game.customStats.data.customData[level];
-                            createdBlock.Add("Level " + level + ":\t" + levelData.time + "\t" +
+                            createdBlock.Add("Level " + (i + 1) + ":\t" + levelData.time + "\t" +
                                 levelData.hits + "\t" + levelData.score + "\t" + levelData.numStars);
                         }
                         nextButton.draw(spriteBatch);
