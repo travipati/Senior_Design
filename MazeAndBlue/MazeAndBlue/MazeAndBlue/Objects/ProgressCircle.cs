@@ -37,7 +37,7 @@ namespace MazeAndBlue
 
         public void draw(SpriteBatch spriteBatch, int val, Point pos)
         {
-            double percent = (double)val / 3000;
+            double percent = (double)val / 2000;
             drawCircle(spriteBatch, Color.Black, new Rectangle(pos.X - 5, pos.Y - 5, 50, 50), 1);
             drawCircle(spriteBatch, Color.Black, new Rectangle(pos.X - 10, pos.Y - 10, 60, 60), 1);
             for (int i = 1; i < 5; i++)
