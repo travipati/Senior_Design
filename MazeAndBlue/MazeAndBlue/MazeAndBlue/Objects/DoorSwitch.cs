@@ -14,7 +14,7 @@ namespace MazeAndBlue
         int numRequired;
         Texture2D doorTexture;
 
-        static Color[] colorArray = new Color[] { Color.Orange, Color.Purple, Color.Cyan, Color.Silver, Color.Crimson, Color.Pink, Color.Maroon, Color.Lime };
+        static Color[] colorArray = new Color[] { Color.Orange, Color.Lime, Color.Pink, Color.Crimson, Color.White, Color.Orchid, Color.SteelBlue, Color.Gray };
         static int curColorIndex = 0;
 
         public DoorSwitch() : this(false, 1) { }
