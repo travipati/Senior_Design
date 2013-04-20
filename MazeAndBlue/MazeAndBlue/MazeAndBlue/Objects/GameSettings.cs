@@ -112,7 +112,7 @@ namespace MazeAndBlue
             saveSettings();
         }
 
-        public void getXoffset(int i, float val)
+        public void updateXoffset(int i, float val)
         {
             data.xOffset[i] = val;
             applySettings();

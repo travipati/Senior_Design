@@ -331,9 +331,6 @@ namespace MazeAndBlue
             ms.grabInput();
             ks.grabInput();
 
-            if (vs.word == "exit")
-                Exit();
-
             if (ks.newKeyReady && ks.key == "Esc")
             {
                 toggleFullScreen();

@@ -127,17 +127,17 @@ namespace MazeAndBlue
             {
                 shoulder = skeleton.Joints[JointType.ShoulderRight].Position;
                 point = skeleton.Joints[JointType.HandRight].Position;
-                Program.game.movementRange[id] = (point.X - center.X);
-                Program.game.yPreference[id] = (shoulder.Y - lower.Y);
-                Program.game.xOffset[id] = (shoulder.X - center.X);
+                Program.game.settings.updateMovmentRange(id, (point.X - center.X));
+                Program.game.settings.updateYpreference(id, (shoulder.Y - lower.Y));
+                Program.game.settings.updateXoffset(id, (shoulder.X - center.X));
             }
             else
             {
                 shoulder = skeleton.Joints[JointType.ShoulderLeft].Position;
                 point = skeleton.Joints[JointType.HandLeft].Position;
-                Program.game.movementRange[id] = (center.X - point.X);
-                Program.game.yPreference[id] = (head.Y - lower.Y);
-                Program.game.xOffset[id] = (center.X - shoulder.X);
+                Program.game.settings.updateMovmentRange(id, (center.X - point.X));
+                Program.game.settings.updateYpreference(id, (head.Y - lower.Y));
+                Program.game.settings.updateXoffset(id, (center.X - shoulder.X));
             }
             //Program.game.movementRange[id] = (Program.game.movementRange[id] * .95f);
         }

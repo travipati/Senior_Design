@@ -29,9 +29,7 @@ namespace MazeAndBlue
             grammar.Add("select one", "SELECT ONE", "Select One");
             grammar.Add("select two", "SELECT TWO", "Select Two");
             grammar.Add("pause", "PAUSE");
-            //grammar.Add("exit", "EXIT");
-            //Would suggest deleting grammar additions below this line to narrow the possibilities the VS class must parse
-            //I was experimenting with having them commented out and things were fairly nice when combined with about .55 for confidence
+            grammar.Add("exit", "EXIT");
             grammar.Add("single player", "SINGLE PLAYER");
             grammar.Add("co op mode", "CO OP MODE");
             grammar.Add("settings", "SETTINGS");
