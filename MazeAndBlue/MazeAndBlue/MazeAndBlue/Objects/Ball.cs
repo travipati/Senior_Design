@@ -33,6 +33,7 @@ namespace MazeAndBlue
                     Program.game.players[playerId].draw(spriteBatch, new Color(0, 0, 255, 25));
                 else if (playerId == 1)
                     Program.game.players[playerId].draw(spriteBatch, new Color(255, 255, 0, 25));
+                Program.game.players[playerId].drawProgressCircle(spriteBatch);
             }
             draw(spriteBatch, color);
         }

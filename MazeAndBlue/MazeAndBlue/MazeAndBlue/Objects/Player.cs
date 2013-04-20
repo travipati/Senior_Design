@@ -44,6 +44,11 @@ namespace MazeAndBlue
         public override void draw(SpriteBatch spriteBatch)
         {
             draw(spriteBatch, color);
+            drawProgressCircle(spriteBatch);
+        }
+
+        public void drawProgressCircle(SpriteBatch spriteBatch)
+        {
             if (hovering)
                 pc.draw(spriteBatch, hoverTime.time * 1000 + (DateTime.Now - startTime).Milliseconds, position);
         }
