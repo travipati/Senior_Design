@@ -54,7 +54,7 @@ namespace MazeAndBlue
             LevelData newLevel = new LevelData();
             if (!data.customData.ContainsKey(level))
                 System.Windows.Forms.MessageBox.Show("error at custom stats update");
-            else if(data.customData[level].time==0)
+            else if(data.customData[level].score == 0)
             {
                 newLevel.level = level;
                 newLevel.time = numSeconds;

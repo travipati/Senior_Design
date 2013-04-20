@@ -88,6 +88,8 @@ namespace MazeAndBlue
             if(drawImage)
                 image.draw(spriteBatch);
             timer.draw(spriteBatch);
+            spriteBatch.DrawString(MazeAndBlue.font, "Wall Hits: " + wallHits.ToString(),
+                new Vector2(Program.game.sx(410), Program.game.sy(495)), Color.Black);
             if (!singlePlayer)
                 balls[1].draw(spriteBatch);
             balls[0].draw(spriteBatch);
