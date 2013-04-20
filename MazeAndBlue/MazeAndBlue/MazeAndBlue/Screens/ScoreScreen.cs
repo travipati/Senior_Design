@@ -42,7 +42,7 @@ namespace MazeAndBlue
             menuButton = new Button(new Point(x, menuY), buttonWidth, buttonHeight, "Main Menu", "Buttons/mainMenuButton");
             restartButton = new Button(new Point(x, resumeY), buttonWidth, buttonHeight, "Replay", "Buttons/replay");
             if (Program.game.level != 5)
-                levelButton = new Button(new Point(x, nextY), buttonWidth, buttonHeight, "Next Level", "Buttons/next");
+                levelButton = new Button(new Point(x, nextY), buttonWidth, buttonHeight, "Next", "Buttons/next");
             else
                 levelButton = new Button(new Point(x, nextY), buttonWidth, buttonHeight, "Hard", "Buttons/hard");
 

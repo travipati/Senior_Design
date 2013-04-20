@@ -14,7 +14,7 @@ namespace MazeAndBlue
         int numRequired;
         Texture2D doorTexture;
 
-        public DoorSwitch() : this(false, 1) { }
+        public DoorSwitch() : this(false, 1, Color.Black) { }
 
         public DoorSwitch(bool _permanent, int _numRequired, Color _color)
         {
