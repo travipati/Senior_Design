@@ -27,6 +27,13 @@ namespace MazeAndBlue
 
         public override void draw(SpriteBatch spriteBatch)
         {
+            if (playerId >= 0 && !Program.game.players[playerId].overlaps(this))
+            {
+                if (playerId == 0)
+                    Program.game.players[playerId].draw(spriteBatch, new Color(0, 0, 255, 25));
+                else if (playerId == 1)
+                    Program.game.players[playerId].draw(spriteBatch, new Color(255, 255, 0, 25));
+            }
             draw(spriteBatch, color);
         }
 
@@ -40,6 +47,8 @@ namespace MazeAndBlue
 
             if (playerId < 0)
             {
+                color = Color.WhiteSmoke;
+
                 for (int i = 0; i < Program.game.players.Count; i++)
                 {
                     if (i != prevId && Program.game.players[i].visible && Program.game.players[i].overlaps(this))
@@ -55,7 +64,6 @@ namespace MazeAndBlue
                 prevId = playerId;
                 Program.game.players[playerId].visible = true;
                 playerId = -1;
-                color = Color.WhiteSmoke;
             }
 
             if (prevId >= 0 && !Program.game.players[prevId].overlaps(this))
