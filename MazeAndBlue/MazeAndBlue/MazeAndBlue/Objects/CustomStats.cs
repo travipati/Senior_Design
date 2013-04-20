@@ -149,12 +149,15 @@ namespace MazeAndBlue
             newData.level=levelID;
             data.customData.Add(levelID, newData);
             data.numCustomLevels++;
+            saveStats();
         }
+
         public void deleteLevelData(int levelID)
         {
             data.customLevelIDs.Remove(levelID);
             data.customData.Remove(levelID);
             data.numCustomLevels--;
+            saveStats();
         }
     }
 }

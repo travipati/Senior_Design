@@ -236,7 +236,7 @@ namespace MazeAndBlue
                         {
                             int level = Program.game.customStats.data.customLevelIDs[i];
                             LevelData levelData = Program.game.customStats.data.customData[level];
-                            createdBlock.Add("Level " + i + ":\t" + levelData.score + "\t" + levelData.time + "\t" +
+                            createdBlock.Add("Level " + (i+1) + ":\t" + levelData.score + "\t" + levelData.time + "\t" +
                                 levelData.hits + "\t" + levelData.numStars);
                         }
                     }
