@@ -27,7 +27,7 @@ namespace MazeAndBlue
 
         public override void draw(SpriteBatch spriteBatch)
         {
-            if (!Program.game.players[playerId].overlaps(this))
+            if (playerId >= 0 && !Program.game.players[playerId].overlaps(this))
             {
                 if (playerId == 0)
                     Program.game.players[playerId].draw(spriteBatch, new Color(0, 0, 255, 25));
