@@ -102,7 +102,7 @@ namespace MazeAndBlue
                 hovering = true;
                 hoverBt = bt;
             }
-            if (hoverTime.time == 3 && overlaps(bt))
+            if (hoverTime.time == 2 && overlaps(bt))
                 return true;
 
             return false;
