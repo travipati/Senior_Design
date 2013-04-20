@@ -92,7 +92,7 @@ namespace MazeAndBlue
 
         private void calcTotalGameTime()
         {
-            int sec = Program.game.gameStats.data.totalGameTime;
+            int sec = Program.game.gameStats.data.totalGameTime + Program.game.customStats.data.totalGameTime;
             int hour = sec / 3600;
             sec = sec - hour * 3600;
             int min = sec / 60;
@@ -158,7 +158,7 @@ namespace MazeAndBlue
                     Program.game.drawText("Game Statistics", new Point(x, y));
                     List<string> totalBlock = new List<string>();
                     totalBlock.Add("Total Game Time: " + totalGameTime + " seconds.");
-                    totalBlock.Add("Total Score: " + Program.game.gameStats.data.totalScore + " pts.");
+                    totalBlock.Add("Total Score: " + (Program.game.gameStats.data.totalScore + Program.game.customStats.data.totalScore) + " pts.");
                     drawBlock(totalBlock, spriteBatch);
                     break;
                 case StatsState.SINGLEEASY:
@@ -204,8 +204,8 @@ namespace MazeAndBlue
                     for (int i = 0; i < 6; i++)
                     {
                         LevelData levelData = Program.game.gameStats.data.levelData[i];
-                        coopSimpleBlock.Add("Level " + (i + 1) + ":\t" + levelData.score + "\t" + levelData.time + "\t" +
-                            levelData.hits + "\t" + levelData.numStars);
+                        coopSimpleBlock.Add("Level " + (i + 1) + ":\t" + levelData.time + "\t" +
+                            levelData.hits + "\t" + levelData.score + "\t" + levelData.numStars);
                     }
                     drawBlock(coopSimpleBlock, new Point(screenWidth / 5 - 50, screenHeight / 3 + 120), spriteBatch);
                     break;
@@ -236,8 +236,8 @@ namespace MazeAndBlue
                         {
                             int level = Program.game.customStats.data.customLevelIDs[i];
                             LevelData levelData = Program.game.customStats.data.customData[level];
-                            createdBlock.Add("Level " + (i+1) + ":\t" + levelData.score + "\t" + levelData.time + "\t" +
-                                levelData.hits + "\t" + levelData.numStars);
+                            createdBlock.Add("Level " + (i + 1) + ":\t" + levelData.time + "\t" +
+                                levelData.hits + "\t" + levelData.score + "\t" + levelData.numStars);
                         }
                     }
                     else
@@ -246,7 +246,7 @@ namespace MazeAndBlue
                         {
                             int level = Program.game.customStats.data.customLevelIDs[i];
                             LevelData levelData = Program.game.customStats.data.customData[level];
-                            createdBlock.Add("Level " + level + ":\t" + levelData.time + "\t" +
+                            createdBlock.Add("Level " + (i + 1) + ":\t" + levelData.time + "\t" +
                                 levelData.hits + "\t" + levelData.score + "\t" + levelData.numStars);
                         }
                         nextButton.draw(spriteBatch);
