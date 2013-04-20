@@ -28,7 +28,10 @@ namespace MazeAndBlue
         public Maze()
         {
             goalColor = Color.Red;
-            wallColor = Color.Black;
+            if (!Program.game.hiddenMode)
+                wallColor = Color.Black;
+            else
+                wallColor = Color.Transparent;
             timer = new Timer();
             wallHits = 0;
             prevHit = new bool[2] { false, false };
@@ -88,6 +91,8 @@ namespace MazeAndBlue
             if(drawImage)
                 image.draw(spriteBatch);
             timer.draw(spriteBatch);
+            spriteBatch.DrawString(MazeAndBlue.font, "Wall Hits: " + wallHits.ToString(),
+                new Vector2(Program.game.sx(410), Program.game.sy(495)), Color.Black);
             if (!singlePlayer)
                 balls[1].draw(spriteBatch);
             balls[0].draw(spriteBatch);
@@ -186,8 +191,13 @@ namespace MazeAndBlue
                 if (ballNum == 0)
                     otherNum = 1;
 
-                if(!prevHit[otherNum])
-                    wallColor = Color.Black;
+                if (!prevHit[otherNum])
+                {
+                    if (!Program.game.hiddenMode)
+                        wallColor = Color.Black;
+                    else
+                        wallColor = Color.Transparent;
+                }
             }
         }
 

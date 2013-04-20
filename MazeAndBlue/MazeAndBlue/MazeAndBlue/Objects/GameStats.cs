@@ -75,7 +75,7 @@ namespace MazeAndBlue
                 level += 12;
             LevelData newLevel = new LevelData();
             newLevel.level = level;
-            if (data.levelData[level].time == 0)
+            if (data.levelData[level].score == 0)
             {
                 newLevel.time = numSeconds;
                 newLevel.hits = numHitWall;

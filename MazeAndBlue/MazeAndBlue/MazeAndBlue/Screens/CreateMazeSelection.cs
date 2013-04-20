@@ -15,7 +15,7 @@ namespace MazeAndBlue
         List<Button> levelButtons;
         List<Button> buttons;
         bool singlePlayer, easy, play, conformation;
-        int page, delLevel;
+        int page, delLevel, smallButtonHeight, smallButtonWidth, largeButtonWidth, largeButtonHeight;
 
         public CreateMazeSelection()
         {
@@ -39,41 +39,39 @@ namespace MazeAndBlue
 
             confWindow = new Rectangle(3 * screenWidth / 8, 3 * screenHeight / 8, screenWidth / 4, screenHeight / 4);
 
-            createMazeButton = new Button
-                (new Point(20, 20), 200, 100, "create maze", "Buttons/createMaze");
-            singleButton = new Button
-                (new Point(260, 20), 200, 100, "Single Player", "Buttons/singlePlayer");
-            coOpButton = new Button
-                (new Point(490, 20), 200, 100, "Co Op Mode", "Buttons/coopMode");
-            easyButton = new Button
-                (new Point(720, 20), 200, 100, "easy", "Buttons/easy");
-            hardButton = new Button
-                (new Point(950, 20), 200, 100, "hard", "Buttons/hard");
-            playButton = new Button
-                (new Point(300, 150), 200, 100, "Play", "Buttons/play");
-            deleteButton = new Button
-                (new Point(600, 150), 200, 100, "Delete", "Buttons/delete");
-            menuButton = new Button
-                (new Point(Program.game.screenWidth - 166, 30), 136, 72, "Main Menu", "Buttons/mainMenuButton");
-            nextButton = new Button
-                (new Point(screenWidth - 220, screenHeight - 120), 200, 100, "Next", "Buttons/next");
-            prevButton = new Button
-                (new Point(20, screenHeight - 120), 200, 100, "Previous", "Buttons/previous");
-            yesButton = new Button(new Point(screenWidth / 2 - 120, confWindow.Bottom - 100), 80, 50, "Yes", "Buttons/yes");
-            noButton = new Button(new Point(screenWidth / 2 + 40, confWindow.Bottom - 100), 80, 50, "No", "Buttons/no");
+            smallButtonHeight = 72;
+            smallButtonWidth = 136;
+            largeButtonWidth = 170;
+            largeButtonHeight = 92;
+            int row2 = screenHeight / 2 - 3 * smallButtonHeight;
+            int row3 = screenHeight / 2 - 3 * smallButtonHeight / 2 - 10;
 
-            int i = 0;
+            createMazeButton = new Button(new Point(5 * screenWidth / 6 - largeButtonWidth / 2, screenHeight / 9 - largeButtonHeight / 2), 
+                largeButtonWidth, largeButtonHeight, "create maze", "Buttons/createMaze");
+            singleButton = new Button(new Point(screenWidth / 3 - 2 * smallButtonWidth, row2), smallButtonWidth, smallButtonHeight, "Single Player", "Buttons/singlePlayer");
+            coOpButton = new Button(new Point(screenWidth / 3 - smallButtonWidth / 2, row2), smallButtonWidth, smallButtonHeight, "Co Op Mode", "Buttons/coopMode");
+            easyButton = new Button(new Point(2 * screenWidth / 3 - smallButtonWidth / 2, row2),
+                smallButtonWidth, smallButtonHeight, "easy", "Buttons/easy");
+            hardButton = new Button(new Point(2 * screenWidth / 3 + smallButtonWidth, row2),
+                smallButtonWidth, smallButtonHeight, "hard", "Buttons/hard");
+            playButton = new Button(new Point(screenWidth / 2 - 3 * smallButtonWidth / 2, row3), smallButtonWidth, smallButtonHeight, "Play", "Buttons/play");
+            deleteButton = new Button(new Point(screenWidth / 2 + smallButtonWidth / 2, row3), smallButtonWidth, smallButtonHeight, "Delete", "Buttons/delete");
+            menuButton = new Button(new Point(screenWidth / 6 - largeButtonWidth / 2, screenHeight / 9 - largeButtonHeight / 2), 
+                largeButtonWidth, largeButtonHeight, "Main Menu", "Buttons/mainMenuButton");
+            nextButton = new Button(new Point(10 * screenWidth / 11 - smallButtonWidth / 2, 10 * screenHeight / 11 - smallButtonHeight / 2), 
+                smallButtonWidth, smallButtonHeight, "Next", "Buttons/next");
+            prevButton = new Button(new Point(screenWidth / 11 - smallButtonWidth / 2, 10 * screenHeight / 11 - smallButtonHeight / 2), 
+                smallButtonWidth, smallButtonHeight, "Previous", "Buttons/previous");
+            yesButton = new Button(new Point(confWindow.Left + confWindow.Width / 4 - 40, confWindow.Bottom - confWindow.Height / 3 - 25), 80, 50, "Yes", "Buttons/yes");
+            noButton = new Button(new Point(confWindow.Right - confWindow.Width / 4 - 40, confWindow.Bottom - confWindow.Height / 3 - 25), 80, 50, "No", "Buttons/no");
+
             levelButtons = new List<Button>();
-            string[] files = Directory.GetFiles(@"Mazes\", "custom*.maze");
-            foreach (string file in files)
+            for (int i = 0; i < Program.game.customStats.data.customLevelIDs.Count; i++)
             {
-                string nameId = file.Substring(12, file.IndexOf(".") - 12);
+                int nameId = Program.game.customStats.data.customLevelIDs[i];
                 string imageName = "custom" + nameId + ".png";
                 if (File.Exists(imageName))
-                {
-                    levelButtons.Add(new Button(new Point(levelx[i % 3], levely[(i / 3) % 2]), levelButtonWidth, levelButtonHeight, nameId.ToString(), imageName, true));
-                    i++;
-                }
+                    levelButtons.Add(new Button(new Point(levelx[i % 3], levely[(i / 3) % 2]), levelButtonWidth, levelButtonHeight, "Level " + nameId, imageName, true));
             }
 
             Program.game.customStats.data.numCustomLevels = levelButtons.Count;
@@ -106,6 +104,10 @@ namespace MazeAndBlue
 
         public void draw(SpriteBatch spriteBatch)
         {
+            int x = Program.game.screenWidth / 2;
+            int y = Program.game.screenHeight / 9;
+            Program.game.drawText("Select or Create Your Own Maze", new Point(x, y));
+            
             singleButton.selected = singlePlayer;
             coOpButton.selected = !singlePlayer;
             easyButton.selected = easy;
@@ -132,7 +134,7 @@ namespace MazeAndBlue
             if (conformation)
             {
                 spriteBatch.Draw(confTexture, confWindow, new Color(128, 128, 128, 200));
-                Program.game.drawText("Delete maze?", new Point(Program.game.screenWidth / 2, confWindow.Top + 55));
+                Program.game.drawText("Delete maze?", new Point(Program.game.screenWidth / 2, confWindow.Top + confWindow.Height / 3));
                 yesButton.draw(spriteBatch);
                 noButton.draw(spriteBatch);
             }
@@ -163,7 +165,7 @@ namespace MazeAndBlue
                 else if (menuButton.isSelected())
                     Program.game.startMainMenu();
                 
-								for (int i = 0; i < levelButtons.Count; i++)
+				for (int i = 0; i < levelButtons.Count; i++)
                 {
                     if (play && levelButtons[i].selectable && levelButtons[i].isSelected())
                         Program.game.startCustomLevel(Convert.ToInt32(levelButtons[i].path.Substring(6, levelButtons[i].path.IndexOf(".") - 6)));

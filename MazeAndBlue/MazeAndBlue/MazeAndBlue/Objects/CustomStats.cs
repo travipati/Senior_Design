@@ -53,6 +53,8 @@ namespace MazeAndBlue
             int level = Program.game.level;
             LevelData newLevel = new LevelData();
             if (!data.customData.ContainsKey(level))
+                System.Windows.Forms.MessageBox.Show("error at custom stats update");
+            else if(data.customData[level].score == 0)
             {
                 newLevel.level = level;
                 newLevel.time = numSeconds;
@@ -61,7 +63,7 @@ namespace MazeAndBlue
                 newLevel.numStars = stars;
                 data.totalScore -= data.customData[level].score;
                 data.totalScore += score;
-                data.customData.Add(level, newLevel);
+                data.customData[level] = newLevel;
             }
             else
             {
@@ -147,12 +149,15 @@ namespace MazeAndBlue
             newData.level=levelID;
             data.customData.Add(levelID, newData);
             data.numCustomLevels++;
+            saveStats();
         }
+
         public void deleteLevelData(int levelID)
         {
             data.customLevelIDs.Remove(levelID);
             data.customData.Remove(levelID);
             data.numCustomLevels--;
+            saveStats();
         }
     }
 }

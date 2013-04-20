@@ -83,6 +83,10 @@ Content\Buttons\deleteImage.xnb
 Content\Buttons\setImage.xnb
 Content\Buttons\ok.xnb
 Content\redX.xnb
+Content\Buttons\selectOptions.xnb
+Content\Buttons\creatingMazes.xnb
+Content\Buttons\gamePlay.xnb
+Content\Buttons\system.xnb
 Mazes\0.maze
 Mazes\1.maze
 Mazes\2.maze

@@ -8,7 +8,7 @@ namespace MazeAndBlue
     {
         Texture2D texture;
         Button singlePlayerButton, coopModeButton, createMazeButton, instructionsButton,
-             statisticsButton, settingsButton, exitButton;
+             statisticsButton, settingsButton, exitButton, hiddenButton1, hiddenButton2;
         List<Button> buttons;
         Rectangle screenRectangle;
 
@@ -41,6 +41,8 @@ namespace MazeAndBlue
                 (new Point(X3, Y2), buttonWidth, buttonHeight, "settings", "Buttons/settings");
             exitButton = new Button
                 (new Point(Program.game.screenWidth - 170, 30), 136, 72, "exit", "Buttons/exit");
+            hiddenButton1 = new Button (new Point(34, 30), 136, 72, "", "");
+            hiddenButton2 = new Button(new Point(34, 120), 136, 72, "", "");
 
             buttons = new List<Button>();
             buttons.Add(singlePlayerButton);
@@ -71,11 +73,20 @@ namespace MazeAndBlue
         public void update()
         {
             if (singlePlayerButton.isSelected())
+            {
+                Program.game.hiddenMode = false;
                 Program.game.startLevelSelectionScreen(true);
+            }
             else if (coopModeButton.isSelected())
+            {
+                Program.game.hiddenMode = false;
                 Program.game.startLevelSelectionScreen(false);
+            }
             else if (createMazeButton.isSelected())
+            {
+                Program.game.hiddenMode = false;
                 Program.game.startCreateMazeSelect();
+            }
             else if (instructionsButton.isSelected())
                 Program.game.startInstructionScreen();
             else if (statisticsButton.isSelected())
@@ -84,6 +95,16 @@ namespace MazeAndBlue
                 Program.game.startSettingsScreen();
             else if (exitButton.isSelected())
                 Program.game.Exit();
+            else if (hiddenButton1.isSelected())
+            {
+                Program.game.hiddenMode = true;
+                Program.game.startLevelSelectionScreen(true);
+            }
+            else if (hiddenButton2.isSelected())
+            {
+                Program.game.hiddenMode = true;
+                Program.game.startLevelSelectionScreen(false);
+            }
          }
     }
 }

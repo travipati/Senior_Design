@@ -37,7 +37,7 @@ namespace MazeAndBlue
             p2Button = new Button(new Point(540, 30), 136, 72, "Player Two", "Buttons/playerTwo");
             backButton = new Button(new Point(Program.game.screenWidth - 166, 30), 136, 72, "Back", "Buttons/back");
             saveButton = new Button(new Point(Program.game.screenWidth - 332, 30), 136, 72, "Save", "Buttons/save");
-            okButton = new Button(new Point(Program.game.screenWidth / 2 - 40, failWindow.Bottom - 100), 80, 50, "okay", "Buttons/ok");
+            okButton = new Button(new Point(Program.game.screenWidth / 2 - 40, failWindow.Bottom - failWindow.Height / 3 - 25), 80, 50, "okay", "Buttons/ok");
 
             buttons = new List<Button>();
             buttons.Add(wallButton);
@@ -169,7 +169,7 @@ namespace MazeAndBlue
             if (failedSave)
             {
                 spriteBatch.Draw(failTexture, failWindow, new Color(128, 128, 128, 200));
-                Program.game.drawText("Save failed", new Point(Program.game.screenWidth / 2, failWindow.Top + 55));
+                Program.game.drawText("Save failed", new Point(Program.game.screenWidth / 2, failWindow.Top + failWindow.Height / 3));
                 okButton.draw(spriteBatch);
             }
         }

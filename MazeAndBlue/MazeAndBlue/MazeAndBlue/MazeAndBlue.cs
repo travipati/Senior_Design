@@ -32,6 +32,7 @@ namespace MazeAndBlue
         public int level { get; set; }
         public bool singlePlayer { get; set; }
         public bool customLevel { get; set; }
+        public bool hiddenMode { get; set; }
         public bool unlockOn { get; set; }
         public List<float> movementRange { get; set; }
         public List<float> yPreference { get; set; }
