@@ -144,7 +144,6 @@ namespace MazeAndBlue
                 Program.game.settings.updateYpreference(id, (head.Y - lower.Y));
                 Program.game.settings.updateXoffset(id, (center.X - shoulder.X));
             }
-            //Program.game.movementRange[id] = (Program.game.movementRange[id] * .95f);
         }
 
         private Point getPosition(Skeleton skeleton)
@@ -162,7 +161,7 @@ namespace MazeAndBlue
             else
             {
                 point = skeleton.Joints[JointType.HandLeft].Position;
-                xPercent = (((center.X - Program.game.xOffset[id]) - point.X) / (Program.game.movementRange[id] * .62f));
+                xPercent = ((center.X - Program.game.xOffset[id]) - point.X) / (Program.game.movementRange[id] * .62f);
             }
              
             if (xPercent < 0)
@@ -192,6 +191,5 @@ namespace MazeAndBlue
             pos.Y -= height / 2;
             position = pos;
         }
-
     }
 }
