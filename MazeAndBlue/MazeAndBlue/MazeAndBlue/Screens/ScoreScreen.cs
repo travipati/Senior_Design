@@ -46,10 +46,13 @@ namespace MazeAndBlue
             else
                 levelButton = new Button(new Point(x, nextY), buttonWidth, buttonHeight, "Hard", "Buttons/hard");
 
-            if (!Program.game.customLevel)
-                Program.game.gameStats.updateLevelStats(time, hits, score, numStars);
-            else
-                Program.game.customStats.updateLevelStats(time, hits, score, numStars);
+            if (!Program.game.hiddenMode)
+            {
+                if (!Program.game.customLevel)
+                    Program.game.gameStats.updateLevelStats(time, hits, score, numStars);
+                else
+                    Program.game.customStats.updateLevelStats(time, hits, score, numStars);
+            }
         }
 
         public void loadContent()

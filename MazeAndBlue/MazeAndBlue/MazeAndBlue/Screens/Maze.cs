@@ -28,7 +28,10 @@ namespace MazeAndBlue
         public Maze()
         {
             goalColor = Color.Red;
-            wallColor = Color.Black;
+            if (!Program.game.hiddenMode)
+                wallColor = Color.Black;
+            else
+                wallColor = Color.Transparent;
             timer = new Timer();
             wallHits = 0;
             prevHit = new bool[2] { false, false };
@@ -188,8 +191,13 @@ namespace MazeAndBlue
                 if (ballNum == 0)
                     otherNum = 1;
 
-                if(!prevHit[otherNum])
-                    wallColor = Color.Black;
+                if (!prevHit[otherNum])
+                {
+                    if (!Program.game.hiddenMode)
+                        wallColor = Color.Black;
+                    else
+                        wallColor = Color.Transparent;
+                }
             }
         }
 
