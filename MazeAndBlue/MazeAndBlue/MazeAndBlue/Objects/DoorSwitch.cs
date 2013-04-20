@@ -14,19 +14,15 @@ namespace MazeAndBlue
         int numRequired;
         Texture2D doorTexture;
 
-        static Color[] colorArray = new Color[] { Color.Orange, Color.Lime, Color.Pink, Color.Crimson, Color.White, Color.Orchid, Color.SteelBlue, Color.Gray };
-        static int curColorIndex = 0;
-
         public DoorSwitch() : this(false, 1) { }
 
-        public DoorSwitch(bool _permanent, int _numRequired)
+        public DoorSwitch(bool _permanent, int _numRequired, Color _color)
         {
             permanent = _permanent;
             numRequired = _numRequired;
             switches = new List<Sprite>();
             doors = new List<Rectangle>();
-            color = doorColor = colorArray[curColorIndex++];
-            curColorIndex %= colorArray.Length;
+            color = doorColor = _color;
         }
 
         public void addSwitch(Sprite dswitch)
