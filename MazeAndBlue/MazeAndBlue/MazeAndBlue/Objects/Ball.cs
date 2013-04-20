@@ -47,6 +47,8 @@ namespace MazeAndBlue
 
             if (playerId < 0)
             {
+                color = Color.WhiteSmoke;
+
                 for (int i = 0; i < Program.game.players.Count; i++)
                 {
                     if (i != prevId && Program.game.players[i].visible && Program.game.players[i].overlaps(this))
@@ -62,7 +64,6 @@ namespace MazeAndBlue
                 prevId = playerId;
                 Program.game.players[playerId].visible = true;
                 playerId = -1;
-                color = Color.WhiteSmoke;
             }
 
             if (prevId >= 0 && !Program.game.players[prevId].overlaps(this))
