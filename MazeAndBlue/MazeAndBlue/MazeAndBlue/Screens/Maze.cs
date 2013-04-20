@@ -25,8 +25,13 @@ namespace MazeAndBlue
         public static int height { get { return mazeHeight; } }
         public int wallHits { get; set; }
 
+        Color[] colorArray;
+        int curColorIndex;
+
         public Maze()
         {
+            curColorIndex = 0;
+            colorArray = new Color[] { Color.Orange, Color.Lime, Color.Pink, Color.Crimson, Color.White, Color.Orchid, Color.SteelBlue, Color.Gray };
             goalColor = Color.Red;
             if (!Program.game.hiddenMode)
                 wallColor = Color.Black;
@@ -375,7 +380,9 @@ namespace MazeAndBlue
                 if (words.Length != 3)
                     return false;
 
-                switches.Add(new DoorSwitch(Convert.ToBoolean(words[1]), Convert.ToInt32(words[2])));
+                switches.Add(new DoorSwitch(Convert.ToBoolean(words[1]), Convert.ToInt32(words[2]), colorArray[curColorIndex]));
+                curColorIndex++;
+                curColorIndex %= colorArray.Length;
             }
             else if (words[0] == "switch")
             {
