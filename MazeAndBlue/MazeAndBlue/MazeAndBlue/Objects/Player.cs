@@ -50,7 +50,11 @@ namespace MazeAndBlue
         public void drawProgressCircle(SpriteBatch spriteBatch)
         {
             if (hovering)
-                pc.draw(spriteBatch, hoverTime.time * 1000 + (DateTime.Now - startTime).Milliseconds, position);
+            {
+                TimeSpan timeElp = DateTime.Now - startTime;
+                double progress = (timeElp.Seconds * 1000 + timeElp.Milliseconds) / (double)2000;
+                pc.draw(spriteBatch, progress, position);
+            }
         }
 
         public void update(Skeleton skeleton)
