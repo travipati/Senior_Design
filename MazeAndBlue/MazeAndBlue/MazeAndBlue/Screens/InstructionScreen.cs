@@ -55,19 +55,19 @@ namespace MazeAndBlue
             switch (instrState)
             {
                 case InstrState.SYSTEM:
-                    texture = Program.game.Content.Load<Texture2D>("Backgrounds/instrs");
+                    texture = Program.game.Content.Load<Texture2D>("Backgrounds/systemInstrs");
                     systemsButton.selected = true;
                     break;
                 case InstrState.SELECT:
-                    texture = Program.game.Content.Load<Texture2D>("Backgrounds/simple0");
+                    texture = Program.game.Content.Load<Texture2D>("Backgrounds/selectInstrs");
                     selectButton.selected = true;
                     break;
                 case InstrState.GAME:
-                    texture = Program.game.Content.Load<Texture2D>("Backgrounds/blue");
+                    texture = Program.game.Content.Load<Texture2D>("Backgrounds/gameInstrs");
                     gameButton.selected = true;
                     break;
                 case InstrState.CREATE:
-                    texture = Program.game.Content.Load<Texture2D>("Backgrounds/blue");
+                    texture = Program.game.Content.Load<Texture2D>("Backgrounds/createInstrs");
                     createButton.selected = true;
                     break;
             }
