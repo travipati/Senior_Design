@@ -54,9 +54,11 @@ namespace MazeAndBlue
         }
 
         public void update(Skeleton skeleton)
-        {          
+        {
             if (skeleton != null)
                 moveHand(getPosition(skeleton));
+            else
+                position = new Point(-40, -40);
 
             if (hovering && !overlaps(hoverBt))
                 deselect();

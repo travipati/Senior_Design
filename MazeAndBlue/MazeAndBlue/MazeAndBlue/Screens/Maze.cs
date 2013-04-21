@@ -136,7 +136,7 @@ namespace MazeAndBlue
                 || balls[0].mouseSelected || (!singlePlayer && balls[1].mouseSelected))
                 timer.start();
 
-            if (pauseButton.isSelected())
+            if (pauseButton.isSelected() || !Program.game.IsActive)
             {
                 timer.stop();
                 foreach (Ball ball in balls)
