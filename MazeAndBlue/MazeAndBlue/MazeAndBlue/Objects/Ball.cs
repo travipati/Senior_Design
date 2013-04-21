@@ -7,8 +7,8 @@ namespace MazeAndBlue
     {
         public int playerId { get; set; }
         public bool mouseSelected { get; set; }
+        public Color color { get; set; }
         int prevId;
-        Color color;
 
         public Ball(Point pos) : this(pos, Color.WhiteSmoke) { }
 
@@ -48,8 +48,6 @@ namespace MazeAndBlue
 
             if (playerId < 0)
             {
-                color = Color.WhiteSmoke;
-
                 for (int i = 0; i < Program.game.players.Count; i++)
                 {
                     if (i != prevId && Program.game.players[i].visible && Program.game.players[i].overlaps(this))
@@ -60,11 +58,13 @@ namespace MazeAndBlue
                     }
                 }
             }
-            else if (Program.game.players[playerId].selecting())
+            else if (Program.game.players[playerId].selecting() || 
+                Program.game.players[playerId].position == new Point(-40, -40))
             {
                 prevId = playerId;
                 Program.game.players[playerId].visible = true;
                 playerId = -1;
+                color = Color.WhiteSmoke;
             }
 
             if (prevId >= 0 && !Program.game.players[prevId].overlaps(this))

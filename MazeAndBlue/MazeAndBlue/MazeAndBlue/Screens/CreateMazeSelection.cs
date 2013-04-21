@@ -214,11 +214,11 @@ namespace MazeAndBlue
                     string imageName = levelButtons[delLevel].path;
                     string nameId = imageName.Substring(6, imageName.IndexOf(".") - 6);
                     string mazeName = "Mazes\\custom" + nameId + ".maze";
-                    levelButtons.Remove(levelButtons[delLevel]);
-                    stars.Remove(stars[delLevel]);
+                    levelButtons.RemoveAt(delLevel);
+                    stars.RemoveAt(delLevel);
                     Program.game.customStats.deleteLevelData(Convert.ToInt32(nameId));
                     repositionButtons();
-                    if (levelButtons.Count <= page * 6)
+                    if (levelButtons.Count <= page * 6 && page > 0)
                         page--;
                     File.Delete(mazeName);
                     File.Delete(imageName);

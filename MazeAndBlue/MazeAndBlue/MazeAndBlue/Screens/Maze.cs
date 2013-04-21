@@ -143,6 +143,7 @@ namespace MazeAndBlue
                 {
                     ball.playerId = -1;
                     ball.mouseSelected = false;
+                    ball.color = Color.WhiteSmoke;
                 }
                 foreach (Player player in Program.game.players)
                     player.visible = true;
