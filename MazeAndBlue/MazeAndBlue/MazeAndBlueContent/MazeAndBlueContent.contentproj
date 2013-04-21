@@ -619,11 +619,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Backgrounds\gameInstrs.png">
-      <Name>gameInstrs</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Backgrounds\selectInstrs.png">
       <Name>selectInstrs</Name>
       <Importer>TextureImporter</Importer>
@@ -693,6 +688,13 @@
     </Compile>
     <Compile Include="LevelThumbnails\level23.png">
       <Name>level23</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Backgrounds\gameInstrs.png">
+      <Name>gameInstrs</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
