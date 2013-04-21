@@ -59,7 +59,7 @@ namespace MazeAndBlue
                     }
                     else
                     {
-                        easyLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/level" + i));
+                        easyLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/level" + (i+12)));
                         for (int j = 0; j < Program.game.gameStats.data.levelData[i + 12].numStars; j++)
                             easyLevelStars.Add(new Sprite(new Point(j * 60 + levelx[i % 3] + levelButtonWidth / 2 - 80, levely[i / 3] + levelButtonHeight - 20)));
                     }
@@ -70,7 +70,7 @@ namespace MazeAndBlue
                     }
                     else
                     {
-                        hardLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/level" + (i + 6)));
+                        hardLevelButtons.Add(new Button(new Point(levelx[i % 3], levely[i / 3]), levelButtonWidth, levelButtonHeight, levelNames[i], "LevelThumbnails/level" + (i + 18)));
                         for (int j = 0; j < Program.game.gameStats.data.levelData[i + 18].numStars; j++)
                             hardLevelStars.Add(new Sprite(new Point(j * 60 + levelx[i % 3] + levelButtonWidth / 2 - 80, levely[i / 3] + levelButtonHeight - 20)));
                     }

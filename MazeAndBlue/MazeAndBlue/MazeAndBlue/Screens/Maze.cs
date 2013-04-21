@@ -348,10 +348,7 @@ namespace MazeAndBlue
                     return false;
                 vec = new Point(Program.game.sx((int)Convert.ToSingle(words[1])), Program.game.sy((int)(Convert.ToSingle(words[2]))));
 
-                //if (words[0] == "1")
-                    balls.Add(new Ball(vec));
-                //else if (words[0] == "2")
-                //    balls.Add(new Ball(vec));
+                balls.Add(new Ball(vec));
             }
             else if (words[0] == "goal" || words[0] == "wall" || words[0] == "door")
             {

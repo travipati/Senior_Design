@@ -8,7 +8,6 @@ namespace MazeAndBlue
 {
     public class CustomSaveGameData
     {
-        //public string PlayerName;
         public int totalGameTime;
         public int totalScore;
         public int numCustomLevels;
@@ -27,14 +26,11 @@ namespace MazeAndBlue
         public CustomSaveGameData data;
         const string customFileName = "customStats.sav";
 
-
         public CustomStats()
         {
             data = new CustomSaveGameData();
             if (!loadStats())
-            {
                 data = new CustomSaveGameData();
-            }
         }
 
         public void resetData()
@@ -137,7 +133,6 @@ namespace MazeAndBlue
                 newLeveldata.setValues(values);
                 data.customData.Add(data.customLevelIDs[i],newLeveldata);
             }
-
 
             return true;            
         }

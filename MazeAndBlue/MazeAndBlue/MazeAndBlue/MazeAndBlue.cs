@@ -105,8 +105,6 @@ namespace MazeAndBlue
         protected override void UnloadContent()
         {
             kinect.stop();
-//            gameStats.saveStats();
-//            customStats.saveStats();
         }
 
         public void startMainMenu()
@@ -251,7 +249,7 @@ namespace MazeAndBlue
 
             using (FileStream stream = new FileStream(filename, FileMode.Create))
             {
-                cropped.SaveAsPng(stream, screenShot.Width, screenShot.Height);
+                cropped.SaveAsPng(stream, cropped.Width, cropped.Height);
                 cropped.Dispose();
             }
         }
