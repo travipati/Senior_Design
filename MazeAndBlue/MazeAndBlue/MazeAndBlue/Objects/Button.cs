@@ -97,5 +97,11 @@ namespace MazeAndBlue
             return false;
         }
 
+        public void repostion(Point pos)
+        {
+            position = pos;
+            hoverBg.position = new Point(pos.X - 10, pos.Y - 10);
+            selectBg.position = new Point(pos.X - 5, pos.Y - 5);
+        }
     }
 }

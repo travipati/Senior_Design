@@ -18,6 +18,7 @@ namespace MazeAndBlue
         enum StatsState {TOTAL, SINGLEEASY, SINGLEHARD, COOPEASY, COOPHARD, CREATED};
         StatsState statsState;
         List<Button> buttons;
+        List<List<Sprite>> stars;
         bool conformation;
         int custPage;
 
@@ -65,6 +66,31 @@ namespace MazeAndBlue
             int levelX = window.Right - window.Width / 3 - smallButtonWidth / 2;
             statsState = StatsState.TOTAL;
 
+            stars = new List<List<Sprite>>();
+            stars.Add(new List<Sprite>());
+            stars.Add(new List<Sprite>());
+            stars.Add(new List<Sprite>());
+            stars.Add(new List<Sprite>());
+            for (int i = 0; i < 6; i++)
+            {
+                for (int j = 0; j < Program.game.gameStats.data.levelData[i + 12].numStars; j++)
+                    stars[0].Add(new Sprite(new Point(screenWidth / 5 + 750 + 50 * j, screenHeight / 3 + 173 + 50 * i)));
+                for (int j = 0; j < Program.game.gameStats.data.levelData[i + 18].numStars; j++)
+                    stars[1].Add(new Sprite(new Point(screenWidth / 5 + 750 + 50 * j, screenHeight / 3 + 173 + 50 * i)));
+                for (int j = 0; j < Program.game.gameStats.data.levelData[i].numStars; j++)
+                    stars[2].Add(new Sprite(new Point(screenWidth / 5 + 750 + 50 * j, screenHeight / 3 + 173 + 50 * i)));
+                for (int j = 0; j < Program.game.gameStats.data.levelData[i + 6].numStars; j++)
+                    stars[3].Add(new Sprite(new Point(screenWidth / 5 + 750 + 50 * j, screenHeight / 3 + 173 + 50 * i)));
+            }
+            for (int i = 0; i < Program.game.customStats.data.customLevelIDs.Count; i++)
+            {
+                if (i % 6 == 0)
+                    stars.Add(new List<Sprite>());
+                int nameId = Program.game.customStats.data.customLevelIDs[i];
+                for (int j = 0; j < Program.game.customStats.data.customData[nameId].numStars; j++)
+                    stars[stars.Count - 1].Add(new Sprite(new Point(screenWidth / 5 + 750 + 50 * j, screenHeight / 3 + 113 + 50 * (i % 6))));
+            }
+
             buttons = new List<Button>();
             buttons.Add(totalButton);
             buttons.Add(easyButton);
@@ -88,6 +114,11 @@ namespace MazeAndBlue
                 button.loadContent();
             yesButton.loadContent();
             noButton.loadContent();
+            foreach (List<Sprite> list in stars)
+            {
+                foreach (Sprite star in list)
+                    star.loadContent("star");
+            }
         }
 
         private void calcTotalGameTime()
@@ -173,9 +204,11 @@ namespace MazeAndBlue
                     {
                         LevelData levelData = Program.game.gameStats.data.levelData[i + 12];
                         singleSimpleBlock.Add("Level " + (i + 1) + ":\t" + levelData.time + "\t" +
-                            levelData.hits + "\t" + levelData.score + "\t"  + levelData.numStars);
+                            levelData.hits + "\t" + levelData.score);
                     }
                     drawBlock(singleSimpleBlock, new Point(screenWidth / 5 - 50, screenHeight / 3 + 120), spriteBatch);
+                    foreach (Sprite star in stars[0])
+                        star.draw(spriteBatch, Color.Yellow);
                     break;
                 case StatsState.SINGLEHARD:
                     hardButton.selected = true;
@@ -189,9 +222,11 @@ namespace MazeAndBlue
                     {
                         LevelData levelData = Program.game.gameStats.data.levelData[i + 18];
                         singleHardBlock.Add("Level " + (i + 1) + ":\t" + levelData.time + "\t" +
-                            levelData.hits + "\t" + levelData.score + "\t" + levelData.numStars);
+                            levelData.hits + "\t" + levelData.score);
                     }
                     drawBlock(singleHardBlock, new Point(screenWidth / 5 - 50, screenHeight / 3 + 120), spriteBatch);
+                    foreach (Sprite star in stars[1])
+                        star.draw(spriteBatch, Color.Yellow);
                     break;
                 case StatsState.COOPEASY:
                     easyButton.selected = true;
@@ -205,9 +240,11 @@ namespace MazeAndBlue
                     {
                         LevelData levelData = Program.game.gameStats.data.levelData[i];
                         coopSimpleBlock.Add("Level " + (i + 1) + ":\t" + levelData.time + "\t" +
-                            levelData.hits + "\t" + levelData.score + "\t" + levelData.numStars);
+                            levelData.hits + "\t" + levelData.score);
                     }
                     drawBlock(coopSimpleBlock, new Point(screenWidth / 5 - 50, screenHeight / 3 + 120), spriteBatch);
+                    foreach (Sprite star in stars[2])
+                        star.draw(spriteBatch, Color.Yellow);
                     break;
                 case StatsState.COOPHARD:
                     hardButton.selected = true;
@@ -221,9 +258,11 @@ namespace MazeAndBlue
                     {
                         LevelData levelData = Program.game.gameStats.data.levelData[i + 6];
                         coopHardBlock.Add("Level " + (i + 1) + ":\t" + levelData.time + "\t" +
-                            levelData.hits + "\t" + levelData.score + "\t" + levelData.numStars);
+                            levelData.hits + "\t" + levelData.score);
                     }
                     drawBlock(coopHardBlock, new Point(screenWidth / 5 - 50, screenHeight / 3 + 120), spriteBatch);
+                    foreach (Sprite star in stars[3])
+                        star.draw(spriteBatch, Color.Yellow);
                     break;
                 case StatsState.CREATED:
                     createdMazesButton.selected = true;
@@ -237,7 +276,7 @@ namespace MazeAndBlue
                             int level = Program.game.customStats.data.customLevelIDs[i];
                             LevelData levelData = Program.game.customStats.data.customData[level];
                             createdBlock.Add("Level " + (i + 1) + ":\t" + levelData.time + "\t" +
-                                levelData.hits + "\t" + levelData.score + "\t" + levelData.numStars);
+                                levelData.hits + "\t" + levelData.score);
                         }
                     }
                     else
@@ -247,13 +286,18 @@ namespace MazeAndBlue
                             int level = Program.game.customStats.data.customLevelIDs[i];
                             LevelData levelData = Program.game.customStats.data.customData[level];
                             createdBlock.Add("Level " + (i + 1) + ":\t" + levelData.time + "\t" +
-                                levelData.hits + "\t" + levelData.score + "\t" + levelData.numStars);
+                                levelData.hits + "\t" + levelData.score);
                         }
                         nextButton.draw(spriteBatch);
                     }
                     if (custPage > 0)
                         prevButton.draw(spriteBatch);
                     drawBlock(createdBlock, new Point(screenWidth / 5 - 50, screenHeight / 3 + 60), spriteBatch);
+                    if (Program.game.customStats.data.customLevelIDs.Count > 0)
+                    {
+                        foreach (Sprite star in stars[custPage + 4])
+                            star.draw(spriteBatch, Color.Yellow);
+                    }
                     break;
                 default:
                     System.Windows.Forms.MessageBox.Show("error in drawTitle, StatsScreen", "Error @ StatsScreen");

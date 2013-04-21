@@ -15,6 +15,10 @@ namespace MazeAndBlue
         List<Button> levelButtons;
         List<Button> buttons;
         List<List<Sprite>> stars;
+        int levelButtonWidth;
+        int levelButtonHeight;
+        List<int> levely;
+        List<int> levelx;
         bool singlePlayer, easy, play, conformation;
         int page, delLevel, smallButtonHeight, smallButtonWidth, largeButtonWidth, largeButtonHeight;
 
@@ -22,12 +26,12 @@ namespace MazeAndBlue
         {
             int screenWidth = Program.game.screenWidth;
             int screenHeight = Program.game.screenHeight;
-            int levelButtonWidth = screenWidth / 8;
-            int levelButtonHeight = screenHeight / 8;
-            List<int> levely = new List<int>();
+            levelButtonWidth = screenWidth / 8;
+            levelButtonHeight = screenHeight / 8;
+            levely = new List<int>();
             levely.Add(screenHeight / 2 - 10);
             levely.Add(2 * screenHeight / 3 + 40);
-            List<int> levelx = new List<int>();
+            levelx = new List<int>();
             levelx.Add(screenWidth / 2 - 5 * levelButtonWidth / 2);
             levelx.Add(screenWidth / 2 - levelButtonWidth / 2);
             levelx.Add(screenWidth / 2 + 3 * levelButtonWidth / 2);
@@ -76,7 +80,7 @@ namespace MazeAndBlue
                     levelButtons.Add(new Button(new Point(levelx[i % 3], levely[(i / 3) % 2]), levelButtonWidth, levelButtonHeight, "Level " + nameId, imageName, true));
                 stars.Add(new List<Sprite>());
                 for (int j = 0; j < Program.game.customStats.data.customData[nameId].numStars; j++)
-                    stars[stars.Count - 1].Add(new Sprite(new Point(j * 60 + levelx[i % 3] + levelButtonWidth / 2 - 80, levely[i / 3] + levelButtonHeight - 20)));
+                    stars[stars.Count - 1].Add(new Sprite(new Point(j * 60 + levelx[i % 3] + levelButtonWidth / 2 - 80, levely[(i / 3) % 2] + levelButtonHeight - 20)));
             }
 
             Program.game.customStats.data.numCustomLevels = levelButtons.Count;
@@ -185,18 +189,21 @@ namespace MazeAndBlue
                 
 				for (int i = 0; i < levelButtons.Count; i++)
                 {
-                    if (play && levelButtons[i].selectable && levelButtons[i].isSelected())
-                        Program.game.startCustomLevel(Convert.ToInt32(levelButtons[i].path.Substring(6, levelButtons[i].path.IndexOf(".") - 6)));
-                    if (!play && levelButtons[i].selectable && levelButtons[i].isSelected())
+                    if (i >= page * 6 && i < (page + 1) * 6)
                     {
-                        delLevel = i;
-                        conformation = true;
-                        foreach (Button button in buttons)
-                            button.selectable = false;
-                        nextButton.selectable = false;
-                        prevButton.selectable = false;
-                        foreach (Button levelButton in levelButtons)
-                            levelButton.selectable = false;
+                        if (play && levelButtons[i].selectable && levelButtons[i].isSelected())
+                            Program.game.startCustomLevel(Convert.ToInt32(levelButtons[i].path.Substring(6, levelButtons[i].path.IndexOf(".") - 6)));
+                        if (!play && levelButtons[i].selectable && levelButtons[i].isSelected())
+                        {
+                            delLevel = i;
+                            conformation = true;
+                            foreach (Button button in buttons)
+                                button.selectable = false;
+                            nextButton.selectable = false;
+                            prevButton.selectable = false;
+                            foreach (Button levelButton in levelButtons)
+                                levelButton.selectable = false;
+                        }
                     }
                 }
             }
@@ -209,10 +216,13 @@ namespace MazeAndBlue
                     string mazeName = "Mazes\\custom" + nameId + ".maze";
                     levelButtons.Remove(levelButtons[delLevel]);
                     stars.Remove(stars[delLevel]);
+                    Program.game.customStats.deleteLevelData(Convert.ToInt32(nameId));
+                    repositionButtons();
+                    if (levelButtons.Count <= page * 6)
+                        page--;
                     File.Delete(mazeName);
                     File.Delete(imageName);
                     conformation = false;
-                    Program.game.customStats.deleteLevelData(Convert.ToInt32(nameId));
                 }
                 if (noButton.isSelected())
                     conformation = false;
@@ -226,6 +236,17 @@ namespace MazeAndBlue
                     foreach (Button levelButton in levelButtons)
                         levelButton.selectable = true;
                 }
+            }
+        }
+
+        private void repositionButtons()
+        {
+            for (int i = 0; i < Program.game.customStats.data.customLevelIDs.Count; i++)
+            {
+                int nameId = Program.game.customStats.data.customLevelIDs[i];
+                levelButtons[i].repostion(new Point(levelx[i % 3], levely[(i / 3) % 2]));
+                for (int j = 0; j < Program.game.customStats.data.customData[nameId].numStars; j++)
+                    stars[i][j].position = new Point(j * 60 + levelx[i % 3] + levelButtonWidth / 2 - 80, levely[(i / 3) % 2] + levelButtonHeight - 20);
             }
         }
     }
