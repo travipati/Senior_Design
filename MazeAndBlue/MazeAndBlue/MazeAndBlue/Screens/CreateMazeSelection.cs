@@ -14,6 +14,7 @@ namespace MazeAndBlue
             playButton, deleteButton, menuButton, yesButton, noButton;
         List<Button> levelButtons;
         List<Button> buttons;
+        List<List<Sprite>> stars;
         bool singlePlayer, easy, play, conformation;
         int page, delLevel, smallButtonHeight, smallButtonWidth, largeButtonWidth, largeButtonHeight;
 
@@ -66,12 +67,16 @@ namespace MazeAndBlue
             noButton = new Button(new Point(confWindow.Right - confWindow.Width / 4 - 40, confWindow.Bottom - confWindow.Height / 3 - 25), 80, 50, "No", "Buttons/no");
 
             levelButtons = new List<Button>();
+            stars = new List<List<Sprite>>();
             for (int i = 0; i < Program.game.customStats.data.customLevelIDs.Count; i++)
             {
                 int nameId = Program.game.customStats.data.customLevelIDs[i];
                 string imageName = "custom" + nameId + ".png";
                 if (File.Exists(imageName))
                     levelButtons.Add(new Button(new Point(levelx[i % 3], levely[(i / 3) % 2]), levelButtonWidth, levelButtonHeight, "Level " + nameId, imageName, true));
+                stars.Add(new List<Sprite>());
+                for (int j = 0; j < Program.game.customStats.data.customData[nameId].numStars; j++)
+                    stars[stars.Count - 1].Add(new Sprite(new Point(j * 60 + levelx[i % 3] + levelButtonWidth / 2 - 80, levely[i / 3] + levelButtonHeight - 20)));
             }
 
             Program.game.customStats.data.numCustomLevels = levelButtons.Count;
@@ -98,6 +103,11 @@ namespace MazeAndBlue
             prevButton.loadContent();
             foreach (Button levelButton in levelButtons)
                 levelButton.loadContent();
+            foreach (List<Sprite> list in stars)
+            {
+                foreach (Sprite star in list)
+                    star.loadContent("star");
+            }
             yesButton.loadContent();
             noButton.loadContent();
         }
@@ -120,12 +130,20 @@ namespace MazeAndBlue
             if (levelButtons.Count <= (page + 1) * 6)
             {
                 for (int i = page * 6; i < levelButtons.Count; i++)
+                {
                     levelButtons[i].draw(spriteBatch);
+                    foreach (Sprite star in stars[i])
+                        star.draw(spriteBatch, Color.Yellow);
+                }
             }
             else
             {
                 for (int i = page * 6; i < (page + 1) * 6; i++)
-                    levelButtons[i].draw(spriteBatch);                  
+                {
+                    levelButtons[i].draw(spriteBatch);
+                    foreach (Sprite star in stars[i])
+                        star.draw(spriteBatch, Color.Yellow);
+                }      
                 nextButton.draw(spriteBatch);
             }
             if (page > 0)
@@ -190,6 +208,7 @@ namespace MazeAndBlue
                     string nameId = imageName.Substring(6, imageName.IndexOf(".") - 6);
                     string mazeName = "Mazes\\custom" + nameId + ".maze";
                     levelButtons.Remove(levelButtons[delLevel]);
+                    stars.Remove(stars[delLevel]);
                     File.Delete(mazeName);
                     File.Delete(imageName);
                     conformation = false;
