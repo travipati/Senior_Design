@@ -32,9 +32,9 @@ namespace MazeAndBlue
             int buttonHeight = 92;
             int y = window.Bottom - window.Height / 2;
             int menuX = window.Left + window.Width / 2 - buttonWidth / 2;
-            startButton = new Button(new Point(menuX, y), buttonWidth, buttonHeight, "Main Menu", "Buttons/save");
+            startButton = new Button(new Point(menuX, y), buttonWidth, buttonHeight, "save", "Buttons/save");
             y = window.Bottom - window.Height / 3;
-            menuButton = new Button(new Point(menuX, y), buttonWidth, buttonHeight, "Main Menu", "Buttons/settings");
+            menuButton = new Button(new Point(menuX, y), buttonWidth, buttonHeight, "settings", "Buttons/settings");
             buttons = new List<Button>();
             buttons.Add(menuButton);
         }
