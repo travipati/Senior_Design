@@ -30,9 +30,9 @@ namespace MazeAndBlue
             if (playerId >= 0 && !Program.game.players[playerId].overlaps(this))
             {
                 if (playerId == 0)
-                    Program.game.players[playerId].draw(spriteBatch, new Color(0, 0, 255, 25));
+                    Program.game.players[playerId].draw(spriteBatch, new Color(0, 0, 255, 75));
                 else if (playerId == 1)
-                    Program.game.players[playerId].draw(spriteBatch, new Color(255, 255, 0, 25));
+                    Program.game.players[playerId].draw(spriteBatch, new Color(255, 255, 0, 75));
                 Program.game.players[playerId].drawProgressCircle(spriteBatch);
             }
             draw(spriteBatch, color);
