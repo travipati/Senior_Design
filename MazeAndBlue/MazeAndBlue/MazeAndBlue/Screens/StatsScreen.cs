@@ -188,8 +188,8 @@ namespace MazeAndBlue
                     totalButton.selected = true;
                     Program.game.drawText("Game Statistics", new Point(x, y));
                     List<string> totalBlock = new List<string>();
-                    totalBlock.Add("Total Game Time: " + totalGameTime + " seconds.");
-                    totalBlock.Add("Total Score: " + (Program.game.gameStats.data.totalScore + Program.game.customStats.data.totalScore) + " pts.");
+                    totalBlock.Add("Total Game Time: " + totalGameTime + " sec");
+                    totalBlock.Add("Total Score: " + (Program.game.gameStats.data.totalScore + Program.game.customStats.data.totalScore) + " point");
                     drawBlock(totalBlock, spriteBatch);
                     break;
                 case StatsState.SINGLEEASY:
