@@ -1,0 +1,29 @@
+﻿1 385 65
+2 545 65
+goal 330 330 150 150
+wall 0 0 10 490
+wall 960 0 10 490
+wall 0 0 970 10
+wall 0 480 970 10
+wall 480 0 10 330
+wall 320 0 10 170
+wall 640 0 10 170
+wall 160 320 330 10
+wall 480 320 330 10
+wall 160 160 10 170
+wall 800 160 10 170
+door_switch false 1
+switch 385 225 40 40
+door 640 170 10 150
+door_switch false 1
+switch 225 65 40 40
+door 800 10 10 150
+door_switch false 1
+switch 65 225 40 40
+door 810 320 150 10
+door_switch false 1
+switch 225 385 40 40
+door 640 330 10 150
+door_switch false 1
+switch 545 385 40 40
+door 320 330 10 150

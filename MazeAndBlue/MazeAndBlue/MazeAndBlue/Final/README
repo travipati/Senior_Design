@@ -1,0 +1,14 @@
+Installation Instructions
+- Download and install the Kinect SDK v1.7, http://www.microsoft.com/en-us/kinectforwindows/develop/developer-downloads.aspx
+- Run setup.exe
+
+Game Instructions
+- there is an instruction screen in the menu when you run the game
+- navigate menus with hover, mouse or saying name of button (except settings screen)
+- player one is blue hand, two is yellow
+- in gameplay move over a ball to select it, can deselect by saying "select one"
+  or hitting the '1' key, "select two" and '2' for second player
+- can say "pause" or hover on the pause button to pause
+
+Contact email
+- maze.game@umich.edu
